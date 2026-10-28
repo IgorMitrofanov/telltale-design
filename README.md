@@ -157,7 +157,23 @@ The 17 that stayed are deliberate: radii on tags and meters, a pulsing "online" 
 dash as the "no value" mark in table cells. No legal pages: this is an internal tool.
 These historical counts use the earlier rule set; the current scanner omits hue-only checks. Candidate counts do not measure visual quality.
 
-## Repository
+## Comparison with other approaches
+
+A blind comparison on three briefs (a landing page, a hospital dashboard, a checkout form) against the `frontend-design`
+skill and against no skill. Every builder got the same prompt. A fresh judge per brief scored anonymous screenshots and
+then saw the measured contrast. Full method, prompts, scores and a script to reproduce it: [`evals/`](evals).
+
+| Round 2, average of 3 briefs | telltale | frontend-design | no skill |
+| --- | --- | --- | --- |
+| Rank (1 is best) | **1.0** | 2.7 | 2.3 |
+| Not AI-generated looking (1–10) | **8.0** | 6.0 | 6.3 |
+| Beauty (1–10) | 7.0 | 7.0 | 7.3 |
+| Phone (1–10) | **8.0** | 6.7 | 6.7 |
+| Failing contrast pairs, all themes and 3 brand swaps | **0, 0, 0** | 0, 3, 4–7 | 4–12 in each brief |
+
+telltale ranked first in all three briefs. It is not ahead on beauty: there it is level with the others, within the
+judges' spread. One page per brief and condition, and model judges, so read this as a signal, not as statistics.
+
 
 | Path | Purpose |
 | --- | --- |
@@ -165,6 +181,7 @@ These historical counts use the earlier rule set; the current scanner omits hue-
 | [`skills/telltale/scripts/check_design_tells.py`](skills/telltale/scripts/check_design_tells.py) | The scanner |
 | [`skills/telltale/scripts/check_contrast.py`](skills/telltale/scripts/check_contrast.py) | The contrast check on a rendered page |
 | [`AGENTS.md`](AGENTS.md) | The same rules in short form for Codex |
+| [`evals/`](evals) | The blind comparison: prompts, judge prompt, results and `run_eval.py` |
 | [`tests/`](tests) | Pages with planted tells and contrast cases, a clean page, `python tests/test_scanner.py` and `python tests/test_contrast.py` |
 
 ## Sources
