@@ -8,7 +8,8 @@ When you design, build or review a user interface or its copy, follow `skills/te
    plan and review defaults against the brief; keep those that fit.
 2. **Find the idea.** List five things only the subject has; write three one-sentence concepts and pick one;
    spend one bold move per view and keep the rest quiet; borrow from two references outside the category.
-   Restraint without an idea is not good design.
+   Restraint without an idea is not good design. Aim for portfolio grade; calm only when the brief asks. The bold move
+   carries content (a map, a plan, real data), not just a colour field and a big headline.
 3. **Choose a direction together when it is open.** Show two or three directions as rendered UI on the same screen,
    in every supported theme; for palettes, hold layout, type and content fixed. Narrow with plain-language feedback,
    lock accepted values and record the choice in `DESIGN.md`. If the person delegates, choose and proceed.

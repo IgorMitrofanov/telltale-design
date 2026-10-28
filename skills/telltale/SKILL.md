@@ -12,6 +12,10 @@ This skill gives a short process that avoids defaults by deciding first, a way t
 list of tells to catch what slips through, and the basics that agents leave out. Avoiding tells keeps a page
 from looking generated; only an idea makes it good.
 
+**Aim for portfolio grade.** The goal is a page a strong designer would be proud to show, not a page with nothing
+wrong. Calm and minimal are choices for when the brief asks for them, never the safe fallback. The checks in this
+skill are a gate at the end; spend most of the effort on the design itself.
+
 **The brief wins.** An explicit instruction from the user, or the project's existing design system, overrides any
 style default here. A deliberate choice stays, with one line saying why. Separate measurable requirements,
 design heuristics and personal preferences. A favourite colour does not establish contrast or usability.
@@ -164,6 +168,9 @@ account is needed; the services in Sources show interaction patterns only.
 - **Fill the whole page, not only the first screen.** A side panel or colour field that stops where its content
   stops leaves an empty half beside a long form. Make it sticky, let a summary follow the form, or let the visual
   continue. Check the zoomed-out full-page screenshot for dead areas.
+- **Enough visual material.** On a Persuade page every major section has its own composed visual: a drawing, a
+  diagram, a map, data drawn at scale, a type composition. Text, rules and buttons alone read as a wireframe. Vary
+  the visuals; do not repeat one device in every section.
 - **Details that reward a second look.** Optical alignment (icons, quotes and round letters nudged until they look
   aligned), one stroke width for icons and rules, digits that line up, a crafted empty state, focus rings in the
   palette.
@@ -176,7 +183,11 @@ account is needed; the services in Sources show interaction patterns only.
    Read the actual headings, actions and key numbers at their intended size and in any reduced preview being delivered.
    Correct text in the DOM is not proof of readable letterforms. Check wrapping just above and below affected breakpoints
    after changing type or tracking; inspect the rendered result, not only overflow measurements.
-2. Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
+2. **Critique the beauty first, twice.** Before any accessibility or scanner fixes, look at the full-page screenshot
+   as a design director: where is the page flat, empty, generic or timid? Push scale contrast, the bold move and the
+   visual material; then render and look again. Fix accessibility afterwards without flattening the design: change a
+   tone, a size or a backing, keep the move.
+   Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
    top three problems, fix them, repeat; up to three rounds. Scanner counts are not an aesthetic score.
    **Distinctiveness test:** hide the logo and name. If the page could belong to any product in its category, make
    the idea from section 1 stronger; do not add decoration. Name the one thing a designer would screenshot from the
@@ -187,7 +198,8 @@ account is needed; the services in Sources show interaction patterns only.
 
 ## 5. Tells: catch what slipped through
 
-Visual tells. Fine as a deliberate choice; wrong as a default.
+Visual tells. Fine as a deliberate choice; wrong as a default. Removing a tell must not leave a hole: replace it
+with something specific to the subject, not with nothing.
 
 | Tell | Do instead |
 |---|---|
