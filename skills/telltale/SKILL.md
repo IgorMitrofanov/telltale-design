@@ -1,6 +1,6 @@
 ---
 name: telltale
-description: Use when designing, building or reviewing a user interface or its copy with a coding agent (landing pages, dashboards, admin panels, web apps, docs sites). A compact design process for agents (decide the mode, plan, build on tokens, verify in a browser) plus the visual and copy patterns that make a page look machine-generated, what to do instead, the basics agents forget, and plain-writing rules (from ASD-STE100) for interface copy and for the agent's reports to the person. Includes a scanner for HTML/CSS/JS/TSX/Vue/Svelte/Markdown.
+description: Use when designing, building or reviewing a user interface or its copy with a coding agent (landing pages, dashboards, admin panels, web apps, docs sites). A compact design process for agents (decide the mode, find a distinctive idea, plan, build on re-themable tokens, verify in a browser) plus the visual and copy patterns that make a page look machine-generated, what to do instead, the basics agents forget, and plain-writing rules (from ASD-STE100) for interface copy and for the agent's reports to the person. Includes a scanner for HTML/CSS/JS/TSX/Vue/Svelte/Markdown.
 ---
 
 <!-- design-tells: ignore-file (this file describes the patterns) -->
@@ -8,8 +8,9 @@ description: Use when designing, building or reviewing a user interface or its c
 # Design for coding agents: process, tells, basics
 
 Agents drift to the same defaults. Each is fine alone; together they make a page look generated and untrusted.
-This skill gives a short process that avoids defaults by deciding first, a list of tells to catch what slips
-through, and the basics that agents leave out.
+This skill gives a short process that avoids defaults by deciding first, a way to find an idea worth building, a
+list of tells to catch what slips through, and the basics that agents leave out. Avoiding tells keeps a page
+from looking generated; only an idea makes it good.
 
 **The brief wins.** An explicit instruction from the user, or the project's existing design system, overrides any
 style default here. A deliberate choice stays, with one line saying why. Separate measurable requirements,
@@ -33,6 +34,26 @@ design heuristics and personal preferences. A favourite colour does not establis
 4. **A five-line plan.** One sentence of visual direction; palette roles and intended character; type roles (text
    face, data/mono face); layout idea; the one detail only this subject would have (its real units, terms, document
    conventions). Review category defaults (section 5) against the brief. Keep those that fit; replace those that do not.
+
+### Find the idea
+
+Do this before the plan is final. Restraint without an idea gives a correct page that nobody remembers.
+
+1. **Mine the subject's world.** List five things only this subject has: objects, materials, documents, units,
+   rituals, places (film: slate, timecode, contact sheet; coffee: roast curve, origin label, grind size). One of
+   them becomes the visual idea, as structure or content, never as clip art.
+2. **Write three concepts, one sentence each,** from different starting points: a structure (the page as a contact
+   sheet), a material (ledger paper, enamel sign, newsprint), a gesture (one huge number, one full-bleed photograph).
+   Pick the one that fits the brief and the mode, and say why in one line.
+3. **Spend one bold move per view.** A jump in scale, one saturated colour field, an oversized photograph, a typeface
+   with character, a grid broken on purpose. Keep everything around it quiet. Two bold moves fight; none leaves the
+   page anonymous. In Operate mode the move is small: a signature numeral style, one chart done beautifully, a
+   crafted empty state.
+4. **Borrow from outside the category.** Name two references from other fields (a magazine, a transit map, a product
+   label, an instrument panel) and what you take from each: a grid, a type treatment, a colour habit. Competitors
+   show what to avoid copying.
+
+If the person gave references, start from them and say what you take and what you leave.
 
 ### Choose a direction with the person
 
@@ -73,6 +94,11 @@ account is needed; the services in Sources show interaction patterns only.
 - **Pair foreground and fill roles.** Define text/icon colours for the surfaces they sit on, such as `--on-accent`
   with `--accent`. Add a quieter `--accent-container` / `--on-accent-container` pair only when needed. A foreground
   that passes on one fill is not automatically valid on another. Keep role mappings consistent across breakpoints.
+- **Re-themable by construction.** Every colour a component uses comes from a role token; no colour literals outside
+  the token blocks (photographs and media excepted). Derive hover, pressed, container and focus tones from the accent
+  with `color-mix()` or relative colour (`oklch(from var(--accent) calc(l - 0.08) c h)`), so a new brand colour updates
+  them. Keep the palette in one documented token block. **Re-theme test:** swap the accent for two distant hues (one
+  light, one dark), render and rerun the contrast check. Fix the derivation, not the components.
 - **Supported themes have complete token sets.** Select suitable tones for each role in each supported theme;
   for dark mode, re-tune contrast and accents instead of inverting colours. Set `color-scheme` (and `theme-color`
   for mobile).
@@ -115,6 +141,24 @@ account is needed; the services in Sources show interaction patterns only.
 - **Interface copy:** buttons name the action ("Save key", not "Continue"); errors say what happened and how to
   recover; headings say what the block shows ("Last sync"); no design notes or prompt text leaking into the UI.
 
+### Make it memorable
+
+- **Typography carries the voice.** Choose the display face for character (structure, width, contrast, era), then a
+  text face that differs in structure and agrees in proportion. Use the range the faces offer: real scale contrast
+  (ratio 1.25–1.5 for Persuade), weights far apart, optical sizes where they exist. Break headlines by sense, not by
+  width. Use real quotes and apostrophes, and the dashes the language requires.
+- **Composition with tension.** Choose a grid, then break it once on purpose: asymmetry, a strong axis, a wide margin
+  on one side, a photograph cropped hard or running off the edge, an element crossing a boundary. Vary the rhythm so
+  sections differ in height and layout. Give each view one large thing for the eye to land on.
+- **Art-direct the images.** One treatment for all photographs (crop, colour, framing). Crop to the detail that tells
+  the story. Real product shots and real data beat illustration. With no images, let type, data or a diagram carry
+  the page; never leave grey placeholders.
+- **Commit to the colour.** A quiet palette is a choice, not a default. When the brief allows, give the accent real
+  area: a full colour field, a coloured section, tinted photography. Keep one idea and check contrast where text sits.
+- **Details that reward a second look.** Optical alignment (icons, quotes and round letters nudged until they look
+  aligned), one stroke width for icons and rules, digits that line up, a crafted empty state, focus rings in the
+  palette.
+
 ## 4. Verify, do not assume
 
 1. Render it. Screenshots at about 390, 768 and 1440 px, plus one zoomed out (overall balance) and all supported themes.
@@ -125,6 +169,9 @@ account is needed; the services in Sources show interaction patterns only.
    after changing type or tracking; inspect the rendered result, not only overflow measurements.
 2. Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
    top three problems, fix them, repeat; up to three rounds. Scanner counts are not an aesthetic score.
+   **Distinctiveness test:** hide the logo and name. If the page could belong to any product in its category, make
+   the idea from section 1 stronger; do not add decoration. Name the one thing a designer would screenshot from the
+   page. If there is none, the bold move is missing. Run the re-theme test (section 2) when colours are customisable.
 3. Keyboard pass: tab order, visible focus, Escape closes, Enter submits.
 4. Run the scanner and the contrast check (section 8), go through section 6 and reread the copy against section 7.
 5. Report what was checked and how. Never claim a check you did not run.

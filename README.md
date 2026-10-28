@@ -31,6 +31,7 @@ replacements, the basics that get forgotten, and writing rules for the interface
 | Step | What happens |
 | --- | --- |
 | **Decide** | Names the subject, the audience and where the page is used. Picks the mode: *Persuade* (landing), *Operate* (admin, dashboard), *Read* (docs) or *Experience* (games). Reads the project's design system first and names strengths to preserve. Writes a five-line plan and reviews defaults against the brief. |
+| **Find the idea** | Lists what only the subject has, writes three concepts and picks one. One bold move per view, the rest quiet; references from outside the category. |
 | **Choose a direction** | Follows an existing design or preference. When the direction is open, shows 2–3 directions (layout, type or palette) on the same screen in every theme, narrows the choice with you and records it. Checks contrast separately from taste. |
 | **Build a system** | Tokens by role (`--bg`, `--surface`, `--accent`, statuses), dark mode as a second token set, a small type scale, a 4 px spacing scale. |
 | **Build the interface** | Hierarchy by weight, colour and space. No cards by default. Every state of every component. Honest data: units, aligned digits, status never by colour alone. Motion only as a change of state. |
