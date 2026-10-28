@@ -15,8 +15,7 @@
 
 ## Why
 
-I build an AI support service, and most of its interfaces are written by coding agents. They work fast, and their pages
-are easy to recognise: a gradient hero, purple on black, glass panels, emoji instead of icons, three cards in a row, a
+Coding agents now write a lot of interfaces. They work fast, and their pages are easy to recognise: a gradient hero, purple on black, glass panels, emoji instead of icons, three cards in a row, a
 long dash in every sentence, "it's not X, it's Y". <!-- design-tells: ignore --> Each choice is fine on its own. Together they say "nobody
 decided anything here", and people trust the page less.
 
@@ -114,8 +113,7 @@ Basics not found (check whether they apply):
 
 ## A real run
 
-The first target was the admin panel of our support service: 2,155 lines of HTML, CSS and JS written by agents over
-several weeks.
+The first target was an internal admin panel: 2,155 lines of HTML, CSS and JS written by agents over several weeks.
 
 | | Before | After |
 | --- | --- | --- |
