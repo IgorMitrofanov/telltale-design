@@ -25,7 +25,9 @@ When you design, build or review a user interface or its copy, follow `skills/te
    then changes, then what was and was not verified.
 8. **Verify.** Screenshots at about 390, 768 and 1440 px and all supported themes. Compare the supplied original
    with the new version at matching viewports, themes and comparable states. Evaluate appearance and task completion
-   separately. Use up to three rounds of fixes, a keyboard pass, then
+   separately. Read actual headings and key text at intended size and in delivered reduced previews; glyphs must remain
+   distinct. Recheck wrapping around affected breakpoints after type or tracking changes. Use up to three rounds of fixes,
+   a keyboard pass, then
    `python skills/telltale/scripts/check_design_tells.py <changed paths>`. Report each finding as fixed, kept on purpose
    (with the reason), or not applicable. Never claim a check you did not run.
 

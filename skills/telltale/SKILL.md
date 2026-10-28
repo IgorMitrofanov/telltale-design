@@ -70,6 +70,10 @@ a mandatory approval step for routine work. If no response is available, use a c
 - **A small type scale:** 4–5 sizes, ratio about 1.125–1.2 for product UI (larger for Persuade). Body 16 px or more
   for reading, 14 px is acceptable in dense Operate tables. Lines 45–75 characters. `text-wrap: balance` on headings
   (no lone last word). Tabular figures where digits line up.
+- **Keep letterforms distinct.** Start from the typeface's normal spacing; tighten only after reading the actual
+  rendered words. Check ambiguous combinations such as `rn`/`m`, `cl`/`d` and `I`/`l`/`1` where they occur.
+  Adjust spacing, weight or typeface when glyphs merge. Fit narrow layouts through size or wrapping without
+  sacrificing legibility. There is no universal safe negative tracking value for every font and size.
 - **Spacing scale** on a 4 px base. More space above a heading than below it; gaps between groups clearly larger than
   gaps inside them. Group by proximity before adding boxes.
 - **One small radius scale**; nested radii concentric (inner = outer minus padding). Pills only for tags and meters.
@@ -98,6 +102,9 @@ a mandatory approval step for routine work. If no response is available, use a c
 1. Render it. Screenshots at about 390, 768 and 1440 px, plus one zoomed out (overall balance) and all supported themes.
    For before/after, use the supplied original and the new version at the same viewport, theme and comparable state.
    When comparing palettes, also hold typography, content, media and layout fixed.
+   Read the actual headings, actions and key numbers at their intended size and in any reduced preview being delivered.
+   Correct text in the DOM is not proof of readable letterforms. Check wrapping just above and below affected breakpoints
+   after changing type or tracking; inspect the rendered result, not only overflow measurements.
 2. Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
    top three problems, fix them, repeat; up to three rounds. Scanner counts are not an aesthetic score.
 3. Keyboard pass: tab order, visible focus, Escape closes, Enter submits.
