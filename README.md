@@ -49,6 +49,8 @@ Start from a brand colour, a reference image or a colour relationship. Keep sele
 remaining colours; refine with requests such as "warmer" or "less saturated". The agent expands the palette into UI roles
 and states, verifies locked values, and retains previous candidates. Colour operations and previews run locally;
 Adobe Color, Coolors and Colormind are references for the interaction patterns, not service dependencies.
+Material contributes the seed → tonal families → role pairs approach. The agent pairs fills with their text/icon
+colours and chooses suitable tones per supported theme; Material components and its default palette are not required.
 
 **Typography must remain readable when rendered.** The agent checks actual words at their intended size and in
 delivered reduced previews. Tight spacing must not merge letters, such as `rn` into `m`. Changes to type or spacing

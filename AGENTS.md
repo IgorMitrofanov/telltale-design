@@ -14,7 +14,8 @@ When you design, build or review a user interface or its copy, follow `skills/te
    locally and check the rendered result; no palette-service API or account is required.
    If the person delegates, choose and proceed. Palette preferences are separate from contrast requirements.
 3. **Build a system.** Role tokens (`--bg`, `--surface`, `--text`, `--accent`, statuses), dark mode as a second
-   token set, a small type scale and a 4 px spacing scale. Colour harmony and tinted neutrals are starting points;
+   token set, a small type scale and a 4 px spacing scale. Derive tonal families and pair fill roles with their text/icon
+   colours; choose suitable tones per supported theme. Colour harmony and tinted neutrals are starting points;
    no hue, white or black is a defect by itself. Check actual contrast and visible cues beyond colour.
 4. **Build the interface.** Hierarchy by weight/colour/space, no cards by default, all states of every component,
    interaction basics, honest data display, motion only as state (150–250 ms, transform/opacity, reduced motion),

@@ -71,6 +71,11 @@ define the UI system. Evaluate the actual colour areas and foreground/background
 Verify exact locks after generation. If a locked colour fails contrast in its intended
 role, explain the conflict and offer a different use or a derived shade; keep the approved value unchanged.
 
+Use tonal families when one colour must serve several roles: derive lighter and darker accent and neutral shades,
+then select the tones needed for the interface. A seed colour is a starting input, not necessarily the final action
+fill; an explicitly locked role value remains exact. Borrow this separation of seed, tones and roles from Material
+without imposing its default palette, components or a fixed number of tones.
+
 Perform the palette operations locally. Use a colour space with separate lightness, chroma and hue controls, such as
 OKLCH, for deliberate adjustments. Keep hue while varying lightness/chroma for monochromatic candidates; explore nearby
 hues or an opposite hue for other relationships. These are candidate-generation heuristics, not guarantees of appeal.
@@ -82,8 +87,13 @@ the services in Sources illustrate interaction patterns only.
 
 - **Tokens by role, not by value.** `--bg`, `--surface`, `--text`, `--text-muted`, `--line`, `--accent`, `--good`,
   `--warn`, `--bad`; type roles `display`, `heading`, `body`, `caption`, `data`. Components use roles only.
-- **Supported themes have complete token sets.** For dark mode, re-tune contrast and accents instead of inverting
-  colours. Set `color-scheme` (and `theme-color` for mobile); define every colour role in each supported theme.
+- **Pair foreground and fill roles.** Define text/icon colours for the surfaces they sit on, such as `--on-accent`
+  with `--accent`. Add a quieter `--accent-container` / `--on-accent-container` pair only when needed. A foreground
+  that passes on one fill is not automatically valid on another. Keep role mappings consistent across breakpoints;
+  check the actual pairs and states after applying tokens.
+- **Supported themes have complete token sets.** Select suitable tones for each role in each supported theme;
+  for dark mode, re-tune contrast and accents instead of inverting colours. Set `color-scheme` (and `theme-color`
+  for mobile). A generated scheme still needs the rendered contrast checks below.
 - **Colour relationships are starting points.** Try one hue at different lightnesses, neighbouring hues, or a
   contrasting pair. Neutral and tinted surfaces, including white, black and grey, are all valid. Start with calmer
   large surfaces and a clear primary action accent; adjust saturation and area to the intended character. Extra
@@ -251,3 +261,5 @@ Palette workflow references: Adobe Color [colour wheel](https://color.adobe.com/
 Colormind [generation tips](https://colormind.io/). Local colour operations: CSS Color 4
 [Oklab and OkLCh](https://www.w3.org/TR/css-color-4/#ok-lab) and
 [gamut mapping](https://www.w3.org/TR/css-color-4/#gamut-mapping).
+Tonal families and paired roles: Material [dynamic colour scheme](https://github.com/material-foundation/material-color-utilities/blob/main/concepts/dynamic_color_scheme.md)
+and [colour roles](https://m3.material.io/styles/color/the-color-system).
