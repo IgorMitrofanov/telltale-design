@@ -304,8 +304,8 @@ python scripts/check_contrast.py page.html --field .my-select     # add a custom
 It renders the page in Chromium (needs `pip install playwright` and `python -m playwright install chromium`). For
 each theme it sets `prefers-color-scheme` and `data-theme` on `<html>` (`--theme-attr none` turns the attribute off).
 It measures text against the solid colour behind it (1.4.3) and the boundary of inputs and similar fields (1.4.11).
-Disabled controls are exempt. Text over an image or gradient, and a field with no visible boundary, are listed to
-check by eye. It does not see opacity, filters, pseudo-element text or hover and focus states. A pass is necessary,
+Overlapping layers count, not only ancestors. Disabled controls are exempt. Text over an image or gradient, text
+inside SVG and a field with no visible boundary are listed to check by eye. It does not see opacity, filters, pseudo-element text or hover and focus states. A pass is necessary,
 not sufficient.
 
 ## Sources

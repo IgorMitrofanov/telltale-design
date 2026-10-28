@@ -22,6 +22,9 @@
   .column { border-right: 1px solid #eeeeee; }
   .column textarea { border: 0; background: transparent; }
   .underline { border: 0; border-bottom: 2px solid #6a6a6a; background: transparent; }
+  .stage { position: relative; padding: 12px; }
+  .slab { position: absolute; inset: 0; background: #222222; pointer-events: none; }
+  .over { position: relative; color: #f0f0f0; margin: 0; }
   .gone { color: #dddddd; border: 1px solid #eeeeee; }
 </style>
 </head>
@@ -38,6 +41,8 @@
   <input class="relative" id="weak-relative" value="Border from relative colour">
   <div class="column"><textarea id="divided">Borderless field in a column with a divider</textarea></div>
   <input class="underline" id="underlined" value="Underlined field">
+  <div class="stage"><div class="slab"></div><p class="over" id="overlay">Light label over a dark sibling layer</p></div>
+  <svg width="320" height="80"><rect width="320" height="40" fill="#222222"/><text id="svg-pass" x="8" y="26" fill="#eeeeee">Light SVG text on a dark rect</text><rect y="40" width="320" height="40" fill="#ffffff"/><text id="svg-fail" x="8" y="66" fill="#c8c8c8">Pale SVG text on a white rect</text></svg>
   <input class="gone" id="off" value="Disabled" disabled>
 </body>
 </html>

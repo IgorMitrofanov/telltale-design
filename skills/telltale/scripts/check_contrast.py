@@ -15,8 +15,9 @@ the attribute `data-theme="<theme>"` on <html>. Checks:
   --field SELECTOR. The control's own border (an underline counts), a wrapper outlined on all four sides (up to
   2 levels up), or the fill must reach 3:1 against the colour outside it. Success criterion 1.4.11.
 
-Disabled controls are exempt. Listed as unchecked, not passed, to check by eye: text over an image or gradient, and
-a field with no visible boundary (not a 1.4.11 failure, but people may not see where to type).
+Text is measured against what is painted under it (overlapping layers count, not only ancestors). Disabled controls
+are exempt. Listed as unchecked, not passed, to check by eye: text over an image or gradient, text inside SVG, and a
+field with no visible boundary (not a 1.4.11 failure, but people may not see where to type).
 Not measured: opacity and filters on ancestors, text in pseudo-elements, focus and hover states, text inside images.
 A pass is necessary, not sufficient: it does not prove the page is readable or pleasant.
 """
@@ -43,19 +44,43 @@ JS = r"""
       if (cs.backgroundImage !== 'none' || ['IMG', 'VIDEO', 'CANVAS'].includes(e.tagName)) return null;
       const c = parse(cs.backgroundColor); if (c && c[3] > 0) { layers.push(c); if (c[3] >= 1) break; } }
     return layers.reduceRight((base, c) => over(c, base), [255, 255, 255, 1]); };
+  // What is actually painted under the middle of an element: siblings it overlaps and SVG fills count, not only
+  // ancestors. Falls back to the ancestor walk when the point is not available.
+  const isShape = e => e instanceof SVGGeometryElement;
+  const painted = el => {
+    let r = el.getBoundingClientRect();
+    if (r.top < 0 || r.bottom > innerHeight) { el.scrollIntoView({block: 'center'}); r = el.getBoundingClientRect(); }
+    const stack = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    const at = stack.indexOf(el);
+    if (at < 0) return behind(el);
+    const layers = [];
+    for (const e of [el].concat(stack.slice(at + 1).filter(e => !el.contains(e)))) {
+      const cs = getComputedStyle(e);
+      if (['IMG', 'VIDEO', 'CANVAS'].includes(e.tagName) || (!(e instanceof SVGElement) && cs.backgroundImage !== 'none')) return null;
+      let c = isShape(e) ? (cs.fill === 'none' ? null : parse(cs.fill)) : parse(cs.backgroundColor);
+      if (c && isShape(e)) c = [c[0], c[1], c[2], c[3] * parseFloat(cs.fillOpacity || 1)];
+      if (c && c[3] > 0) { layers.push(c); if (c[3] >= 1) break; }
+    }
+    return layers.reduceRight((base, c) => over(c, base), [255, 255, 255, 1]); };
   const visible = el => { const cs = getComputedStyle(el); const r = el.getBoundingClientRect();
     return cs.visibility !== 'hidden' && cs.display !== 'none' && r.width > 0 && r.height > 0; };
   const disabled = el => el.matches(':disabled, [aria-disabled="true"]') || !!el.closest('[aria-disabled="true"], fieldset:disabled');
   const name = el => el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') +
     [...el.classList].slice(0, 2).map(c => '.' + c).join('');
   const text = [], fields = [], unchecked = [];
+  // elementsFromPoint skips pointer-events: none; decorative layers often use it, so lift it while measuring.
+  const lift = document.createElement('style');
+  lift.textContent = '* { pointer-events: auto !important; }';
+  document.head.appendChild(lift);
 
   for (const el of document.querySelectorAll('body *')) {
     const isField = el.matches('input:not([type=hidden]):not([type=checkbox]):not([type=radio]), textarea');
     const own = [...el.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim();
     const sample = isField ? (el.value || '').trim() : own;
     if (!sample || !visible(el) || disabled(el)) continue;
-    const cs = getComputedStyle(el), bg = behind(el);
+    // SVG text often sits on patterns and stacked shapes whose colour cannot be read reliably: list it, do not guess.
+    if (el instanceof SVGElement) { unchecked.push({element: name(el), text: '(SVG text) ' + sample.slice(0, 30)}); continue; }
+    const cs = getComputedStyle(el), bg = painted(el);
     if (!bg) { unchecked.push({element: name(el), text: '(image or gradient behind) ' + sample.slice(0, 30)}); continue; }
     const size = parseFloat(cs.fontSize), large = size >= 24 || (parseInt(cs.fontWeight) >= 700 && size >= 18.66);
     const r = ratio(over(parse(cs.color), bg), bg), need = large ? 3 : 4.5;
@@ -86,6 +111,7 @@ JS = r"""
     const best = Math.max(borderR, fillR);
     if (best < 3) fields.push({element: name(el), boundary: name(box), ratio: +best.toFixed(2), need: 3});
   }
+  lift.remove();
   return {text, fields, unchecked};
 }
 """

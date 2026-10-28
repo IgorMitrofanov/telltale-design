@@ -26,8 +26,8 @@ expected = {
     ("dark", "text"): ["fail-dark"],
     ("light", "fields"): ["custom-select", "weak", "weak-relative"],
     ("dark", "fields"): ["weak-relative"],
-    ("light", "unchecked"): ["divided", "unchecked"],
-    ("dark", "unchecked"): ["divided", "unchecked"],
+    ("light", "unchecked"): ["divided", "svg-fail", "svg-pass", "unchecked"],
+    ("dark", "unchecked"): ["divided", "svg-fail", "svg-pass", "unchecked"],
 }
 problems = []
 for (theme, kind), want in expected.items():
@@ -53,4 +53,4 @@ if strict != 1:
 if problems:
     print("\n".join(problems))
     sys.exit(1)
-print("ok: text, large text, theme-only, field boundary, wrapper, custom field, underline, divider, oklch and relative colour, disabled and unchecked cases verified")
+print("ok: text, large text, theme-only, field boundary, wrapper, custom field, underline, divider, oklch and relative colour, overlapping layer, SVG text listed, disabled and unchecked cases verified")
