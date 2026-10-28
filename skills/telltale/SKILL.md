@@ -68,11 +68,15 @@ Choose a starting method from the available inputs:
 
 Expand these seed colours into role tokens and state variants. A generator's number or order of swatches does not
 define the UI system. Evaluate the actual colour areas and foreground/background pairs on the representative screen.
-Verify exact locks after generation; a generator may shift its inputs. If a locked colour fails contrast in its intended
+Verify exact locks after generation. If a locked colour fails contrast in its intended
 role, explain the conflict and offer a different use or a derived shade; keep the approved value unchanged.
 
-Adobe Color, Coolors and Colormind can support this workflow when available. They are optional sources of candidates;
-the same dialogue and previews must work with locally prepared tokens. Do not claim to have used a service that was not used.
+Perform the palette operations locally. Use a colour space with separate lightness, chroma and hue controls, such as
+OKLCH, for deliberate adjustments. Keep hue while varying lightness/chroma for monochromatic candidates; explore nearby
+hues or an opposite hue for other relationships. These are candidate-generation heuristics, not guarantees of appeal.
+Preserve locked source values exactly, map derived colours to the target gamut, and check the resulting rendered pairs.
+Use CSS or a small local script when calculation helps. The workflow requires no palette-service API or account;
+the services in Sources illustrate interaction patterns only.
 
 ## 2. Build a system, not a page
 
@@ -244,4 +248,6 @@ Colour checks: WCAG [text contrast](https://www.w3.org/WAI/WCAG22/Understanding/
 
 Palette workflow references: Adobe Color [colour wheel](https://color.adobe.com/create/color-wheel) and
 [image extraction](https://color.adobe.com/create/image); Coolors [generate and lock colours](https://coolors-help.zendesk.com/hc/en-us/articles/360010581980-Generate-a-palette);
-Colormind [generation tips](https://colormind.io/) and [API input behaviour](https://colormind.io/api-access/).
+Colormind [generation tips](https://colormind.io/). Local colour operations: CSS Color 4
+[Oklab and OkLCh](https://www.w3.org/TR/css-color-4/#ok-lab) and
+[gamut mapping](https://www.w3.org/TR/css-color-4/#gamut-mapping).
