@@ -6,17 +6,14 @@ When you design, build or review a user interface or its copy, follow `skills/te
 1. **Decide before styling.** Subject, audience, place; the mode of the surface (Persuade, Operate, Read,
    Experience); the existing design system first. Name the strengths to preserve before refining. Write a five-line
    plan and review defaults against the brief; keep those that fit.
-2. **Choose colours together when needed.** Follow established preferences. Otherwise show two or three palettes
-   on the same rendered interface, holding layout, type, content, media, state, viewport and theme fixed. Include
-   the original palette when refining. Narrow with ordinary-language feedback and save the chosen role tokens.
-   Start from a brand colour, a supplied reference or colour relationships. Lock accepted values and roles; change
-   only open choices. Expand seed colours into UI roles and verify exact locks after generation. Calculate adjustments
-   locally and check the rendered result; no palette-service API or account is required.
-   If the person delegates, choose and proceed. Palette preferences are separate from contrast requirements.
+2. **Choose a direction together when it is open.** Show two or three directions as rendered UI on the same screen,
+   in every supported theme; for palettes, hold layout, type and content fixed. Narrow with plain-language feedback,
+   lock accepted values and record the choice in `DESIGN.md`. If the person delegates, choose and proceed.
+   Preferences are separate from contrast requirements.
 3. **Build a system.** Role tokens (`--bg`, `--surface`, `--text`, `--accent`, statuses), dark mode as a second
-   token set, a small type scale and a 4 px spacing scale. Derive tonal families and pair fill roles with their text/icon
-   colours; choose suitable tones per supported theme. Colour harmony and tinted neutrals are starting points;
-   no hue, white or black is a defect by itself. Check actual contrast and visible cues beyond colour.
+   token set, a small type scale and a 4 px spacing scale. Pair each fill with its text colour (`--accent` /
+   `--on-accent`) and derive tonal families per theme. No hue, white or black is a defect by itself; check actual
+   contrast (WCAG 2.2) and cues beyond colour.
 4. **Build the interface.** Hierarchy by weight/colour/space, no cards by default, all states of every component,
    interaction basics, honest data display, motion only as state (150–250 ms, transform/opacity, reduced motion),
    copy that names actions.

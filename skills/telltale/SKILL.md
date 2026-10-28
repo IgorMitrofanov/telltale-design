@@ -34,54 +34,37 @@ design heuristics and personal preferences. A favourite colour does not establis
    face, data/mono face); layout idea; the one detail only this subject would have (its real units, terms, document
    conventions). Review category defaults (section 5) against the brief. Keep those that fit; replace those that do not.
 
-### Choose the palette with the person
+### Choose a direction with the person
 
-Follow the existing palette and established preferences first. When the colour direction is open:
+Follow the existing system and stated preferences first. When the direction (layout, type or palette) is open:
 
-1. Show two or three distinct palettes on the same representative interface. Include the existing palette as a
-   reference when refining. Keep layout, typography, content, imagery, state, viewport and theme unchanged. Compare undecided light
-   and dark themes separately before narrowing colours. Use rendered UI, not swatches alone.
-2. Include surfaces, text, actions, focus and relevant semantic states. Check the applicable contrast requirements
-   below before presenting an option. If the original fails a check, label that reference and offer a corrected
-   variant. Explain each direction in one sentence and ask which is closest.
-3. Accept a choice, a combination or ordinary-language feedback. Refine the selected direction with a few focused
-   variants. Lock explicitly accepted values and roles; generate only what remains open. Distinguish an exact colour
-   from a flexible preference such as "keep it blue". Translate feedback such as "warmer" or "less saturated" into
-   targeted changes and say what changed. Preserve accepted choices; reopen rejected directions only when asked.
-   Recheck any mixture and retain the previous candidate so the person can return to it.
-4. Record chosen role tokens, exact locks, flexible preferences and rejected directions in `DESIGN.md` or the existing design record.
-   Stop narrowing when the direction is clear. If the person delegates the choice, choose, explain and proceed.
+1. Show two or three distinct directions as rendered UI on the same representative screen and content. Vary only what
+   is being compared: for style directions, vary the approach; for palettes, hold layout, type, content, imagery,
+   state and viewport fixed. Include the existing design as a reference when refining. Render every theme the product
+   will support. Swatches alone are not a preview.
+2. Check contrast (section 2) before presenting. If the original fails, label it and offer a corrected version.
+   Explain each direction in one sentence and ask which is closest.
+3. Accept a choice, a mix or plain feedback ("warmer", "less busy"). Turn it into targeted changes and say what
+   changed. Lock accepted values and roles; regenerate only what is open. Tell an exact value from a flexible
+   preference ("keep it blue"). Keep the previous candidate so the person can go back; reopen rejected directions
+   only when asked.
+4. Record chosen tokens, locks, preferences and rejected directions in `DESIGN.md` or the existing design record.
+   Stop when the direction is clear. If the person delegates, choose, explain and proceed. Do not make this an
+   approval step for routine work; without a response, use a clearly provisional choice and continue.
 
-Build a concrete preview before asking for a choice. Reuse preferences already given; do not make palette selection
-a mandatory approval step for routine work. If no response is available, use a clearly provisional choice and continue.
+### Generate palette candidates
 
-### Generate useful palette candidates
+- **Anchor and harmony:** start from an approved colour; try monochromatic, analogous, complementary or
+  split-complementary relationships.
+- **Reference image:** extract dominant and accent colours as starting points. They do not decide which colour is fit
+  for text, controls or backgrounds.
+- **Lock and complete:** keep chosen colours fixed and fill in the rest; in later rounds change only what was asked.
 
-Choose a starting method from the available inputs:
-
-- **Anchor and harmony.** Start with an approved brand colour or supplied value. Explore a few relationships such as
-  monochromatic, analogous, complementary or split-complementary; select candidates that fit the brief.
-- **Reference image.** Extract a few dominant and accent colours from a supplied image. Use them as starting points;
-  an image's palette does not determine which colours are suitable for text, controls or backgrounds.
-- **Lock and complete.** Keep selected colours fixed and suggest the remaining colours around them. Change only the
-  requested qualities in later rounds instead of regenerating the whole palette.
-
-Expand these seed colours into role tokens and state variants. A generator's number or order of swatches does not
-define the UI system. Evaluate the actual colour areas and foreground/background pairs on the representative screen.
-Verify exact locks after generation. If a locked colour fails contrast in its intended
-role, explain the conflict and offer a different use or a derived shade; keep the approved value unchanged.
-
-Use tonal families when one colour must serve several roles: derive lighter and darker accent and neutral shades,
-then select the tones needed for the interface. A seed colour is a starting input, not necessarily the final action
-fill; an explicitly locked role value remains exact. Borrow this separation of seed, tones and roles from Material
-without imposing its default palette, components or a fixed number of tones.
-
-Perform the palette operations locally. Use a colour space with separate lightness, chroma and hue controls, such as
-OKLCH, for deliberate adjustments. Keep hue while varying lightness/chroma for monochromatic candidates; explore nearby
-hues or an opposite hue for other relationships. These are candidate-generation heuristics, not guarantees of appeal.
-Preserve locked source values exactly, map derived colours to the target gamut, and check the resulting rendered pairs.
-Use CSS or a small local script when calculation helps. The workflow requires no palette-service API or account;
-the services in Sources illustrate interaction patterns only.
+Expand seeds into tonal families (lighter and darker accent and neutral shades), then pick the tones each role needs.
+A seed is an input, not necessarily the action fill; a locked role value stays exact. If a locked colour fails contrast
+in its role, explain the conflict and offer another use or a derived shade. Work locally in a space with separate
+lightness, chroma and hue (OKLCH), map results to the target gamut, and check the rendered pairs. No palette service or
+account is needed; the services in Sources show interaction patterns only.
 
 ## 2. Build a system, not a page
 
@@ -89,11 +72,10 @@ the services in Sources illustrate interaction patterns only.
   `--warn`, `--bad`; type roles `display`, `heading`, `body`, `caption`, `data`. Components use roles only.
 - **Pair foreground and fill roles.** Define text/icon colours for the surfaces they sit on, such as `--on-accent`
   with `--accent`. Add a quieter `--accent-container` / `--on-accent-container` pair only when needed. A foreground
-  that passes on one fill is not automatically valid on another. Keep role mappings consistent across breakpoints;
-  check the actual pairs and states after applying tokens.
+  that passes on one fill is not automatically valid on another. Keep role mappings consistent across breakpoints.
 - **Supported themes have complete token sets.** Select suitable tones for each role in each supported theme;
   for dark mode, re-tune contrast and accents instead of inverting colours. Set `color-scheme` (and `theme-color`
-  for mobile). A generated scheme still needs the rendered contrast checks below.
+  for mobile).
 - **Colour relationships are starting points.** Try one hue at different lightnesses, neighbouring hues, or a
   contrasting pair. Neutral and tinted surfaces, including white, black and grey, are all valid. Start with calmer
   large surfaces and a clear primary action accent; adjust saturation and area to the intended character. Extra
@@ -153,9 +135,9 @@ Visual tells. Fine as a deliberate choice; wrong as a default.
 
 | Tell | Do instead |
 |---|---|
-| Gradients applied without a role; unreadable gradient text | Keep a gradient that supports the chosen identity, hierarchy or data; verify legibility across it |
-| A stock palette applied without reference to the brief | Use the identity, content and preferences; compare alternatives when the direction is open |
-| Text or controls become hard to distinguish on their surfaces | Check the actual combinations; adjust lightness, chroma, foreground or surface treatment |
+| Gradients without a role: a gradient hero, a glow behind the logo, gradient text | Flat colour by default. Keep a gradient when it carries meaning (a scale, a data range) or belongs to an approved identity; check text across it |
+| Stock palettes nobody chose: purple + black, neon, near-black + cyan, cream + terracotta, stock pastels, rainbow | A palette from the brief, content and preferences; compare alternatives when the direction is open |
+| Text or controls hard to tell from their surface; grey text on a coloured ground | Check the actual pairs; adjust lightness, chroma, foreground or surface |
 | Shadows everywhere; "ghost card" (1 px border under a wide soft shadow); hard offset shadows | Border or spacing; a layered shadow only for real elevation (menus, dialogs) |
 | Large soft radius on everything | One small radius scale, concentric when nested |
 | Coloured stripe on the left of cards/banners | A full thin border in the status colour, or a status word |
