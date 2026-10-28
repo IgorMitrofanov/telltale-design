@@ -1,4 +1,4 @@
-# ai-design-tells
+# telltale-design
 
 Скилл для Claude Code и инструкция для Codex: как кодинг-агенту делать интерфейсы, по которым не видно, что их
 собрал ИИ. Короткий процесс (решить, собрать систему, собрать интерфейс, проверить в браузере), список признаков
@@ -14,8 +14,8 @@
 
 | Файл | Для чего |
 |---|---|
-| `skills/ai-design-tells/SKILL.md` | Сам скилл: процесс (режим поверхности, план, токены, состояния, движение, проверка), признаки и чем их заменить, базовые вещи. Для Claude Code. |
-| `skills/ai-design-tells/scripts/check_design_tells.py` | Проверка файлов HTML/CSS/JS/TS/JSX/TSX/Vue/Svelte/Markdown: находит кандидатов с файлом и строкой. Ничего не правит. |
+| `skills/telltale/SKILL.md` | Сам скилл: процесс (режим поверхности, план, токены, состояния, движение, проверка), признаки и чем их заменить, базовые вещи. Для Claude Code. |
+| `skills/telltale/scripts/check_design_tells.py` | Проверка файлов HTML/CSS/JS/TS/JSX/TSX/Vue/Svelte/Markdown: находит кандидатов с файлом и строкой. Ничего не правит. |
 | `AGENTS.md` | Те же правила кратко для Codex и других агентов, читающих `AGENTS.md`. |
 | `tests/` | Страница с подложенными признаками, чистая страница и тест скрипта: `python tests/test_scanner.py`. |
 
@@ -25,22 +25,22 @@
 
 ```bash
 # для всех проектов
-cp -r skills/ai-design-tells ~/.claude/skills/
+cp -r skills/telltale ~/.claude/skills/
 # или только для одного проекта
-cp -r skills/ai-design-tells <проект>/.claude/skills/
+cp -r skills/telltale <проект>/.claude/skills/
 ```
 
-Скилл подхватывается автоматически, когда задача про интерфейс; можно вызвать и явно: `/ai-design-tells`.
+Скилл подхватывается автоматически, когда задача про интерфейс; можно вызвать и явно: `/telltale`.
 
-**Codex.** Скопировать папку `skills/ai-design-tells` в проект и добавить четыре пункта из `AGENTS.md` в
+**Codex.** Скопировать папку `skills/telltale` в проект и добавить четыре пункта из `AGENTS.md` в
 `AGENTS.md` проекта (или в `~/.codex/AGENTS.md`).
 
 ## Проверка
 
 ```bash
-python skills/ai-design-tells/scripts/check_design_tells.py путь/к/проекту
-python skills/ai-design-tells/scripts/check_design_tells.py page.html --strict   # код возврата 1, если что-то нашлось
-python skills/ai-design-tells/scripts/check_design_tells.py src --json           # для CI и агентов
+python skills/telltale/scripts/check_design_tells.py путь/к/проекту
+python skills/telltale/scripts/check_design_tells.py page.html --strict   # код возврата 1, если что-то нашлось
+python skills/telltale/scripts/check_design_tells.py src --json           # для CI и агентов
 ```
 
 Это эвристика: она показывает места, которые стоит посмотреть. Строку, где паттерн нужен осознанно (например, цитата), можно пометить комментарием `design-tells: ignore`. Решает человек или агент: исправить, оставить

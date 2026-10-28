@@ -1,5 +1,5 @@
 ---
-name: ai-design-tells
+name: telltale
 description: Use when designing, building or reviewing a user interface or its copy with a coding agent (landing pages, dashboards, admin panels, web apps, docs sites). A compact design process for agents (decide the mode, plan, build on tokens, verify in a browser) plus the visual and copy patterns that make a page look machine-generated, what to do instead, and the basics agents forget. Includes a scanner for HTML/CSS/JS/TSX/Vue/Svelte/Markdown.
 ---
 
