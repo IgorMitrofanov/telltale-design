@@ -1,0 +1,39 @@
+<!doctype html>
+<!-- design-tells: ignore-file (fixture for tests/test_contrast.py: every case below is planted) -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --bg: #fafafa; --text: #1a1a1a; --muted: #666666; --late: #1a1a1a; }
+  :root[data-theme="dark"] { --bg: #151515; --text: #eeeeee; --muted: #a0a0a0; --late: #3a3a3a; }
+  body { margin: 0; padding: 24px; background: var(--bg); color: var(--text); font: 16px/1.5 sans-serif; }
+  input, textarea { color: inherit; font: inherit; }
+  .ok { color: var(--muted); }
+  .faint { color: #9a9a9a; }
+  .large { font-size: 26px; color: #8f8f8f; }
+  .dark-only { color: var(--late); }
+  .on-image { background: linear-gradient(#333, #555); color: #eeeeee; padding: 8px; }
+  .weak-field { border: 1px solid #dddddd; background: transparent; }
+  .wrap { border: 1px solid #7a7a7a; padding: 4px; }
+  .wrap textarea { border: 0; background: transparent; }
+  .custom { border: 1px solid #e5e5e5; padding: 6px; }
+  .column { border-right: 1px solid #eeeeee; }
+  .column textarea { border: 0; background: transparent; }
+  .underline { border: 0; border-bottom: 2px solid #6a6a6a; background: transparent; }
+  .gone { color: #dddddd; border: 1px solid #eeeeee; }
+</style>
+</head>
+<body>
+  <p class="ok" id="pass-muted">Muted text that passes in both themes</p>
+  <p class="faint" id="fail-faint">Faint text below 4.5 to 1</p>
+  <p class="large" id="pass-large">Large text above 3 to 1</p>
+  <p class="dark-only" id="fail-dark">Fails only in the dark theme</p>
+  <p class="on-image" id="unchecked">Text over a gradient</p>
+  <input class="weak-field" id="weak" value="Weak border">
+  <div class="wrap"><textarea id="wrapped">Wrapped field with a strong border</textarea></div>
+  <div class="custom" id="custom-select">Custom select</div>
+  <div class="column"><textarea id="divided">Borderless field in a column with a divider</textarea></div>
+  <input class="underline" id="underlined" value="Underlined field">
+  <input class="gone" id="off" value="Disabled" disabled>
+</body>
+</html>

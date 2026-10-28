@@ -114,7 +114,18 @@ python skills/telltale/scripts/check_design_tells.py src --json           # дл
 Он читает HTML, CSS, JS, TS, JSX, TSX, Vue, Svelte и Markdown и выводит кандидатов с файлом и строкой. Сам ничего не
 правит. Кандидат означает «посмотри сюда», а решение за вами: ряд плиток с цифрами уместен в операционном дашборде и
 может быть неуместен на лендинге. Значения цветов сами по себе не считаются находками. Этот сканер исходников
-не измеряет контраст отрисованного интерфейса или его привлекательность.
+не измеряет контраст отрисованного интерфейса или его привлекательность. Иконки считаются один раз на файл.
+
+### Проверка контраста
+
+```bash
+python skills/telltale/scripts/check_contrast.py page.html                      # светлая и тёмная тема, 1440 и 390 px
+python skills/telltale/scripts/check_contrast.py http://localhost:3000 --strict # код возврата 1 при провале
+```
+
+Открывает страницу в Chromium через Playwright и измеряет контраст текста (WCAG 1.4.3) и границ полей ввода (1.4.11)
+в каждой теме. Текст поверх картинки или градиента выводится как непроверенный. Нужны `pip install playwright`
+и `python -m playwright install chromium`.
 
 Осознанное место помечается на его строке комментарием `design-tells: ignore`, целый файл (например, гайд по стилю)
 пометкой `design-tells: ignore-file`. Нужен Python 3.8 или новее, зависимостей нет.
@@ -152,8 +163,9 @@ motion и тире как «нет значения» в ячейках табл
 | --- | --- |
 | [`skills/telltale/SKILL.md`](skills/telltale/SKILL.md) | Скилл: процесс, признаки, базовые вещи, правила письма |
 | [`skills/telltale/scripts/check_design_tells.py`](skills/telltale/scripts/check_design_tells.py) | Сканер |
+| [`skills/telltale/scripts/check_contrast.py`](skills/telltale/scripts/check_contrast.py) | Проверка контраста отрисованной страницы |
 | [`AGENTS.md`](AGENTS.md) | Те же правила кратко, для Codex |
-| [`tests/`](tests) | Страница с подложенными признаками, чистая страница и `python tests/test_scanner.py` |
+| [`tests/`](tests) | Страницы с подложенными признаками и случаями контраста, чистая страница, `python tests/test_scanner.py` и `python tests/test_contrast.py` |
 
 Сам скилл написан по-английски: так его одинаково читают Claude, Codex и другие агенты. Отвечать вам агент будет на
 вашем языке.

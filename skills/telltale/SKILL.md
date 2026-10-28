@@ -126,7 +126,7 @@ account is needed; the services in Sources show interaction patterns only.
 2. Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
    top three problems, fix them, repeat; up to three rounds. Scanner counts are not an aesthetic score.
 3. Keyboard pass: tab order, visible focus, Escape closes, Enter submits.
-4. Run the scanner (section 8), go through section 6 and reread the copy against section 7.
+4. Run the scanner and the contrast check (section 8), go through section 6 and reread the copy against section 7.
 5. Report what was checked and how. Never claim a check you did not run.
 
 ## 5. Tells: catch what slipped through
@@ -213,7 +213,7 @@ with: a handover, a summary of a change, a question.
 
 The scanner does not check these rules. Reread the text against the table before you hand it over.
 
-## 8. Scanner
+## 8. Scanner and contrast check
 
 ```bash
 python scripts/check_design_tells.py path/to/project             # report
@@ -224,7 +224,21 @@ python scripts/check_design_tells.py src --json                   # for CI and a
 It finds candidates (file:line) for a person or agent to judge; it never edits files. Mark a deliberate use on its
 line with a `design-tells: ignore` comment, or a whole file (a style guide) with `design-tells: ignore-file`.
 Report each finding as fixed, kept on purpose (with the reason), or not applicable. Hue choices, pure white and
-pure black are not findings by themselves. The source scanner does not measure rendered contrast; check it separately.
+pure black are not findings by themselves. Icons are reported once per file with a count. The source scanner does
+not measure rendered contrast; the contrast check below does.
+
+```bash
+python scripts/check_contrast.py page.html                        # light and dark, 1440 and 390 px
+python scripts/check_contrast.py http://localhost:3000 --strict   # exit 1 on a failure
+python scripts/check_contrast.py page.html --field .my-select     # add a custom control to the field check
+```
+
+It renders the page in Chromium (needs `pip install playwright` and `python -m playwright install chromium`). For
+each theme it sets `prefers-color-scheme` and `data-theme` on `<html>` (`--theme-attr none` turns the attribute off).
+It measures text against the solid colour behind it (1.4.3) and the boundary of inputs and similar fields (1.4.11).
+Disabled controls are exempt. Text over an image or gradient, and a field with no visible boundary, are listed to
+check by eye. It does not see opacity, filters, pseudo-element text or hover and focus states. A pass is necessary,
+not sufficient.
 
 ## Sources
 

@@ -113,7 +113,18 @@ python skills/telltale/scripts/check_design_tells.py src --json           # for 
 It reads HTML, CSS, JS, TS, JSX, TSX, Vue, Svelte and Markdown and prints candidates with file and line. It never edits
 anything. A candidate is a place to look at, not a verdict: a row of number tiles is right in an operations dashboard
 and may be wrong on a landing page. Colour literals alone are not findings; this source scanner does not measure
-rendered contrast or visual appeal.
+rendered contrast or visual appeal. Icons are counted once per file.
+
+### Contrast check
+
+```bash
+python skills/telltale/scripts/check_contrast.py page.html                      # light and dark, 1440 and 390 px
+python skills/telltale/scripts/check_contrast.py http://localhost:3000 --strict # exit 1 on a failure
+```
+
+It opens the page in Chromium through Playwright and measures text contrast (WCAG 1.4.3) and the boundaries of input
+fields (1.4.11) in each theme. Text over an image or gradient is listed as unchecked. Needs `pip install playwright`
+and `python -m playwright install chromium`.
 
 Mark a deliberate use on its line with `design-tells: ignore`, or a whole file (a style guide) with
 `design-tells: ignore-file`. Python 3.8 or newer, no dependencies.
@@ -151,8 +162,9 @@ These historical counts use the earlier rule set; the current scanner omits hue-
 | --- | --- |
 | [`skills/telltale/SKILL.md`](skills/telltale/SKILL.md) | The skill: process, tells, basics, writing rules |
 | [`skills/telltale/scripts/check_design_tells.py`](skills/telltale/scripts/check_design_tells.py) | The scanner |
+| [`skills/telltale/scripts/check_contrast.py`](skills/telltale/scripts/check_contrast.py) | The contrast check on a rendered page |
 | [`AGENTS.md`](AGENTS.md) | The same rules in short form for Codex |
-| [`tests/`](tests) | A page with planted tells, a clean page, and `python tests/test_scanner.py` |
+| [`tests/`](tests) | Pages with planted tells and contrast cases, a clean page, `python tests/test_scanner.py` and `python tests/test_contrast.py` |
 
 ## Sources
 

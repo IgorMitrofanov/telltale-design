@@ -36,7 +36,8 @@ CHECKS = [
      "Choose a typeface for the subject"),
     ("uppercase-label", "Uppercase letter-spaced labels", r"text-transform\s*:\s*uppercase|\buppercase\s+tracking-", re.I,
      "Sentence-case labels"),
-    ("icon-set", "Default icon set", r"lucide|heroicons|react-icons|<svg\b", re.I, "Icons only where they help scanning"),
+    ("icon-set", "Icons (count per file)", r"lucide|heroicons|react-icons|<svg\b", re.I,
+     "Keep icons where they help scanning; not one on every heading or link"),
     ("sparkle", "Sparkle/AI decoration", r"sparkle|[\"'\s.-]blob[\"'\s-]|radial-glow|glow-orb|dot-grid|bg-dots|feTurbulence", 0, "Real content instead of decoration"),
     ("emoji", "Emoji", r"[\U0001F300-\U0001FAFF☀-⛿✀-➿]", 0, "No emoji as icons or bullets"),
     ("checkmark", "Checkmark bullets", r"[✓✔☑✅]", 0, "Plain list, or a table of what is included"),
@@ -81,6 +82,16 @@ def files_of(paths):
                     yield os.path.join(root, name)
 
 
+# Reported once per file with a count: each use is usually fine, only the amount says something.
+PER_FILE = {"icon-set"}
+
+
+def ignored(text, m):
+    start = text.rfind("\n", 0, m.start()) + 1
+    end = text.find("\n", m.end())
+    return "design-tells: ignore" in text[start:end if end >= 0 else len(text)]
+
+
 def line_of(text, index):
     return text.count("\n", 0, index) + 1
 
@@ -109,10 +120,16 @@ def scan(paths):
                     findings.append({"check": cid, "title": title, "file": path, "line": line_of(text, m.start()),
                                      "excerpt": text[m.start():m.start() + 80].splitlines()[0], "advice": advice})
                 continue
+            if cid in PER_FILE:
+                hits = [m for m in re.finditer(pattern, text, flags) if not ignored(text, m)]
+                if hits:
+                    m = hits[0]
+                    findings.append({"check": cid, "title": title, "file": path, "line": line_of(text, m.start()),
+                                     "excerpt": f"{len(hits)} in this file; first: " + text[m.start():m.start() + 60].splitlines()[0],
+                                     "count": len(hits), "advice": advice})
+                continue
             for m in re.finditer(pattern, text, flags):
-                start = text.rfind("\n", 0, m.start()) + 1
-                end = text.find("\n", m.end())
-                if "design-tells: ignore" in text[start:end if end >= 0 else len(text)]:
+                if ignored(text, m):
                     continue  # a deliberate use, marked on its line
                 excerpt = text[max(0, m.start() - 30):m.end() + 30].replace("\n", " ").strip()
                 findings.append({"check": cid, "title": title, "file": path, "line": line_of(text, m.start()),

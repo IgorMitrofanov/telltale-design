@@ -29,11 +29,12 @@ When you design, build or review a user interface or its copy, follow `skills/te
    separately. Read actual headings and key text at intended size and in delivered reduced previews; glyphs must remain
    distinct. Recheck wrapping around affected breakpoints after type or tracking changes. Use up to three rounds of fixes,
    a keyboard pass, then
-   `python skills/telltale/scripts/check_design_tells.py <changed paths>`. Report each finding as fixed, kept on purpose
+   `python skills/telltale/scripts/check_design_tells.py <changed paths>` and
+   `python skills/telltale/scripts/check_contrast.py <page or URL>`. Report each finding as fixed, kept on purpose
    (with the reason), or not applicable. Never claim a check you did not run.
 
 The user's explicit brief and the project's existing design system override style defaults here. Keep measurable
-requirements, design heuristics and personal preferences distinct. The source scanner does not measure contrast.
+requirements, design heuristics and personal preferences distinct. The source scanner does not measure contrast; `check_contrast.py` does.
 
 To use in another project, copy the `skills/telltale` folder there and add these points to that project's
 `AGENTS.md` (or to `~/.codex/AGENTS.md` for every project).

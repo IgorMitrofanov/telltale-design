@@ -48,15 +48,23 @@ with tempfile.TemporaryDirectory() as tmp:
     focus_findings, _ = scanner.scan([palette])
     with contextlib.redirect_stdout(io.StringIO()):
         focus_exit = scanner.main([palette, "--strict", "--json"])
+    # Icons are counted once per file, not once per <svg>; a line marked ignore is left out of the count.
+    icons = os.path.join(tmp, "icons.html")
+    open(icons, "w", encoding="utf-8").write("<button><svg></svg>Save</button>\n<button><svg></svg>Copy</button>\n"
+                                             "<a><svg></svg>Back</a>\n<i><svg></svg></i> <!-- design-tells: ignore -->\n")
+    icon_findings = [f for f in scanner.scan([icons])[0] if f["check"] == "icon-set"]
 missing = PLANTED - {f["check"] for f in found}
 clean, _ = scanner.scan([os.path.join(HERE, "clean.html")])
 md_ok = [(f["check"], f["line"]) for f in md] == [("not-x-but-y", 4)]
 palette_ok = not palette_findings and not palette_missing and palette_exit == 0
 focus_ok = [f["check"] for f in focus_findings] == ["focus-removed"] and focus_exit == 1
-if missing or clean or not md_ok or not palette_ok or not focus_ok:
+icons_ok = [(f["line"], f["count"]) for f in icon_findings] == [(1, 3)]
+if missing or clean or not md_ok or not palette_ok or not focus_ok or not icons_ok:
     print("missing:", sorted(missing), "| false positives on clean.html:", [(f["check"], f["line"]) for f in clean],
           "| markdown:", [(f["check"], f["line"]) for f in md],
           "| palette:", palette_findings, palette_missing, palette_exit,
-          "| focus:", [(f["check"], f["line"]) for f in focus_findings], focus_exit)
+          "| focus:", [(f["check"], f["line"]) for f in focus_findings], focus_exit,
+          "| icons:", [(f["line"], f.get("count")) for f in icon_findings])
     sys.exit(1)
-print(f"ok: {len(PLANTED)} planted tells found, clean page clean; palette-only strict pass and focus strict failure verified")
+print(f"ok: {len(PLANTED)} planted tells found, clean page clean; palette-only strict pass, "
+      "focus strict failure and per-file icon count verified")
