@@ -9,6 +9,9 @@ When you design, build or review a user interface or its copy, follow `skills/te
 2. **Choose colours together when needed.** Follow established preferences. Otherwise show two or three palettes
    on the same rendered interface, holding layout, type, content, media, state, viewport and theme fixed. Include
    the original palette when refining. Narrow with ordinary-language feedback and save the chosen role tokens.
+   Start from a brand colour, a supplied reference or colour relationships. Lock accepted values and roles; change
+   only open choices. Expand seed colours into UI roles and verify exact locks after generation. External palette tools
+   are optional; keep the process usable with local previews.
    If the person delegates, choose and proceed. Palette preferences are separate from contrast requirements.
 3. **Build a system.** Role tokens (`--bg`, `--surface`, `--text`, `--accent`, statuses), dark mode as a second
    token set, a small type scale and a 4 px spacing scale. Colour harmony and tinted neutrals are starting points;

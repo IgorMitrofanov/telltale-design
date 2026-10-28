@@ -45,6 +45,11 @@ separate decisions. No colour combination, pure white or pure black is rejected 
 compare colours. You can choose, combine or ask for a change in ordinary language. The agent refines the selected
 direction and checks the new combination. An established preference or delegated choice skips this extra round.
 
+Start from a brand colour, a reference image or a colour relationship. Keep selected values fixed and generate the
+remaining colours; refine with requests such as "warmer" or "less saturated". The agent expands the palette into UI roles
+and states, verifies locked values, and retains previous candidates. Adobe Color, Coolors and Colormind are optional
+sources of candidates; the dialogue also works with local previews.
+
 **Typography must remain readable when rendered.** The agent checks actual words at their intended size and in
 delivered reduced previews. Tight spacing must not merge letters, such as `rn` into `m`. Changes to type or spacing
 also require a check of line wrapping around affected responsive breakpoints.

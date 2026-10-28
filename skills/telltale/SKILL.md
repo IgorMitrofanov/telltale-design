@@ -45,12 +45,34 @@ Follow the existing palette and established preferences first. When the colour d
    below before presenting an option. If the original fails a check, label that reference and offer a corrected
    variant. Explain each direction in one sentence and ask which is closest.
 3. Accept a choice, a combination or ordinary-language feedback. Refine the selected direction with a few focused
-   variants. Preserve accepted choices; reopen rejected directions only when the person asks. Recheck any mixture.
-4. Record chosen role tokens and relevant accepted/rejected preferences in `DESIGN.md` or the existing design record.
+   variants. Lock explicitly accepted values and roles; generate only what remains open. Distinguish an exact colour
+   from a flexible preference such as "keep it blue". Translate feedback such as "warmer" or "less saturated" into
+   targeted changes and say what changed. Preserve accepted choices; reopen rejected directions only when asked.
+   Recheck any mixture and retain the previous candidate so the person can return to it.
+4. Record chosen role tokens, exact locks, flexible preferences and rejected directions in `DESIGN.md` or the existing design record.
    Stop narrowing when the direction is clear. If the person delegates the choice, choose, explain and proceed.
 
 Build a concrete preview before asking for a choice. Reuse preferences already given; do not make palette selection
 a mandatory approval step for routine work. If no response is available, use a clearly provisional choice and continue.
+
+### Generate useful palette candidates
+
+Choose a starting method from the available inputs:
+
+- **Anchor and harmony.** Start with an approved brand colour or supplied value. Explore a few relationships such as
+  monochromatic, analogous, complementary or split-complementary; select candidates that fit the brief.
+- **Reference image.** Extract a few dominant and accent colours from a supplied image. Use them as starting points;
+  an image's palette does not determine which colours are suitable for text, controls or backgrounds.
+- **Lock and complete.** Keep selected colours fixed and suggest the remaining colours around them. Change only the
+  requested qualities in later rounds instead of regenerating the whole palette.
+
+Expand these seed colours into role tokens and state variants. A generator's number or order of swatches does not
+define the UI system. Evaluate the actual colour areas and foreground/background pairs on the representative screen.
+Verify exact locks after generation; a generator may shift its inputs. If a locked colour fails contrast in its intended
+role, explain the conflict and offer a different use or a derived shade; keep the approved value unchanged.
+
+Adobe Color, Coolors and Colormind can support this workflow when available. They are optional sources of candidates;
+the same dialogue and previews must work with locally prepared tokens. Do not claim to have used a service that was not used.
 
 ## 2. Build a system, not a page
 
@@ -219,3 +241,7 @@ dictionary or rule text copied). The original list of tells came from a communit
 Colour checks: WCAG [text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html),
 [non-text contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), and
 [use of colour](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html).
+
+Palette workflow references: Adobe Color [colour wheel](https://color.adobe.com/create/color-wheel) and
+[image extraction](https://color.adobe.com/create/image); Coolors [generate and lock colours](https://coolors-help.zendesk.com/hc/en-us/articles/360010581980-Generate-a-palette);
+Colormind [generation tips](https://colormind.io/) and [API input behaviour](https://colormind.io/api-access/).
