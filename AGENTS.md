@@ -1,15 +1,23 @@
 <!-- design-tells: ignore-file -->
-# AI design tells (instructions for Codex and other AGENTS.md agents)
+# Design for coding agents (instructions for Codex and other AGENTS.md agents)
 
-When you design, build or review a user interface or its copy, follow `skills/ai-design-tells/SKILL.md`:
+When you design, build or review a user interface or its copy, follow `skills/ai-design-tells/SKILL.md`. In short:
 
-1. Before writing UI code, choose palette, typeface and layout from the subject of the product, not from defaults.
-2. Avoid by default the visual tells (section 1) and copy tells (section 2); a tell is acceptable only as a deliberate,
-   justified choice, stated in one line.
-3. Check the basics (section 3): real product shots, loading/empty/error states, accessibility, responsive layout;
-   terms and privacy only for public products or personal data (for internal tools ask the user if unsure).
-4. Before handing work over, run `python skills/ai-design-tells/scripts/check_design_tells.py <changed paths>` and
-   report each finding as fixed, kept on purpose (with the reason), or not applicable.
+1. **Decide before styling.** Subject, audience, place; the mode of the surface (Persuade, Operate, Read,
+   Experience); the existing design system first; a five-line plan with every category default crossed out.
+2. **Build a system.** Role tokens (`--bg`, `--surface`, `--text`, `--accent`, statuses), dark mode as a second
+   token set, a small type scale and a 4 px spacing scale.
+3. **Build the interface.** Hierarchy by weight/colour/space, no cards by default, all states of every component,
+   interaction basics, honest data display, motion only as state (150–250 ms, transform/opacity, reduced motion),
+   copy that names actions.
+4. **Avoid the tells** (section 5) by default; keep one only as a deliberate choice stated in one line.
+5. **Check the basics** (section 6). Terms and privacy only for public products or personal data; for internal
+   tools ask the user if unsure.
+6. **Verify.** Screenshots at about 390, 768 and 1440 px and both themes, up to three rounds of fixes, a keyboard
+   pass, then `python skills/ai-design-tells/scripts/check_design_tells.py <changed paths>`. Report each finding as
+   fixed, kept on purpose (with the reason), or not applicable. Never claim a check you did not run.
 
-To use in another project, copy the `skills/ai-design-tells` folder there and add these four points to that
-project's `AGENTS.md` (or to `~/.codex/AGENTS.md` for every project).
+The user's explicit brief and the project's existing design system override any default here.
+
+To use in another project, copy the `skills/ai-design-tells` folder there and add these points to that project's
+`AGENTS.md` (or to `~/.codex/AGENTS.md` for every project).
