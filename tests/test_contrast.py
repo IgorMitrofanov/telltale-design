@@ -22,10 +22,10 @@ def ids(theme, kind, key="element"):
     return sorted(f[key].split("#")[1].split(".")[0] for f in by_theme[theme][kind] if "#" in f[key])
 
 expected = {
-    ("light", "text"): ["fail-faint"],
+    ("light", "text"): ["fail-faint", "fail-oklch"],
     ("dark", "text"): ["fail-dark"],
-    ("light", "fields"): ["custom-select", "weak"],
-    ("dark", "fields"): [],
+    ("light", "fields"): ["custom-select", "weak", "weak-relative"],
+    ("dark", "fields"): ["weak-relative"],
     ("light", "unchecked"): ["divided", "unchecked"],
     ("dark", "unchecked"): ["divided", "unchecked"],
 }
@@ -53,4 +53,4 @@ if strict != 1:
 if problems:
     print("\n".join(problems))
     sys.exit(1)
-print("ok: text, large text, theme-only, field boundary, wrapper, custom field, underline, divider, disabled and unchecked cases verified")
+print("ok: text, large text, theme-only, field boundary, wrapper, custom field, underline, divider, oklch and relative colour, disabled and unchecked cases verified")

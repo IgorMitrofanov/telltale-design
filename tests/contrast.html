@@ -17,6 +17,8 @@
   .wrap { border: 1px solid #7a7a7a; padding: 4px; }
   .wrap textarea { border: 0; background: transparent; }
   .custom { border: 1px solid #e5e5e5; padding: 6px; }
+  .oklch { color: oklch(0.78 0 0); }
+  .relative { border: 1px solid oklch(from var(--bg) calc(l - 0.06) c h); background: transparent; }
   .column { border-right: 1px solid #eeeeee; }
   .column textarea { border: 0; background: transparent; }
   .underline { border: 0; border-bottom: 2px solid #6a6a6a; background: transparent; }
@@ -32,6 +34,8 @@
   <input class="weak-field" id="weak" value="Weak border">
   <div class="wrap"><textarea id="wrapped">Wrapped field with a strong border</textarea></div>
   <div class="custom" id="custom-select">Custom select</div>
+  <p class="oklch" id="fail-oklch">Grey set in oklch, too light on the light theme</p>
+  <input class="relative" id="weak-relative" value="Border from relative colour">
   <div class="column"><textarea id="divided">Borderless field in a column with a divider</textarea></div>
   <input class="underline" id="underlined" value="Underlined field">
   <input class="gone" id="off" value="Disabled" disabled>

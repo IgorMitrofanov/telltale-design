@@ -26,8 +26,13 @@ import sys
 
 JS = r"""
 (extraFields) => {
-  const parse = c => { const m = c && c.match(/rgba?\(([^)]+)\)/); if (!m) return null;
-    const p = m[1].split(/[\s,\/]+/).filter(Boolean).map(Number); return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1]; };
+  // Computed colours can be rgb(), oklch(), lab() or color(); a 1x1 canvas converts any of them to sRGB.
+  const ctx = document.createElement('canvas').getContext('2d', {willReadFrequently: true});
+  const seen = new Map();
+  const parse = c => { if (!c) return null; if (seen.has(c)) return seen.get(c);
+    ctx.clearRect(0, 0, 1, 1); ctx.fillStyle = '#000'; ctx.fillStyle = c; ctx.fillRect(0, 0, 1, 1);
+    const d = ctx.getImageData(0, 0, 1, 1).data, v = [d[0], d[1], d[2], d[3] / 255];
+    seen.set(c, v); return v; };
   const lum = ([r, g, b]) => { const f = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
     return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
