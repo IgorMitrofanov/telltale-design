@@ -1,6 +1,6 @@
 ---
 name: telltale
-description: Use when designing, building or reviewing a user interface or its copy with a coding agent (landing pages, dashboards, admin panels, web apps, docs sites). A compact design process for agents (decide the mode, plan, build on tokens, verify in a browser) plus the visual and copy patterns that make a page look machine-generated, what to do instead, and the basics agents forget. Includes a scanner for HTML/CSS/JS/TSX/Vue/Svelte/Markdown.
+description: Use when designing, building or reviewing a user interface or its copy with a coding agent (landing pages, dashboards, admin panels, web apps, docs sites). A compact design process for agents (decide the mode, plan, build on tokens, verify in a browser) plus the visual and copy patterns that make a page look machine-generated, what to do instead, the basics agents forget, and plain-writing rules (from ASD-STE100) for interface copy and for the agent's reports to the person. Includes a scanner for HTML/CSS/JS/TSX/Vue/Svelte/Markdown.
 ---
 
 <!-- design-tells: ignore-file (this file describes the patterns) -->
@@ -68,7 +68,7 @@ rule here. A rule is about defaults nobody chose; a deliberate choice stays, wit
 1. Render it. Screenshots at about 390, 768 and 1440 px, plus one zoomed out (overall balance) and both themes.
 2. List the top three problems, fix them, repeat; up to three rounds.
 3. Keyboard pass: tab order, visible focus, Escape closes, Enter submits.
-4. Run the scanner (section 7) and go through section 6.
+4. Run the scanner (section 8), go through section 6 and reread the copy against section 7.
 5. Report what was checked and how. Never claim a check you did not run.
 
 ## 5. Tells: catch what slipped through
@@ -119,7 +119,43 @@ Copy tells.
 | Accessibility | WCAG 2.2 AA contrast (APCA optional), visible focus (2.4.7), target size (2.5.8), labels on inputs, no text in images |
 | Responsive | Works at 360–400 px without horizontal scroll; tables and code scroll in their own box |
 
-## 7. Scanner
+## 7. Write for people (principles from ASD-STE100)
+
+ASD-STE100 Simplified Technical English is an aerospace standard for maintenance texts. People read them under
+pressure, often in a second language, and a wrong reading costs money or safety. The standard itself (its dictionary
+and exact rules) is English-only and belongs to ASD; it is free on request. Only the principles below transfer, and they
+work in any language.
+
+Apply them to interface copy, error messages, help and procedures, and to everything you write to the person you work
+with: a handover, a summary of a change, a question.
+
+| Rule | Example |
+|---|---|
+| One word for one meaning, one meaning for one word | Pick "Delete" or "Remove" and keep it in buttons, docs and messages |
+| Keep a glossary | A short `GLOSSARY.md` (or a section in `DESIGN.md`) with the product's terms; read it before you write, add new terms to it |
+| Short sentences | Steps: 20 words or fewer. Descriptions: 25 words or fewer. One topic per paragraph |
+| One instruction per sentence | "Stop the service. Copy the file." Not "Stop the service and then copy the file after checking it" |
+| Numbered steps when the order matters | 1. Open Settings. 2. Select Keys. 3. Click "Add key" |
+| Imperative for instructions | "Restart the service", not "you may want to restart" or "it is recommended to restart" |
+| Active voice, the actor named | "The scanner found 17 items", not "17 items were found" |
+| Condition before the action | "If the build fails, open the log" |
+| Warning before the step, with the reason | "Do not delete the volume. It has no backup." Then the step |
+| Concrete words, numbers with units | "Takes about 2 min", not "takes a while" |
+| No noun stacks | "Limit of requests for each key", not "key request rate limit setting" |
+| Parallel lists | Every item starts the same way (all verbs or all nouns) |
+| No idioms, irony or metaphors | They fail in translation and for non-native readers |
+
+**Reports to the person.** Write so they can act without asking back.
+
+1. First line: the result (done, not done, blocked) and what the person must do, if anything.
+2. Then what changed: one item per line, with file paths or links.
+3. Then what you verified and how, and what you did not verify. Never write "should work".
+4. Put each question on its own line. Give options when you can.
+5. Use the person's terms. If you add a term, define it once.
+
+The scanner does not check these rules. Reread the text against the table before you hand it over.
+
+## 8. Scanner
 
 ```bash
 python scripts/check_design_tells.py path/to/project             # report
@@ -136,4 +172,5 @@ Report each finding as fixed, kept on purpose (with the reason), or not applicab
 Paraphrased in our own words: Anthropic `frontend-design` and `canvas-design` skills (Apache-2.0); Impeccable by Paul
 Bakaus (Apache-2.0); taste-skill (MIT); Vercel Web Interface Guidelines (MIT); OpenAI, "Designing delightful frontends
 with GPT-5.4" (ideas only); Refactoring UI (ideas only); Laws of UX (named principles); WCAG 2.2 (success criteria by
-number); Apple HIG and Material Design (ideas only). The original list of tells came from a community post.
+number); Apple HIG and Material Design (ideas only); ASD-STE100 Simplified Technical English (principles only, no
+dictionary or rule text copied). The original list of tells came from a community post.

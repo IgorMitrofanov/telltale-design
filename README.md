@@ -1,80 +1,154 @@
-# telltale-design
+<p align="center"><strong>English</strong> · <a href="README.ru.md">Русский</a></p>
 
-Скилл для Claude Code и инструкция для Codex: как кодинг-агенту делать интерфейсы, по которым не видно, что их
-собрал ИИ. Короткий процесс (решить, собрать систему, собрать интерфейс, проверить в браузере), список признаков
-«сгенерированного» дизайна и текстов и базовые вещи, которые агенты забывают.
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&amp;height=200&amp;color=12304a&amp;text=telltale&amp;fontColor=f8fafc&amp;fontSize=56&amp;fontAlignY=38&amp;desc=Design%20and%20writing%20rules%20for%20coding%20agents&amp;descAlignY=60" alt="telltale: design and writing rules for coding agents" width="100%" />
+  <p><strong>A skill for Claude Code · Instructions for Codex · A scanner you can run in CI</strong></p>
+  <p>
+    <a href="#why">Why</a> ·
+    <a href="#what-the-agent-does">What the agent does</a> ·
+    <a href="#install">Install</a> ·
+    <a href="#scanner">Scanner</a> ·
+    <a href="#a-real-run">A real run</a> ·
+    <a href="#sources">Sources</a>
+  </p>
+</div>
 
-Кодинг-агенты тянутся к одним и тем же решениям по умолчанию: градиенты, фиолетовый на чёрном, «жидкое стекло»,
-эмодзи вместо иконок, три карточки в ряд, длинные тире в каждом предложении, «это не X, это Y». По отдельности это <!-- design-tells: ignore -->
-нормально, вместе страница выглядит сгенерированной и вызывает меньше доверия. Обратная сторона в том, что агенты пропускают
-базовое: реальные скриншоты продукта, состояния загрузки, пустые и ошибочные состояния, условия использования и
-политику конфиденциальности.
+## Why
 
-## Что внутри
+I build an AI support service, and most of its interfaces are written by coding agents. They work fast, and their pages
+are easy to recognise: a gradient hero, purple on black, glass panels, emoji instead of icons, three cards in a row, a
+long dash in every sentence, "it's not X, it's Y". <!-- design-tells: ignore --> Each choice is fine on its own. Together they say "nobody
+decided anything here", and people trust the page less.
 
-| Файл | Для чего |
-|---|---|
-| `skills/telltale/SKILL.md` | Сам скилл: процесс (режим поверхности, план, токены, состояния, движение, проверка), признаки и чем их заменить, базовые вещи. Для Claude Code. |
-| `skills/telltale/scripts/check_design_tells.py` | Проверка файлов HTML/CSS/JS/TS/JSX/TSX/Vue/Svelte/Markdown: находит кандидатов с файлом и строкой. Ничего не правит. |
-| `AGENTS.md` | Те же правила кратко для Codex и других агентов, читающих `AGENTS.md`. |
-| `tests/` | Страница с подложенными признаками, чистая страница и тест скрипта: `python tests/test_scanner.py`. |
+The opposite problem is quieter. Agents skip the plain parts: real screenshots, loading and empty states, errors you can
+act on, keyboard focus. And when they report back, they write long summaries where the result is somewhere in the
+middle.
 
-## Установка
+telltale is what I now give every agent before it touches an interface. It is a short process, a list of tells with
+replacements, the basics that get forgotten, and writing rules for the interface copy and for the agent's own reports.
 
-**Claude Code.** Скопировать папку скилла:
+## What the agent does
+
+| Step | What happens |
+| --- | --- |
+| **Decide** | Names the subject, the audience and where the page is used. Picks the mode: *Persuade* (landing), *Operate* (admin, dashboard), *Read* (docs) or *Experience* (games). Reads the project's design system first. Writes a five-line plan and crosses out every category default. |
+| **Build a system** | Tokens by role (`--bg`, `--surface`, `--accent`, statuses), dark mode as a second token set, a small type scale, a 4 px spacing scale. |
+| **Build the interface** | Hierarchy by weight, colour and space. No cards by default. Every state of every component. Honest data: units, aligned digits, status never by colour alone. Motion only as a change of state. |
+| **Write for people** | Principles from ASD-STE100: one word for one meaning, short sentences, one instruction per sentence, condition before action, warning before the step. Reports start with the result and what you need to do. |
+| **Verify** | Screenshots at 390, 768 and 1440 px in both themes, up to three rounds of fixes, a keyboard pass, the scanner. It reports what it checked and never claims a check it did not run. |
+
+**Your brief wins.** An explicit instruction or the project's existing design system overrides any rule in the skill. A
+deliberate choice stays, with one line saying why.
+
+<details>
+<summary><strong>About ASD-STE100</strong></summary>
+
+ASD-STE100 Simplified Technical English is an aerospace standard for maintenance documentation. Mechanics read these
+texts under time pressure, often in a second language, and a misread step is expensive. The standard has a controlled
+dictionary and about sixty writing rules.
+
+The dictionary and the exact rule text are English and belong to ASD (free on request). telltale copies neither. It
+takes the principles that work in any language and that also make an agent easier to work with:
+
+- one term for one thing, kept in a project glossary;
+- steps of 20 words or fewer, descriptions of 25 or fewer;
+- one instruction per sentence, in the imperative;
+- active voice with the actor named;
+- the condition before the action, the warning before the step.
+
+For reports the skill adds a fixed order: the result and what you must do, then the changes, then what was verified
+and what was not.
+
+</details>
+
+<details>
+<summary><strong>Legal pages: when they apply</strong></summary>
+
+A public product or any form that collects personal data needs terms of use and a privacy policy. An internal tool behind
+staff login usually does not. If the audience is unclear, the agent asks you. It does not add legal pages or flag their
+absence by default.
+
+</details>
+
+## Install
+
+**Claude Code.** Copy the skill folder:
 
 ```bash
-# для всех проектов
+# for all projects
 cp -r skills/telltale ~/.claude/skills/
-# или только для одного проекта
-cp -r skills/telltale <проект>/.claude/skills/
+# or for one project
+cp -r skills/telltale <project>/.claude/skills/
 ```
 
-Скилл подхватывается автоматически, когда задача про интерфейс; можно вызвать и явно: `/telltale`.
+Claude picks it up when the task is about an interface. You can also call it directly: `/telltale`.
 
-**Codex.** Скопировать папку `skills/telltale` в проект и добавить четыре пункта из `AGENTS.md` в
-`AGENTS.md` проекта (или в `~/.codex/AGENTS.md`).
+**Codex and other agents that read `AGENTS.md`.** Copy `skills/telltale` into the project and add the points from
+[`AGENTS.md`](AGENTS.md) to the project's `AGENTS.md` (or to `~/.codex/AGENTS.md` for every project).
 
-## Проверка
+## Scanner
 
 ```bash
-python skills/telltale/scripts/check_design_tells.py путь/к/проекту
-python skills/telltale/scripts/check_design_tells.py page.html --strict   # код возврата 1, если что-то нашлось
-python skills/telltale/scripts/check_design_tells.py src --json           # для CI и агентов
+python skills/telltale/scripts/check_design_tells.py path/to/project
+python skills/telltale/scripts/check_design_tells.py page.html --strict   # exit 1 if anything is found
+python skills/telltale/scripts/check_design_tells.py src --json           # for CI and agents
 ```
 
-Это эвристика: она показывает места, которые стоит посмотреть. Строку, где паттерн нужен осознанно (например, цитата), можно пометить комментарием `design-tells: ignore`. Решает человек или агент: исправить, оставить
-осознанно (с причиной) или «не применимо». Например, ряд плиток с цифрами уместен в операционной админке и
-неуместен на лендинге.
+It reads HTML, CSS, JS, TS, JSX, TSX, Vue, Svelte and Markdown and prints candidates with file and line. It never edits
+anything. A candidate is a place to look at, not a verdict: a row of number tiles is right in an operations dashboard
+and wrong on a landing page.
 
-## Главные идеи
+Mark a deliberate use on its line with `design-tells: ignore`, or a whole file (a style guide) with
+`design-tells: ignore-file`. Python 3.8 or newer, no dependencies.
 
-- **Сначала решить, потом рисовать.** Тема, аудитория, где и при каком свете будут смотреть; режим поверхности:
-  «убедить» (лендинг), «работать» (админка), «читать» (документация), «впечатлить» (игры); короткий план, из которого
-  вычеркнуты решения по умолчанию.
-- **Система, а не страница.** Токены по ролям, тёмная тема как второй набор токенов, маленькая шкала шрифтов и отступов.
-- **Все состояния у каждого компонента**, честные данные (выравнивание цифр, единицы, статус не только цветом),
-  движение только как смена состояния.
-- **Проверить, а не предполагать.** Скриншоты на трёх ширинах и в обеих темах, до трёх раундов исправлений, проход
-  с клавиатуры, скрипт. Не утверждать проверку, которую не делал.
-- **Бриф важнее правил.** Явная просьба пользователя и существующая дизайн-система проекта сильнее любого умолчания.
-  Юридические страницы нужны публичным продуктам; для внутренних инструментов уточнить у пользователя.
+```text
+"Not X, but Y" construction [not-x-but-y]: 1  ->  Say what it is, directly
+  landing.html:1  <h1>It's not a tool, it's a revolution ...
 
-## Пример
+Basics not found (check whether they apply):
+  - Empty state [empty-state]
+  - Error state [error-state]
 
-Первый прогон: админка сервиса поддержки (2155 строк HTML/CSS/JS). До правки 127 кандидатов: длинные тире в текстах,
-7 цветных полосок слева, 4 правила с заглавными подписями, одна конструкция «не X, а Y» и др. После правки 17, все <!-- design-tells: ignore -->
-осознанные (скругления у меток и индикаторов, пульсирующая точка «онлайн» с учётом reduced motion, тире как «пусто»
-в ячейках). Градиентов, стекла, фиолетового, эмодзи и шрифтов по умолчанию не было. Юридических страниц нет, и для
-внутренней админки они не нужны.
+23 candidate(s), 6 basic(s) not found.
+```
 
-## Источники
+## A real run
 
-Идеи пересказаны своими словами, тексты не копировались: скиллы Anthropic `frontend-design` и `canvas-design`
-(Apache-2.0), Impeccable (Paul Bakaus, Apache-2.0), taste-skill (MIT), Vercel Web Interface Guidelines (MIT), заметка
-OpenAI о фронтенде с GPT-5.4, книга Refactoring UI, Laws of UX, WCAG 2.2 (критерии по номерам), Apple HIG и Material
-Design. Исходный список признаков взят из публикации в сообществе.
+The first target was the admin panel of our support service: 2,155 lines of HTML, CSS and JS written by agents over
+several weeks.
 
-## Лицензия
+| | Before | After |
+| --- | --- | --- |
+| Candidates | 127 | 17, each kept on purpose |
+| Long dashes in copy | 41 | 0 |
+| Coloured left stripes | 7 | 0, now full borders |
+| Uppercase letter-spaced labels | 4 rules | 0, sentence case |
+| Gradients, glass, purple, emoji | none | none |
 
-MIT.
+The 17 that stayed are deliberate: radii on tags and meters, a pulsing "online" dot that respects reduced motion, and a
+dash as the "no value" mark in table cells. No legal pages: this is an internal tool.
+
+## Repository
+
+| Path | Purpose |
+| --- | --- |
+| [`skills/telltale/SKILL.md`](skills/telltale/SKILL.md) | The skill: process, tells, basics, writing rules |
+| [`skills/telltale/scripts/check_design_tells.py`](skills/telltale/scripts/check_design_tells.py) | The scanner |
+| [`AGENTS.md`](AGENTS.md) | The same rules in short form for Codex |
+| [`tests/`](tests) | A page with planted tells, a clean page, and `python tests/test_scanner.py` |
+
+## Sources
+
+All ideas are paraphrased; no text was copied. Anthropic `frontend-design` and `canvas-design` skills (Apache-2.0),
+Impeccable by Paul Bakaus (Apache-2.0), taste-skill (MIT), Vercel Web Interface Guidelines (MIT), the OpenAI note on
+frontend design with GPT-5.4, Refactoring UI, Laws of UX, WCAG 2.2 (criteria by number), Apple HIG, Material Design and
+ASD-STE100 (principles only). The first list of tells came from a community post.
+
+## Licence
+
+[MIT](LICENSE). Issues and pull requests with new tells are welcome. Please include a real example and what to do
+instead.
+
+---
+
+**Decide first. Check in the browser. Write so people can act.**

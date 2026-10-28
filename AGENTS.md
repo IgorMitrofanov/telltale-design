@@ -13,7 +13,11 @@ When you design, build or review a user interface or its copy, follow `skills/te
 4. **Avoid the tells** (section 5) by default; keep one only as a deliberate choice stated in one line.
 5. **Check the basics** (section 6). Terms and privacy only for public products or personal data; for internal
    tools ask the user if unsure.
-6. **Verify.** Screenshots at about 390, 768 and 1440 px and both themes, up to three rounds of fixes, a keyboard
+6. **Write for people** (section 7, principles from ASD-STE100). One word per meaning and a project glossary;
+   short sentences (steps 20 words or fewer); one instruction per sentence; imperative, active voice; condition
+   before action; warning before the step. Reports to the person start with the result and what they must do,
+   then changes, then what was and was not verified.
+7. **Verify.** Screenshots at about 390, 768 and 1440 px and both themes, up to three rounds of fixes, a keyboard
    pass, then `python skills/telltale/scripts/check_design_tells.py <changed paths>`. Report each finding as
    fixed, kept on purpose (with the reason), or not applicable. Never claim a check you did not run.
 

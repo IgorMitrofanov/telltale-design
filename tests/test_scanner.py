@@ -19,9 +19,15 @@ with tempfile.TemporaryDirectory() as tmp:
     text = open(os.path.join(HERE, "slop.html"), encoding="utf-8").read().replace("design-tells: ignore-file", "")
     open(copy, "w", encoding="utf-8").write(text)
     found, _ = scanner.scan([copy])
+    # Markdown: a tell in prose counts, the same text quoted in fenced code does not; line numbers stay right
+    doc = os.path.join(tmp, "doc.md")
+    open(doc, "w", encoding="utf-8").write("```text\nIt's not a tool, it's a revolution\n```\nIt's not a tool, it's a revolution\n")
+    md, _ = scanner.scan([doc])
 missing = PLANTED - {f["check"] for f in found}
 clean, _ = scanner.scan([os.path.join(HERE, "clean.html")])
-if missing or clean:
-    print("missing:", sorted(missing), "| false positives on clean.html:", [(f["check"], f["line"]) for f in clean])
+md_ok = [(f["check"], f["line"]) for f in md] == [("not-x-but-y", 4)]
+if missing or clean or not md_ok:
+    print("missing:", sorted(missing), "| false positives on clean.html:", [(f["check"], f["line"]) for f in clean],
+          "| markdown:", [(f["check"], f["line"]) for f in md])
     sys.exit(1)
 print(f"ok: {len(PLANTED)} planted tells found, clean page clean")

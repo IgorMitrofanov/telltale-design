@@ -100,6 +100,9 @@ def scan(paths):
             continue  # a file that describes the patterns (this skill, a style guide)
         if os.path.splitext(path)[1].lower() not in {".md", ".mdx"}:
             ui_files += 1
+        else:
+            # Fenced code in docs quotes commands and output; blank it out, keeping line numbers.
+            text = re.sub(r"```.*?```", lambda m: re.sub(r"[^\n]", " ", m.group()), text, flags=re.S)
         for bid, _, pattern, flags in BASICS:
             if re.search(pattern, text, flags):
                 seen_basics[bid] = True
@@ -124,6 +127,9 @@ def scan(paths):
 
 
 def main(argv):
+    # A Windows console (cp1251, cp437) cannot print emoji from excerpts; replace them instead of crashing.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     strict, as_json = "--strict" in argv, "--json" in argv
     paths = [a for a in argv if not a.startswith("--")] or ["."]
     findings, missing = scan(paths)
