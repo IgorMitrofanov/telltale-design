@@ -12,31 +12,61 @@ This skill gives a short process that avoids defaults by deciding first, a list 
 through, and the basics that agents leave out.
 
 **The brief wins.** An explicit instruction from the user, or the project's existing design system, overrides any
-rule here. A rule is about defaults nobody chose; a deliberate choice stays, with one line saying why.
+style default here. A deliberate choice stays, with one line saying why. Separate measurable requirements,
+design heuristics and personal preferences. A favourite colour does not establish contrast or usability.
 
 ## 1. Decide before styling
 
 1. **Subject, audience, place.** What is it, who uses it, where and under what light (an office at noon, a phone in a
-   workshop, a control room at night). Pick light or dark from that, not from the category.
+   workshop, a control room at night). Use established theme preferences; otherwise recommend a theme from the
+   context. State assumptions instead of treating the product category as evidence.
 2. **Mode of the surface.** It changes almost every later choice.
    - *Persuade* (landing, launch page): one clear idea, bolder type, one signature visual moment.
-   - *Operate* (admin, dashboard, internal tool): dense, familiar, fast to scan, one accent, motion only for state.
+   - *Operate* (admin, dashboard, internal tool): dense, familiar, fast to scan, a restrained accent hierarchy,
+     motion only for state.
    - *Read* (docs, articles): measure, rhythm, quiet chrome.
    - *Experience* (games, showcases): immersion; the rules here bend most.
    A page can mix modes by region; decide per region.
-3. **Existing system first.** Read the tokens, components, `DESIGN.md`/style guide and current pages. Refining is not
-   redesigning: keep the identity, and ask before changing factual copy.
-4. **A five-line plan.** One sentence of visual direction; palette (neutral bias + one accent); type roles (text face,
-   data/mono face); layout idea; the one detail only this subject would have (its real units, terms, document
-   conventions). Then cross out every item that is a category default (see section 5) and replace it.
+3. **Existing system first.** Read the tokens, components, `DESIGN.md`/style guide and current pages. Before refining,
+   name up to three strengths to preserve and the problems to solve. Keep the identity unless the brief asks for a
+   new direction, and ask before changing factual copy.
+4. **A five-line plan.** One sentence of visual direction; palette roles and intended character; type roles (text
+   face, data/mono face); layout idea; the one detail only this subject would have (its real units, terms, document
+   conventions). Review category defaults (section 5) against the brief. Keep those that fit; replace those that do not.
+
+### Choose the palette with the person
+
+Follow the existing palette and established preferences first. When the colour direction is open:
+
+1. Show two or three distinct palettes on the same representative interface. Include the existing palette as a
+   reference when refining. Keep layout, typography, content, imagery, state, viewport and theme unchanged. Compare undecided light
+   and dark themes separately before narrowing colours. Use rendered UI, not swatches alone.
+2. Include surfaces, text, actions, focus and relevant semantic states. Check the applicable contrast requirements
+   below before presenting an option. If the original fails a check, label that reference and offer a corrected
+   variant. Explain each direction in one sentence and ask which is closest.
+3. Accept a choice, a combination or ordinary-language feedback. Refine the selected direction with a few focused
+   variants. Preserve accepted choices; reopen rejected directions only when the person asks. Recheck any mixture.
+4. Record chosen role tokens and relevant accepted/rejected preferences in `DESIGN.md` or the existing design record.
+   Stop narrowing when the direction is clear. If the person delegates the choice, choose, explain and proceed.
+
+Build a concrete preview before asking for a choice. Reuse preferences already given; do not make palette selection
+a mandatory approval step for routine work. If no response is available, use a clearly provisional choice and continue.
 
 ## 2. Build a system, not a page
 
 - **Tokens by role, not by value.** `--bg`, `--surface`, `--text`, `--text-muted`, `--line`, `--accent`, `--good`,
   `--warn`, `--bad`; type roles `display`, `heading`, `body`, `caption`, `data`. Components use roles only.
-- **Dark mode is a second token set**, not an inversion: keep contrast, re-tune the accent, set `color-scheme` (and
-  `theme-color` for mobile). No colour defined only inside a theme block.
-- **Neutrals with a hue bias** towards the accent. Avoid pure `#fff` grounds and pure `#000`/flat grey text.
+- **Supported themes have complete token sets.** For dark mode, re-tune contrast and accents instead of inverting
+  colours. Set `color-scheme` (and `theme-color` for mobile); define every colour role in each supported theme.
+- **Colour relationships are starting points.** Try one hue at different lightnesses, neighbouring hues, or a
+  contrasting pair. Neutral and tinted surfaces, including white, black and grey, are all valid. Start with calmer
+  large surfaces and a clear primary action accent; adjust saturation and area to the intended character. Extra
+  accents need a role. Semantic status and data-series colours are separate from the interaction accent hierarchy.
+- **Check colour where it is used.** Apply WCAG 2.2: text at least 4.5:1 (3:1 for qualifying large text); visual
+  information needed to identify controls, states or meaningful graphics at least 3:1 against adjacent colours,
+  subject to the criteria's exceptions. Check actual foreground/background pairs, transparency, image backgrounds
+  and relevant states. Do not require decorative borders or the difference between hover and default to meet 3:1.
+  Convey status and selection with a visible word, shape or icon as well as colour. A contrast pass does not prove taste.
 - **A small type scale:** 4–5 sizes, ratio about 1.125–1.2 for product UI (larger for Persuade). Body 16 px or more
   for reading, 14 px is acceptable in dense Operate tables. Lines 45–75 characters. `text-wrap: balance` on headings
   (no lone last word). Tabular figures where digits line up.
@@ -65,8 +95,11 @@ rule here. A rule is about defaults nobody chose; a deliberate choice stays, wit
 
 ## 4. Verify, do not assume
 
-1. Render it. Screenshots at about 390, 768 and 1440 px, plus one zoomed out (overall balance) and both themes.
-2. List the top three problems, fix them, repeat; up to three rounds.
+1. Render it. Screenshots at about 390, 768 and 1440 px, plus one zoomed out (overall balance) and all supported themes.
+   For before/after, use the supplied original and the new version at the same viewport, theme and comparable state.
+   When comparing palettes, also hold typography, content, media and layout fixed.
+2. Evaluate visual appeal and task completion separately. Recheck the strengths chosen for preservation. List the
+   top three problems, fix them, repeat; up to three rounds. Scanner counts are not an aesthetic score.
 3. Keyboard pass: tab order, visible focus, Escape closes, Enter submits.
 4. Run the scanner (section 8), go through section 6 and reread the copy against section 7.
 5. Report what was checked and how. Never claim a check you did not run.
@@ -77,9 +110,9 @@ Visual tells. Fine as a deliberate choice; wrong as a default.
 
 | Tell | Do instead |
 |---|---|
-| Hard gradients; gradient text | Flat colour; a gradient only if it carries meaning (a scale); an image or a scrim behind text |
-| Purple + black, neon, near-black + cyan, cream + terracotta, stock pastels, rainbow | Palette from the subject; 1 accent + biased neutrals |
-| Pure white ground; pure black text; grey text on a coloured ground | Tinted neutrals; text tinted from the surface hue |
+| Gradients applied without a role; unreadable gradient text | Keep a gradient that supports the chosen identity, hierarchy or data; verify legibility across it |
+| A stock palette applied without reference to the brief | Use the identity, content and preferences; compare alternatives when the direction is open |
+| Text or controls become hard to distinguish on their surfaces | Check the actual combinations; adjust lightness, chroma, foreground or surface treatment |
 | Shadows everywhere; "ghost card" (1 px border under a wide soft shadow); hard offset shadows | Border or spacing; a layered shadow only for real elevation (menus, dialogs) |
 | Large soft radius on everything | One small radius scale, concentric when nested |
 | Coloured stripe on the left of cards/banners | A full thin border in the status colour, or a status word |
@@ -165,7 +198,8 @@ python scripts/check_design_tells.py src --json                   # for CI and a
 
 It finds candidates (file:line) for a person or agent to judge; it never edits files. Mark a deliberate use on its
 line with a `design-tells: ignore` comment, or a whole file (a style guide) with `design-tells: ignore-file`.
-Report each finding as fixed, kept on purpose (with the reason), or not applicable.
+Report each finding as fixed, kept on purpose (with the reason), or not applicable. Hue choices, pure white and
+pure black are not findings by themselves. The source scanner does not measure rendered contrast; check it separately.
 
 ## Sources
 
@@ -174,3 +208,7 @@ Bakaus (Apache-2.0); taste-skill (MIT); Vercel Web Interface Guidelines (MIT); O
 with GPT-5.4" (ideas only); Refactoring UI (ideas only); Laws of UX (named principles); WCAG 2.2 (success criteria by
 number); Apple HIG and Material Design (ideas only); ASD-STE100 Simplified Technical English (principles only, no
 dictionary or rule text copied). The original list of tells came from a community post.
+
+Colour checks: WCAG [text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html),
+[non-text contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), and
+[use of colour](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html).

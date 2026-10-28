@@ -1,5 +1,7 @@
-"""Run: python tests/test_scanner.py. The scanner must find every tell planted in tests/slop.html and nothing in clean.html."""
+"""Run: python tests/test_scanner.py. Find active tells in slop.html, keep clean.html clean, and do not treat palette values alone as defects."""
+import contextlib
 import importlib.util
+import io
 import os
 import sys
 
@@ -8,7 +10,7 @@ spec = importlib.util.spec_from_file_location("scanner", os.path.join(HERE, ".."
 scanner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(scanner)
 
-PLANTED = {"gradient", "gradient-text", "purple", "neon", "pure-white", "pure-black", "shadow", "offset-shadow", "radius-large",
+PLANTED = {"gradient", "gradient-text", "shadow", "offset-shadow", "radius-large",
            "hover-motion", "transition-all", "bounce", "no-zoom", "focus-removed", "eyebrow", "uppercase-label", "emoji",
            "checkmark", "em-dash", "not-x-but-y", "vague-claim"}
 
@@ -23,11 +25,38 @@ with tempfile.TemporaryDirectory() as tmp:
     doc = os.path.join(tmp, "doc.md")
     open(doc, "w", encoding="utf-8").write("```text\nIt's not a tool, it's a revolution\n```\nIt's not a tool, it's a revolution\n")
     md, _ = scanner.scan([doc])
+    # Colour literals do not establish a defect. Keep the full strict CLI path covered
+    # so these palettes cannot become CI failures through another output branch.
+    palette = os.path.join(tmp, "palette.html")
+    palette_source = """<!doctype html><html><head><style>
+    .paper { background: #fff; color: #000; }
+    .inverse { background-color: black; color: white; }
+    .brand { color: #7c3aed; background: #00ffff; }
+    .signals { color: #39ff14; border-color: #ff00ff; }
+    @media (prefers-reduced-motion: reduce) { .notice { animation: none; } }
+    </style></head><body>
+    <a class="bg-white text-black purple-500 violet-600 fuchsia-700" href="privacy">Privacy</a>
+    <a class="bg-black" href="terms">Terms</a>
+    <p aria-busy="true">Loading</p><p>No results</p><p>Error: try again</p>
+    </body></html>"""
+    open(palette, "w", encoding="utf-8").write(palette_source)
+    palette_findings, palette_missing = scanner.scan([palette])
+    with contextlib.redirect_stdout(io.StringIO()):
+        palette_exit = scanner.main([palette, "--strict", "--json"])
+    # Removing hue preferences must not silence an independent accessibility warning.
+    open(palette, "w", encoding="utf-8").write(palette_source.replace("</style>", ":focus { outline: none; }</style>"))
+    focus_findings, _ = scanner.scan([palette])
+    with contextlib.redirect_stdout(io.StringIO()):
+        focus_exit = scanner.main([palette, "--strict", "--json"])
 missing = PLANTED - {f["check"] for f in found}
 clean, _ = scanner.scan([os.path.join(HERE, "clean.html")])
 md_ok = [(f["check"], f["line"]) for f in md] == [("not-x-but-y", 4)]
-if missing or clean or not md_ok:
+palette_ok = not palette_findings and not palette_missing and palette_exit == 0
+focus_ok = [f["check"] for f in focus_findings] == ["focus-removed"] and focus_exit == 1
+if missing or clean or not md_ok or not palette_ok or not focus_ok:
     print("missing:", sorted(missing), "| false positives on clean.html:", [(f["check"], f["line"]) for f in clean],
-          "| markdown:", [(f["check"], f["line"]) for f in md])
+          "| markdown:", [(f["check"], f["line"]) for f in md],
+          "| palette:", palette_findings, palette_missing, palette_exit,
+          "| focus:", [(f["check"], f["line"]) for f in focus_findings], focus_exit)
     sys.exit(1)
-print(f"ok: {len(PLANTED)} planted tells found, clean page clean")
+print(f"ok: {len(PLANTED)} planted tells found, clean page clean; palette-only strict pass and focus strict failure verified")

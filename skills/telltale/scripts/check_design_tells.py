@@ -6,7 +6,8 @@ Find AI design tells in UI source files (HTML, CSS, JS/TS/JSX/TSX, Vue, Svelte, 
   python check_design_tells.py PATH [PATH ...] [--strict] [--json]
 
 Heuristic: every finding is a candidate with file:line for a person or agent to judge (fix, keep on purpose, or not
-applicable). It never edits files. A line that contains `design-tells: ignore` is skipped (a deliberate use). --strict exits 1 when anything is found; --json prints machine-readable findings.
+applicable). Colour values alone are not findings, and this source scan does not measure rendered contrast.
+It never edits files. A line that contains `design-tells: ignore` is skipped (a deliberate use). --strict exits 1 when anything is found; --json prints machine-readable findings.
 """
 import json
 import os
@@ -17,15 +18,11 @@ EXTENSIONS = {".html", ".htm", ".css", ".scss", ".sass", ".less", ".js", ".jsx",
 SKIP_DIRS = {".git", "node_modules", "dist", "build", ".next", "vendor", "coverage", "__pycache__"}
 
 # (id, title, regex, flags, what to do)
+# Palette preference and contrast need context; do not diagnose them from a colour literal.
 CHECKS = [
     ("gradient", "Gradient", r"(?:linear|radial|conic)-gradient\(|bg-gradient-to-|from-\w+-\d{3}\s+to-", re.I,
-     "Flat colour; keep a gradient only if it carries meaning (a scale)"),
+     "Keep if it supports the chosen identity, hierarchy or data; verify legibility across it"),
     ("glass", "Glassmorphism / blur", r"backdrop-filter|backdrop-blur|filter:\s*blur\(", re.I, "Solid surfaces"),
-    ("purple", "Purple/violet accent", r"#(?:7c3aed|8b5cf6|a855f7|6d28d9|9333ea|a78bfa|c084fc)\b|\b(?:purple|violet|fuchsia)-\d{3}\b", re.I,
-     "Derive the accent from the subject"),
-    ("neon", "Neon colour", r"#(?:0ff|00ffff|39ff14|ff00ff|f0f|00ff00)\b", re.I, "Muted, subject-derived colours"),
-    ("pure-white", "Pure white background", r"background(?:-color)?\s*:\s*(?:#fff\b|#ffffff\b|white\b)|\bbg-white\b", re.I,
-     "Off-white or tinted neutral; also a dark theme"),
     ("shadow", "Box shadow", r"box-shadow\s*:|\bshadow-(?:sm|md|lg|xl|2xl)\b", re.I, "Border or spacing; shadow only for real elevation"),
     ("radius-large", "Large/pill corner radius", r"border-radius\s*:\s*(?:1[2-9]|[2-9]\d|\d{3,})px|border-radius\s*:\s*(?:9999px|50%)|\brounded-(?:2xl|3xl|full)\b", re.I,
      "One small radius scale; pills only for tags"),
@@ -44,8 +41,7 @@ CHECKS = [
     ("emoji", "Emoji", r"[\U0001F300-\U0001FAFF☀-⛿✀-➿]", 0, "No emoji as icons or bullets"),
     ("checkmark", "Checkmark bullets", r"[✓✔☑✅]", 0, "Plain list, or a table of what is included"),
     ("em-dash", "Long dash in copy", r"(?<![\"'`>(])—(?![\"'`<)])", 0, "Full stop, colon or comma; keep only where grammar requires (a lone \"—\" as an empty-value marker is not counted)"),
-    ("gradient-text", "Gradient text", r"background-clip\s*:\s*text|bg-clip-text", re.I, "Solid text colour"),
-    ("pure-black", "Pure black text or ground", r"(?:^|[;{\s])color\s*:\s*(?:#000\b|#000000\b|black\b)|background(?:-color)?\s*:\s*(?:#000\b|#000000\b|black\b)|\btext-black\b|\bbg-black\b", re.I, "Tinted near-black from the palette"),
+    ("gradient-text", "Gradient text", r"background-clip\s*:\s*text|bg-clip-text", re.I, "Verify legibility across the text; keep a deliberate readable treatment or use a solid colour"),
     ("transition-all", "transition: all", r"transition\s*:\s*all\b|\btransition-all\b", re.I, "Transition only transform/opacity (or the one property that changes)"),
     ("bounce", "Bounce/elastic easing", r"cubic-bezier\([^)]*(?:-0?\.\d+|1\.[1-9])[^)]*\)|ease-?(?:out|in)?-?(?:back|elastic|bounce)|animate-bounce", re.I, "ease-out, 150-250 ms"),
     ("no-zoom", "Zoom disabled", r"user-scalable\s*=\s*no|maximum-scale\s*=\s*1(?:\.0)?\b", re.I, "Never disable zoom"),

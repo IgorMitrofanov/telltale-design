@@ -15,8 +15,8 @@
 
 ## Why
 
-Coding agents now write a lot of interfaces. They work fast, and their pages are easy to recognise: a gradient hero, purple on black, glass panels, emoji instead of icons, three cards in a row, a
-long dash in every sentence, "it's not X, it's Y". <!-- design-tells: ignore --> Each choice is fine on its own. Together they say "nobody
+Coding agents now write a lot of interfaces. They work fast, and their pages are easy to recognise: a gradient hero,
+the same unexamined palette, glass panels, emoji instead of icons, three cards in a row, a long dash in every sentence, "it's not X, it's Y". <!-- design-tells: ignore --> Each choice is fine on its own. Together they say "nobody
 decided anything here", and people trust the page less.
 
 The opposite problem is quieter. Agents skip the plain parts: real screenshots, loading and empty states, errors you can
@@ -30,14 +30,20 @@ replacements, the basics that get forgotten, and writing rules for the interface
 
 | Step | What happens |
 | --- | --- |
-| **Decide** | Names the subject, the audience and where the page is used. Picks the mode: *Persuade* (landing), *Operate* (admin, dashboard), *Read* (docs) or *Experience* (games). Reads the project's design system first. Writes a five-line plan and crosses out every category default. |
+| **Decide** | Names the subject, the audience and where the page is used. Picks the mode: *Persuade* (landing), *Operate* (admin, dashboard), *Read* (docs) or *Experience* (games). Reads the project's design system first and names strengths to preserve. Writes a five-line plan and reviews defaults against the brief. |
+| **Choose colours** | Follows an existing palette or preference. When the direction is open, shows 2–3 palettes on the same interface, narrows the choice with you and records it. Checks contrast separately from taste. |
 | **Build a system** | Tokens by role (`--bg`, `--surface`, `--accent`, statuses), dark mode as a second token set, a small type scale, a 4 px spacing scale. |
 | **Build the interface** | Hierarchy by weight, colour and space. No cards by default. Every state of every component. Honest data: units, aligned digits, status never by colour alone. Motion only as a change of state. |
 | **Write for people** | Principles from ASD-STE100: one word for one meaning, short sentences, one instruction per sentence, condition before action, warning before the step. Reports start with the result and what you need to do. |
-| **Verify** | Screenshots at 390, 768 and 1440 px in both themes, up to three rounds of fixes, a keyboard pass, the scanner. It reports what it checked and never claims a check it did not run. |
+| **Verify** | Screenshots at 390, 768 and 1440 px in supported themes; before/after at matching viewport and theme. Evaluates visual appeal and task completion separately. Up to three rounds of fixes, a keyboard pass, the scanner. Reports only checks actually run. |
 
-**Your brief wins.** An explicit instruction or the project's existing design system overrides any rule in the skill. A
-deliberate choice stays, with one line saying why.
+**Your brief wins.** An explicit instruction or the project's existing design system overrides style defaults. A
+deliberate choice stays, with one line saying why. Contrast requirements, design heuristics and personal taste are
+separate decisions. No colour combination, pure white or pure black is rejected solely by its name or value.
+
+**Palette choice uses a real screen.** Typography, content, imagery, state, viewport and theme stay fixed while you
+compare colours. You can choose, combine or ask for a change in ordinary language. The agent refines the selected
+direction and checks the new combination. An established preference or delegated choice skips this extra round.
 
 <details>
 <summary><strong>About ASD-STE100</strong></summary>
@@ -95,7 +101,8 @@ python skills/telltale/scripts/check_design_tells.py src --json           # for 
 
 It reads HTML, CSS, JS, TS, JSX, TSX, Vue, Svelte and Markdown and prints candidates with file and line. It never edits
 anything. A candidate is a place to look at, not a verdict: a row of number tiles is right in an operations dashboard
-and wrong on a landing page.
+and may be wrong on a landing page. Colour literals alone are not findings; this source scanner does not measure
+rendered contrast or visual appeal.
 
 Mark a deliberate use on its line with `design-tells: ignore`, or a whole file (a style guide) with
 `design-tells: ignore-file`. Python 3.8 or newer, no dependencies.
@@ -125,6 +132,7 @@ The first target was an internal admin panel: 2,155 lines of HTML, CSS and JS wr
 
 The 17 that stayed are deliberate: radii on tags and meters, a pulsing "online" dot that respects reduced motion, and a
 dash as the "no value" mark in table cells. No legal pages: this is an internal tool.
+These historical counts use the earlier rule set; the current scanner omits hue-only checks. Candidate counts do not measure visual quality.
 
 ## Repository
 
