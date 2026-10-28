@@ -48,7 +48,8 @@ Do this before the plan is final. Restraint without an idea gives a correct page
 3. **Spend one bold move per view.** A jump in scale, one saturated colour field, an oversized photograph, a typeface
    with character, a grid broken on purpose. Keep everything around it quiet. Two bold moves fight; none leaves the
    page anonymous. In Operate mode the move is small: a signature numeral style, one chart done beautifully, a
-   crafted empty state.
+   crafted empty state. **The bold move carries content:** a map, a plan, a drawing of the real mechanism, real data
+   at scale, a photograph cropped hard. A flat colour field with a big headline is the safe default, not a bold move.
 4. **Borrow from outside the category.** Name two references from other fields (a magazine, a transit map, a product
    label, an instrument panel) and what you take from each: a grid, a type treatment, a colour habit. Competitors
    show what to avoid copying.
@@ -97,8 +98,9 @@ account is needed; the services in Sources show interaction patterns only.
 - **Re-themable by construction.** Every colour a component uses comes from a role token; no colour literals outside
   the token blocks (photographs and media excepted). Derive hover, pressed, container and focus tones from the accent
   with `color-mix()` or relative colour (`oklch(from var(--accent) calc(l - 0.08) c h)`), so a new brand colour updates
-  them. Keep the palette in one documented token block. **Re-theme test:** swap the accent for two distant hues (one
-  light, one dark), render and rerun the contrast check. Fix the derivation, not the components.
+  them. Keep the palette in one documented token block. **Re-theme test:** swap the accent for distant hues (at least
+  a light yellow, a dark teal and a red), render, rerun the contrast check and look at the screenshots: every large
+  field must still look intended, not muddy or garish. Fix the derivation, not the components.
 - **Supported themes have complete token sets.** Select suitable tones for each role in each supported theme;
   for dark mode, re-tune contrast and accents instead of inverting colours. Set `color-scheme` (and `theme-color`
   for mobile).
@@ -154,7 +156,14 @@ account is needed; the services in Sources show interaction patterns only.
   the story. Real product shots and real data beat illustration. With no images, let type, data or a diagram carry
   the page; never leave grey placeholders.
 - **Commit to the colour.** A quiet palette is a choice, not a default. When the brief allows, give the accent real
-  area: a full colour field, a coloured section, tinted photography. Keep one idea and check contrast where text sits.
+  area: a coloured section, tinted photography, a field behind real content. Keep one idea and check contrast where
+  text sits. **Large fields never use the raw brand value.** Derive the field tone per theme with clamped lightness
+  and chroma. A light brand (such as yellow) turns muddy when darkened: keep it as a light field with dark text, or
+  put a dark neutral field behind it and use the brand only as accent. Check every large field by eye with a yellow,
+  a teal and a red brand.
+- **Fill the whole page, not only the first screen.** A side panel or colour field that stops where its content
+  stops leaves an empty half beside a long form. Make it sticky, let a summary follow the form, or let the visual
+  continue. Check the zoomed-out full-page screenshot for dead areas.
 - **Details that reward a second look.** Optical alignment (icons, quotes and round letters nudged until they look
   aligned), one stroke width for icons and rules, digits that line up, a crafted empty state, focus rings in the
   palette.

@@ -63,7 +63,7 @@ CHECKS = [
 BASICS = [
     ("loading-state", "Loading state (skeleton/placeholder)", r"skeleton|aria-busy|loading|загрузк|загружа", re.I),
     ("empty-state", "Empty state", r"empty|пусто|нет данных|ничего не найдено|no results", re.I),
-    ("error-state", "Error state", r"error|ошибк|не удалось|failed", re.I),
+    ("error-state", "Error state", r"error|invalid|is required|try again|aria-invalid|role=\"alert\"|ошибк|не удалось|failed", re.I),
     ("privacy", "Privacy policy link", r"privacy|конфиденциальн", re.I),
     ("terms", "Terms of use link", r"terms|условия использования|пользовательское соглашение|оферт", re.I),
     ("reduced-motion", "prefers-reduced-motion", r"prefers-reduced-motion", re.I),
