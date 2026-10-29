@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ночная смена на Пирсе 9 — The Tidewatch</title>
+<meta name="description" content="Репортаж о людях, которые разгружают контейнеровозы после полуночи. The Tidewatch, выпуск 14.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#10161d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,700;1,7..72,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,800&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============
+   The only value the client edits: --brand.
+   Everything else is derived from it per theme. */
+:root {
+  --brand: #B3402A;
+
+  /* derived tones (fallback first, then relative colour) */
+  --tone-ink: var(--brand);
+  --tone-glow: var(--brand);
+  --tone-field: color-mix(in srgb, var(--brand) 22%, #10161d);
+  --tone-tint: color-mix(in srgb, var(--brand) 12%, #f0f1ed);
+  --tone-fill: var(--brand);
+}
+@supports (color: oklch(from red l c h)) {
+  :root {
+    --tone-ink: oklch(from var(--brand) min(l, 0.46) c h);      /* text and rules on paper */
+    --tone-glow: oklch(from var(--brand) max(l, 0.76) min(c, 0.16) h); /* text and rules on night */
+    --tone-field: oklch(from var(--brand) 0.27 min(c, 0.07) h); /* large dark field */
+    --tone-tint: oklch(from var(--brand) 0.93 min(c, 0.03) h);  /* quiet tinted band */
+    --tone-fill: oklch(from var(--brand) min(l, 0.46) c h);     /* button fill, white text */
+  }
+}
+
+/* Light theme (default) */
+:root {
+  color-scheme: light;
+  --bg: #f0f1ed;
+  --surface: #e5e8e2;
+  --text: #141a20;
+  --text-muted: #46505a;
+  --line: #bcc3bb;
+  --accent: var(--tone-ink);
+  --accent-soft: var(--tone-tint);
+  --btn-bg: var(--tone-fill);
+  --btn-fg: #ffffff;
+  --focus: var(--tone-ink);
+
+  /* hero and newsletter field: always night */
+  --night: #0f151c;
+  --on-night: #eef0ec;
+  --on-night-muted: #a9b4bd;
+  --night-line: #34404b;
+  --glow: var(--tone-glow);
+  --field: var(--tone-field);
+
+  /* figure marks */
+  --bar: var(--tone-ink);
+  --bar-dip: #6b7680;
+  --k1: var(--tone-glow);
+  --k2: #34465a;
+  --k3: #566a77;
+  --k4: #7d8b8e;
+  --k5: color-mix(in srgb, var(--tone-glow) 45%, #0f151c);
+  --k6: #243240;
+}
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #11171e;
+    --surface: #19212a;
+    --text: #e7eae5;
+    --text-muted: #a5b0b9;
+    --line: #303b46;
+    --accent: var(--tone-glow);
+    --accent-soft: var(--field);
+    --btn-bg: var(--tone-glow);
+    --btn-fg: #10161d;
+    --focus: var(--tone-glow);
+    --night: #0a0e13;
+    --bar: var(--tone-glow);
+    --bar-dip: #7f8b95;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #11171e;
+  --surface: #19212a;
+  --text: #e7eae5;
+  --text-muted: #a5b0b9;
+  --line: #303b46;
+  --accent: var(--tone-glow);
+  --accent-soft: var(--field);
+  --btn-bg: var(--tone-glow);
+  --btn-fg: #10161d;
+  --focus: var(--tone-glow);
+  --night: #0a0e13;
+  --bar: var(--tone-glow);
+  --bar-dip: #7f8b95;
+}
+
+/* type roles */
+:root {
+  --f-display: "Playfair Display", "Times New Roman", serif;
+  --f-text: "Literata", Georgia, "Times New Roman", serif;
+  --measure: 39rem;
+  --gutter: clamp(20px, 5vw, 64px);
+}
+
+/* ============ BASE ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 28px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-text);
+  font-size: 1.25rem;
+  line-height: 1.66;
+  font-variant-numeric: lining-nums;
+  hyphens: manual;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--accent); color: var(--bg); }
+.night :focus-visible { outline-color: var(--glow); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 12px; top: -60px; background: var(--btn-bg); color: var(--btn-fg); padding: 10px 14px; z-index: 30; font: 600 0.9rem var(--f-text); }
+.skip:focus { top: 12px; }
+
+/* reading progress */
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 20; background: transparent; pointer-events: none; }
+.progress i { display: block; height: 100%; width: 100%; background: var(--glow); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* ============ HERO ============ */
+.night { background: var(--night); color: var(--on-night); }
+.hero { position: relative; overflow: hidden; }
+.masthead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap;
+  padding: 22px var(--gutter) 18px;
+  border-bottom: 1px solid var(--night-line);
+  font-size: 0.9rem; line-height: 1.3; color: var(--on-night-muted);
+}
+.masthead b { font: italic 800 1.75rem/1 var(--f-display); color: var(--on-night); letter-spacing: 0; }
+.masthead span:nth-child(2) { flex: 1 1 18rem; }
+.masthead .issue { font-variant-numeric: tabular-nums; }
+.hero-inner { padding: clamp(44px, 8vw, 104px) var(--gutter) 0; max-width: 1440px; margin: 0 auto; position: relative; z-index: 2; }
+h1 {
+  margin: 0;
+  font-family: var(--f-display); font-weight: 800;
+  font-size: clamp(3.1rem, 10.4vw, 9.6rem);
+  line-height: 0.92; letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+h1 span { display: block; }
+h1 span:last-child { font-style: italic; font-weight: 600; margin-left: 0.5ch; }
+.standfirst {
+  margin: clamp(26px, 4vw, 48px) 0 0; max-width: 40rem;
+  font-size: clamp(1.25rem, 2.1vw, 1.6rem); line-height: 1.45; font-weight: 400;
+  color: var(--on-night);
+}
+.credits {
+  margin: clamp(30px, 4vw, 52px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, auto); justify-content: start;
+  border-top: 1px solid var(--night-line);
+  font-size: 0.95rem; line-height: 1.35;
+}
+.credits div { padding: 14px 36px 14px 0; margin-right: 36px; border-right: 1px solid var(--night-line); }
+.credits div:last-child { border-right: 0; margin-right: 0; }
+.credits dt { color: var(--on-night-muted); font-size: 0.84rem; margin: 0 0 2px; }
+.credits dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
+.skyline { display: block; width: 100%; height: clamp(170px, 22vw, 300px); margin-top: clamp(8px, 2vw, 24px); position: relative; z-index: 1; }
+.skyline text { font-family: var(--f-text); }
+
+/* ============ ARTICLE LAYOUT ============ */
+.page {
+  display: grid;
+  grid-template-columns: 13.5rem minmax(0, 1fr);
+  column-gap: clamp(32px, 5vw, 72px);
+  max-width: 1440px; margin: 0 auto;
+  padding: clamp(40px, 6vw, 88px) var(--gutter) clamp(48px, 7vw, 96px);
+}
+.toc { position: sticky; top: 28px; align-self: start; font-size: 0.95rem; line-height: 1.35; }
+.toc h2 { margin: 0 0 14px; font: 600 0.9rem/1.2 var(--f-text); color: var(--text-muted); }
+.toc ol { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--text); }
+.toc li { border-bottom: 1px solid var(--line); }
+.toc a {
+  display: grid; grid-template-columns: 3.1rem 1fr; gap: 4px; padding: 11px 0 11px; text-decoration: none; color: var(--text-muted);
+}
+.toc a time { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text-muted); }
+.toc a:hover { color: var(--text); }
+.toc a[aria-current="true"] { color: var(--text); }
+.toc a[aria-current="true"] time { color: var(--accent); }
+.toc a[aria-current="true"] span { box-shadow: inset 0 -2px 0 var(--accent); }
+.toc .toc-note { margin: 16px 0 0; font-size: 0.85rem; color: var(--text-muted); }
+
+.article { min-width: 0; }
+.article > *, .beat > * { max-width: var(--measure); }
+.article > .wide, .article > figure, .article > .pullquote { max-width: 58rem; }
+.article p { margin: 0 0 1.2em; }
+
+.lead::first-letter {
+  font-family: var(--f-display); font-weight: 800; color: var(--accent);
+  float: left; font-size: 5.3em; line-height: 0.78; padding: 0.06em 0.1em 0 0; margin-left: -0.03em;
+}
+.lead { text-wrap: pretty; }
+
+h2.sub {
+  margin: 2.6em 0 0.9em;
+  display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: 0.7em;
+  font-family: var(--f-display); font-weight: 800; font-size: clamp(1.7rem, 3vw, 2.35rem); line-height: 1.1;
+  text-wrap: balance;
+  padding-top: 0.55em; border-top: 2px solid var(--text);
+}
+h2.sub time {
+  font: 700 0.95rem/1 var(--f-text); font-variant-numeric: tabular-nums; color: var(--accent);
+  padding: 0.35em 0.6em 0.3em; border: 1.5px solid var(--accent); border-radius: 2px; align-self: center;
+}
+
+/* pull quotes */
+.pullquote { margin: 2.4em 0; padding: 0; }
+.pullquote p { margin: 0; font-family: var(--f-display); font-weight: 600; font-style: italic; line-height: 1.16; text-wrap: balance; }
+.pullquote footer { margin-top: 14px; font: 500 0.92rem/1.35 var(--f-text); color: var(--text-muted); }
+.pullquote.wide { position: relative; padding: 0.6em 0 0.2em 0; border-top: 6px solid var(--accent); }
+.pullquote.wide p { font-size: clamp(2rem, 4.6vw, 3.6rem); max-width: 17em; }
+.pullquote.wide p::before { content: "“"; position: absolute; left: -0.5em; top: 0.18em; color: var(--accent); font-size: clamp(3rem, 7vw, 5.4rem); line-height: 1; font-style: normal; font-weight: 800; }
+.pullquote.margin { float: right; width: 17rem; margin: 0.35em -19rem 1em 2rem; padding: 14px 0 0; border-top: 3px solid var(--accent); }
+.pullquote.margin p { font-size: 1.9rem; }
+
+/* figure */
+figure.chart { margin: 2.2em 0 2.8em; display: grid; grid-template-columns: minmax(0, 38rem) 15.5rem; column-gap: 2rem; align-items: start; max-width: 58rem; }
+figure.chart .plate { background: var(--surface); padding: 18px 14px 8px 10px; border-top: 2px solid var(--text); }
+figure.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+figure.chart figcaption { font-size: 0.93rem; line-height: 1.5; color: var(--text-muted); padding-top: 14px; border-top: 2px solid var(--text); }
+figure.chart figcaption strong { display: block; color: var(--text); font-weight: 700; margin-bottom: 6px; font-size: 1rem; }
+.chart text { font-family: var(--f-text); font-size: 15px; fill: var(--text-muted); font-variant-numeric: tabular-nums lining-nums; }
+.chart .val { fill: var(--text); font-weight: 700; font-size: 16px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .base { stroke: var(--text); stroke-width: 2; }
+.chart .bar { fill: var(--bar); }
+.chart .bar.dip { fill: var(--bar-dip); }
+.chart .avg { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.chart .note { fill: var(--text); font-size: 15px; }
+.chart .lead-line { stroke: var(--text); stroke-width: 1.5; }
+
+/* ending blocks */
+.bio {
+  margin: 3.4em 0 0; padding: 22px 0 0; border-top: 2px solid var(--text);
+  display: grid; grid-template-columns: 4.5rem 1fr; gap: 0 22px; font-size: 1rem; line-height: 1.55; color: var(--text-muted);
+}
+.bio .mono { width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--night); color: var(--on-night); display: grid; place-items: center; font: italic 800 1.6rem/1 var(--f-display); }
+.bio p { margin: 0; }
+.bio b { color: var(--text); font-weight: 700; }
+
+.more { margin-top: 3.4em; }
+.more h2 { font: 800 clamp(1.5rem, 2.4vw, 1.9rem)/1.1 var(--f-display); margin: 0 0 14px; }
+.more ol { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--text); }
+.more li { border-bottom: 1px solid var(--line); }
+.more a { display: grid; grid-template-columns: 3.2rem 1fr auto; gap: 4px 20px; padding: 18px 0; text-decoration: none; color: var(--text); align-items: baseline; }
+.more .pg { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); font-size: 0.95rem; }
+.more .ttl { font: 700 1.3rem/1.2 var(--f-display); }
+.more .dek { grid-column: 2; font-size: 0.97rem; line-height: 1.45; color: var(--text-muted); max-width: 32rem; }
+.more .by { grid-row: 1; grid-column: 3; font-size: 0.88rem; color: var(--text-muted); white-space: nowrap; }
+.more a:hover .ttl { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; text-decoration-color: var(--accent); }
+
+/* ============ NEWSLETTER ============ */
+.signup { background: var(--field); color: var(--on-night); }
+.signup-inner { max-width: 1440px; margin: 0 auto; padding: clamp(44px, 7vw, 96px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); gap: 36px clamp(32px, 7vw, 110px); align-items: end; }
+.signup h2 { margin: 0; font: 800 clamp(2.2rem, 5.2vw, 4.4rem)/0.98 var(--f-display); text-wrap: balance; }
+.signup p { margin: 18px 0 0; max-width: 30rem; font-size: 1.1rem; line-height: 1.5; color: var(--on-night); }
+.signup form { display: grid; gap: 8px; }
+.signup label { font-size: 0.95rem; font-weight: 500; }
+.signup .row { display: flex; gap: 0; }
+.signup input[type="email"] {
+  flex: 1 1 auto; min-width: 0; height: 52px; padding: 0 16px; font: 400 1.05rem var(--f-text);
+  color: #10161d; background: #f3f4f0; border: 2px solid #f3f4f0; border-right: 0; border-radius: 2px 0 0 2px;
+}
+.signup input[type="email"]::placeholder { color: #55606a; }
+.signup input[aria-invalid="true"] { border-color: #ffd0c4; background: #fff4f0; }
+.signup button {
+  height: 52px; padding: 0 22px; font: 700 1rem var(--f-text); cursor: pointer;
+  background: var(--glow); color: #10161d; border: 2px solid var(--glow); border-radius: 0 2px 2px 0;
+}
+.signup button:hover { background: #f3f4f0; border-color: #f3f4f0; }
+.signup .hint { margin: 4px 0 0; font-size: 0.88rem; line-height: 1.45; color: var(--on-night-muted); }
+.signup .hint a { color: var(--on-night); }
+.signup .msg { min-height: 1.5em; margin: 6px 0 0; font-size: 0.97rem; font-weight: 500; }
+.signup .msg.err { color: #ffd9cf; }
+.signup .msg.ok { color: var(--on-night); }
+
+footer.site { padding: 26px var(--gutter); background: var(--night); color: var(--on-night-muted); font-size: 0.88rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+footer.site b { font: italic 800 1.2rem/1 var(--f-display); color: var(--on-night); }
+footer.site a { color: var(--on-night); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1360px) {
+  .pullquote.margin { float: none; width: auto; margin: 2em 0; }
+  .pullquote.margin p { font-size: 1.7rem; }
+  .pullquote.wide p::before { left: 0; top: -0.1em; position: static; display: block; line-height: 0.7; margin-bottom: 0.15em; }
+}
+@media (max-width: 980px) {
+  .page { grid-template-columns: 1fr; }
+  .toc { position: static; margin-bottom: 40px; max-width: var(--measure); }
+  .credits { grid-template-columns: repeat(2, auto); }
+  .credits div:nth-child(2) { border-right: 0; margin-right: 0; }
+  figure.chart { grid-template-columns: 1fr; row-gap: 0; }
+  .signup-inner { grid-template-columns: 1fr; align-items: start; }
+}
+@media (max-width: 600px) {
+  body { font-size: 1.125rem; }
+  .masthead { padding-top: 16px; }
+  .masthead span:nth-child(2) { order: 3; flex-basis: 100%; }
+  .credits { grid-template-columns: 1fr 1fr; }
+  .credits div { padding-right: 16px; margin-right: 16px; }
+  .skyline { height: 150px; }
+  .more a { grid-template-columns: 2.6rem 1fr; }
+  .more .by { grid-row: auto; grid-column: 2; }
+  .more .dek { grid-column: 2; }
+  .signup .row { flex-direction: column; gap: 10px; }
+  .signup input[type="email"] { border-right: 2px solid #f3f4f0; border-radius: 2px; }
+  .signup button { border-radius: 2px; }
+  .chart text { font-size: 19px; }
+  .chart .val { font-size: 20px; }
+  .chart .note { font-size: 19px; }
+  h2.sub { grid-template-columns: 1fr; row-gap: 0.55em; }
+  h2.sub time { justify-self: start; }
+}
+@media print { .progress, .toc, .signup { display: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#text">К тексту</a>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="night hero">
+  <div class="masthead">
+    <b>The Tidewatch</b>
+    <span>Квартальный журнал о реках, каналах и портах</span>
+    <span class="issue">Выпуск 14, осень 2026</span>
+  </div>
+  <div class="hero-inner">
+    <h1><span>Ночная смена</span><span>на Пирсе 9</span></h1>
+    <p class="standfirst">С полуночи до шести одиннадцать человек и три крана переставляют с борта на причал почти шестьсот контейнеров. Мы провели с ними ночь и записали, кто что слышит, чем держит и когда останавливается.</p>
+    <dl class="credits">
+      <div><dt>Текст</dt><dd>Марина Ковальчук</dd></div>
+      <div><dt>Фотографии</dt><dd>Дмитрий Саяпин</dd></div>
+      <div><dt>Опубликовано</dt><dd><time datetime="2026-10-29">29 октября 2026</time></dd></div>
+      <div><dt>Чтение</dt><dd>6 минут</dd></div>
+    </dl>
+  </div>
+  <svg class="skyline" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Контейнеровоз у причала, портальный кран над стопками контейнеров ночью">
+<title>Контейнеровоз у Пирса 9 и портальный кран</title>
+<rect x="120" y="276" width="160" height="1.5" fill="var(--night-line)"/>
+<rect x="420" y="284" width="90" height="1.5" fill="var(--night-line)"/>
+<rect x="640" y="278" width="200" height="1.5" fill="var(--night-line)"/>
+<rect x="900" y="290" width="70" height="1.5" fill="var(--night-line)"/>
+<rect x="60" y="292" width="60" height="1.5" fill="var(--night-line)"/>
+<rect x="1180" y="282" width="120" height="1.5" fill="var(--night-line)"/>
+<rect x="300" y="296" width="70" height="1.5" fill="var(--night-line)"/>
+<rect x="548" y="274" width="44" height="2" fill="var(--glow)" opacity=".7"/><rect x="556" y="280" width="28" height="2" fill="var(--glow)" opacity=".45"/>
+<path d="M96 232 H912 L950 268 H132 Z" fill="var(--k6)"/>
+<rect x="96" y="232" width="816" height="4" fill="var(--k3)"/>
+<rect x="100" y="150" width="62" height="82" fill="var(--k3)"/><rect x="108" y="158" width="46" height="8" fill="var(--glow)"/><rect x="108" y="172" width="46" height="3" fill="var(--k6)"/><rect x="108" y="184" width="46" height="3" fill="var(--k6)"/><rect x="108" y="196" width="46" height="3" fill="var(--k6)"/>
+<rect x="186" y="213" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="186" y="194" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="186" y="175" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="186" y="156" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="226" y="213" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="226" y="194" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="226" y="175" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="266" y="213" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="266" y="194" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="266" y="175" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="266" y="156" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="306" y="213" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="306" y="194" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="306" y="175" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="306" y="156" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="346" y="213" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="346" y="194" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="346" y="175" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="346" y="156" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="386" y="213" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="386" y="194" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="426" y="213" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="426" y="194" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="426" y="175" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="426" y="156" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="466" y="213" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="466" y="194" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="466" y="175" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="506" y="213" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="506" y="194" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="546" y="213" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="586" y="213" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="586" y="194" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="586" y="175" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="626" y="213" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="626" y="194" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="626" y="175" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="626" y="156" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="666" y="213" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="666" y="194" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="706" y="213" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="706" y="194" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="706" y="175" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="706" y="156" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="746" y="213" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="746" y="194" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="746" y="175" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="746" y="156" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="786" y="213" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="786" y="194" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="826" y="213" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="826" y="194" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="948" y="248" width="492" height="52" fill="#0c1218"/>
+<rect x="948" y="248" width="492" height="3" fill="var(--k6)"/>
+<rect x="1210" y="229" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="1210" y="210" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="1210" y="191" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="1210" y="172" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="1210" y="153" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="1252" y="229" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="1252" y="210" width="38" height="17.5" fill="var(--k2)"/>
+<rect x="1252" y="191" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="1252" y="172" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="1252" y="153" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="1294" y="229" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="1294" y="210" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="1294" y="191" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="1294" y="172" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="1294" y="153" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="1336" y="229" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="1336" y="210" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="1336" y="191" width="38" height="17.5" fill="var(--k1)"/>
+<rect x="1378" y="229" width="38" height="17.5" fill="var(--k3)"/>
+<rect x="1378" y="210" width="38" height="17.5" fill="var(--k4)"/>
+<rect x="1420" y="229" width="38" height="17.5" fill="var(--k6)"/>
+<rect x="1420" y="210" width="38" height="17.5" fill="var(--k5)"/>
+<rect x="1420" y="191" width="38" height="17.5" fill="var(--k1)"/>
+<g stroke="var(--on-night-muted)" stroke-width="3" fill="none" stroke-linecap="square">
+<path d="M978 248 V70 M1086 248 V70"/>
+<path d="M978 70 H1086 M978 150 H1086 M978 110 L1086 150 M1086 110 L978 150"/>
+<path d="M960 62 H1200"/>
+<path d="M360 58 H1200 M360 66 H1200"/>
+<path d="M1060 8 L360 58 M1060 8 L1200 58 M1060 8 V62"/>
+<path d="M1100 62 L1200 40"/>
+</g>
+<rect x="1140" y="62" width="66" height="30" fill="var(--k3)"/><rect x="1196" y="72" width="40" height="22" fill="var(--k2)"/>
+<rect x="526" y="68" width="40" height="16" fill="var(--k3)"/><rect x="532" y="72" width="14" height="8" fill="var(--glow)"/>
+<path d="M534 84 V116 M558 84 V116" stroke="var(--on-night-muted)" stroke-width="1.5"/>
+<rect x="526" y="116" width="40" height="5" fill="var(--on-night-muted)"/><rect x="522" y="121" width="48" height="21" fill="var(--k1)"/><rect x="522" y="121" width="48" height="3" fill="var(--on-night)" opacity=".35"/>
+<circle cx="1060" cy="8" r="4" fill="var(--glow)"/>
+<circle cx="1200" cy="58" r="4" fill="var(--glow)"/>
+<circle cx="360" cy="58" r="4" fill="var(--glow)"/>
+<circle cx="1236" cy="72" r="3" fill="var(--on-night)"/>
+</svg>
+</header>
+
+<div class="page">
+  <nav class="toc" aria-label="Содержание материала">
+    <h2>В этом материале</h2>
+    <ol id="toc">
+      <li><a href="#s1"><time>23:50</time><span>Река и ладонь</span></a></li>
+      <li><a href="#s2"><time>01:00</time><span>Сорок метров над водой</span></a></li>
+      <li><a href="#s3"><time>02:10</time><span>Внизу, где замки</span></a></li>
+      <li><a href="#s4"><time>03:42</time><span>Туман</span></a></li>
+      <li><a href="#s5"><time>05:48</time><span>Последняя коробка</span></a></li>
+    </ol>
+    <p class="toc-note">Подзаголовки идут по часам: так прошла ночь.</p>
+  </nav>
+
+  <article class="article" id="text">
+    <p class="lead">Контейнеровоз «Ладожская волна» подходит к Пирсу 9 в&nbsp;23:40, на двадцать минут позже графика. Из Гданьска он шёл девять суток, с заходом в Калининград, и привёз 596 контейнеров. С причала борт похож на цветной склон: красные, синие и горчичные коробки в пять ярусов. К шести утра все они должны стоять на земле.</p>
+    <p>Порт не закрывается никогда, но ночью он меняется. С проходной пропадают грузовики, затихают диспетчерские телефоны, и остаются люди, которые говорят по рации короткими фразами. Я провела на Пирсе 9 четыре ночи. Это рассказ об одной из них.</p>
+
+    <h2 class="sub" id="s1"><time datetime="23:50">23:50</time>Река и ладонь</h2>
+    <p>Бригадир Зинаида Волкова встречает судно не у трапа, а у воды. Ей пятьдесят один год, на Пирсе 9 она работает двадцать шесть лет, и первым делом проверяет уровень реки по рейке на стенке. «За ночь вода может подняться на ладонь,&nbsp;— говорит она.&nbsp;— Ладонь&nbsp;— это три контейнера, которые вдруг не достают до замков».</p>
+    <p>Рейка показывает 2,14 метра, ветер западный, четыре метра в секунду. Волкова пишет цифры карандашом в журнал, хотя те же цифры есть в планшете. «Планшет сядет. Карандаш не садится». В полночь она делит людей на три крана, по сигнальщику на каждый, и разгрузка начинается.</p>
+    <p>Каждый контейнер получает от неё не имя, а адрес: секция, ряд, ярус. Коробка 14-07-84 стоит в четырнадцатой секции, в седьмом ряду, на четвёртом ярусе над палубой. Так по рации говорят всю ночь, и тот, кто ошибся цифрой, услышит об этом от всех сразу.</p>
+    <p>Перед сменой Волкова час сидит над планом загрузки, который пришёл с судном. Тяжёлые коробки на нём стоят внизу, лёгкие наверху, и разгружать надо сверху вниз, иначе стопка потеряет равновесие. Она отчёркивает карандашом секции, в которых лежат рефрижераторы: их подключают к розеткам первыми, потому что внутри йогурт, рыба и лекарства. Всё остальное подождёт до утра.</p>
+
+    <h2 class="sub" id="s2"><time datetime="01:00">01:00</time>Сорок метров над водой</h2>
+    <div class="beat">
+      <blockquote class="pullquote margin">
+        <p>Днём я смотрю на груз. Ночью слушаю.</p>
+        <footer>Тимур Хасанов, крановщик</footer>
+      </blockquote>
+      <p>Крановщик Тимур Хасанов поднимается в кабину по лестнице в сорок метров, и это единственный раз за смену, когда он идёт сам. Дальше кабина висит над судном, пол в ней стеклянный, и контейнеры видны сквозь собственные ботинки. Один цикл&nbsp;— взять, поднять, перенести, поставить&nbsp;— занимает у него около полутора минут. В хороший час кран делает тридцать пять таких циклов.</p>
+      <p>«Днём я смотрю на груз,&nbsp;— говорит Хасанов.&nbsp;— Ночью слушаю. Как лёг, как звякнул замок, нет ли перекоса. Если звук неправильный, я останавливаюсь раньше, чем понимаю почему».</p>
+      <p>Три крана работают через один пролёт, и друг друга операторы почти не видят. Они видят огни: красный на стреле, белый на спредере. По огням Хасанов узнаёт, что сосед закончил ряд и можно брать следующий.</p>
+      <p>Хасанов пришёл в порт после армии и семь лет проработал на земле, прежде чем его посадили в кабину. Ветер выше пятнадцати метров в секунду останавливает кран по инструкции, и в такие ночи он сидит в диспетчерской и играет в шахматы с сигнальщиком. За четыре года они сыграли около трёхсот партий. Счёт Хасанов не называет.</p>
+    </div>
+
+    <h2 class="sub" id="s3"><time datetime="02:10">02:10</time>Внизу, где замки</h2>
+    <p>Наверху ночью тихо, внизу работают руками. Контейнеры на судне держатся на конусных замках, по четыре на коробку, и каждый нужно снять до того, как кран потянет груз. Олег Пименов, крепильщик, идёт вдоль борта с шестом и железным ключом. За ночь он освобождает около двух тысяч четырёхсот замков, и каждый весит чуть больше килограмма.</p>
+    <p>«Вот этот,&nbsp;— показывает он,&nbsp;— с туго идущей резьбой. Дёрнешь&nbsp;— не отпустит. Надо по-хорошему». Ладони у него в ссадинах, перчаток хватает на неделю. На палубе нельзя бегать, нельзя стоять под стрелой и нельзя курить у рефрижераторных контейнеров. Правила одинаковы в любом порту, но в ночную смену их помнит тот, кто хоть раз видел, как падает коробка. Пименов видел. Рассказывать не хочет.</p>
+    <p>В порт он пришёл из речного техникума, мечтал водить буксир, но вакансий не оказалось. К замкам привык быстро. Говорит, что по гулу металла определяет, на какой секции стоит, не глядя на номер. Коллеги проверяли: из десяти раз он ошибся дважды.</p>
+
+    <blockquote class="pullquote wide">
+      <p>Ладонь&nbsp;— это три контейнера, которые вдруг не достают до замков.</p>
+      <footer>Зинаида Волкова, бригадир</footer>
+    </blockquote>
+
+    <h2 class="sub" id="s4"><time datetime="03:42">03:42</time>Туман</h2>
+    <p>К трём часам с реки поднимается туман. Кран № 2 останавливают в 03:42: сигнальщик перестал видеть спредер, а остановка на Пирсе 9 не обсуждается. Тридцать восемь минут люди пьют чай из термосов у вагончика, греют руки о кружки и молчат. На графике выработки этот провал виден как зуб: с трёх до четырёх порт переработал 820 тонн вместо привычных 1 400.</p>
+    <p>Волкова не торопит. Она знает, что на ночном графике один туман съедает меньше, чем одна спешка. Когда видимость падает до двадцати метров, она запрещает даже подходить к борту без напарника. Пока кран стоит, она обходит причал и считает людей по лицам: все ли на местах, у всех ли заряжены рации и сухие перчатки.</p>
+
+    <figure class="chart">
+      <div class="plate">
+        <svg viewBox="0 0 560 380" role="img" aria-labelledby="ct cd"><title id="ct">Тонны, переработанные по часам в ночную смену</title><desc id="cd">Столбчатая диаграмма: 980, 1320, 1410, 820, 1390 и 1170 тонн за часы с полуночи до шести. Провал в час с 03 до 04 из-за тумана.</desc>
+<text x="44" y="14" text-anchor="start" style="font-weight:600">т/ч</text>
+<line class="base" x1="52" x2="548" y1="320.0" y2="320.0"/>
+<text x="44" y="325.0" text-anchor="end">0</text>
+<line class="grid" x1="52" x2="548" y1="256.4" y2="256.4"/>
+<text x="44" y="261.4" text-anchor="end">400</text>
+<line class="grid" x1="52" x2="548" y1="192.9" y2="192.9"/>
+<text x="44" y="197.9" text-anchor="end">800</text>
+<line class="grid" x1="52" x2="548" y1="129.3" y2="129.3"/>
+<text x="44" y="134.3" text-anchor="end">1 200</text>
+<line class="grid" x1="52" x2="548" y1="65.8" y2="65.8"/>
+<text x="44" y="70.8" text-anchor="end">1 600</text>
+<rect class="bar" x="68.3" y="164.3" width="50" height="155.7"/>
+<text class="val" x="93.3" y="157.3" text-anchor="middle">980</text>
+<text x="93.3" y="344" text-anchor="middle">00–01</text>
+<rect class="bar" x="151.0" y="110.3" width="50" height="209.7"/>
+<text class="val" x="176.0" y="103.3" text-anchor="middle">1 320</text>
+<text x="176.0" y="344" text-anchor="middle">01–02</text>
+<rect class="bar" x="233.7" y="96.0" width="50" height="224.0"/>
+<text class="val" x="258.7" y="89.0" text-anchor="middle">1 410</text>
+<text x="258.7" y="344" text-anchor="middle">02–03</text>
+<rect class="bar dip" x="316.3" y="189.7" width="50" height="130.3"/>
+<text class="val" x="341.3" y="182.7" text-anchor="middle">820</text>
+<text x="341.3" y="344" text-anchor="middle">03–04</text>
+<rect class="bar" x="399.0" y="99.1" width="50" height="220.9"/>
+<text class="val" x="424.0" y="92.1" text-anchor="middle">1 390</text>
+<text x="424.0" y="344" text-anchor="middle">04–05</text>
+<rect class="bar" x="481.7" y="134.1" width="50" height="185.9"/>
+<text class="val" x="506.7" y="127.1" text-anchor="middle">1 170</text>
+<text x="506.7" y="344" text-anchor="middle">05–06</text>
+<line class="avg" x1="52" x2="548" y1="132.2" y2="132.2"/>
+<line class="avg" x1="56" x2="82" y1="68" y2="68"/><text x="88" y="73" text-anchor="start" style="fill:var(--text)">среднее</text><text x="88" y="92" text-anchor="start" style="fill:var(--text)">1 182</text>
+<line class="lead-line" x1="341.3" x2="341.3" y1="64" y2="159.7"/>
+<text class="note" x="341.3" y="38" text-anchor="middle">Туман, кран № 2</text>
+<text class="note" x="341.3" y="56" text-anchor="middle">стоит 38 мин</text>
+<text x="300.0" y="372" text-anchor="middle">часы смены, ночь на 17 октября</text>
+</svg>
+      </div>
+      <figcaption>
+        <strong>Рис. 1. Тонны по часам</strong>
+        Груз, снятый с судна «Ладожская волна» в ночь на 17 октября. Всего 7 090 т, 596 контейнеров, в среднем 1 182 т в час. Источник: журнал бригады, записи тальмана.
+      </figcaption>
+    </figure>
+
+    <p>Тальман Галина Громова в это время пересчитывает. Она единственная, кто ночью работает не с грузом, а с цифрами: сверяет номера на бортах с манифестом, отмечает вмятины, фиксирует, что и куда уехало. Галочки она ставит в планшете, а в кармане держит сложенный вдвое лист с теми же номерами. «Раз в полгода терминал теряет контейнер,&nbsp;— говорит она.&nbsp;— Не крадут. Просто ставят не туда. Я нахожу его по бумаге».</p>
+
+    <h2 class="sub" id="s5"><time datetime="05:48">05:48</time>Последняя коробка</h2>
+    <p>В 05:48 кран № 3 поднимает последний, 596-й контейнер. Хасанов ставит его на шасси, отпускает рычаг, и стрела уходит вверх. За шесть часов Пирс 9 переработал 7 090 тонн. Туман отнял у смены почти час, но график ночь всё равно закрыла.</p>
+    <p>В шесть приходит дневная смена. Люди, которые только что поменялись, не здороваются: они передают ключи и журнал. Волкова записывает последнюю строку: цифры, фамилии, погоду. Дописывает: «Туман, 38 мин». Потом идёт к проходной мимо первых грузовиков, которые уже стоят в очереди с включёнными фарами, и впервые за ночь смотрит не на воду, а под ноги.</p>
+
+    <aside class="bio" aria-label="Об авторе">
+      <div class="mono" aria-hidden="true">МК</div>
+      <p><b>Марина Ковальчук</b> двенадцать лет пишет о портах и внутреннем водном транспорте. Для этого текста она провела на Пирсе 9 четыре ночи, с десяти вечера до рассвета, и впервые поднялась в кабину портового крана. Живёт в Нижнем Новгороде. Фотографии Дмитрия Саяпина сделаны там же, на плёнку и без вспышки.</p>
+    </aside>
+
+    <section class="more" aria-labelledby="more-h">
+      <h2 id="more-h">Ещё в этом выпуске</h2>
+      <ol>
+        <li><a href="#more-h">
+          <span class="pg">с. 18</span>
+          <span class="ttl">Баржа, которая стала почтой</span>
+          <span class="by">9 минут</span>
+          <span class="dek">Раз в неделю по каналу идёт плавучее почтовое отделение. Штамп на письмо ставят у каждого шлюза.</span>
+        </a></li>
+        <li><a href="#more-h">
+          <span class="pg">с. 34</span>
+          <span class="ttl">Лоцман на пенсии</span>
+          <span class="by">6 минут</span>
+          <span class="dek">Сорок лет он проводил суда через мелководье у Ширяево и до сих пор слышит дно на слух.</span>
+        </a></li>
+        <li><a href="#more-h">
+          <span class="pg">с. 52</span>
+          <span class="ttl">Рыбный причал в шесть утра</span>
+          <span class="by">5 минут</span>
+          <span class="dek">Лёд, ящики, весы и сорок минут, за которые решается цена на весь день.</span>
+        </a></li>
+      </ol>
+    </section>
+  </article>
+</div>
+
+<section class="signup night" aria-labelledby="signup-h">
+  <div class="signup-inner">
+    <div>
+      <h2 id="signup-h">Следующий выпуск придёт на почту</h2>
+      <p>Раз в квартал, в день выхода номера. Письмо с одним длинным текстом и списком того, что вышло на сайте.</p>
+    </div>
+    <form id="signup-form" novalidate>
+      <label for="email">Адрес электронной почты</label>
+      <div class="row">
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.ru" required aria-describedby="msg">
+        <button type="submit">Подписаться</button>
+      </div>
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      <p class="hint">Нажимая «Подписаться», вы соглашаетесь с <a href="#privacy">политикой конфиденциальности</a>. Отписаться можно по ссылке в любом письме.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="site night">
+  <b>The Tidewatch</b>
+  <span>© 2026, редакция журнала. Все права защищены.</span>
+  <a id="privacy" href="#privacy">Политика конфиденциальности</a>
+</footer>
+
+<script>
+(function () {
+  var bar = document.getElementById('bar');
+  var article = document.getElementById('text');
+  var links = [].slice.call(document.querySelectorAll('#toc a'));
+  var heads = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+
+  function onScroll() {
+    var r = article.getBoundingClientRect();
+    var total = r.height - window.innerHeight * 0.6;
+    var done = Math.min(1, Math.max(0, (-r.top + window.innerHeight * 0.1) / total));
+    bar.style.transform = 'scaleX(' + done.toFixed(4) + ')';
+    var cur = -1, line = window.innerHeight * 0.35;
+    heads.forEach(function (h, i) { if (h.getBoundingClientRect().top < line) cur = i; });
+    links.forEach(function (a, i) { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  var form = document.getElementById('signup-form');
+  var email = document.getElementById('email');
+  var msg = document.getElementById('msg');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+      email.setAttribute('aria-invalid', 'true');
+      msg.className = 'msg err';
+      msg.textContent = v ? 'В адресе не хватает точки или знака @. Пример: name@example.ru.' : 'Введите адрес почты, на который отправлять журнал.';
+      email.focus();
+      return;
+    }
+    email.removeAttribute('aria-invalid');
+    msg.className = 'msg ok';
+    msg.textContent = 'Готово. Мы пришлём письмо на ' + v + ', когда выйдет следующий номер.';
+    form.reset();
+  });
+  email.addEventListener('input', function () { email.removeAttribute('aria-invalid'); });
+})();
+</script>
+</body>
+</html>

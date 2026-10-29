@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Night Shift at Pier 9 | The Tidewatch</title>
+<meta name="description" content="Between the last tide of the evening and the first bus of the morning, four hundred people empty a ship the size of a village.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#B3402A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Instrument+Sans:wght@400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   TOKENS. The only colour input is --brand. Everything else derives from it
+   in OKLCH, with lightness clamped per role, so any hue stays readable.
+   ========================================================================== */
+:root {
+  --brand: #B3402A;
+
+  /* light theme: paper, ink and the accent roles */
+  --paper:      oklch(from var(--brand) 0.968 0.006 h);
+  --paper-2:    oklch(from var(--brand) 0.94 0.01 h);
+  --ink:        oklch(from var(--brand) 0.22 0.02 h);
+  --muted:      oklch(from var(--brand) 0.46 0.02 h);
+  --line:       oklch(from var(--brand) 0.80 0.02 h);
+  --accent:     oklch(from var(--brand) min(l, 0.5) c h);       /* text, rules, links on paper */
+  --fill:       oklch(from var(--brand) clamp(0.34, l, 0.48) c h); /* buttons */
+  --on-fill:    #ffffff;
+  --bar:        oklch(from var(--brand) 0.42 0.03 h);
+  --focus:      oklch(from var(--brand) 0.5 c h);
+
+  /* the night field is dark in both themes */
+  --night:      oklch(from var(--brand) 0.19 0.022 h);
+  --night-2:    oklch(from var(--brand) 0.25 0.026 h);
+  --night-3:    oklch(from var(--brand) 0.31 0.03 h);
+  --on-night:   oklch(from var(--brand) 0.95 0.01 h);
+  --on-night-2: oklch(from var(--brand) 0.78 0.02 h);
+  --night-accent: oklch(from var(--brand) clamp(0.7, calc(l + 0.2), 0.86) c h);
+
+  /* container colours in the drawing */
+  --box-1: oklch(from var(--brand) clamp(0.42, l, 0.6) c h);
+  --box-2: oklch(0.42 0.06 245);
+  --box-3: oklch(0.52 0.05 190);
+  --box-4: oklch(0.5 0.01 250);
+  --box-5: oklch(0.62 0.09 80);
+
+  --serif-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --serif-text: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px; --s9: 112px;
+  --r: 2px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:   oklch(from var(--brand) 0.2 0.014 h);
+    --paper-2: oklch(from var(--brand) 0.24 0.016 h);
+    --ink:     oklch(from var(--brand) 0.93 0.01 h);
+    --muted:   oklch(from var(--brand) 0.74 0.02 h);
+    --line:    oklch(from var(--brand) 0.36 0.025 h);
+    --accent:  oklch(from var(--brand) max(l, 0.74) c h);
+    --fill:    oklch(from var(--brand) clamp(0.7, calc(l + 0.15), 0.82) c h);
+    --on-fill: oklch(from var(--brand) 0.2 0.03 h);
+    --bar:     oklch(from var(--brand) 0.7 0.03 h);
+    --focus:   oklch(from var(--brand) 0.8 c h);
+    --night:   oklch(from var(--brand) 0.15 0.02 h);
+    --night-2: oklch(from var(--brand) 0.21 0.024 h);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:   oklch(from var(--brand) 0.2 0.014 h);
+  --paper-2: oklch(from var(--brand) 0.24 0.016 h);
+  --ink:     oklch(from var(--brand) 0.93 0.01 h);
+  --muted:   oklch(from var(--brand) 0.74 0.02 h);
+  --line:    oklch(from var(--brand) 0.36 0.025 h);
+  --accent:  oklch(from var(--brand) max(l, 0.74) c h);
+  --fill:    oklch(from var(--brand) clamp(0.7, calc(l + 0.15), 0.82) c h);
+  --on-fill: oklch(from var(--brand) 0.2 0.03 h);
+  --bar:     oklch(from var(--brand) 0.7 0.03 h);
+  --focus:   oklch(from var(--brand) 0.8 c h);
+  --night:   oklch(from var(--brand) 0.15 0.02 h);
+  --night-2: oklch(from var(--brand) 0.21 0.024 h);
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 24px; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif-text);
+  font-size: 1.125rem;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+@media (min-width: 900px) { body { font-size: 1.25rem; } }
+::selection { background: var(--accent); color: var(--paper); }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--r); }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--paper); color: var(--ink); padding: 8px 12px; z-index: 50; }
+.skip:focus { left: 8px; }
+
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 40; background: transparent; }
+.progress i { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* ==========================================================================
+   HERO: always night. The drawing carries the content.
+   ========================================================================== */
+.hero { background: var(--night); color: var(--on-night); overflow: hidden; }
+.masthead {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s5);
+  padding: var(--s5) clamp(20px, 5vw, 72px);
+  border-bottom: 1px solid var(--night-3);
+  font-family: var(--sans); font-size: 0.8125rem; color: var(--on-night-2);
+}
+.masthead .logo {
+  font-family: var(--serif-display); font-style: italic; font-weight: 600; font-size: 1.5rem;
+  color: var(--on-night); text-decoration: none; letter-spacing: 0.01em; font-variation-settings: "opsz" 48;
+}
+.masthead .logo:hover { color: var(--night-accent); }
+.hero-text { padding: clamp(40px, 7vw, 96px) clamp(20px, 5vw, 72px) 0; display: grid; gap: var(--s6); }
+h1 {
+  margin: 0;
+  font-family: var(--serif-display);
+  font-weight: 700;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(3.4rem, 12.4vw, 11.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.008em;
+  text-wrap: balance;
+}
+h1 .l2 { display: block; font-style: italic; font-weight: 300; color: var(--night-accent); padding-left: 0.02em; }
+@media (min-width: 900px) { h1 .l2 { padding-left: 1.15em; } }
+.standfirst {
+  margin: 0; max-width: 34ch;
+  font-family: var(--serif-text); font-style: italic; font-weight: 400;
+  font-size: clamp(1.3rem, 2.3vw, 1.85rem); line-height: 1.32; color: var(--on-night);
+  text-wrap: pretty;
+}
+@media (min-width: 900px) { .hero-text { grid-template-columns: 1fr minmax(0, 34rem); } h1 { grid-column: 1 / -1; } .hero-text .standfirst { grid-column: 2; } }
+.scene { display: block; width: 100%; height: clamp(230px, 34vw, 470px); margin-top: var(--s6); }
+.scene .water { fill: var(--night-2); }
+.scene .quay { fill: var(--night-2); }
+.scene .hull { fill: var(--night-3); }
+.scene .steel { fill: var(--night-3); stroke: none; }
+.scene .rope { stroke: var(--on-night-2); stroke-width: 1.2; fill: none; }
+.scene .lamp { fill: var(--night-accent); }
+.scene .reflect { stroke: var(--night-3); stroke-width: 2; }
+.scene .seam { stroke: var(--night); stroke-width: 1.5; }
+.scene .k1 { fill: var(--box-1); } .scene .k2 { fill: var(--box-2); } .scene .k3 { fill: var(--box-3); }
+.scene .k4 { fill: var(--box-4); } .scene .k5 { fill: var(--box-5); }
+.scene .ribs { fill: url(#ribs); opacity: 0.22; }
+
+/* credits strip */
+.credits {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--sans); font-size: 0.875rem; line-height: 1.4;
+  margin: 0 clamp(20px, 5vw, 72px);
+}
+.credits div { padding: var(--s4) var(--s4) var(--s4) 0; border-top: 1px solid var(--line); }
+.credits div:nth-child(-n+2) { border-top: 0; }
+.credits dt { color: var(--muted); font-size: 0.75rem; margin-bottom: 2px; }
+.credits dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (min-width: 900px) { .credits { grid-template-columns: repeat(4, 1fr); } .credits div { border-top: 0; } .credits div + div { padding-left: var(--s5); border-left: 1px solid var(--line); } }
+
+/* ==========================================================================
+   ARTICLE
+   ========================================================================== */
+.layout { padding: var(--s7) clamp(20px, 5vw, 72px) var(--s8); display: grid; gap: var(--s6); max-width: 1500px; margin: 0 auto; }
+@media (min-width: 1100px) { .layout { grid-template-columns: 240px minmax(0, 1fr); column-gap: 7rem; padding-top: var(--s8); } }
+
+.toc { font-family: var(--sans); font-size: 0.9375rem; line-height: 1.35; }
+.toc summary { cursor: pointer; font-weight: 600; padding: var(--s3) 0; list-style: none; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+.toc summary::after { content: "Show"; color: var(--muted); font-weight: 400; }
+.toc[open] summary::after { content: "Hide"; }
+.toc summary::-webkit-details-marker { display: none; }
+.toc ol { list-style: none; margin: 0; padding: var(--s3) 0 0; position: relative; }
+.toc ol::before { content: ""; position: absolute; left: 3px; top: 20px; bottom: 20px; width: 1px; background: var(--line); }
+.toc li a { display: grid; grid-template-columns: 64px 1fr; padding: 9px 0; text-decoration: none; color: var(--muted); position: relative; min-height: 44px; align-items: baseline; }
+.toc li a::before { content: ""; position: absolute; left: 0; top: 19px; width: 7px; height: 7px; border-radius: 50%; background: var(--paper); border: 1px solid var(--muted); }
+.toc time { font-variant-numeric: tabular-nums; font-weight: 600; padding-left: 20px; }
+.toc li a:hover { color: var(--ink); }
+.toc li a[aria-current="true"] { color: var(--ink); font-weight: 600; }
+.toc li a[aria-current="true"]::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--accent); }
+.toc li a[aria-current="true"] time { color: var(--accent); }
+@media (min-width: 1100px) {
+  .toc { position: sticky; top: 32px; align-self: start; }
+  .toc summary { pointer-events: none; }
+  .toc summary::after { content: none !important; }
+  .toc .note { display: block; }
+}
+.toc .note { display: none; margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); color: var(--muted); font-size: 0.8125rem; }
+
+.prose { min-width: 0; max-width: 62rem; }
+.prose > p, .prose > h2 { max-width: 38rem; }
+.prose p { margin: 0 0 1.15em; text-wrap: pretty; hyphens: auto; }
+.prose p.lede::first-letter {
+  float: left; font-family: var(--serif-display); font-weight: 700; font-variation-settings: "opsz" 144;
+  font-size: 5.4em; line-height: 0.78; padding: 0.06em 0.09em 0 0; margin-left: -0.03em; color: var(--accent);
+}
+.prose h2 { margin: var(--s8) 0 var(--s5); font-family: var(--serif-display); font-weight: 600; font-variation-settings: "opsz" 72; font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.06; letter-spacing: -0.01em; text-wrap: balance; position: relative; }
+.prose h2 .time { display: block; font-family: var(--sans); font-weight: 600; font-size: 0.875rem; letter-spacing: 0.02em; color: var(--accent); margin-bottom: var(--s2); font-variant-numeric: tabular-nums; font-variation-settings: normal; }
+.prose h2 .time::after { content: ""; display: inline-block; width: 40px; height: 2px; background: var(--accent); vertical-align: middle; margin-left: 10px; }
+.prose section:first-of-type h2 { margin-top: 0; }
+@media (min-width: 1280px) { .prose h2 .time { position: absolute; left: -6.6rem; top: 0.45em; width: 5rem; margin: 0; text-align: right; font-size: 1rem; } .prose h2 .time::after { display: none; } }
+.prose em { font-style: italic; }
+.dateline { font-family: var(--sans); font-size: 0.8125rem; color: var(--muted); }
+
+/* pull quote 1: lives in the margin on wide screens */
+.pull {
+  margin: var(--s6) 0; padding: var(--s4) 0 0; border-top: 3px solid var(--accent);
+  font-family: var(--serif-display); font-style: italic; font-weight: 400; font-variation-settings: "opsz" 72;
+  font-size: clamp(1.5rem, 3.4vw, 1.9rem); line-height: 1.18; text-wrap: balance;
+}
+.pull p { margin: 0; }
+.pull footer { margin-top: var(--s3); font-family: var(--sans); font-style: normal; font-size: 0.8125rem; color: var(--muted); }
+.pull footer b { color: var(--ink); font-weight: 600; }
+@media (min-width: 1280px) { .pull.side { float: right; width: 17rem; margin: 0.3rem 0 1.5rem var(--s6); shape-outside: margin-box; position: relative; right: -1rem; } }
+
+/* pull quote 2: breaks the column, full measure */
+.pull.big { max-width: none; margin: var(--s8) 0; padding: var(--s6) 0 var(--s6); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); display: grid; gap: var(--s4); position: relative; }
+.pull.big::before { content: "\201C"; font-style: normal; font-weight: 700; color: var(--accent); font-size: clamp(6rem, 14vw, 11rem); line-height: 0.6; height: 0.45em; display: block; font-variation-settings: "opsz" 144; }
+.pull.big p { font-size: clamp(1.9rem, 5.2vw, 3.7rem); line-height: 1.06; letter-spacing: -0.015em; font-weight: 300; max-width: 22ch; }
+@media (min-width: 1100px) { .pull.big { margin-right: -2rem; } }
+
+/* figure */
+figure.chart { margin: var(--s8) 0; max-width: 100%; }
+.chart-box { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); padding: var(--s4) 0 var(--s4); }
+.chart-title { font-family: var(--sans); font-weight: 600; font-size: 0.9375rem; margin: 0 0 var(--s3); display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.chart-title span { font-weight: 400; color: var(--muted); }
+.chart svg { display: block; width: 100%; max-width: 640px; height: auto; font-family: var(--sans); }
+.chart text { fill: var(--ink); font-size: 14px; font-variant-numeric: tabular-nums; }
+.chart .dim { fill: var(--muted); }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .grid.zero { stroke: var(--ink); }
+.chart .bar { fill: var(--bar); }
+.chart .peak { fill: var(--accent); }
+.chart .dip { fill: var(--paper); stroke: var(--bar); stroke-width: 1.5; }
+.chart .ann { fill: var(--accent); font-weight: 600; }
+.chart .val { font-weight: 600; }
+.chart figcaption, figure.chart figcaption { font-family: var(--sans); font-size: 0.875rem; line-height: 1.5; color: var(--muted); margin-top: var(--s3); max-width: 44rem; }
+figure.chart figcaption b { color: var(--ink); font-weight: 600; }
+
+/* bio */
+.bio { margin-top: var(--s8); padding-top: var(--s5); border-top: 2px solid var(--ink); display: grid; grid-template-columns: auto 1fr; gap: var(--s5); max-width: 40rem; font-family: var(--sans); font-size: 0.9375rem; line-height: 1.55; }
+.bio svg { width: 72px; height: 72px; display: block; }
+.bio .mono-bg { fill: var(--accent); } .bio .mono-fg { fill: var(--paper); font-family: var(--serif-display); font-weight: 700; font-size: 34px; }
+.bio h3 { font-family: var(--serif-display); font-size: 1.25rem; margin: 0 0 var(--s2); font-weight: 600; }
+.bio p { margin: 0 0 var(--s2); }
+.bio .small { color: var(--muted); font-size: 0.8125rem; }
+
+/* ==========================================================================
+   MORE FROM THIS ISSUE
+   ========================================================================== */
+.more { padding: var(--s8) clamp(20px, 5vw, 72px); background: var(--paper-2); border-top: 1px solid var(--line); }
+.more-in { max-width: 1296px; margin: 0 auto; }
+.more h2 { font-family: var(--serif-display); font-weight: 600; font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin: 0 0 var(--s6); letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: baseline; gap: var(--s4); flex-wrap: wrap; }
+.more h2 span { font-family: var(--sans); font-weight: 400; font-size: 0.875rem; color: var(--muted); }
+.more ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+@media (min-width: 900px) { .more ul { grid-template-columns: repeat(3, 1fr); column-gap: var(--s7); } }
+.more li { border-top: 2px solid var(--ink); padding: var(--s4) 0 var(--s6); display: grid; grid-template-columns: 1fr auto; gap: 2px var(--s4); align-content: start; }
+.more li .sec { font-family: var(--sans); font-size: 0.8125rem; color: var(--accent); font-weight: 600; }
+.more li .pg { font-family: var(--sans); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.more li h3 { grid-column: 1 / -1; margin: var(--s3) 0 var(--s2); font-family: var(--serif-display); font-weight: 600; font-size: 1.6rem; line-height: 1.1; font-variation-settings: "opsz" 72; text-wrap: balance; }
+.more li h3 a { text-decoration: none; }
+.more li h3 a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.15em; }
+.more li p { grid-column: 1 / -1; margin: 0; font-size: 1.0625rem; line-height: 1.5; color: var(--muted); }
+
+/* ==========================================================================
+   NEWSLETTER
+   ========================================================================== */
+.news { background: var(--night); color: var(--on-night); padding: var(--s8) clamp(20px, 5vw, 72px); }
+.news-in { max-width: 1296px; margin: 0 auto; display: grid; gap: var(--s6); }
+@media (min-width: 900px) { .news-in { grid-template-columns: 1.1fr 1fr; gap: var(--s8); align-items: end; } }
+.news h2 { margin: 0; font-family: var(--serif-display); font-weight: 600; font-size: clamp(2.2rem, 5.5vw, 4.2rem); line-height: 0.98; letter-spacing: -0.015em; font-variation-settings: "opsz" 144; text-wrap: balance; }
+.news h2 em { color: var(--night-accent); font-weight: 300; }
+.news p { margin: var(--s4) 0 0; font-size: 1.0625rem; line-height: 1.5; color: var(--on-night-2); max-width: 36ch; }
+.news form { font-family: var(--sans); }
+.news label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: var(--s2); }
+.field { display: flex; flex-wrap: wrap; gap: var(--s3); }
+.field input {
+  flex: 1 1 14rem; min-width: 0; min-height: 52px; padding: 0 var(--s4); font: inherit; font-size: 1rem;
+  background: var(--night-2); color: var(--on-night); border: 1px solid var(--on-night-2); border-radius: var(--r);
+}
+.field input::placeholder { color: var(--on-night-2); opacity: 0.85; }
+.field input:focus-visible { outline: 3px solid var(--night-accent); outline-offset: 2px; }
+.field input[aria-invalid="true"] { border-color: var(--night-accent); border-width: 2px; }
+.btn {
+  min-height: 52px; padding: 0 var(--s5); font: inherit; font-weight: 600; font-size: 1rem; cursor: pointer;
+  background: var(--night-accent); color: var(--night); border: 0; border-radius: var(--r);
+  transition: background-color 0.15s ease-out;
+}
+.btn:hover { background: var(--on-night); }
+.btn:active { background: var(--on-night-2); }
+.news :focus-visible { outline-color: var(--night-accent); }
+.msg { min-height: 1.5em; margin-top: var(--s3); font-size: 0.9375rem; color: var(--on-night); }
+.msg.err::before { content: "Check the address. "; font-weight: 700; }
+.fine { font-size: 0.8125rem; color: var(--on-night-2); margin-top: var(--s2); }
+
+.colophon { background: var(--night); color: var(--on-night-2); border-top: 1px solid var(--night-3); padding: var(--s5) clamp(20px, 5vw, 72px); font-family: var(--sans); font-size: 0.8125rem; display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.colophon a { color: var(--on-night); }
+.colophon a:hover { color: var(--night-accent); }
+</style>
+</head>
+<body>
+<a class="skip" href="#story">Skip to the story</a>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="hero">
+  <div class="masthead">
+    <a class="logo" href="#">The Tidewatch</a>
+    <span>Issue 31, Autumn 2026</span>
+  </div>
+  <div class="hero-text">
+    <h1>The Night Shift <span class="l2">at Pier 9</span></h1>
+    <p class="standfirst">From the last tide of the evening to the first bus of the morning, four hundred people empty a ship the size of a village. Almost none of the city that ordered what is inside will ever see them.</p>
+  </div>
+  <svg class="scene" viewBox="0 0 1440 470" preserveAspectRatio="xMaxYMax slice" role="img" aria-label="Drawing of a gantry crane lifting a container from a container ship at night, lit windows on the ship's bridge">
+<defs><pattern id="ribs" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="1.6" height="10" fill="#000"/></pattern></defs>
+<rect class="water" x="0" y="392" width="1440" height="78"/>
+<line class="reflect" x1="760" x2="980" y1="414" y2="414"/>
+<line class="reflect" x1="980" x2="1120" y1="430" y2="430"/>
+<line class="reflect" x1="1120" x2="1380" y1="446" y2="446"/>
+<line class="reflect" x1="700" x2="820" y1="452" y2="452"/>
+<line class="reflect" x1="1280" x2="1400" y1="420" y2="420"/>
+<line class="reflect" x1="840" x2="930" y1="440" y2="440"/>
+<rect class="quay" x="0" y="370" width="640" height="100"/>
+<rect class="k4" x="20" y="349" width="44" height="21"/>
+<rect class="seam" x="20" y="349" width="44" height="21" fill="none"/>
+<rect class="k3" x="20" y="328" width="44" height="21"/>
+<rect class="seam" x="20" y="328" width="44" height="21" fill="none"/>
+<rect class="k2" x="20" y="307" width="44" height="21"/>
+<rect class="seam" x="20" y="307" width="44" height="21" fill="none"/>
+<rect class="k2" x="20" y="286" width="44" height="21"/>
+<rect class="seam" x="20" y="286" width="44" height="21" fill="none"/>
+<rect class="ribs" x="20" y="286" width="44" height="84"/>
+<rect class="k4" x="68" y="349" width="44" height="21"/>
+<rect class="seam" x="68" y="349" width="44" height="21" fill="none"/>
+<rect class="k5" x="68" y="328" width="44" height="21"/>
+<rect class="seam" x="68" y="328" width="44" height="21" fill="none"/>
+<rect class="ribs" x="68" y="328" width="44" height="42"/>
+<rect class="k1" x="116" y="349" width="44" height="21"/>
+<rect class="seam" x="116" y="349" width="44" height="21" fill="none"/>
+<rect class="k3" x="116" y="328" width="44" height="21"/>
+<rect class="seam" x="116" y="328" width="44" height="21" fill="none"/>
+<rect class="k1" x="116" y="307" width="44" height="21"/>
+<rect class="seam" x="116" y="307" width="44" height="21" fill="none"/>
+<rect class="k4" x="116" y="286" width="44" height="21"/>
+<rect class="seam" x="116" y="286" width="44" height="21" fill="none"/>
+<rect class="ribs" x="116" y="286" width="44" height="84"/>
+<rect class="k3" x="164" y="349" width="44" height="21"/>
+<rect class="seam" x="164" y="349" width="44" height="21" fill="none"/>
+<rect class="k4" x="164" y="328" width="44" height="21"/>
+<rect class="seam" x="164" y="328" width="44" height="21" fill="none"/>
+<rect class="k2" x="164" y="307" width="44" height="21"/>
+<rect class="seam" x="164" y="307" width="44" height="21" fill="none"/>
+<rect class="ribs" x="164" y="307" width="44" height="63"/>
+<rect class="k2" x="212" y="349" width="44" height="21"/>
+<rect class="seam" x="212" y="349" width="44" height="21" fill="none"/>
+<rect class="k1" x="212" y="328" width="44" height="21"/>
+<rect class="seam" x="212" y="328" width="44" height="21" fill="none"/>
+<rect class="k1" x="212" y="307" width="44" height="21"/>
+<rect class="seam" x="212" y="307" width="44" height="21" fill="none"/>
+<rect class="ribs" x="212" y="307" width="44" height="63"/>
+<rect class="k1" x="260" y="349" width="44" height="21"/>
+<rect class="seam" x="260" y="349" width="44" height="21" fill="none"/>
+<rect class="k4" x="260" y="328" width="44" height="21"/>
+<rect class="seam" x="260" y="328" width="44" height="21" fill="none"/>
+<rect class="k1" x="260" y="307" width="44" height="21"/>
+<rect class="seam" x="260" y="307" width="44" height="21" fill="none"/>
+<rect class="ribs" x="260" y="307" width="44" height="63"/>
+<rect class="k2" x="308" y="349" width="44" height="21"/>
+<rect class="seam" x="308" y="349" width="44" height="21" fill="none"/>
+<rect class="k2" x="308" y="328" width="44" height="21"/>
+<rect class="seam" x="308" y="328" width="44" height="21" fill="none"/>
+<rect class="k3" x="308" y="307" width="44" height="21"/>
+<rect class="seam" x="308" y="307" width="44" height="21" fill="none"/>
+<rect class="ribs" x="308" y="307" width="44" height="63"/>
+<rect class="k4" x="356" y="349" width="44" height="21"/>
+<rect class="seam" x="356" y="349" width="44" height="21" fill="none"/>
+<rect class="k2" x="356" y="328" width="44" height="21"/>
+<rect class="seam" x="356" y="328" width="44" height="21" fill="none"/>
+<rect class="ribs" x="356" y="328" width="44" height="42"/>
+<rect class="k4" x="404" y="349" width="44" height="21"/>
+<rect class="seam" x="404" y="349" width="44" height="21" fill="none"/>
+<rect class="k3" x="404" y="328" width="44" height="21"/>
+<rect class="seam" x="404" y="328" width="44" height="21" fill="none"/>
+<rect class="k1" x="404" y="307" width="44" height="21"/>
+<rect class="seam" x="404" y="307" width="44" height="21" fill="none"/>
+<rect class="k2" x="404" y="286" width="44" height="21"/>
+<rect class="seam" x="404" y="286" width="44" height="21" fill="none"/>
+<rect class="ribs" x="404" y="286" width="44" height="84"/>
+<path class="hull" d="M690 352 L1420 352 L1440 346 L1440 398 L760 398 L700 378 Z"/>
+<rect class="k1" x="724" y="331" width="44" height="21"/>
+<rect class="seam" x="724" y="331" width="44" height="21" fill="none"/>
+<rect class="k4" x="724" y="310" width="44" height="21"/>
+<rect class="seam" x="724" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="724" y="289" width="44" height="21"/>
+<rect class="seam" x="724" y="289" width="44" height="21" fill="none"/>
+<rect class="k4" x="724" y="268" width="44" height="21"/>
+<rect class="seam" x="724" y="268" width="44" height="21" fill="none"/>
+<rect class="ribs" x="724" y="268" width="44" height="84"/>
+<rect class="k3" x="772" y="331" width="44" height="21"/>
+<rect class="seam" x="772" y="331" width="44" height="21" fill="none"/>
+<rect class="k2" x="772" y="310" width="44" height="21"/>
+<rect class="seam" x="772" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="772" y="289" width="44" height="21"/>
+<rect class="seam" x="772" y="289" width="44" height="21" fill="none"/>
+<rect class="k2" x="772" y="268" width="44" height="21"/>
+<rect class="seam" x="772" y="268" width="44" height="21" fill="none"/>
+<rect class="k3" x="772" y="247" width="44" height="21"/>
+<rect class="seam" x="772" y="247" width="44" height="21" fill="none"/>
+<rect class="ribs" x="772" y="247" width="44" height="105"/>
+<rect class="k1" x="820" y="331" width="44" height="21"/>
+<rect class="seam" x="820" y="331" width="44" height="21" fill="none"/>
+<rect class="k5" x="820" y="310" width="44" height="21"/>
+<rect class="seam" x="820" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="820" y="289" width="44" height="21"/>
+<rect class="seam" x="820" y="289" width="44" height="21" fill="none"/>
+<rect class="k1" x="820" y="268" width="44" height="21"/>
+<rect class="seam" x="820" y="268" width="44" height="21" fill="none"/>
+<rect class="k2" x="820" y="247" width="44" height="21"/>
+<rect class="seam" x="820" y="247" width="44" height="21" fill="none"/>
+<rect class="k2" x="820" y="226" width="44" height="21"/>
+<rect class="seam" x="820" y="226" width="44" height="21" fill="none"/>
+<rect class="ribs" x="820" y="226" width="44" height="126"/>
+<rect class="k4" x="868" y="331" width="44" height="21"/>
+<rect class="seam" x="868" y="331" width="44" height="21" fill="none"/>
+<rect class="k1" x="868" y="310" width="44" height="21"/>
+<rect class="seam" x="868" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="868" y="289" width="44" height="21"/>
+<rect class="seam" x="868" y="289" width="44" height="21" fill="none"/>
+<rect class="k2" x="868" y="268" width="44" height="21"/>
+<rect class="seam" x="868" y="268" width="44" height="21" fill="none"/>
+<rect class="k1" x="868" y="247" width="44" height="21"/>
+<rect class="seam" x="868" y="247" width="44" height="21" fill="none"/>
+<rect class="k5" x="868" y="226" width="44" height="21"/>
+<rect class="seam" x="868" y="226" width="44" height="21" fill="none"/>
+<rect class="ribs" x="868" y="226" width="44" height="126"/>
+<rect class="k1" x="916" y="331" width="44" height="21"/>
+<rect class="seam" x="916" y="331" width="44" height="21" fill="none"/>
+<rect class="k5" x="916" y="310" width="44" height="21"/>
+<rect class="seam" x="916" y="310" width="44" height="21" fill="none"/>
+<rect class="k3" x="916" y="289" width="44" height="21"/>
+<rect class="seam" x="916" y="289" width="44" height="21" fill="none"/>
+<rect class="k5" x="916" y="268" width="44" height="21"/>
+<rect class="seam" x="916" y="268" width="44" height="21" fill="none"/>
+<rect class="k2" x="916" y="247" width="44" height="21"/>
+<rect class="seam" x="916" y="247" width="44" height="21" fill="none"/>
+<rect class="ribs" x="916" y="247" width="44" height="105"/>
+<rect class="k3" x="964" y="331" width="44" height="21"/>
+<rect class="seam" x="964" y="331" width="44" height="21" fill="none"/>
+<rect class="k1" x="964" y="310" width="44" height="21"/>
+<rect class="seam" x="964" y="310" width="44" height="21" fill="none"/>
+<rect class="k3" x="964" y="289" width="44" height="21"/>
+<rect class="seam" x="964" y="289" width="44" height="21" fill="none"/>
+<rect class="k2" x="964" y="268" width="44" height="21"/>
+<rect class="seam" x="964" y="268" width="44" height="21" fill="none"/>
+<rect class="k1" x="964" y="247" width="44" height="21"/>
+<rect class="seam" x="964" y="247" width="44" height="21" fill="none"/>
+<rect class="k5" x="964" y="226" width="44" height="21"/>
+<rect class="seam" x="964" y="226" width="44" height="21" fill="none"/>
+<rect class="ribs" x="964" y="226" width="44" height="126"/>
+<rect class="k2" x="1012" y="331" width="44" height="21"/>
+<rect class="seam" x="1012" y="331" width="44" height="21" fill="none"/>
+<rect class="k2" x="1012" y="310" width="44" height="21"/>
+<rect class="seam" x="1012" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="1012" y="289" width="44" height="21"/>
+<rect class="seam" x="1012" y="289" width="44" height="21" fill="none"/>
+<rect class="k1" x="1012" y="268" width="44" height="21"/>
+<rect class="seam" x="1012" y="268" width="44" height="21" fill="none"/>
+<rect class="k4" x="1012" y="247" width="44" height="21"/>
+<rect class="seam" x="1012" y="247" width="44" height="21" fill="none"/>
+<rect class="k5" x="1012" y="226" width="44" height="21"/>
+<rect class="seam" x="1012" y="226" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1012" y="226" width="44" height="126"/>
+<rect class="k2" x="1060" y="331" width="44" height="21"/>
+<rect class="seam" x="1060" y="331" width="44" height="21" fill="none"/>
+<rect class="k3" x="1060" y="310" width="44" height="21"/>
+<rect class="seam" x="1060" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="1060" y="289" width="44" height="21"/>
+<rect class="seam" x="1060" y="289" width="44" height="21" fill="none"/>
+<rect class="k1" x="1060" y="268" width="44" height="21"/>
+<rect class="seam" x="1060" y="268" width="44" height="21" fill="none"/>
+<rect class="k3" x="1060" y="247" width="44" height="21"/>
+<rect class="seam" x="1060" y="247" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1060" y="247" width="44" height="105"/>
+<rect class="k2" x="1108" y="331" width="44" height="21"/>
+<rect class="seam" x="1108" y="331" width="44" height="21" fill="none"/>
+<rect class="k2" x="1108" y="310" width="44" height="21"/>
+<rect class="seam" x="1108" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="1108" y="289" width="44" height="21"/>
+<rect class="seam" x="1108" y="289" width="44" height="21" fill="none"/>
+<rect class="k3" x="1108" y="268" width="44" height="21"/>
+<rect class="seam" x="1108" y="268" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1108" y="268" width="44" height="84"/>
+<rect class="k1" x="1156" y="331" width="44" height="21"/>
+<rect class="seam" x="1156" y="331" width="44" height="21" fill="none"/>
+<rect class="k3" x="1156" y="310" width="44" height="21"/>
+<rect class="seam" x="1156" y="310" width="44" height="21" fill="none"/>
+<rect class="k1" x="1156" y="289" width="44" height="21"/>
+<rect class="seam" x="1156" y="289" width="44" height="21" fill="none"/>
+<rect class="k5" x="1156" y="268" width="44" height="21"/>
+<rect class="seam" x="1156" y="268" width="44" height="21" fill="none"/>
+<rect class="k4" x="1156" y="247" width="44" height="21"/>
+<rect class="seam" x="1156" y="247" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1156" y="247" width="44" height="105"/>
+<rect class="k3" x="1204" y="331" width="44" height="21"/>
+<rect class="seam" x="1204" y="331" width="44" height="21" fill="none"/>
+<rect class="k2" x="1204" y="310" width="44" height="21"/>
+<rect class="seam" x="1204" y="310" width="44" height="21" fill="none"/>
+<rect class="k3" x="1204" y="289" width="44" height="21"/>
+<rect class="seam" x="1204" y="289" width="44" height="21" fill="none"/>
+<rect class="k2" x="1204" y="268" width="44" height="21"/>
+<rect class="seam" x="1204" y="268" width="44" height="21" fill="none"/>
+<rect class="k1" x="1204" y="247" width="44" height="21"/>
+<rect class="seam" x="1204" y="247" width="44" height="21" fill="none"/>
+<rect class="k4" x="1204" y="226" width="44" height="21"/>
+<rect class="seam" x="1204" y="226" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1204" y="226" width="44" height="126"/>
+<rect class="k4" x="1252" y="331" width="44" height="21"/>
+<rect class="seam" x="1252" y="331" width="44" height="21" fill="none"/>
+<rect class="k1" x="1252" y="310" width="44" height="21"/>
+<rect class="seam" x="1252" y="310" width="44" height="21" fill="none"/>
+<rect class="k3" x="1252" y="289" width="44" height="21"/>
+<rect class="seam" x="1252" y="289" width="44" height="21" fill="none"/>
+<rect class="k1" x="1252" y="268" width="44" height="21"/>
+<rect class="seam" x="1252" y="268" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1252" y="268" width="44" height="84"/>
+<rect class="k2" x="1300" y="331" width="44" height="21"/>
+<rect class="seam" x="1300" y="331" width="44" height="21" fill="none"/>
+<rect class="k2" x="1300" y="310" width="44" height="21"/>
+<rect class="seam" x="1300" y="310" width="44" height="21" fill="none"/>
+<rect class="k3" x="1300" y="289" width="44" height="21"/>
+<rect class="seam" x="1300" y="289" width="44" height="21" fill="none"/>
+<rect class="ribs" x="1300" y="289" width="44" height="63"/>
+<rect class="steel" x="1358" y="202" width="64" height="150"/>
+<rect class="steel" x="1350" y="184" width="80" height="22"/>
+<rect class="lamp" x="1366" y="217" width="7" height="8"/>
+<rect class="lamp" x="1380" y="217" width="7" height="8"/>
+<rect class="lamp" x="1394" y="217" width="7" height="8"/>
+<rect class="lamp" x="1408" y="217" width="7" height="8"/>
+<rect class="lamp" x="1366" y="239" width="7" height="8"/>
+<rect class="lamp" x="1394" y="239" width="7" height="8"/>
+<rect class="lamp" x="1408" y="239" width="7" height="8"/>
+<rect class="lamp" x="1366" y="261" width="7" height="8"/>
+<rect class="lamp" x="1380" y="261" width="7" height="8"/>
+<rect class="lamp" x="1394" y="261" width="7" height="8"/>
+<rect class="lamp" x="1408" y="261" width="7" height="8"/>
+<rect class="lamp" x="1380" y="283" width="7" height="8"/>
+<rect class="lamp" x="1408" y="283" width="7" height="8"/>
+<rect class="lamp" x="1366" y="305" width="7" height="8"/>
+<rect class="lamp" x="1380" y="305" width="7" height="8"/>
+<rect class="lamp" x="1394" y="305" width="7" height="8"/>
+<rect class="lamp" x="1356" y="190" width="8" height="8"/>
+<rect class="lamp" x="1368" y="190" width="8" height="8"/>
+<rect class="lamp" x="1380" y="190" width="8" height="8"/>
+<rect class="lamp" x="1392" y="190" width="8" height="8"/>
+<rect class="lamp" x="1404" y="190" width="8" height="8"/>
+<rect class="lamp" x="1416" y="190" width="8" height="8"/>
+<rect class="steel" x="1386" y="142" width="3" height="44"/>
+<path class="steel" d="M560 370 L574 120 L592 120 L584 370 Z"/>
+<path class="steel" d="M640 370 L640 120 L658 120 L672 370 Z"/>
+<rect class="steel" x="560" y="242" width="112" height="8"/>
+<rect class="steel" x="560" y="124" width="112" height="14"/>
+<path class="steel" d="M590 124 L616 30 L642 124 L632 124 L616 58 L602 124 Z"/>
+<path class="steel" d="M300 112 L1120 112 L1120 124 L300 124 Z"/>
+<path class="steel" d="M616 30 L1120 112 L1120 104 L620 40 Z"/>
+<path class="steel" d="M616 30 L300 112 L300 104 L612 40 Z"/>
+<rect class="steel" x="910" y="124" width="60" height="14"/>
+<rect class="steel" x="924" y="138" width="32" height="22"/>
+<rect class="lamp" x="930" y="142" width="20" height="8"/>
+<line class="rope" x1="926" x2="899" y1="160" y2="180"/>
+<line class="rope" x1="954" x2="981" y1="160" y2="180"/>
+<rect class="steel" x="895" y="180" width="90" height="6"/>
+<rect class="k1" x="895" y="186" width="90" height="21"/>
+<rect class="seam" x="895" y="186" width="90" height="21" fill="none"/>
+<rect class="ribs" x="895" y="186" width="90" height="21"/>
+<rect class="lamp" x="330" y="106" width="6" height="5"/>
+<rect class="lamp" x="420" y="106" width="6" height="5"/>
+<rect class="lamp" x="520" y="106" width="6" height="5"/>
+<rect class="lamp" x="680" y="106" width="6" height="5"/>
+<rect class="lamp" x="780" y="106" width="6" height="5"/>
+<rect class="lamp" x="880" y="106" width="6" height="5"/>
+<rect class="lamp" x="1000" y="106" width="6" height="5"/>
+<rect class="lamp" x="1090" y="106" width="6" height="5"/>
+<rect class="lamp" x="566" y="170" width="5" height="5"/>
+<rect class="lamp" x="566" y="210" width="5" height="5"/>
+</svg>
+</header>
+
+<dl class="credits" aria-label="Article details">
+  <div><dt>Words</dt><dd>Marit Sandoval</dd></div>
+  <div><dt>Photographs</dt><dd>Joss Adeyemi</dd></div>
+  <div><dt>Published</dt><dd><time datetime="2026-10-20">20 October 2026</time></dd></div>
+  <div><dt>Reading time</dt><dd>7 minutes</dd></div>
+</dl>
+
+<div class="layout" id="story">
+  <details class="toc" id="toc">
+    <summary>In this story</summary>
+    <nav aria-label="Table of contents">
+      <ol>
+        <li><a href="#s1"><time>22:40</time><span>The tide, then the ship</span></a></li>
+        <li><a href="#s2"><time>00:15</time><span>Twist-locks and cold hands</span></a></li>
+        <li><a href="#s3"><time>02:00</time><span>Forty metres up</span></a></li>
+        <li><a href="#s4"><time>03:50</time><span>The tally</span></a></li>
+        <li><a href="#s5"><time>05:45</time><span>The first bus</span></a></li>
+      </ol>
+    </nav>
+    <p class="note">Times are for the night of 2 to 3 September 2026, Berth 9, Calder Reach.</p>
+  </details>
+
+  <article class="prose">
+    <section id="s1" aria-labelledby="h1">
+      <h2 id="h1"><span class="time">22:40</span>The tide, then the ship</h2>
+      <p class="lede">The <em>Halcyon Reach</em> comes up the channel at twenty to eleven, riding so low that the pilot boat beside her looks like something left in a bath. She is 294 metres long and carries 6,412 containers from Busan by way of the Cape, and for nineteen days none of them has been touched by a human hand. On the quay at Pier 9, the first gang of forty, in orange, is waiting to change that.</p>
+      <p>Nobody cheers. A line handler walks out to the bollard with a lamp and a mooring rope as thick as his thigh. The ship, which has crossed two oceans, is told where to stop by a man in a reflective jacket holding a torch. By eleven the first gantry has swung out over her deck. By a quarter past, the boxes are moving.</p>
+      <p>The port authority says Pier 9 works around the clock, but the statement is generous about what that means. Daytime belongs to trucks and paperwork. The big ships, the ones with deadlines attached, are turned around at night, when the roads are empty, the berth fees are lower and the cranes are in nobody’s way. “The day is for people who need to talk to each other,” says Tomas Weir, who has run the lashing gangs for twenty-two years. “The night is for people who need to get on.”</p>
+    </section>
+
+    <section id="s2" aria-labelledby="h2">
+      <h2 id="h2"><span class="time">00:15</span>Twist-locks and cold hands</h2>
+      <p>Weir’s gang is eleven strong, and its work is the least visible and the most dangerous on the pier. Every container on a ship is pinned to the one beneath it by steel twist-locks the size of a fist, and each one must be released by hand before the crane can lift. A ship this size carries some twenty thousand. The lashers climb the stacks in the dark on ladders welded to the bays, a pole in one hand, a head torch lighting roughly the next arm’s length.</p>
+      <blockquote class="pull side">
+        <p>“Four corners, four clicks. If you only hear three, you stop and you look.”</p>
+        <footer><b>Dennis Achterberg</b>, lasher, nineteen months on the gang</footer>
+      </blockquote>
+      <p>“You learn to count by feel,” says Dennis Achterberg, who is twenty-six and has been on the gang for nineteen months. “Four corners, four clicks. If you only hear three, you stop and you look.” Between midnight and two the cold comes straight off the water, and the hands go first. The gang drinks sweet tea from a flask passed from glove to glove. Most wear two pairs, thin under thick, so that they can strip the outer ones to work a latch without leaving skin on the steel.</p>
+      <p>Weir counts his night in near misses, not in boxes. He has a notebook for them, soft at the corners, and in twenty-two years it has filled three times. The last entry reads, in block capitals, <em>wind got under a door, nobody hurt, ask crane to wait.</em> The crane waited. That, he says, is the whole of the job.</p>
+    </section>
+
+    <section id="s3" aria-labelledby="h3">
+      <h2 id="h3"><span class="time">02:00</span>Forty metres up</h2>
+      <p>Above them, in a glass box hung beneath the crane’s trolley, Lola Ferreira looks straight down between her boots. She has driven ship-to-shore cranes for fourteen years. The seat is a nest of joysticks, and the best window is in the floor. A container of up to thirty tonnes swings under her, and she must set it on a truck chassis only a hand’s width longer than the box, in the dark, in the wind, with a man standing beside the chassis who would like to go home with all his arms.</p>
+      <p>She makes one lift about every ninety seconds. At the peak of the night, a little after three, her crane moves eight hundred tonnes in an hour. The line then sags, twice: at one o’clock, when the gangs stop to eat, and again before dawn, when the body quietly gives its opinion of the whole enterprise.</p>
+
+      <figure class="chart"><div class="chart-box">
+<p class="chart-title">Tonnes moved per hour, Crane 3 <span>Night of 2 to 3 September 2026</span></p>
+<svg viewBox="0 0 500 300" role="img" aria-label="Horizontal bar chart. Tonnes moved each hour from 22:00 to 05:00: 612, 704, 688, 391, 745, 802, 771, 536. Peak 802 tonnes in the hour from 03:00; low of 391 in the hour from 01:00 during the meal break.">
+<line class="grid zero" x1="52.0" x2="52.0" y1="28" y2="292"/>
+<text class="dim" x="52.0" y="20" text-anchor="middle">0</text>
+<line class="grid" x1="144.0" x2="144.0" y1="28" y2="292"/>
+<text class="dim" x="144.0" y="20" text-anchor="middle">200</text>
+<line class="grid" x1="236.0" x2="236.0" y1="28" y2="292"/>
+<text class="dim" x="236.0" y="20" text-anchor="middle">400</text>
+<line class="grid" x1="328.0" x2="328.0" y1="28" y2="292"/>
+<text class="dim" x="328.0" y="20" text-anchor="middle">600</text>
+<line class="grid" x1="420.0" x2="420.0" y1="28" y2="292"/>
+<text class="dim" x="420.0" y="20" text-anchor="middle">800</text>
+<text class="dim" x="0" y="57.0">22:00</text>
+<rect class="bar" x="52" y="42.0" width="281.5" height="20"/>
+<text class="val" x="340.5" y="57.0">612</text>
+<text class="dim" x="0" y="89.0">23:00</text>
+<rect class="bar" x="52" y="74.0" width="323.8" height="20"/>
+<text class="val" x="382.8" y="89.0">704</text>
+<text class="dim" x="0" y="121.0">00:00</text>
+<rect class="bar" x="52" y="106.0" width="316.5" height="20"/>
+<text class="val" x="375.5" y="121.0">688</text>
+<text class="dim" x="0" y="153.0">01:00</text>
+<rect class="dip" x="52" y="138.0" width="179.9" height="20"/>
+<text class="val" x="238.9" y="153.0">391</text>
+<text class="dim" x="271.9" y="153.0">meal break</text>
+<text class="dim" x="0" y="185.0">02:00</text>
+<rect class="bar" x="52" y="170.0" width="342.7" height="20"/>
+<text class="val" x="401.7" y="185.0">745</text>
+<text class="dim" x="0" y="217.0">03:00</text>
+<rect class="peak" x="52" y="202.0" width="368.9" height="20"/>
+<text class="val" x="427.9" y="217.0">802</text>
+<text class="ann" x="460.9" y="217.0">peak</text>
+<text class="dim" x="0" y="249.0">04:00</text>
+<rect class="bar" x="52" y="234.0" width="354.7" height="20"/>
+<text class="val" x="413.7" y="249.0">771</text>
+<text class="dim" x="0" y="281.0">05:00</text>
+<rect class="bar" x="52" y="266.0" width="246.6" height="20"/>
+<text class="val" x="305.6" y="281.0">536</text>
+</svg></div>
+<figcaption><b>Figure 1.</b> Tonnes lifted each hour by Crane 3, from 22:00 to 06:00. The crane moved 5,249 tonnes in the eight hours. Output falls at 01:00 for the meal break and again before dawn. Source: Berth 9 crane logs.</figcaption></figure>
+
+      <p>“Around four I get a kind of tunnel,” Ferreira says. “The world goes down to a box and four corners. That is when I talk to myself, out loud. The radio operators know. Somebody always says, <em>Lola, you are doing the voices again.</em>”</p>
+    </section>
+
+    <section id="s4" aria-labelledby="h4">
+      <h2 id="h4"><span class="time">03:50</span>The tally</h2>
+      <p>Somebody has to know where everything is. In a steel hut at the end of the pier, under a heater that smells of burnt dust, Hannah Okafor sits with a tablet and a radio and keeps the ship’s memory. Each box that leaves the hold gets a number, a slot in the yard, and a truck. If a number goes missing, a retailer in another country will be short of something by Friday.</p>
+      <p>The contents are a kind of poem she does not have time to read. In one night she has logged fourteen tonnes of hospital linen, a pallet of cello strings, two thousand garden gnomes, and a refrigerated box of prawns that must reach the market by eight. Refrigerated containers hum on the stack like sleeping animals; she hears them in her sleep.</p>
+
+      <blockquote class="pull big">
+        <p>Every box is somebody’s Tuesday. You only find out which one when it goes missing.</p>
+        <footer><b>Hannah Okafor</b>, tally clerk, nine years at Pier 9</footer>
+      </blockquote>
+
+      <p>Okafor says the job taught her that supply is not an abstraction. It is a woman in a hut at four in the morning making sure a hospital laundry has sheets. She says this plainly, between radio calls, without any sense that she has said something worth saying.</p>
+    </section>
+
+    <section id="s5" aria-labelledby="h5">
+      <h2 id="h5"><span class="time">05:45</span>The first bus</h2>
+      <p>The sky over the estuary turns the grey of a wet slate. The day gang is arriving at the gate with coffee in paper cups, and the night gang is leaving it, and for a few minutes the two shifts pass each other without a word, the way trains do. Weir signs the last sheet. Eleven names, eleven signatures, one line at the bottom: <em>all accounted for.</em></p>
+      <p>The <em>Halcyon Reach</em> sails on the 06:10 tide, lighter by 3,100 boxes and riding high enough to show a stripe of rusty red along her waterline, the colour of her own paint, which nobody sees until she is empty. The tugs lean on her. The pilot boat follows, small again.</p>
+      <p>At the stop outside the gate, the 05:52 bus is already full, and every passenger is going the other way, towards offices and classrooms and the ordinary morning that the night gang has just stocked for them. Weir finds a seat by the window. Ferreira stands. Achterberg, who is twenty-six, falls asleep before the first stop, his forehead against the glass, his hands still curled around a flask that has gone cold.</p>
+    </section>
+
+    <aside class="bio" aria-label="About the author">
+      <svg viewBox="0 0 72 72" role="img" aria-label="Monogram M S"><circle class="mono-bg" cx="36" cy="36" r="36"/><text class="mono-fg" x="36" y="47" text-anchor="middle">MS</text></svg>
+      <div>
+        <h3>Marit Sandoval</h3>
+        <p>Marit Sandoval writes about ports, pilots and the people who work where the land runs out. She spent six weeks at Calder Reach for this story and now cannot sleep before four. Her book on canal keepers is out next spring.</p>
+        <p class="small">Photographs by Joss Adeyemi, who has photographed container terminals on three continents and has never once been allowed to use a flash.</p>
+      </div>
+    </aside>
+  </article>
+</div>
+
+<section class="more" aria-labelledby="more-h">
+  <div class="more-in">
+    <h2 id="more-h">More from this issue <span>Issue 31, Autumn 2026</span></h2>
+    <ul>
+      <li>
+        <span class="sec">Canals</span><span class="pg">Page 22</span>
+        <h3><a href="#">Eleven keepers on the Upper Cut</a></h3>
+        <p>Forty-one gates, one winter, and a flask that has outlasted three managers.</p>
+      </li>
+      <li>
+        <span class="sec">Rivers</span><span class="pg">Page 38</span>
+        <h3><a href="#">The ferryman’s ledger</a></h3>
+        <p>On the lower Danube a crossing is still paid for in pencil, and the book goes back to 1961.</p>
+      </li>
+      <li>
+        <span class="sec">Ports</span><span class="pg">Page 56</span>
+        <h3><a href="#">What the dredger finds</a></h3>
+        <p>Two hundred years of silt gave up a brass sextant, a church key and a child’s bicycle.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="news" aria-labelledby="news-h">
+  <div class="news-in">
+    <div>
+      <h2 id="news-h">Stay for the <em>next tide.</em></h2>
+      <p>One letter a month from the editors: a story from the water, a photograph, and the date of the next issue.</p>
+    </div>
+    <form id="nl" novalidate>
+      <label for="email">Email address</label>
+      <div class="field">
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="msg">
+        <button class="btn" type="submit">Subscribe to the newsletter</button>
+      </div>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      <p class="fine">We send one email a month. Unsubscribe with one click.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="colophon">
+  <span>The Tidewatch is an independent quarterly about rivers, canals and ports.</span>
+  <span><a href="#">Privacy</a> &nbsp; <a href="#">Back to the top</a></span>
+</footer>
+
+<script>
+(function () {
+  var mq = window.matchMedia('(min-width: 1100px)');
+  var toc = document.getElementById('toc');
+  function syncToc() { if (mq.matches) toc.setAttribute('open', ''); else toc.removeAttribute('open'); }
+  syncToc(); (mq.addEventListener ? mq.addEventListener('change', syncToc) : mq.addListener(syncToc));
+
+  var links = [].slice.call(document.querySelectorAll('.toc li a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var bar = document.getElementById('bar');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+    var cur = -1, line = window.innerHeight * 0.35;
+    secs.forEach(function (s, i) { if (s.getBoundingClientRect().top < line) cur = i; });
+    links.forEach(function (a, i) { if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); onScroll();
+
+  var form = document.getElementById('nl'), email = document.getElementById('email'), msg = document.getElementById('msg');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = email.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) {
+      email.setAttribute('aria-invalid', 'true'); msg.className = 'msg err';
+      msg.textContent = v ? 'Enter an address like name@example.com.' : 'Enter your email address.'; email.focus(); return;
+    }
+    email.removeAttribute('aria-invalid'); msg.className = 'msg';
+    msg.textContent = 'Thank you. A confirmation is on its way to ' + v + '.'; form.reset();
+  });
+})();
+</script>
+</body>
+</html>

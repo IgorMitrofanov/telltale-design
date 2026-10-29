@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Night Shift at Pier 9 | The Tidewatch</title>
+<meta name="description" content="At Pier 9, 61 people unload a container ship between ten at night and six in the morning. A feature from The Tidewatch, issue 31.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0B1117">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   TOKENS
+   The client changes ONE value: --brand. Everything else is derived below.
+   ========================================================================== */
+:root {
+  --brand: #B3402A;
+
+  color-scheme: light dark;
+
+  /* Neutrals: cool newsprint and harbour ink (light theme) */
+  --bg: #F2F2EE;
+  --surface: #E6E7E1;
+  --text: #13191F;
+  --text-muted: #48525B;
+  --line: #BFC3BB;
+  --line-strong: #13191F;
+  --bar: #2C3944;
+  --focus: var(--brand-text);
+
+  /* Large-field derivation range (light theme) */
+  --f-min: 0.40;
+  --f-max: 0.52;
+  --f-chroma: 0.17;
+
+  /* Brand as text on paper: dark enough for 4.5:1 */
+  --brand-text: oklch(from var(--brand) min(l, 0.50) min(c, 0.17) h);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151A;
+    --surface: #182027;
+    --text: #E8E6DF;
+    --text-muted: #A5AEB6;
+    --line: #2C3640;
+    --line-strong: #E8E6DF;
+    --bar: #8D9AA6;
+    --f-min: 0.36;
+    --f-max: 0.47;
+    --brand-text: oklch(from var(--brand) max(l, 0.74) min(c, 0.15) h);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151A;
+  --surface: #182027;
+  --text: #E8E6DF;
+  --text-muted: #A5AEB6;
+  --line: #2C3640;
+  --line-strong: #E8E6DF;
+  --bar: #8D9AA6;
+  --f-min: 0.36;
+  --f-max: 0.47;
+  --brand-text: oklch(from var(--brand) max(l, 0.74) min(c, 0.15) h);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+:root {
+  /* Night: the hero field, the same in both themes */
+  --night: #0B1117;
+  --night-2: #131C24;
+  --on-night: #EDEBE4;
+  --on-night-muted: #A9B3BB;
+  --night-line: #2A3743;
+  --brand-light: oklch(from var(--brand) max(l, 0.74) min(c, 0.15) h);
+
+  /* Large brand field: derived, never the raw brand. A light brand keeps its lightness. */
+  --field: oklch(from var(--brand)
+      calc( clamp(0, (l - 0.72) * 1000, 1) * l
+          + (1 - clamp(0, (l - 0.72) * 1000, 1)) * clamp(var(--f-min), l, var(--f-max)) )
+      min(c, var(--f-chroma)) h);
+  --on-field: oklch(from var(--field) calc((l - 0.64) * -1000) 0 h);
+  --on-field-muted: var(--on-field);
+
+  /* Type */
+  --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  --fs-caption: 0.875rem;
+  --fs-body: 1.1875rem;
+  --fs-lead: 1.5rem;
+  --fs-h2: 2rem;
+  --fs-quote: 2.5rem;
+
+  --r: 2px;
+}
+
+@media (min-width: 900px) {
+  :root { --fs-body: 1.25rem; --fs-lead: 1.75rem; --fs-h2: 2.25rem; --fs-quote: 2.75rem; }
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  font-variant-numeric: oldstyle-nums;
+  text-rendering: optimizeLegibility;
+  hanging-punctuation: first;
+  overflow-x: hidden;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: var(--field); color: var(--on-field); }
+a { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 1px; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--field); color: var(--on-field); padding: .6rem 1rem; z-index: 50; }
+.skip:focus { left: 0; }
+.nums { font-variant-numeric: lining-nums tabular-nums; }
+
+/* reading progress */
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: transparent; z-index: 40; pointer-events: none; }
+.progress i { display: block; height: 100%; background: var(--brand-light); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  --focus: var(--brand-light);
+  background: var(--night);
+  color: var(--on-night);
+  position: relative;
+  overflow: hidden;
+}
+.mast {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  max-width: 1320px; margin: 0 auto; padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--night-line);
+  font-size: var(--fs-caption);
+}
+.mast .name { font-size: 1.5rem; font-weight: 700; font-style: italic; letter-spacing: -.01em; line-height: 1; text-decoration: none; }
+.mast .issue { display: none; color: var(--on-night-muted); flex: 1; text-align: left; padding-left: 1.25rem; }
+.mast button {
+  font: inherit; font-family: var(--mono); font-size: .8125rem;
+  background: none; color: var(--on-night); border: 1px solid var(--night-line);
+  padding: .5rem .8rem; min-height: 44px; border-radius: var(--r); cursor: pointer;
+}
+.mast button:hover { border-color: var(--on-night); }
+@media (min-width: 900px) { .mast .issue { display: block; } .mast { padding-inline: 2.5rem; } .mast button { min-height: 32px; padding: .3rem .7rem; } }
+
+.hero-grid {
+  max-width: 1320px; margin: 0 auto; padding: 2.5rem 1.25rem 0;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem;
+}
+.hero h1 {
+  margin: 0;
+  font-weight: 700; font-size: clamp(3.4rem, 15.5vw, 5.6rem);
+  line-height: .93; letter-spacing: -.02em;
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+}
+.hero h1 span { display: block; }
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--brand-light); }
+.hero .stand {
+  margin: 1.75rem 0 0; max-width: 31em;
+  font-size: var(--fs-lead); line-height: 1.32; font-weight: 400; color: var(--on-night);
+  text-wrap: pretty;
+}
+.plan { margin: 0; align-self: end; }
+.plan svg { width: 100%; height: auto; }
+.plan figcaption { font-family: var(--mono); font-size: .75rem; color: var(--on-night-muted); padding: .75rem 0 1rem; max-width: 36em; }
+
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); padding: 4.5rem 2.5rem 0; gap: 3rem; min-height: 800px; }
+  .hero h1 { font-size: clamp(5rem, 9.2vw, 8.75rem); margin-top: .5rem; }
+  .hero .stand { margin-top: 2.5rem; }
+  .plan { margin-right: -2.5rem; margin-bottom: -170px; margin-left: -2rem; }
+  .plan figcaption { display: none; }
+}
+@media (min-width: 1360px) { .plan { margin-right: -5rem; } }
+
+/* bay plan colours (art, on night) */
+.plan .water { fill: var(--night-2); }
+.plan .hull { fill: #18232D; stroke: #3A4B5A; stroke-width: 1.5; }
+.plan .k1 { fill: #3F5565; } .plan .k2 { fill: #566F80; }
+.plan .k3 { fill: #2F4250; } .plan .k4 { fill: #6B8494; }
+.plan .kb { fill: var(--brand); }
+.plan .ghost { fill: none; stroke: #5A6D7C; stroke-width: 1; stroke-dasharray: 3 3; }
+.plan .hatch { fill: #8497A6; }
+.plan .crane path, .plan .crane rect { fill: none; stroke: #8497A6; stroke-width: 2; }
+.plan .crane .trolley, .plan .crane .spreader { fill: #8497A6; }
+.plan .lift { stroke: var(--night); stroke-width: 1; }
+.plan .leader { stroke: var(--on-night); stroke-width: 1; fill: none; }
+.plan .wave { fill: none; stroke: #3A4B5A; stroke-width: 1.5; }
+.plan .lbl { font-family: var(--mono); font-size: 10.5px; fill: var(--on-night-muted); }
+.plan .lbl.strong { fill: var(--on-night); font-size: 12px; }
+
+/* ==========================================================================
+   COLOPHON (byline strip)
+   ========================================================================== */
+.colophon { border-bottom: 2px solid var(--line-strong); }
+.colophon dl {
+  max-width: 1320px; margin: 0 auto; padding: 1.5rem 1.25rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; margin-block: 0;
+}
+.colophon dt { font-size: var(--fs-caption); font-style: italic; color: var(--text-muted); }
+.colophon dd { margin: .1rem 0 0; font-size: 1.125rem; font-weight: 500; line-height: 1.3; font-variant-numeric: lining-nums; }
+@media (min-width: 900px) {
+  .colophon { padding-top: 190px; }
+  .colophon dl { grid-template-columns: 1.1fr 1.1fr 1fr .8fr; padding: 1.75rem 2.5rem; gap: 1.5rem 2.5rem; }
+}
+
+/* ==========================================================================
+   ARTICLE LAYOUT
+   ========================================================================== */
+.wrap {
+  max-width: 1320px; margin: 0 auto; padding: 3rem 1.25rem 2rem;
+  display: grid; grid-template-columns: minmax(0, 1fr);
+}
+.wrap > * { grid-column: 1; }
+.toc { order: -1; margin-bottom: 2.5rem; font-size: var(--fs-caption); }
+.toc h2 { margin: 0 0 .5rem; font-size: 1rem; font-style: italic; font-weight: 500; color: var(--text-muted); }
+.toc ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.toc li { border-bottom: 1px solid var(--line); }
+.toc a {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: .5rem; align-items: baseline;
+  padding: .6rem 0; min-height: 44px; text-decoration: none; line-height: 1.3;
+}
+.toc .t { font-family: var(--mono); font-size: .75rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.toc a:hover { color: var(--brand-text); }
+.toc a[aria-current="true"] { color: var(--brand-text); font-weight: 600; }
+.toc a[aria-current="true"] .t { color: var(--brand-text); }
+
+@media (min-width: 900px) {
+  .wrap { grid-template-columns: 11.5rem minmax(0, 40rem); column-gap: 3.5rem; padding: 4.5rem 2.5rem 3rem; justify-content: start; }
+  .wrap > * { grid-column: 2; }
+  .wrap > .toc { grid-column: 1; grid-row: 1 / span 40; order: 0; position: sticky; top: 2rem; align-self: start; margin: .4rem 0 0; max-height: calc(100vh - 4rem); }
+  .toc a { min-height: 0; padding: .55rem 0; grid-template-columns: 1fr; gap: .1rem; }
+}
+@media (min-width: 1280px) {
+  .wrap { grid-template-columns: 12rem minmax(0, 40rem) minmax(15rem, 1fr); column-gap: 4rem; }
+  .wrap > .wide { grid-column: 2 / 4; }
+}
+@media (min-width: 1500px) { .wrap { max-width: 1400px; } }
+
+/* prose */
+.prose p { margin: 0 0 1.15em; text-wrap: pretty; hyphens: auto; position: relative; }
+#s1 > p:first-of-type::first-letter {
+  float: left; font-weight: 700; font-size: 5.2em; line-height: .78; padding: .06em .1em 0 0;
+  color: var(--brand-text); font-variation-settings: "opsz" 72;
+}
+.prose a { text-decoration-thickness: 1px; text-underline-offset: .2em; }
+
+.sec h2 {
+  display: flex; align-items: baseline; gap: .75rem;
+  margin: 3.5rem 0 1.25rem; padding-top: .9rem;
+  border-top: 2px solid var(--line-strong);
+  font-size: var(--fs-h2); line-height: 1.1; font-weight: 600; letter-spacing: -.01em;
+  font-variation-settings: "opsz" 48; text-wrap: balance;
+}
+.sec h2 .hd { flex: 0 1 auto; }
+.sec h2 .lead { flex: 1 1 1.5rem; min-width: 1rem; border-bottom: 2px dotted var(--text-muted); transform: translateY(-.28em); }
+.sec h2 time { font-family: var(--mono); font-size: .875rem; font-weight: 500; color: var(--brand-text); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.sec:first-of-type h2 { margin-top: 0; }
+
+/* margin notes */
+.note {
+  display: block; margin: .25rem 0 1.5rem; padding-top: .6rem; border-top: 1px solid var(--line);
+  font-size: var(--fs-caption); line-height: 1.45; color: var(--text-muted);
+}
+.note b { font-weight: 600; color: var(--text); font-style: italic; }
+@media (min-width: 1280px) {
+  .note { position: absolute; left: calc(100% + 4rem); top: .35rem; width: 15rem; margin: 0; }
+}
+
+/* pull quotes */
+.pq { margin: 2.75rem 0; position: relative; }
+.pq blockquote { margin: 0; }
+.pq p {
+  margin: 0; font-size: clamp(1.75rem, 6vw, var(--fs-quote)); line-height: 1.12; font-weight: 500; font-style: italic;
+  letter-spacing: -.012em; font-variation-settings: "opsz" 72; text-wrap: balance;
+}
+.pq p::before { content: "\201C"; color: var(--brand-text); }
+.pq p::after { content: "\201D"; color: var(--brand-text); }
+.pq footer { margin-top: 1rem; font-size: var(--fs-caption); color: var(--text-muted); }
+.pq footer b { font-weight: 600; color: var(--text); }
+.pq.a { padding-top: 1.1rem; border-top: 6px solid var(--brand-text); }
+.pq.b { padding: 1.5rem 0; border-block: 1px solid var(--line-strong); }
+.pq.b p { font-size: clamp(2rem, 7.4vw, 3.5rem); font-weight: 400; line-height: 1.06; }
+@media (min-width: 900px) {
+  .pq.a { margin-right: -7rem; margin-block: 3.5rem; }
+  .pq.a p::before { position: absolute; margin-left: -.5em; }
+}
+@media (min-width: 1280px) {
+  .pq.a { margin-right: 0; grid-column: 2 / 4; display: grid; grid-template-columns: minmax(0, 40rem) 1fr; column-gap: 4rem; }
+  .pq.a blockquote { grid-column: 1 / 3; max-width: 52rem; }
+  .pq.a p::before { margin-left: -.45em; }
+}
+
+/* figure */
+.fig { margin: 3rem 0; }
+.fig .box { border-top: 2px solid var(--line-strong); padding-top: .9rem; }
+.fig h3 { margin: 0 0 .35rem; font-size: 1.25rem; font-weight: 600; line-height: 1.2; }
+.fig .sub { margin: 0 0 1rem; font-size: var(--fs-caption); color: var(--text-muted); max-width: 34em; }
+.fig svg { width: 100%; max-width: 640px; height: auto; overflow: visible; }
+.fig figcaption { margin-top: .9rem; font-size: var(--fs-caption); line-height: 1.45; color: var(--text-muted); max-width: 40em; }
+.fig figcaption b { font-style: italic; font-weight: 600; color: var(--text); }
+.fig .grid { stroke: var(--line); stroke-width: 1; }
+.fig .axis { stroke: var(--line-strong); stroke-width: 1.5; }
+.fig .ax, .fig .hr, .fig .val { font-family: var(--mono); font-size: 13px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fig .val { fill: var(--text); font-weight: 500; }
+.fig .bar { fill: var(--bar); }
+.fig .bar.dip { fill: var(--brand-text); }
+.fig .ref { stroke: var(--text-muted); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.fig .refl { font-family: var(--serif); font-style: italic; font-size: 14px; fill: var(--text-muted); text-anchor: end; transform: translateX(0); }
+.fig .note { font-family: var(--serif); font-size: 14.5px; fill: var(--text); position: static; display: inline; border: 0; padding: 0; margin: 0; width: auto; }
+.fig .note, .fig .val, .fig .refl { paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round; }
+@media (min-width: 900px) { .fig svg { max-width: 600px; } }
+@media (min-width: 1280px) { .fig .layout { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; column-gap: 4rem; align-items: start; } }
+
+/* author */
+.author {
+  margin: 3.5rem 0 0; padding-top: 1.25rem; border-top: 2px solid var(--line-strong);
+  display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.25rem; align-items: start;
+}
+.author .mono {
+  width: 4.5rem; height: 4.5rem; border-radius: var(--r); background: var(--night); color: var(--brand-light);
+  display: grid; place-items: center; font-size: 2.1rem; font-weight: 700; font-style: italic;
+}
+.author h2 { margin: 0 0 .3rem; font-size: 1.125rem; font-weight: 600; }
+.author p { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--text-muted); max-width: 36em; }
+.author p + p { margin-top: .6rem; }
+
+/* ==========================================================================
+   MORE FROM THIS ISSUE
+   ========================================================================== */
+.more { max-width: 1320px; margin: 3rem auto 0; padding: 0 1.25rem; }
+.more > h2 { margin: 0 0 1.5rem; padding-top: .9rem; border-top: 2px solid var(--line-strong); font-size: var(--fs-h2); font-weight: 600; line-height: 1.1; letter-spacing: -.01em; }
+.more ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.more li { border-top: 1px solid var(--line); }
+.more a { display: grid; grid-template-columns: 4.5rem 1fr; column-gap: 1rem; padding: 1.25rem 0 1.5rem; text-decoration: none; }
+.more .pg { grid-row: 1 / span 3; font-size: 3.25rem; font-weight: 300; font-style: italic; line-height: .9; color: var(--brand-text); font-variant-numeric: lining-nums; font-variation-settings: "opsz" 72; }
+.more .kind { font-size: var(--fs-caption); font-style: italic; color: var(--text-muted); }
+.more h3 { margin: .15rem 0 .4rem; font-size: 1.5rem; line-height: 1.15; font-weight: 600; font-variation-settings: "opsz" 36; text-wrap: balance; }
+.more p { margin: 0; font-size: 1rem; line-height: 1.45; color: var(--text-muted); }
+.more a:hover h3 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .15em; text-decoration-color: var(--brand-text); }
+@media (min-width: 900px) {
+  .more { padding: 0 2.5rem; margin-top: 4.5rem; }
+  .more ol { grid-template-columns: 1.25fr 1fr .9fr; column-gap: 0; }
+  .more li { border-top: 0; border-left: 1px solid var(--line); padding-left: 1.75rem; margin-left: 1.75rem; }
+  .more li:first-child { border-left: 0; padding-left: 0; margin-left: 0; }
+  .more a { grid-template-columns: 1fr; padding-top: .5rem; }
+  .more .pg { grid-row: auto; font-size: 4.5rem; margin-bottom: 1rem; }
+  .more li:nth-child(1) h3 { font-size: 2rem; }
+  .more li:nth-child(3) h3 { font-size: 1.25rem; }
+}
+
+/* ==========================================================================
+   NEWSLETTER (derived brand field)
+   ========================================================================== */
+.news { margin-top: 4.5rem; background: var(--field); color: var(--on-field); --focus: var(--on-field); }
+.news .in { max-width: 1320px; margin: 0 auto; padding: 3.5rem 1.25rem 4rem; display: grid; gap: 2rem; }
+.news h2 { margin: 0; font-size: clamp(2.4rem, 9vw, 4.5rem); line-height: .98; font-weight: 700; letter-spacing: -.02em; font-variation-settings: "opsz" 72; text-wrap: balance; }
+.news p { margin: 0 0 1.25rem; max-width: 30em; font-size: 1.125rem; line-height: 1.45; }
+.news form { display: grid; gap: .75rem; max-width: 30rem; }
+.news label { font-size: var(--fs-caption); font-style: italic; }
+.news .row { display: grid; gap: .75rem; }
+.news input {
+  font: inherit; font-size: 1.125rem; width: 100%; min-height: 52px; padding: .6rem .9rem;
+  background: var(--bg); color: var(--text); border: 2px solid var(--on-field); border-radius: var(--r);
+}
+.news input::placeholder { color: var(--text-muted); }
+.news input[aria-invalid="true"] { border-color: var(--on-field); outline: 3px dashed var(--on-field); outline-offset: 2px; }
+.news button {
+  font: inherit; font-size: 1.125rem; font-weight: 600; min-height: 52px; padding: .6rem 1.4rem; cursor: pointer;
+  background: var(--on-field); color: var(--field); border: 2px solid var(--on-field); border-radius: var(--r);
+}
+.news button:hover { background: transparent; color: var(--on-field); }
+.news button[disabled] { opacity: .7; cursor: progress; }
+.news .msg { min-height: 1.5em; margin: 0; font-size: 1rem; font-weight: 500; }
+.news .fine { font-size: var(--fs-caption); color: var(--on-field-muted); margin: 0; }
+.news .fine a { color: inherit; }
+@media (min-width: 900px) {
+  .news .in { grid-template-columns: 1.1fr 1fr; gap: 4rem; padding: 5rem 2.5rem 5.5rem; align-items: end; }
+  .news .row { grid-template-columns: 1fr auto; }
+}
+
+footer.site { max-width: 1320px; margin: 0 auto; padding: 2rem 1.25rem 3rem; display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; font-size: var(--fs-caption); color: var(--text-muted); }
+footer.site a:hover { color: var(--brand-text); }
+@media (min-width: 900px) { footer.site { padding-inline: 2.5rem; } }
+
+@media print { .progress, .toc, .news, .mast button { display: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#story">Skip to the story</a>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="hero">
+  <div class="mast">
+    <a class="name" href="#" aria-label="The Tidewatch, home">The Tidewatch</a>
+    <span class="issue">Issue 31, Autumn 2026. Rivers, canals and ports.</span>
+    <button type="button" id="themeBtn" aria-pressed="false">Dark theme</button>
+  </div>
+  <div class="hero-grid">
+    <div>
+      <h1><span>The Night</span> <span>Shift at</span> <span><em>Pier 9</em></span></h1>
+      <p class="stand">Between ten at night and six in the morning, one feeder ship gives up 764 boxes and 9,170 tonnes. This is who takes them down, and what it costs to do it in the dark.</p>
+    </div>
+    <figure class="plan">
+      <svg viewBox="0 0 560 640" role="img" aria-labelledby="plan-t" preserveAspectRatio="xMidYMax meet">
+        <title id="plan-t">Stowage plan of bay 14 of the Maren Gudrun at 01:50. Dashed outlines show boxes already discharged; one box hangs from the crane.</title>
+        <rect class="water" x="0" y="470" width="560" height="170"/>
+<path class="hull" d="M44 350 H516 V470 L470 522 H90 L44 470 Z"/>
+<rect class="k1" x="60" y="364" width="38" height="22"/>
+<rect class="k2" x="60" y="388" width="38" height="22"/>
+<rect class="k3" x="60" y="412" width="38" height="22"/>
+<rect class="k3" x="60" y="436" width="38" height="22"/>
+<rect class="k2" x="100" y="364" width="38" height="22"/>
+<rect class="k2" x="100" y="388" width="38" height="22"/>
+<rect class="k3" x="100" y="412" width="38" height="22"/>
+<rect class="k3" x="100" y="436" width="38" height="22"/>
+<rect class="k3" x="140" y="364" width="38" height="22"/>
+<rect class="k3" x="140" y="388" width="38" height="22"/>
+<rect class="k3" x="140" y="412" width="38" height="22"/>
+<rect class="k1" x="140" y="436" width="38" height="22"/>
+<rect class="k3" x="180" y="364" width="38" height="22"/>
+<rect class="k4" x="180" y="388" width="38" height="22"/>
+<rect class="k3" x="180" y="412" width="38" height="22"/>
+<rect class="k4" x="180" y="436" width="38" height="22"/>
+<rect class="k3" x="220" y="364" width="38" height="22"/>
+<rect class="k4" x="220" y="388" width="38" height="22"/>
+<rect class="k4" x="220" y="412" width="38" height="22"/>
+<rect class="k1" x="220" y="436" width="38" height="22"/>
+<rect class="ghost" x="260.5" y="364.5" width="37" height="21"/>
+<rect class="ghost" x="260.5" y="388.5" width="37" height="21"/>
+<rect class="k3" x="260" y="412" width="38" height="22"/>
+<rect class="k2" x="260" y="436" width="38" height="22"/>
+<rect class="k3" x="300" y="364" width="38" height="22"/>
+<rect class="k3" x="300" y="388" width="38" height="22"/>
+<rect class="k3" x="300" y="412" width="38" height="22"/>
+<rect class="k3" x="300" y="436" width="38" height="22"/>
+<rect class="k3" x="340" y="364" width="38" height="22"/>
+<rect class="k3" x="340" y="388" width="38" height="22"/>
+<rect class="k2" x="340" y="412" width="38" height="22"/>
+<rect class="k2" x="340" y="436" width="38" height="22"/>
+<rect class="k2" x="380" y="364" width="38" height="22"/>
+<rect class="k2" x="380" y="388" width="38" height="22"/>
+<rect class="k3" x="380" y="412" width="38" height="22"/>
+<rect class="k3" x="380" y="436" width="38" height="22"/>
+<rect class="k3" x="420" y="364" width="38" height="22"/>
+<rect class="k2" x="420" y="388" width="38" height="22"/>
+<rect class="k1" x="420" y="412" width="38" height="22"/>
+<rect class="k3" x="420" y="436" width="38" height="22"/>
+<rect class="k1" x="460" y="364" width="38" height="22"/>
+<rect class="k1" x="460" y="388" width="38" height="22"/>
+<rect class="k2" x="460" y="412" width="38" height="22"/>
+<rect class="k3" x="460" y="436" width="38" height="22"/>
+<rect class="kb" x="60" y="338" width="38" height="22"/>
+<rect class="k4" x="60" y="314" width="38" height="22"/>
+<rect class="k4" x="60" y="290" width="38" height="22"/>
+<rect class="k1" x="60" y="266" width="38" height="22"/>
+<rect class="k1" x="60" y="242" width="38" height="22"/>
+<rect class="ghost" x="60.5" y="218.5" width="37" height="21"/>
+<rect class="ghost" x="60.5" y="194.5" width="37" height="21"/>
+<rect class="k3" x="100" y="338" width="38" height="22"/>
+<rect class="k1" x="100" y="314" width="38" height="22"/>
+<rect class="k4" x="100" y="290" width="38" height="22"/>
+<rect class="k2" x="100" y="266" width="38" height="22"/>
+<rect class="k2" x="100" y="242" width="38" height="22"/>
+<rect class="k3" x="100" y="218" width="38" height="22"/>
+<rect class="ghost" x="100.5" y="194.5" width="37" height="21"/>
+<rect class="k1" x="140" y="338" width="38" height="22"/>
+<rect class="kb" x="140" y="314" width="38" height="22"/>
+<rect class="k3" x="140" y="290" width="38" height="22"/>
+<rect class="k1" x="140" y="266" width="38" height="22"/>
+<rect class="kb" x="140" y="242" width="38" height="22"/>
+<rect class="k1" x="140" y="218" width="38" height="22"/>
+<rect class="ghost" x="140.5" y="194.5" width="37" height="21"/>
+<rect class="k2" x="180" y="338" width="38" height="22"/>
+<rect class="k4" x="180" y="314" width="38" height="22"/>
+<rect class="k4" x="180" y="290" width="38" height="22"/>
+<rect class="ghost" x="180.5" y="266.5" width="37" height="21"/>
+<rect class="ghost" x="180.5" y="242.5" width="37" height="21"/>
+<rect class="ghost" x="180.5" y="218.5" width="37" height="21"/>
+<rect class="ghost" x="180.5" y="194.5" width="37" height="21"/>
+<rect class="k1" x="220" y="338" width="38" height="22"/>
+<rect class="k4" x="220" y="314" width="38" height="22"/>
+<rect class="k4" x="220" y="290" width="38" height="22"/>
+<rect class="kb" x="220" y="266" width="38" height="22"/>
+<rect class="ghost" x="220.5" y="242.5" width="37" height="21"/>
+<rect class="ghost" x="220.5" y="218.5" width="37" height="21"/>
+<rect class="ghost" x="220.5" y="194.5" width="37" height="21"/>
+<rect class="kb" x="260" y="338" width="38" height="22"/>
+<rect class="k4" x="260" y="314" width="38" height="22"/>
+<rect class="kb" x="260" y="290" width="38" height="22"/>
+<rect class="k4" x="260" y="266" width="38" height="22"/>
+<rect class="kb" x="260" y="242" width="38" height="22"/>
+<rect class="k3" x="260" y="218" width="38" height="22"/>
+<rect class="k3" x="260" y="194" width="38" height="22"/>
+<rect class="k2" x="300" y="338" width="38" height="22"/>
+<rect class="kb" x="300" y="314" width="38" height="22"/>
+<rect class="k3" x="300" y="290" width="38" height="22"/>
+<rect class="kb" x="300" y="266" width="38" height="22"/>
+<rect class="kb" x="300" y="242" width="38" height="22"/>
+<rect class="k1" x="300" y="218" width="38" height="22"/>
+<rect class="ghost" x="300.5" y="194.5" width="37" height="21"/>
+<rect class="k3" x="340" y="338" width="38" height="22"/>
+<rect class="k3" x="340" y="314" width="38" height="22"/>
+<rect class="k1" x="340" y="290" width="38" height="22"/>
+<rect class="kb" x="340" y="266" width="38" height="22"/>
+<rect class="kb" x="340" y="242" width="38" height="22"/>
+<rect class="ghost" x="340.5" y="218.5" width="37" height="21"/>
+<rect class="ghost" x="340.5" y="194.5" width="37" height="21"/>
+<rect class="k2" x="380" y="338" width="38" height="22"/>
+<rect class="k3" x="380" y="314" width="38" height="22"/>
+<rect class="k2" x="380" y="290" width="38" height="22"/>
+<rect class="k3" x="380" y="266" width="38" height="22"/>
+<rect class="k3" x="380" y="242" width="38" height="22"/>
+<rect class="kb" x="380" y="218" width="38" height="22"/>
+<rect class="k2" x="380" y="194" width="38" height="22"/>
+<rect class="k2" x="420" y="338" width="38" height="22"/>
+<rect class="k4" x="420" y="314" width="38" height="22"/>
+<rect class="k4" x="420" y="290" width="38" height="22"/>
+<rect class="k3" x="420" y="266" width="38" height="22"/>
+<rect class="k1" x="420" y="242" width="38" height="22"/>
+<rect class="k4" x="420" y="218" width="38" height="22"/>
+<rect class="ghost" x="420.5" y="194.5" width="37" height="21"/>
+<rect class="k3" x="460" y="338" width="38" height="22"/>
+<rect class="kb" x="460" y="314" width="38" height="22"/>
+<rect class="k2" x="460" y="290" width="38" height="22"/>
+<rect class="k2" x="460" y="266" width="38" height="22"/>
+<rect class="ghost" x="460.5" y="242.5" width="37" height="21"/>
+<rect class="ghost" x="460.5" y="218.5" width="37" height="21"/>
+<rect class="ghost" x="460.5" y="194.5" width="37" height="21"/>
+<rect class="hatch" x="52" y="360" width="456" height="4"/>
+<g class="crane">
+<path d="M22 640 V52 M538 640 V52 M14 52 H546 M22 52 L70 14 H490 L538 52 M70 14 V52 M490 14 V52"/>
+<path d="M22 150 L60 52 M538 150 L500 52" />
+<path d="M225.0 52 L225.0 118 M253.0 52 L253.0 118"/>
+<rect class="trolley" x="215.0" y="46" width="48" height="12"/>
+<rect class="spreader" x="217.0" y="116" width="44" height="6"/>
+</g>
+<rect class="kb lift" x="220" y="124" width="38" height="22"/>
+<path class="leader" d="M262 135 H340 "/>
+<text class="lbl strong" x="346" y="139">140286 in the air</text>
+<text class="lbl" x="79.0" y="184" text-anchor="middle">10</text>
+<text class="lbl" x="119.0" y="184" text-anchor="middle">08</text>
+<text class="lbl" x="159.0" y="184" text-anchor="middle">06</text>
+<text class="lbl" x="199.0" y="184" text-anchor="middle">04</text>
+<text class="lbl" x="239.0" y="184" text-anchor="middle">02</text>
+<text class="lbl" x="279.0" y="184" text-anchor="middle">00</text>
+<text class="lbl" x="319.0" y="184" text-anchor="middle">01</text>
+<text class="lbl" x="359.0" y="184" text-anchor="middle">03</text>
+<text class="lbl" x="399.0" y="184" text-anchor="middle">05</text>
+<text class="lbl" x="439.0" y="184" text-anchor="middle">07</text>
+<text class="lbl" x="479.0" y="184" text-anchor="middle">09</text>
+<text class="lbl" x="60" y="170">Row</text>
+<text class="lbl" x="48" y="353" text-anchor="end">82</text>
+<text class="lbl" x="48" y="305" text-anchor="end">86</text>
+<text class="lbl" x="48" y="257" text-anchor="end">90</text>
+<text class="lbl" x="48" y="209" text-anchor="end">94</text>
+<text class="lbl" x="48" y="379" text-anchor="end">02</text>
+<text class="lbl" x="48" y="403" text-anchor="end">04</text>
+<text class="lbl" x="48" y="427" text-anchor="end">06</text>
+<text class="lbl" x="48" y="451" text-anchor="end">08</text>
+<text class="lbl strong" x="60" y="560">Bay 14, Maren Gudrun</text>
+<path class="wave" d="M0 486 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+<path class="wave" d="M0 508 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" transform="translate(-20 0)"/>
+      </svg>
+      <figcaption>Bay 14 of the Maren Gudrun at 01:50. Dashed boxes have been discharged. Rows run outwards from the centreline, 00.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section class="colophon" aria-label="About this story">
+  <dl>
+    <div><dt>Words</dt><dd>Marit Solheim</dd></div>
+    <div><dt>Photographs</dt><dd>Ines Okafor</dd></div>
+    <div><dt>Published</dt><dd><time datetime="2026-10-14">14 October 2026</time></dd></div>
+    <div><dt>Reading time</dt><dd>6 minutes</dd></div>
+  </dl>
+</section>
+
+<main id="story" class="wrap">
+  <nav class="toc" aria-label="In this story">
+    <h2>In this story</h2>
+    <ol>
+      <li><a href="#s1"><span class="t">22:10</span><span>The gate</span></a></li>
+      <li><a href="#s2"><span class="t">00:15</span><span>Twenty-eight moves an hour</span></a></li>
+      <li><a href="#s3"><span class="t">01:50</span><span>The people on the deck</span></a></li>
+      <li><a href="#s4"><span class="t">03:05</span><span>Fifty minutes of nothing</span></a></li>
+      <li><a href="#s5"><span class="t">05:30</span><span>What the morning gets</span></a></li>
+      <li><a href="#more"><span class="t">p. 12</span><span>More from this issue</span></a></li>
+    </ol>
+  </nav>
+
+  <div class="prose sec" id="s1">
+    <h2><span class="hd">The gate</span><span class="lead" aria-hidden="true"></span><time datetime="22:10">22:10</time></h2>
+    <p>The Maren Gudrun came up the Calder on the evening flood with her bow riding low and every deck light burning, and by ten past ten the pilot had her alongside Pier 9. Two tugs leaned on her until the lines were fast. Nobody on the quay looked up. Most of them had watched a ship come in more than a thousand times, and the night&rsquo;s work had started before the first rope. It had started at the gate.</p>
+    <p>Gate 3 opens to haulage trucks at ten. By the time the ship was tied up, the queue ran back past the weighbridge: thirty-one cabs with their engines ticking over. Each driver held a booking for one specific box, and each box was still stacked somewhere in the dark above the water. Ruth Adeyemi had to make the ship give those boxes up in an order the trucks could use. The ship had stowed them in a different order, for a different port.</p>
+    <p>Adeyemi has planned the night shift for eleven years. Her tools are a stowage plan printed on A1, three coloured pencils and a radio that crackles whenever a crane swings. Every box on the plan has an address of six digits: bay, row, tier. The box at 140282 sits in bay 14, row 02, tier 82, the first one above the hatch covers. &ldquo;You learn to read it like a street map,&rdquo; she said. &ldquo;Then you learn the streets are lying, because somebody loaded them in Gdańsk in a hurry.&rdquo;
+      <span class="note"><b>Reading the plan.</b> Rows count outwards from the centreline: even numbers to port, odd to starboard, 00 down the middle. Tiers on deck start at 82. The drawing above is bay 14.</span></p>
+  </div>
+
+  <div class="prose sec" id="s2">
+    <h2><span class="hd">Twenty-eight moves an hour</span><span class="lead" aria-hidden="true"></span><time datetime="00:15">00:15</time></h2>
+    <p>By midnight four cranes were working the ship, and the whole quay had settled into a beat. Dilnoza Rahimova drives crane 4. Her cab hangs thirty-eight metres above the apron and has a window in the floor, so that she can look straight down at the box she is holding. She has been in that seat for nineteen years. She keeps a thermos wedged against the console, which the maintenance manual forbids.</p>
+    <p>A good crane makes twenty-eight moves an hour, one every two minutes and nine seconds. A move is lift, swing, lower, release, return. It sounds slow until you stand under it. The spreader locks onto the four corner castings, a box that may weigh thirty tonnes comes off its seat, and for a few seconds the whole load hangs in the wind off the estuary, turning a few degrees on its own.
+      <span class="note"><b>Moves.</b> One move is one container lifted from ship to quay. A 40-foot box and a 20-foot box each count as one, which is why tonnes, not moves, make the fairer measure of a night.</span></p>
+    <p>From up there, Rahimova told me, the ship looks like a field. You do not unload a field. You take one row, and then the next.</p>
+  </div>
+
+  <aside class="pq a" aria-label="Pull quote">
+    <blockquote>
+      <p>A box that swings, you see it. A box that is two tonnes heavier than the paperwork says, you only find out in the wire.</p>
+      <footer><b>Dilnoza Rahimova</b>, crane driver, crane 4</footer>
+    </blockquote>
+  </aside>
+
+  <div class="prose sec" id="s2b">
+    <p>The paperwork is the problem. Declared weights are often wrong by a tonne or more, and a crane&rsquo;s load cell is the last honest witness on the quay. Rahimova can hear a heavy box in the note of the hoist before the display agrees with her. She calls it in on the radio, the planner moves the box to a different stack, and the night goes on. It happens three or four times a shift.</p>
+  </div>
+
+  <div class="prose sec" id="s3">
+    <h2><span class="hd">The people on the deck</span><span class="lead" aria-hidden="true"></span><time datetime="01:50">01:50</time></h2>
+    <p>Down on the ship, the work is done by hand. A gang of six lashers works the deck in head torches, a bay ahead of the cranes. Every box on deck sits on four twistlocks, one at each corner, and each lock has to be turned open by a person standing in a gap barely wider than their shoulders. Kwame Boateng has done this for twenty-three winters. He carries the locks in a canvas bag that weighs about eight kilos by the end of a bay.
+      <span class="note"><b>Twistlock.</b> A steel fitting about the size of a fist that pins one box to the box below. It weighs four kilos. A seven-high stack on deck is held together by 24 of them.</span></p>
+    <p>The cold is the first problem and the order of work is the second. A lasher must clear the box the crane is about to take, then move before it swings. There is a rule that nobody stands under the spreader. There is a second rule, that nobody stands where the spreader will be in ninety seconds, and that one is harder to keep, because it depends on reading the driver.</p>
+  </div>
+
+  <aside class="pq b" aria-label="Pull quote">
+    <blockquote>
+      <p>A twistlock weighs four kilos. Forget to turn one and it is thirty tonnes deciding to come with you.</p>
+      <footer><b>Kwame Boateng</b>, lasher, deck gang 2</footer>
+    </blockquote>
+  </aside>
+
+  <div class="prose sec" id="s3b">
+    <p>The gang checks in on the radio every twenty minutes. If a voice is missing, the crane stops. &ldquo;Nobody takes it personally,&rdquo; Boateng said. &ldquo;The crane does not care whether you are fine. It only wants to hear it.&rdquo;</p>
+  </div>
+
+  <div class="prose sec" id="s4">
+    <h2><span class="hd">Fifty minutes of nothing</span><span class="lead" aria-hidden="true"></span><time datetime="03:05">03:05</time></h2>
+    <p>At 03:05 a breaker tripped in the quay substation. Cranes 1, 2 and 3 stopped where they were, spreaders in the air, and stayed that way for fifty minutes. Only crane 4 has its own feeder, so Rahimova went on lifting alone, one box every two minutes, while the quay went quiet around her.</p>
+    <p>Quiet is expensive. The trucks in the queue did not move faster. Adeyemi walked the line with her radio and a torch, telling drivers who would wait and who would go to the back lot, and she rewrote the plan in pencil on the A1 sheet. The deck gangs sat in the mess cabin, a steel box with a kettle, a microwave and a whiteboard where someone had drawn the ship as a rectangle with legs. &ldquo;Nobody likes the quiet,&rdquo; said Boateng. &ldquo;You start to hear the water.&rdquo;</p>
+  </div>
+
+  <figure class="fig wide" id="fig1">
+    <div class="box">
+      <h3>Tonnes discharged each hour, 22:00 to 06:00</h3>
+      <p class="sub">The Maren Gudrun at Pier 9, from the night log. The red bar is the hour of the substation trip.</p>
+      <div class="layout">
+        <svg viewBox="0 0 480 400" role="img" aria-labelledby="fig-t">
+          <title id="fig-t">Bar chart of tonnes discharged per hour. Hours 23:00 to 02:00 and 04:00 to 05:00 run between 1,290 and 1,380 tonnes. The 22:00 hour, a part hour, has 640 tonnes. The 03:00 hour has 520 tonnes.</title>
+          <line class="grid" x1="66.0" y1="40" x2="66.0" y2="362"/>
+<text class="ax" x="66.0" y="382" text-anchor="middle">0</text>
+<line class="grid" x1="176.0" y1="40" x2="176.0" y2="362"/>
+<text class="ax" x="176.0" y="382" text-anchor="middle">500</text>
+<line class="grid" x1="286.0" y1="40" x2="286.0" y2="362"/>
+<text class="ax" x="286.0" y="382" text-anchor="middle">1,000</text>
+<line class="grid" x1="396.0" y1="40" x2="396.0" y2="362"/>
+<text class="ax" x="396.0" y="382" text-anchor="middle">1,500</text>
+<line class="ref" x1="361.68" y1="40" x2="361.68" y2="362"/>
+<text class="refl" x="367.68" y="30">Four cranes at 28 moves an hour: 1,340 t</text>
+<text class="hr" x="56" y="67" text-anchor="end">22:00</text>
+<rect class="bar" x="66" y="48" width="140.8" height="26"/>
+<text class="val" x="214.8" y="67">640</text>
+<text class="hr" x="56" y="107" text-anchor="end">23:00</text>
+<rect class="bar" x="66" y="88" width="288.2" height="26"/>
+<text class="val" x="362.2" y="107">1,310</text>
+<text class="hr" x="56" y="147" text-anchor="end">00:00</text>
+<rect class="bar" x="66" y="128" width="303.6" height="26"/>
+<text class="val" x="377.6" y="147">1,380</text>
+<text class="hr" x="56" y="187" text-anchor="end">01:00</text>
+<rect class="bar" x="66" y="168" width="297.0" height="26"/>
+<text class="val" x="371.0" y="187">1,350</text>
+<text class="hr" x="56" y="227" text-anchor="end">02:00</text>
+<rect class="bar" x="66" y="208" width="283.8" height="26"/>
+<text class="val" x="357.8" y="227">1,290</text>
+<text class="hr" x="56" y="267" text-anchor="end">03:00</text>
+<rect class="bar dip" x="66" y="248" width="114.4" height="26"/>
+<text class="val" x="188.4" y="267">520</text>
+<text class="note" x="232.4" y="256">Breaker trips at 03:05.</text>
+<text class="note" x="232.4" y="273">Cranes 1 to 3 stop for 50 min.</text>
+<text class="hr" x="56" y="307" text-anchor="end">04:00</text>
+<rect class="bar" x="66" y="288" width="290.4" height="26"/>
+<text class="val" x="364.4" y="307">1,320</text>
+<text class="hr" x="56" y="347" text-anchor="end">05:00</text>
+<rect class="bar" x="66" y="328" width="299.2" height="26"/>
+<text class="val" x="373.2" y="347">1,360</text>
+<line class="axis" x1="66" y1="40" x2="66" y2="362"/>
+        </svg>
+      </div>
+      <figcaption><b>Figure 1.</b> Tonnes discharged per hour. Total 9,170 t in 7 h 33 min, from the first lift at 22:25 to the last at 05:58. Average box weight 12.0 t. Drawn from the Pier 9 shift log, shift 4.</figcaption>
+    </div>
+  </figure>
+
+  <div class="prose sec" id="s4b">
+    <p>When the breaker was reset at 03:55, the cranes made up some of the loss, though not all of it. The log shows what the night looked like: a plateau of about thirteen hundred tonnes an hour, a hole at three, and the plateau again.</p>
+  </div>
+
+  <div class="prose sec" id="s5">
+    <h2><span class="hd">What the morning gets</span><span class="lead" aria-hidden="true"></span><time datetime="05:30">05:30</time></h2>
+    <p>The last lift was at 05:58. Seven hundred and sixty-four boxes had left the Maren Gudrun in seven and a half hours: tinned tomatoes, flat-pack wardrobes, a consignment of brake discs for a bus depot in Doncaster. Nobody who buys any of it will think about Pier 9. That is how the shift knows it has done its job.</p>
+    <p>By half past five the day gang was at the gate, drinking from paper cups and reading the log over Adeyemi&rsquo;s shoulder. She wrote the handover in block capitals. Breaker, substation, 50 minutes. Boxes held for the morning, 12. Trucks gone, 29; two sent to the back lot. Then she did what she does at the end of every shift, and rubbed out the plan in pencil, so that the next night begins with a clean sheet.</p>
+    <p>Rahimova climbed down the crane&rsquo;s ladder as the first commuter train crossed the swing bridge upriver, its windows full of people on their way to start. She does not take the train. She drives home the other way, against the traffic, and sleeps with the curtains shut until two.</p>
+    <p class="nums" style="font-size:var(--fs-caption);color:var(--text-muted);margin-top:2rem">Ines Okafor&rsquo;s photographs from Pier 9 run in the print edition, pages 48 to 57.</p>
+  </div>
+
+  <aside class="author" aria-label="About the author">
+    <div class="mono" aria-hidden="true">MS</div>
+    <div>
+      <h2>Marit Solheim</h2>
+      <p>Marit writes about working waterfronts. She spent four months with the night shift at Pier 9 for this story and now flinches at reversing alarms. Her last piece for The Tidewatch followed the lock-keepers of the Calder Navigation.</p>
+    </div>
+  </aside>
+</main>
+
+<section class="more" id="more" aria-labelledby="more-h">
+  <h2 id="more-h">More from this issue</h2>
+  <ol>
+    <li><a href="#"><span class="pg">12</span><span class="kind">Feature, 9 minutes</span><h3>Twelve locks, one keeper, no signal</h3><p>Hilde Brandt has worked the Calder Navigation for thirty-four years and has never missed a boat, though she has missed two funerals.</p></a></li>
+    <li><a href="#"><span class="pg">31</span><span class="kind">Photo essay</span><h3>The last coal barge on the Calder</h3><p>Fourteen frames from the final run to Ferrybridge.</p></a></li>
+    <li><a href="#"><span class="pg">64</span><span class="kind">Short, 3 minutes</span><h3>Why the Staithe ferry still leaves at 4:50</h3><p>Because a baker asked in 1961.</p></a></li>
+  </ol>
+</section>
+
+<section class="news" aria-labelledby="news-h">
+  <div class="in">
+    <div>
+      <h2 id="news-h">One letter a month from the water</h2>
+    </div>
+    <div>
+      <p>Four issues a year, and between them a short letter with the port news we could not fit: tide tables, lock closures, one good photograph.</p>
+      <form id="nl" novalidate>
+        <label for="email">Email address</label>
+        <div class="row">
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="nlmsg">
+          <button type="submit">Send me the letter</button>
+        </div>
+        <p class="msg" id="nlmsg" role="status" aria-live="polite"></p>
+        <p class="fine">We send one email a month. Unsubscribe in one click. Read the <a href="#">privacy policy</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <span>The Tidewatch. An independent quarterly about rivers, canals and ports.</span>
+  <span><a href="#">Privacy policy</a> &nbsp; <a href="#">Terms of use</a> &nbsp; <a href="#">Back to top</a></span>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function isDark() {
+    var a = root.getAttribute('data-theme');
+    return a ? a === 'dark' : mq.matches;
+  }
+  function sync() {
+    var d = isDark();
+    btn.textContent = d ? 'Light theme' : 'Dark theme';
+    btn.setAttribute('aria-pressed', String(d));
+  }
+  btn.addEventListener('click', function () {
+    root.setAttribute('data-theme', isDark() ? 'light' : 'dark');
+    sync();
+  });
+  if (mq.addEventListener) mq.addEventListener('change', sync);
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  sync();
+
+  /* reading progress */
+  var bar = document.getElementById('bar');
+  var main = document.getElementById('story');
+  function progress() {
+    var r = main.getBoundingClientRect();
+    var total = r.height - window.innerHeight * 0.6;
+    var p = Math.min(1, Math.max(0, (-r.top + window.innerHeight * 0.2) / total));
+    bar.style.transform = 'scaleX(' + p + ')';
+  }
+  window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress);
+  progress();
+
+  /* contents highlight */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var ids = ['s1', 's2', 's3', 's4', 's5', 'more'];
+  function spy() {
+    var cur = ids[0], y = window.innerHeight * 0.3;
+    ids.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= y) cur = id;
+    });
+    links.forEach(function (a) { a.removeAttribute('aria-current'); });
+    if (map[cur]) map[cur].setAttribute('aria-current', 'true');
+  }
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+
+  /* newsletter */
+  var form = document.getElementById('nl');
+  var email = document.getElementById('email');
+  var msg = document.getElementById('nlmsg');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = email.value.trim();
+    if (!v) {
+      email.setAttribute('aria-invalid', 'true');
+      msg.textContent = 'Enter your email address so we know where to send the letter.';
+      email.focus(); return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+      email.setAttribute('aria-invalid', 'true');
+      msg.textContent = '“' + v + '” is missing something. Check for an @ and a domain such as .com.';
+      email.focus(); return;
+    }
+    email.removeAttribute('aria-invalid');
+    msg.textContent = 'Signed up. The first letter arrives within a month. Check your spam folder if it does not.';
+    form.querySelector('button').textContent = 'Signed up';
+    form.querySelector('button').disabled = true;
+    email.readOnly = true;
+  });
+  email.addEventListener('input', function () { email.removeAttribute('aria-invalid'); });
+})();
+</script>
+</body>
+</html>

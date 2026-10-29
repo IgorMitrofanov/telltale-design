@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy a pass | Overhang bouldering, Leeds</title>
+<meta name="description" content="Buy a day pass, a 10-visit card or a monthly membership for Overhang, the bouldering gym in the railway arches in Leeds.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E9EAEC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16181D" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   TOKENS. The only place colour literals live.
+   To re-brand, change --brand below. Nothing else.
+   ========================================================== */
+:root {
+  --brand: #E4572E;
+
+  /* Fixed neutrals used on top of brand fields in both themes */
+  --ink: oklch(0.2 0.02 262);
+  --chalk: oklch(0.97 0.01 95);
+
+  /* Brand roles, derived from --brand (clamped so any hue stays readable) */
+  --field: oklch(from var(--brand) clamp(0.64, l, 0.86) clamp(0.09, c, 0.21) h);
+  --field-hover: oklch(from var(--field) calc(l - 0.06) c h);
+  --field-press: oklch(from var(--field) calc(l - 0.11) c h);
+  --on-field: var(--ink);
+  --wall-shade: oklch(from var(--field) calc(l - 0.16) calc(c * 0.9) h);
+  --wall-tint: oklch(from var(--field) calc(l + 0.07) calc(c * 0.55) h);
+
+  color-scheme: light;
+  --bg: oklch(0.945 0.006 250);
+  --surface: oklch(0.985 0.004 250);
+  --text: oklch(0.2 0.02 262);
+  --text-muted: oklch(0.42 0.02 262);
+  --line: oklch(0.86 0.008 255);
+  --line-strong: oklch(0.55 0.015 258);
+  --accent-text: oklch(from var(--brand) clamp(0.3, l, 0.5) clamp(0.1, c, 0.2) h);
+  --bad: oklch(0.5 0.19 27);
+  --bad-bg: color-mix(in oklch, var(--bad) 8%, var(--surface));
+  --good: oklch(0.45 0.13 150);
+  --focus: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: oklch(0.19 0.012 262);
+    --surface: oklch(0.235 0.012 262);
+    --text: oklch(0.95 0.005 95);
+    --text-muted: oklch(0.76 0.01 262);
+    --line: oklch(0.33 0.012 262);
+    --line-strong: oklch(0.62 0.015 262);
+    --accent-text: oklch(from var(--brand) clamp(0.74, l, 0.9) clamp(0.1, c, 0.2) h);
+    --bad: oklch(0.76 0.15 27);
+    --bad-bg: color-mix(in oklch, var(--bad) 12%, var(--surface));
+    --good: oklch(0.78 0.14 150);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: oklch(0.19 0.012 262);
+  --surface: oklch(0.235 0.012 262);
+  --text: oklch(0.95 0.005 95);
+  --text-muted: oklch(0.76 0.01 262);
+  --line: oklch(0.33 0.012 262);
+  --line-strong: oklch(0.62 0.015 262);
+  --accent-text: oklch(from var(--brand) clamp(0.74, l, 0.9) clamp(0.1, c, 0.2) h);
+  --bad: oklch(0.76 0.15 27);
+  --bad-bg: color-mix(in oklch, var(--bad) 12%, var(--surface));
+  --good: oklch(0.78 0.14 150);
+}
+@supports not (color: oklch(from red l c h)) {
+  :root { --field: var(--brand); --field-hover: var(--brand); --field-press: var(--brand); --wall-shade: var(--ink); --wall-tint: var(--chalk); --accent-text: var(--text); }
+}
+
+/* ==========================================================
+   BASE
+   ========================================================== */
+:root {
+  --max: 1280px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --r1: 4px;
+  --r2: 8px;
+  --ff: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-optical-sizing: auto;
+  overflow-wrap: break-word;
+}
+h1, h2, h3, p, dl, dd, fieldset, legend { margin: 0; padding: 0; }
+fieldset { border: 0; min-width: 0; }
+a { color: var(--accent-text); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+a:hover { text-decoration-thickness: 3px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--r1); }
+::selection { background: var(--field); color: var(--on-field); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+
+.wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ---------- header ---------- */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.mark { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-stretch: 75%; font-weight: 800; font-size: 1.75rem; letter-spacing: 0.005em; line-height: 1; }
+.mark svg { width: 40px; height: 28px; flex: none; }
+.mark .m-roof { fill: var(--text); }
+.mark .m-hold { fill: var(--field); }
+.top a.login { font-weight: 600; color: var(--text); }
+.top a.login:hover { color: var(--accent-text); }
+
+/* ---------- hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  padding-left: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter)));
+  align-items: stretch;
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
+.hero-text { padding-block: clamp(24px, 4vw, 56px) clamp(24px, 4vw, 48px); padding-right: clamp(0px, 3vw, 40px); display: flex; flex-direction: column; justify-content: center; }
+h1 {
+  font-stretch: 75%;
+  font-weight: 800;
+  font-size: clamp(3.2rem, 6.6vw, 6.6rem);
+  line-height: 0.88;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  margin-bottom: clamp(16px, 2.4vw, 28px);
+}
+.hero-text p { max-width: 34ch; font-size: 1.1875rem; color: var(--text-muted); }
+.hero-text p strong { color: var(--text); font-weight: 600; }
+.hero-facts { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 0.9375rem; color: var(--text-muted); }
+.hero-facts b { color: var(--text); font-weight: 600; }
+.wall { position: relative; min-height: 440px; background: var(--field); overflow: hidden; }
+.wall svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wall .seam { stroke: var(--on-field); stroke-opacity: 0.22; stroke-width: 2; fill: none; }
+.wall .roof { fill: var(--wall-shade); }
+.wall .kick { fill: var(--wall-shade); }
+.wall .h-ink { fill: var(--ink); }
+.wall .h-chalk { fill: var(--chalk); }
+.wall .h-tint { fill: var(--wall-tint); }
+.wall .vol { fill: var(--wall-tint); }
+.wall .route { fill: none; stroke: var(--chalk); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 0.1 11; }
+.wall .tape rect { fill: var(--chalk); }
+.wall .tape text { font-family: var(--ff); font-weight: 800; font-size: 14px; fill: var(--ink); letter-spacing: 0.04em; }
+.wall .tape.dark rect { fill: var(--ink); }
+.wall .tape.dark text { fill: var(--chalk); }
+
+/* ---------- flow ---------- */
+.flow { padding-bottom: clamp(48px, 7vw, 96px); }
+.flow-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+@media (min-width: 980px) {
+  .flow-grid { grid-template-columns: minmax(0, 1fr) 380px; column-gap: clamp(40px, 6vw, 88px); }
+  .step { grid-column: 1; }
+  .summary { grid-column: 2; grid-row: 1 / span 5; align-self: start; position: sticky; top: 24px; }
+}
+
+.step { position: relative; padding: 0 0 clamp(36px, 5vw, 56px) 64px; }
+.step::before { content: ""; position: absolute; left: 21px; top: 36px; bottom: 0; width: 4px; border-radius: 2px; background: var(--line-strong); opacity: 0.55; }
+.step.last::before { display: none; }
+.marker { position: absolute; left: 0; top: -4px; width: 48px; height: 48px; }
+.marker .hold { fill: var(--field); }
+.marker .n { font-family: var(--ff); font-weight: 800; font-size: 24px; fill: var(--on-field); text-anchor: middle; }
+.marker .n.top { font-size: 13px; letter-spacing: 0.02em; }
+.step h2 { font-stretch: 75%; font-weight: 800; font-size: clamp(1.9rem, 3.4vw, 2.6rem); line-height: 1; margin-bottom: 8px; padding-top: 2px; }
+.step .lede { color: var(--text-muted); margin-bottom: 20px; max-width: 56ch; }
+
+/* pass rows */
+.passes { display: grid; gap: 10px; }
+.pass { position: relative; }
+.pass input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.pass-body { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 4px 16px; padding: 16px 18px; background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r2); transition: background-color .15s ease-out, border-color .15s ease-out; }
+.pass:hover .pass-body { border-color: var(--text); }
+.pass input:focus-visible + .pass-body { outline: 3px solid var(--focus); outline-offset: 3px; }
+.pass input:checked + .pass-body { background: var(--field); border-color: var(--ink); color: var(--on-field); }
+.pass input:checked + .pass-body .pass-desc { color: var(--on-field); }
+.pass-ico { width: 56px; height: 44px; }
+.pass-ico path { fill: var(--text); }
+.pass input:checked + .pass-body .pass-ico path { fill: var(--on-field); }
+.pass-name { font-weight: 700; font-size: 1.375rem; line-height: 1.1; }
+.pass-desc { grid-column: 2; color: var(--text-muted); font-size: 0.9375rem; line-height: 1.4; }
+.pass-price { grid-column: 3; grid-row: 1 / span 2; text-align: right; font-stretch: 75%; font-weight: 800; font-size: 2.5rem; line-height: 1; }
+.pass-price small { display: block; font-stretch: 100%; font-weight: 500; font-size: 0.875rem; margin-top: 4px; }
+.pass-chk { display: none; }
+
+/* choice chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.chip span { display: flex; flex-direction: column; justify-content: center; min-width: 92px; min-height: 56px; padding: 6px 16px; background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r2); font-weight: 700; line-height: 1.15; transition: background-color .15s ease-out; }
+.chip span i { font-style: normal; font-weight: 500; font-size: 0.875rem; color: var(--text-muted); }
+.chip:hover span { border-color: var(--text); }
+.chip input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 3px; }
+.chip input:checked + span { background: var(--field); border-color: var(--ink); color: var(--on-field); }
+.chip input:checked + span i { color: var(--on-field); }
+
+/* fields */
+.fields { display: grid; gap: 22px; }
+.two { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.field label, .field .lab { display: block; font-weight: 600; margin-bottom: 6px; }
+.field .opt { font-weight: 400; color: var(--text-muted); }
+.field .hint { color: var(--text-muted); font-size: 0.9375rem; margin-top: 6px; }
+input[type=text], input[type=email], input[type=date], input[type=tel] {
+  width: 100%; min-height: 52px; padding: 10px 14px; font: inherit; color: var(--text);
+  background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r2);
+}
+input::placeholder { color: var(--text-muted); opacity: 1; }
+input:hover { border-color: var(--text); }
+input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-color: var(--text); }
+.dob { display: grid; grid-template-columns: 76px 76px 112px; gap: 10px; }
+.dob input { text-align: center; }
+.field.has-error input, .field.has-error .box { border-color: var(--bad); background: var(--bad-bg); }
+.err { display: none; align-items: flex-start; gap: 8px; margin-top: 8px; color: var(--bad); font-weight: 600; font-size: 0.9375rem; line-height: 1.35; }
+.field.has-error .err { display: flex; }
+.err svg { flex: none; width: 20px; height: 20px; margin-top: 0; }
+.err svg path { fill: var(--bad); }
+.err svg .ex { fill: var(--surface); }
+.guardian { padding: 16px 18px 18px; background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r2); }
+.guardian[hidden] { display: none; }
+.guardian > p { font-size: 0.9375rem; color: var(--text-muted); margin-bottom: 14px; }
+.guardian > p b { color: var(--text); font-weight: 600; }
+
+/* waiver */
+.waiver-text { background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r2); padding: 16px 18px; margin-bottom: 16px; max-height: 176px; overflow: auto; font-size: 0.9375rem; line-height: 1.5; }
+.waiver-text:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.waiver-text p + p { margin-top: 10px; }
+.field .check { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; padding: 10px 12px; margin: -10px -12px; border-radius: var(--r2); }
+.check input { appearance: none; -webkit-appearance: none; flex: none; width: 32px; height: 32px; margin: 0; background: var(--surface); border: 2px solid var(--line-strong); border-radius: var(--r1); cursor: pointer; display: grid; place-items: center; }
+.check input::after { content: ""; width: 16px; height: 9px; border-left: 4px solid var(--on-field); border-bottom: 4px solid var(--on-field); transform: translateY(-2px) rotate(-45deg) scale(0); transition: transform .12s ease-out; }
+.check input:checked { background: var(--field); border-color: var(--ink); }
+.check input:checked::after { transform: translateY(-2px) rotate(-45deg) scale(1); }
+.check span { padding-top: 3px; font-weight: 600; }
+.field.has-error .check input { border-color: var(--bad); background: var(--bad-bg); }
+.field.has-error .check input:checked { background: var(--field); border-color: var(--ink); }
+
+/* card placeholder */
+.card-ph { background: var(--surface); border: 2px dashed var(--line-strong); border-radius: var(--r2); padding: 18px; display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card-ph .ph { grid-column: 1 / -1; }
+.card-ph .ph-l { font-weight: 600; font-size: 0.9375rem; margin-bottom: 4px; }
+.card-ph .ph-box { height: 48px; border-radius: var(--r1); background: var(--bg); border: 2px solid var(--line); display: flex; align-items: center; padding-inline: 14px; color: var(--text-muted); }
+.card-ph .ph-note { grid-column: 1 / -1; font-size: 0.9375rem; color: var(--text-muted); }
+
+/* summary */
+.summary { background: var(--surface); border: 2px solid var(--text); border-radius: var(--r2); padding: 22px 22px 24px; margin: 0 0 clamp(36px, 5vw, 56px) 64px; }
+@media (min-width: 980px) { .summary { margin: 0; } }
+.summary h2 { font-stretch: 75%; font-weight: 800; font-size: 1.75rem; line-height: 1; margin-bottom: 14px; }
+.summary dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 1rem; }
+.summary dt { color: var(--text-muted); }
+.summary dd { text-align: right; font-weight: 600; min-width: 0; }
+.summary dd.empty { font-weight: 400; color: var(--text-muted); }
+.sum-line { border-top: 2px solid var(--line); margin-top: 16px; padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sum-line b { font-weight: 700; font-size: 1.125rem; }
+.sum-total { font-stretch: 75%; font-weight: 800; font-size: 3.75rem; line-height: 0.9; }
+.sum-note { margin-top: 10px; color: var(--text-muted); font-size: 0.9375rem; }
+.sum-note b { color: var(--text); font-weight: 600; }
+.sum-help { margin-top: 18px; padding-top: 16px; border-top: 2px solid var(--line); font-size: 0.9375rem; color: var(--text-muted); }
+
+/* pay button */
+.pay-row { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.btn {
+  appearance: none; font: inherit; cursor: pointer;
+  font-stretch: 75%; font-weight: 800; font-size: 2rem; line-height: 1;
+  background: var(--field); color: var(--on-field);
+  border: 3px solid var(--ink); border-radius: var(--r2);
+  padding: 16px 30px 17px; min-height: 64px;
+  transition: background-color .15s ease-out, transform .1s ease-out;
+}
+.btn:hover { background: var(--field-hover); }
+.btn:active { background: var(--field-press); transform: translateY(2px); }
+.btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.pay-row small { color: var(--text-muted); font-size: 0.9375rem; max-width: 30ch; }
+.status { margin-top: 16px; font-weight: 600; display: none; }
+.status.on { display: block; color: var(--good); }
+
+/* footer */
+.foot { border-top: 2px solid var(--text); padding-block: 28px 40px; display: grid; gap: 20px 48px; grid-template-columns: minmax(0, 1fr); font-size: 0.9375rem; color: var(--text-muted); }
+@media (min-width: 760px) { .foot { grid-template-columns: 1.2fr 1fr 1fr; } }
+.foot b { color: var(--text); font-weight: 700; display: block; }
+.foot ul { list-style: none; margin: 0; padding: 0; }
+.foot a { color: var(--text); }
+
+/* ---------- small screens ---------- */
+@media (max-width: 859px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-left: 0; }
+  .hero-text { padding-inline: var(--gutter); padding-right: var(--gutter); }
+  .wall { min-height: 280px; }
+}
+@media (max-width: 520px) {
+  .step { padding-left: 48px; }
+  .step::before { left: 15px; top: 30px; }
+  .marker { width: 38px; height: 38px; top: -2px; }
+  .summary { margin-left: 48px; }
+  .pass-body { grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 12px; padding: 14px; }
+  .pass-ico { width: 44px; height: 36px; }
+  .pass-price { font-size: 2.1rem; }
+  .dob { grid-template-columns: 1fr 1fr 1.5fr; }
+  .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="mark" href="#" aria-label="Overhang, home">
+    <svg viewBox="0 0 40 28" aria-hidden="true"><path class="m-roof" d="M0 0H40V6L0 28Z"/><path class="m-hold" d="M24 14C24 9 30 8 33 11C36 14 33 19 29 19C26 19 24 17 24 14Z"/></svg>
+    Overhang
+  </a>
+  <a class="login" href="#">Member log in</a>
+</header>
+
+<section class="hero" aria-labelledby="h1">
+  <div class="hero-text">
+    <h1 id="h1">Pick a pass.<br>Get on the wall.</h1>
+    <p>Bouldering in the railway arches off <strong>Water Lane, Leeds</strong>. Buy here, show your email at the desk and climb.</p>
+    <div class="hero-facts">
+      <span><b>Mon to Fri</b> 10:00 to 22:00</span>
+      <span><b>Sat and Sun</b> 09:00 to 20:00</span>
+    </div>
+  </div>
+  <div class="wall" aria-hidden="true">
+    <svg viewBox="0 0 640 520" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <path id="hA" d="M8 30C4 18 14 6 28 8C42 10 46 24 40 36C34 46 14 44 8 30Z"/>
+        <path id="hB" d="M6 22C8 10 24 4 36 10C46 16 44 34 34 41C22 46 8 38 6 22Z"/>
+        <path id="hC" d="M10 12C20 4 38 6 43 18C47 30 36 44 22 43C8 42 2 24 10 12Z"/>
+        <path id="hD" d="M5 26C5 12 20 5 33 9C45 13 45 30 36 39C26 47 6 42 5 26Z"/>
+      </defs>
+      <!-- roof, panel seams, kickboard -->
+      <path class="roof" d="M0 0H640V56L0 150Z"/>
+      <path class="seam" d="M213 130V520M427 60V520M0 340H640"/>
+      <rect class="kick" y="470" width="640" height="50"/>
+      <!-- volumes -->
+      <path class="vol" d="M548 250L640 250L640 380L548 380Z" transform="rotate(-4 594 315)"/>
+      <circle class="vol" cx="330" cy="430" r="34"/>
+      <!-- other problem: ink holds -->
+      <use href="#hB" class="h-ink" transform="translate(40 300) scale(1.5)"/>
+      <use href="#hC" class="h-ink" transform="translate(280 380) scale(1.1)"/>
+      <use href="#hA" class="h-ink" transform="translate(430 330) scale(1.3)"/>
+      <use href="#hD" class="h-ink" transform="translate(220 140) scale(1.0)"/>
+      <use href="#hB" class="h-ink" transform="translate(70 170) scale(0.9)"/>
+      <use href="#hC" class="h-ink" transform="translate(470 420) scale(1.0)"/>
+      <use href="#hA" class="h-tint" transform="translate(570 280) scale(1.6)"/>
+      <use href="#hD" class="h-tint" transform="translate(110 390) scale(0.8)"/>
+      <!-- chalk route -->
+      <path class="route" d="M130 425L222 358L172 285L296 248L380 188L474 218L526 142"/>
+      <use href="#hA" class="h-chalk" transform="translate(96 401) scale(1.0)"/>
+      <use href="#hC" class="h-chalk" transform="translate(190 330) scale(1.2)"/>
+      <use href="#hB" class="h-chalk" transform="translate(146 262) scale(0.95)"/>
+      <use href="#hD" class="h-chalk" transform="translate(262 220) scale(1.2)"/>
+      <use href="#hA" class="h-chalk" transform="translate(350 160) scale(1.1)"/>
+      <use href="#hB" class="h-chalk" transform="translate(448 194) scale(1.0)"/>
+      <use href="#hC" class="h-chalk" transform="translate(494 104) scale(1.5)"/>
+      <!-- tape -->
+      <g class="tape" transform="translate(150 392) rotate(-5)"><rect width="66" height="24" rx="2"/><text x="33" y="17" text-anchor="middle">START</text></g>
+      <g class="tape" transform="translate(500 82) rotate(4)"><rect width="46" height="24" rx="2"/><text x="23" y="17" text-anchor="middle">TOP</text></g>
+      <g class="tape dark" transform="translate(358 128) rotate(-3)"><rect width="38" height="22" rx="2"/><text x="19" y="16" text-anchor="middle">V3</text></g>
+    </svg>
+  </div>
+</section>
+
+<main class="wrap flow" id="main">
+<form id="buy" novalidate>
+  <div class="flow-grid">
+
+    <!-- 1 PASS -->
+    <fieldset class="step" id="s1">
+      <svg class="marker" viewBox="0 0 48 48" aria-hidden="true"><path class="hold" d="M8 30C4 18 14 6 28 8C42 10 46 24 40 36C34 46 14 44 8 30Z"/><text class="n" x="24" y="32">1</text></svg>
+      <legend><h2>Choose a pass</h2></legend>
+      <p class="lede">Same wall, same grades. The difference is how often you come.</p>
+      <div class="passes">
+        <label class="pass">
+          <input type="radio" name="pass" value="day" data-price="14" data-name="Day pass">
+          <span class="pass-body">
+            <svg class="pass-ico" viewBox="0 0 56 44" aria-hidden="true"><path d="M3 30C3 24 12 20 28 20C44 20 53 24 53 30C53 34 48 36 28 36C8 36 3 34 3 30Z"/></svg>
+            <span class="pass-name">Day pass</span>
+            <span class="pass-desc">One session, any time we are open. Shoe hire is paid at the desk.</span>
+            <span class="pass-price num">£14</span>
+          </span>
+        </label>
+        <label class="pass">
+          <input type="radio" name="pass" value="card" data-price="120" data-name="10-visit card" checked>
+          <span class="pass-body">
+            <svg class="pass-ico" viewBox="0 0 56 44" aria-hidden="true"><path fill-rule="evenodd" d="M7 38C3 22 15 8 30 9C46 10 53 24 49 38C46 43 33 41 28 35C23 41 10 43 7 38ZM25 22C25 26 31 26 31 22C31 18 25 18 25 22Z"/></svg>
+            <span class="pass-name">10-visit card</span>
+            <span class="pass-desc">£12 a visit. Valid for 12 months.</span>
+            <span class="pass-price num">£120</span>
+          </span>
+        </label>
+        <label class="pass">
+          <input type="radio" name="pass" value="month" data-price="58" data-name="Monthly membership">
+          <span class="pass-body">
+            <svg class="pass-ico" viewBox="0 0 56 44" aria-hidden="true"><path d="M2 40C4 18 20 6 34 8C48 10 55 26 54 40Z"/></svg>
+            <span class="pass-name">Monthly</span>
+            <span class="pass-desc">Climb as often as you like. Cancel any time, online or at the desk.</span>
+            <span class="pass-price num">£58<small>a month</small></span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- 2 DATE -->
+    <fieldset class="step" id="s2">
+      <svg class="marker" viewBox="0 0 48 48" aria-hidden="true"><path class="hold" d="M6 22C8 10 24 4 36 10C46 16 44 34 34 41C22 46 8 38 6 22Z"/><text class="n" x="24" y="32">2</text></svg>
+      <legend><h2 id="dateH">Pick your first day</h2></legend>
+      <p class="lede" id="dateLede">Your card starts on this day. It stays valid for 12 months.</p>
+      <div class="chips" id="chips" role="radiogroup" aria-labelledby="dateH"></div>
+      <div class="field" style="max-width: 280px">
+        <label for="startOther">Or another date</label>
+        <input type="date" id="startOther" name="startOther">
+      </div>
+    </fieldset>
+
+    <!-- 3 CLIMBER -->
+    <fieldset class="step" id="s3">
+      <svg class="marker" viewBox="0 0 48 48" aria-hidden="true"><path class="hold" d="M10 12C20 4 38 6 43 18C47 30 36 44 22 43C8 42 2 24 10 12Z"/><text class="n" x="24" y="32">3</text></svg>
+      <legend><h2>Who is climbing?</h2></legend>
+      <p class="lede">We send the pass to your email. Show it on your phone at the desk.</p>
+      <div class="fields">
+        <div class="field" id="f-name">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" autocomplete="name" value="Jess Okafor" aria-describedby="e-name">
+          <p class="err" id="e-name"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5L19 18H1Z"/><path class="ex" d="M9 7h2v6H9zM9 14.2h2v2H9z"/></svg><span>Add your full name, as it is on your ID.</span></p>
+        </div>
+        <div class="field has-error" id="f-email">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" value="jess.okafor@gmail" aria-invalid="true" aria-describedby="e-email">
+          <p class="err" id="e-email"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5L19 18H1Z"/><path class="ex" d="M9 7h2v6H9zM9 14.2h2v2H9z"/></svg><span>Add the ending, like .com or .co.uk. Your pass is sent to this address.</span></p>
+        </div>
+        <div class="field" id="f-dob">
+          <span class="lab" id="dobL">Date of birth</span>
+          <div class="dob" role="group" aria-labelledby="dobL" aria-describedby="e-dob">
+            <input type="text" id="dd" inputmode="numeric" maxlength="2" placeholder="DD" aria-label="Day" value="14" autocomplete="bday-day">
+            <input type="text" id="mm" inputmode="numeric" maxlength="2" placeholder="MM" aria-label="Month" value="03" autocomplete="bday-month">
+            <input type="text" id="yy" inputmode="numeric" maxlength="4" placeholder="YYYY" aria-label="Year" value="2010" autocomplete="bday-year">
+          </div>
+          <p class="err" id="e-dob"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5L19 18H1Z"/><path class="ex" d="M9 7h2v6H9zM9 14.2h2v2H9z"/></svg><span>Check the date. It must be a real day in the past.</span></p>
+        </div>
+        <div class="guardian" id="guardian">
+          <p><b>Under 18?</b> A parent or guardian adds their name here. They sign the same waiver.</p>
+          <div class="field has-error" id="f-guardian">
+            <label for="guardian-name">Guardian's full name</label>
+            <input type="text" id="guardian-name" name="guardian" autocomplete="off" aria-invalid="true" aria-describedby="e-guardian">
+            <p class="err" id="e-guardian"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5L19 18H1Z"/><path class="ex" d="M9 7h2v6H9zM9 14.2h2v2H9z"/></svg><span>Add a guardian's name. Climbers under 18 need one.</span></p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 4 WAIVER -->
+    <fieldset class="step" id="s4">
+      <svg class="marker" viewBox="0 0 48 48" aria-hidden="true"><path class="hold" d="M5 26C5 12 20 5 33 9C45 13 45 30 36 39C26 47 6 42 5 26Z"/><text class="n" x="24" y="32">4</text></svg>
+      <legend><h2>Read the waiver</h2></legend>
+      <p class="lede">Bouldering is safe when everyone follows the same few rules.</p>
+      <div class="waiver-text" tabindex="0" role="region" aria-label="Waiver text">
+        <p>Bouldering means climbing without ropes, over crash mats. Falls happen. Injuries such as sprains, breaks and bruises can happen too.</p>
+        <p>I will climb only on the wall that is open. I will check the mat below me is clear before I start, and I will not climb above another climber.</p>
+        <p>I will jump down or down-climb from the top. I will not jump off from above the line of the top hold.</p>
+        <p>I am fit to climb today. If I am not sure, I will ask the staff on the floor before I start.</p>
+        <p>I have read the <a href="#">full waiver</a>.</p>
+      </div>
+      <div class="field has-error" id="f-waiver">
+        <label class="check box-l" for="waiver" style="font-weight: 400">
+          <input type="checkbox" id="waiver" name="waiver" aria-invalid="true" aria-describedby="e-waiver">
+          <span>I have read the waiver and I accept it.</span>
+        </label>
+        <p class="err" id="e-waiver"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5L19 18H1Z"/><path class="ex" d="M9 7h2v6H9zM9 14.2h2v2H9z"/></svg><span>Tick the box to accept the waiver. We cannot sell the pass without it.</span></p>
+      </div>
+    </fieldset>
+
+    <!-- SUMMARY -->
+    <aside class="summary" aria-labelledby="sumH">
+      <h2 id="sumH">Your pass</h2>
+      <dl>
+        <dt>Pass</dt><dd id="sPass">10-visit card</dd>
+        <dt id="sDateL">Starts</dt><dd id="sDate" class="num">Thu 29 Oct</dd>
+        <dt>Climber</dt><dd id="sWho">Jess Okafor</dd>
+        <dt>Price</dt><dd id="sPrice" class="num">£120</dd>
+      </dl>
+      <div class="sum-line"><b>Total today</b><span class="sum-total num" id="sTotal">£120</span></div>
+      <p class="sum-note" id="sNote">That is £12 a visit. No renewal, no extra fees.</p>
+      <p class="sum-help">Wrong pass? Change it in step 1. The total updates here.</p>
+    </aside>
+
+    <!-- 5 PAY -->
+    <fieldset class="step last" id="s5">
+      <svg class="marker" viewBox="0 0 48 48" aria-hidden="true"><path class="hold" d="M8 30C4 18 14 6 28 8C42 10 46 24 40 36C34 46 14 44 8 30Z"/><text class="n top" x="24" y="29">TOP</text></svg>
+      <legend><h2>Pay</h2></legend>
+      <p class="lede">Card details go to our payment provider. We never see or store them.</p>
+      <div class="card-ph" aria-label="Card form placeholder">
+        <div class="ph"><div class="ph-l">Card number</div><div class="ph-box num">1234 5678 9012 3456</div></div>
+        <div><div class="ph-l">Expiry</div><div class="ph-box num">MM / YY</div></div>
+        <div><div class="ph-l">Security code</div><div class="ph-box num">123</div></div>
+        <p class="ph-note">The secure card form loads in this box.</p>
+      </div>
+      <div class="pay-row">
+        <button class="btn num" type="submit" id="payBtn">Pay £120</button>
+        <small id="payNote">By paying you accept the <a href="#">terms</a>. See how we use your details in the <a href="#">privacy policy</a>.</small>
+      </div>
+      <p class="status" id="status" role="status"></p>
+    </fieldset>
+
+  </div>
+</form>
+</main>
+
+<footer class="wrap foot">
+  <div><b>Overhang</b>Arch 7, Water Lane, Leeds LS11. Bouldering only, no ropes.</div>
+  <div><b>Questions</b><ul><li><a href="#">hello@overhang.example</a></li><li>Desk: 0113 496 0142</li></ul></div>
+  <div><b>Small print</b><ul><li><a href="#">Terms of use</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Full waiver</a></li></ul></div>
+</footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('buy');
+  var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmt(d) { return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+  function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function ord(n) { var s = ['th','st','nd','rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var startDate = new Date(today);
+
+  /* date chips */
+  var chips = $('chips');
+  for (var i = 0; i < 4; i++) {
+    var d = new Date(today); d.setDate(today.getDate() + i);
+    var lab = document.createElement('label'); lab.className = 'chip';
+    var inp = document.createElement('input'); inp.type = 'radio'; inp.name = 'start'; inp.value = iso(d);
+    if (i === 0) inp.checked = true;
+    var sp = document.createElement('span');
+    var top = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : DAYS[d.getDay()];
+    sp.innerHTML = top + '<i>' + d.getDate() + ' ' + MONTHS[d.getMonth()] + '</i>';
+    lab.appendChild(inp); lab.appendChild(sp); chips.appendChild(lab);
+  }
+  $('startOther').min = iso(today);
+
+  /* helpers */
+  function pass() { var r = form.querySelector('input[name=pass]:checked'); return { v: r.value, name: r.dataset.name, price: +r.dataset.price }; }
+  function money(n) { return '£' + n; }
+
+  function render() {
+    var p = pass();
+    var dateLede = $('dateLede'), dateH = $('dateH'), dl = $('sDateL');
+    if (p.v === 'day') { dateH.textContent = 'Pick your climbing day'; dateLede.textContent = 'The day pass works on this day only, all day.'; dl.textContent = 'Climbing on'; }
+    if (p.v === 'card') { dateH.textContent = 'Pick your first day'; dateLede.textContent = 'Your card starts on this day. It stays valid for 12 months.'; dl.textContent = 'Starts'; }
+    if (p.v === 'month') { dateH.textContent = 'Pick your first day'; dateLede.textContent = 'Your membership starts on this day. You pay again on the same date each month.'; dl.textContent = 'First day'; }
+    $('sPass').textContent = p.name;
+    $('sDate').textContent = fmt(startDate);
+    var nm = $('name').value.trim();
+    var who = $('sWho'); who.textContent = nm || 'Add your name'; who.className = nm ? '' : 'empty';
+    $('sPrice').textContent = money(p.price) + (p.v === 'month' ? ' a month' : '');
+    $('sTotal').textContent = money(p.price);
+    $('payBtn').textContent = 'Pay ' + money(p.price);
+    var note = $('sNote');
+    if (p.v === 'day') note.innerHTML = 'One session on <b>' + fmt(startDate) + '</b>. No renewal, no extra fees.';
+    if (p.v === 'card') note.innerHTML = 'That is <b>£12 a visit</b>. No renewal, no extra fees.';
+    if (p.v === 'month') note.innerHTML = 'Then £58 on the <b>' + ord(startDate.getDate()) + '</b> of each month. <b>Cancel any time.</b>';
+  }
+
+  /* errors */
+  function setError(id, msg) {
+    var f = $('f-' + id); if (!f) return;
+    var inputs = f.querySelectorAll('input');
+    if (msg) {
+      f.classList.add('has-error');
+      f.querySelector('.err span').textContent = msg;
+      inputs.forEach(function (i) { i.setAttribute('aria-invalid', 'true'); });
+    } else {
+      f.classList.remove('has-error');
+      inputs.forEach(function (i) { i.removeAttribute('aria-invalid'); });
+    }
+  }
+  function dobAge() {
+    var dd = $('dd').value.trim(), mm = $('mm').value.trim(), yy = $('yy').value.trim();
+    if (!dd || !mm || !yy) return { err: 'Add your day, month and year of birth.' };
+    if (!/^\d{1,2}$/.test(dd) || !/^\d{1,2}$/.test(mm) || !/^\d{4}$/.test(yy)) return { err: 'Use numbers only, like 14 03 2010.' };
+    var d = new Date(+yy, +mm - 1, +dd);
+    if (d.getFullYear() !== +yy || d.getMonth() !== +mm - 1 || d.getDate() !== +dd) return { err: 'That day does not exist. Check the day and month.' };
+    if (d > today) return { err: 'That date is in the future. Check the year.' };
+    var age = today.getFullYear() - d.getFullYear();
+    var m = today.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < d.getDate())) age--;
+    return { age: age };
+  }
+  function check(id) {
+    var ok = true;
+    if (id === 'name') { var v = $('name').value.trim().length > 1; setError('name', v ? '' : 'Add your full name, as it is on your ID.'); ok = v; }
+    if (id === 'email') { var e = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()); setError('email', e ? '' : ($('email').value.trim() ? 'Add the ending, like .com or .co.uk. Your pass is sent to this address.' : 'Add your email. Your pass is sent to this address.')); ok = e; }
+    if (id === 'dob') { var a = dobAge(); setError('dob', a.err || ''); ok = !a.err; syncGuardian(a); }
+    if (id === 'guardian') { var g = $('guardian').hidden || $('guardian-name').value.trim().length > 1; setError('guardian', g ? '' : "Add a guardian's name. Climbers under 18 need one."); ok = g; }
+    if (id === 'waiver') { var w = $('waiver').checked; setError('waiver', w ? '' : 'Tick the box to accept the waiver. We cannot sell the pass without it.'); ok = w; }
+    return ok;
+  }
+  function syncGuardian(a) {
+    a = a || dobAge();
+    var under = typeof a.age === 'number' && a.age < 18;
+    $('guardian').hidden = !under;
+    if (!under) setError('guardian', '');
+  }
+
+  /* events */
+  form.addEventListener('change', function (e) {
+    if (e.target.name === 'pass') render();
+    if (e.target.name === 'start') { startDate = new Date(e.target.value + 'T00:00:00'); $('startOther').value = ''; render(); }
+  });
+  $('startOther').addEventListener('input', function () {
+    if (!this.value) return;
+    var d = new Date(this.value + 'T00:00:00');
+    if (isNaN(d) || d < today) return;
+    startDate = d;
+    chips.querySelectorAll('input').forEach(function (i) { i.checked = false; });
+    render();
+  });
+  $('name').addEventListener('input', render);
+  $('name').addEventListener('blur', function () { check('name'); });
+  $('email').addEventListener('blur', function () { check('email'); });
+  $('email').addEventListener('input', function () { if ($('f-email').classList.contains('has-error')) check('email'); });
+  ['dd', 'mm', 'yy'].forEach(function (id) {
+    $(id).addEventListener('input', function () { syncGuardian(); });
+    $(id).addEventListener('blur', function () { if ($('dd').value && $('mm').value && $('yy').value) check('dob'); });
+  });
+  $('guardian-name').addEventListener('blur', function () { check('guardian'); });
+  $('guardian-name').addEventListener('input', function () { if ($('f-guardian').classList.contains('has-error') && this.value.trim().length > 1) check('guardian'); });
+  $('waiver').addEventListener('change', function () { check('waiver'); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var order = ['name', 'email', 'dob', 'guardian', 'waiver'], first = null;
+    order.forEach(function (id) { if (!check(id) && !first) first = id; });
+    var st = $('status');
+    if (first) {
+      var el = { name: 'name', email: 'email', dob: 'dd', guardian: 'guardian-name', waiver: 'waiver' }[first];
+      $(el).focus();
+      st.className = 'status'; st.textContent = '';
+    } else {
+      var p = pass();
+      st.className = 'status on';
+      st.textContent = 'Demo only: no payment was taken. In the live page, ' + money(p.price) + ' is charged here.';
+    }
+  });
+
+  /* start state: guardian is shown because the sample climber is 16 */
+  syncGuardian();
+  render();
+})();
+</script>
+</body>
+</html>

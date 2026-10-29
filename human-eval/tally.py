@@ -28,13 +28,14 @@ paths = [args[0]] if os.path.isfile(args[0]) else sorted(glob.glob(os.path.join(
 
 ranks, scores, firsts, ai, opened, notes = (collections.defaultdict(list), collections.defaultdict(list), collections.Counter(),
                                             collections.Counter(), collections.Counter(), collections.defaultdict(list))
+und, und_n = collections.Counter(), collections.Counter()  # second question, schema 2 only
 people, seen_ids, skipped = 0, set(), []
 for path in paths:
     try:
         answer = json.load(open(path, encoding="utf-8"))
     except ValueError:
         skipped.append((path, "not JSON")); continue
-    if answer.get("schema") != "human-design-eval/1" or answer.get("set") != set_id:
+    if answer.get("schema") not in ("human-design-eval/1", "human-design-eval/2") or answer.get("set") != set_id:
         skipped.append((path, "other set or schema")); continue
     if answer["id"] in seen_ids:
         skipped.append((path, "same id as an earlier file; keep the later one")); continue
@@ -46,6 +47,12 @@ for path in paths:
             if code in codes: ai[(brief, codes[code]["condition"])] += 1
         if data.get("note"):
             notes[brief].append(f"{answer.get('who') or 'anon'}: {data['note']}")
+        if data.get("understood_client"):
+            und_n[brief] += 1
+            if data["understood_client"] in codes:
+                und[(brief, codes[data["understood_client"]]["condition"])] += 1
+            else:
+                und[(brief, "no difference")] += 1
         if not data.get("complete"):
             continue
         for place, code in enumerate(data["ranking"], 1):
@@ -74,3 +81,7 @@ for b in briefs:
         print(f"\nNotes, {b}:")
         for n in notes[b]:
             print(f"  - {n}")
+if und_n:
+    print("\nQuestion 2, 'the designer understood this specific client': picks per condition (votes / people who answered)")
+    for cond in conditions + ["no difference"]:
+        print(f"{cond:18} " + "  ".join(f"{b} {und[(b, cond)]}/{und_n[b]}" for b in briefs) + f"   total {sum(und[(b, cond)] for b in briefs)}/{sum(und_n.values())}")

@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polder &amp; Plot — овощная коробка из Роттердама</title>
+<meta name="description" content="Еженедельная коробка овощей с фермы в 2 гектара на месте бывшего порта в Роттердаме. Выбирайте размер, забирайте рядом или заказывайте на грузовом велосипеде.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#2F6B3A;
+
+  color-scheme: light;
+  /* everything below is derived from --brand */
+  --bg: color-mix(in oklab, var(--brand) 5%, #fbfaf4);
+  --fg: color-mix(in oklab, var(--brand) 20%, #0c0e0b);
+  --muted: color-mix(in oklab, var(--fg) 66%, var(--bg));
+  --line: color-mix(in oklab, var(--fg) 22%, var(--bg));
+  --card: color-mix(in oklab, var(--brand) 11%, var(--bg));
+  --deep: oklch(from var(--brand) min(l, .42) c h);
+  --on-deep: #fff;
+  --brand-ink: oklch(from var(--brand) min(l, .44) c h);
+  --on-brand: oklch(from var(--brand) clamp(0, (.64 - l) * 100, 1) 0 0);
+  --sun: oklch(from var(--brand) .82 .15 calc(h - 105));
+  --on-sun: #1a1608;
+  --t1: color-mix(in oklab, var(--brand) 16%, var(--bg));
+  --t2: color-mix(in oklab, var(--brand) 34%, var(--bg));
+  --t3: color-mix(in oklab, var(--brand) 62%, var(--bg));
+  --t4: var(--brand);
+  --s1: color-mix(in oklab, var(--sun) 55%, var(--bg));
+  --s2: var(--sun);
+  --shadow: 0 1px 0 color-mix(in oklab, var(--fg) 14%, transparent);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme: dark;
+    --bg: color-mix(in oklab, var(--brand) 12%, #0a0c0a);
+    --fg: color-mix(in oklab, var(--brand) 10%, #eef1e9);
+    --muted: color-mix(in oklab, var(--fg) 66%, var(--bg));
+    --line: color-mix(in oklab, var(--fg) 24%, var(--bg));
+    --card: color-mix(in oklab, var(--brand) 20%, var(--bg));
+    --deep: color-mix(in oklab, var(--brand) 55%, var(--bg));
+    --on-deep: oklch(from var(--deep) clamp(0, (.62 - l) * 100, 1) 0 0);
+    --brand-ink: oklch(from var(--brand) max(l, .78) c h);
+    --t1: color-mix(in oklab, var(--brand) 24%, var(--bg));
+    --t2: color-mix(in oklab, var(--brand) 42%, var(--bg));
+    --t3: color-mix(in oklab, var(--brand) 70%, var(--bg));
+    --s1: color-mix(in oklab, var(--sun) 40%, var(--bg));
+  }
+}
+:root[data-theme="dark"]{ color-scheme: dark;
+  --bg: color-mix(in oklab, var(--brand) 12%, #0a0c0a);
+  --fg: color-mix(in oklab, var(--brand) 10%, #eef1e9);
+  --muted: color-mix(in oklab, var(--fg) 66%, var(--bg));
+  --line: color-mix(in oklab, var(--fg) 24%, var(--bg));
+  --card: color-mix(in oklab, var(--brand) 20%, var(--bg));
+  --deep: color-mix(in oklab, var(--brand) 55%, var(--bg));
+  --on-deep: oklch(from var(--deep) clamp(0, (.62 - l) * 100, 1) 0 0);
+  --brand-ink: oklch(from var(--brand) max(l, .78) c h);
+  --t1: color-mix(in oklab, var(--brand) 24%, var(--bg));
+  --t2: color-mix(in oklab, var(--brand) 42%, var(--bg));
+  --t3: color-mix(in oklab, var(--brand) 70%, var(--bg));
+  --s1: color-mix(in oklab, var(--sun) 40%, var(--bg));
+}
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:"Golos Text",system-ui,sans-serif;font-size:17px;line-height:1.55;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase}
+h1,h2,h3{font-family:Unbounded,"Golos Text",sans-serif;font-weight:600;line-height:1.08;letter-spacing:-.02em}
+h2{font-size:clamp(1.7rem,3.6vw,2.9rem)}
+.btn{
+  display:inline-flex;align-items:center;gap:.7em;border:0;cursor:pointer;
+  background:var(--brand);color:var(--on-brand);
+  font:600 1rem/1 "Golos Text",sans-serif;padding:1.05em 1.5em;border-radius:0;
+  text-decoration:none;position:relative;transition:transform .15s,box-shadow .15s;
+  box-shadow:5px 5px 0 var(--sun);
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--sun)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--sun)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--brand-ink);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--fg),4px 4px 0 var(--sun)}
+
+/* NAV */
+header.nav{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.logo{font-family:Unbounded;font-weight:800;font-size:1.05rem;text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-.03em;white-space:nowrap}
+.logo i{width:22px;height:22px;display:block;background:
+  linear-gradient(var(--bg),var(--bg)) 11px 0/2px 22px no-repeat,
+  linear-gradient(var(--bg),var(--bg)) 0 11px/22px 2px no-repeat,
+  var(--brand)}
+.nav nav{display:flex;gap:22px;margin-left:auto}
+.nav nav a{text-decoration:none;font-size:.92rem;color:var(--muted)}
+.nav nav a:hover{color:var(--fg)}
+.theme{width:40px;height:40px;border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.theme svg{width:18px;height:18px}
+.nav .btn{padding:.8em 1.1em;font-size:.9rem;box-shadow:3px 3px 0 var(--sun)}
+
+/* HERO */
+.hero{padding:56px 0 72px;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+.hero .kicker{display:flex;gap:14px;align-items:center;margin-bottom:26px;color:var(--brand-ink)}
+.hero .kicker b{display:inline-block;width:44px;height:2px;background:currentColor}
+.hero h1{font-size:clamp(2.1rem,5.2vw,4.6rem);font-weight:800;line-height:1.02}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--sun) 62% 92%,transparent 92%);padding:0 .06em}
+.hero p.lead{font-size:1.2rem;max-width:34em;margin:28px 0 36px;color:var(--muted)}
+.hero .cta{display:flex;gap:18px;flex-wrap:wrap}
+.hero .facts{display:flex;gap:34px;margin-top:46px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.facts div b{display:block;font-family:Unbounded;font-size:1.6rem;font-weight:600;color:var(--brand-ink)}
+.facts div span{font-size:.85rem;color:var(--muted)}
+
+/* the polder map */
+.map{position:relative;aspect-ratio:1/1.02;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:6px;padding:6px;background:var(--fg);border:0}
+.plot{position:relative;overflow:hidden;--a:90deg;--w:7px;
+  background:repeating-linear-gradient(var(--a),var(--c1) 0 var(--w),var(--c2) var(--w) calc(var(--w)*2))}
+.plot span{position:absolute;left:6px;bottom:6px;background:var(--bg);color:var(--fg);padding:2px 6px;font-size:.62rem}
+.p1{grid-area:1/1/4/4;--c1:var(--t3);--c2:var(--t2);--w:9px}
+.p2{grid-area:1/4/3/7;--c1:var(--s2);--c2:var(--s1);--a:0deg;--w:6px}
+.p3{grid-area:3/4/5/6;--c1:var(--t4);--c2:var(--t3);--w:5px;--a:45deg}
+.p4{grid-area:4/1/7/3;--c1:var(--t2);--c2:var(--t1);--w:11px;--a:0deg}
+.p5{grid-area:3/6/5/7;--c1:var(--s1);--c2:var(--t1);--w:4px}
+.p6{grid-area:5/3/7/5;--c1:var(--t3);--c2:var(--s1);--w:8px;--a:90deg}
+.p7{grid-area:5/5/7/7;background:repeating-linear-gradient(90deg,transparent 0 11px,var(--bg) 11px 13px),var(--deep)}
+.p7 span{background:var(--sun);color:var(--on-sun)}
+.p8{grid-area:4/3/5/4;--c1:var(--t1);--c2:var(--t2);--w:3px;--a:0deg}
+.map .pin{position:absolute;right:14px;top:-14px;background:var(--sun);color:var(--on-sun);padding:6px 10px;font-size:.66rem;box-shadow:3px 3px 0 var(--fg)}
+.map-cap{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted)}
+
+/* section frame */
+section{padding:96px 0;border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:56px;align-items:start}
+.sec-head .mono{color:var(--brand-ink);padding-top:.9em}
+.sec-head p{margin-top:16px;color:var(--muted);max-width:40em}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid var(--fg)}
+.step{padding:26px 24px 30px;border-right:2px solid var(--fg);position:relative;min-height:260px;background:var(--bg)}
+.step:last-child{border-right:0}
+.step:nth-child(2){background:var(--card)}
+.step:nth-child(4){background:var(--card)}
+.step .n{font-family:Unbounded;font-size:3.4rem;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px var(--brand-ink);display:block;margin-bottom:22px}
+.step h3{font-size:1.1rem;margin-bottom:10px}
+.step p{font-size:.95rem;color:var(--muted)}
+.points{margin-top:48px;display:grid;grid-template-columns:200px 1fr;gap:32px}
+.points .mono{color:var(--brand-ink);padding-top:.5em}
+.pl{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;list-style:none;padding:0}
+.pl li{border-top:4px solid var(--brand);padding-top:14px}
+.pl b{font-family:Unbounded;font-weight:600;font-size:1rem;display:block}
+.pl span{display:block;color:var(--muted);font-size:.9rem;margin-top:4px}
+.pl .bike{border-top-color:var(--sun)}
+
+/* box */
+#box{background:var(--card)}
+.box-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:56px;align-items:start}
+.week{position:sticky;top:96px}
+.week .big{font-family:Unbounded;font-weight:800;font-size:clamp(5rem,12vw,10rem);line-height:.85;letter-spacing:-.05em;color:var(--brand-ink)}
+.week .mono{display:block;margin-bottom:12px;color:var(--muted)}
+.week p{margin:20px 0 28px;color:var(--muted);max-width:26em}
+.seg{display:inline-grid;grid-template-columns:1fr 1fr;border:2px solid var(--fg);background:var(--bg)}
+.seg button{border:0;background:transparent;color:var(--fg);padding:.85em 1.4em;font:600 .95rem "Golos Text";cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.weight{margin-top:18px;font-family:Unbounded;font-size:1.3rem}
+.weight small{font-family:"Golos Text";font-size:.85rem;color:var(--muted);font-weight:400;margin-left:8px}
+.items{list-style:none;padding:0;background:var(--bg);border:2px solid var(--fg)}
+.items li{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.items li:last-child{border-bottom:0}
+.items b{font-weight:600;display:block;line-height:1.2}
+.items small{color:var(--muted);font-size:.84rem}
+.items .q{font-family:"JetBrains Mono";font-size:.95rem;font-weight:600;white-space:nowrap}
+.items .q .l{display:none}
+.items[data-size="L"] .q .s{display:none}
+.items[data-size="L"] .q .l{display:inline}
+.g{width:40px;height:40px;background:var(--brand);display:block}
+.g1{border-radius:50%;background:var(--brand)}
+.g2{clip-path:polygon(50% 100%,0 0,100% 0);background:var(--sun)}
+.g3{border-radius:40px 40px 0 0;height:22px;margin-top:9px;background:var(--t3)}
+.g4{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:var(--sun)}
+.g5{border-radius:50%;background:radial-gradient(circle,var(--bg) 0 34%,var(--brand) 36%)}
+.g6{border-radius:10px;background:repeating-linear-gradient(90deg,var(--brand) 0 5px,var(--t2) 5px 10px)}
+.g7{border-radius:50% 0 50% 0;background:var(--t3)}
+.g8{background:linear-gradient(90deg,var(--sun) 50%,var(--brand) 50%);border-radius:50%}
+.note{margin-top:16px;font-size:.88rem;color:var(--muted)}
+
+/* prices */
+.prices{display:grid;grid-template-columns:1fr 1fr 0.8fr;gap:24px;align-items:stretch}
+.price{border:2px solid var(--fg);padding:30px 28px;display:flex;flex-direction:column;background:var(--bg);position:relative}
+.price.feat{background:var(--deep);color:var(--on-deep);box-shadow:8px 8px 0 var(--sun)}
+.price .mono{opacity:.75}
+.price h3{font-size:1.5rem;margin:10px 0 4px}
+.amt{font-family:Unbounded;font-weight:800;font-size:clamp(3rem,5vw,4.4rem);line-height:1;letter-spacing:-.04em;margin:22px 0 6px;white-space:nowrap}
+.amt sup{font-size:.4em;vertical-align:top;position:relative;top:.35em;margin-right:4px;font-weight:600}
+.amt small{font-size:.26em;font-weight:400;letter-spacing:0;font-family:"Golos Text";opacity:.75}
+.price ul{list-style:none;padding:0;margin:20px 0 28px;display:grid;gap:10px;font-size:.95rem}
+.price li{padding-left:26px;position:relative}
+.price li::before{content:"";position:absolute;left:0;top:.45em;width:12px;height:12px;background:var(--sun)}
+.price .btn{margin-top:auto;justify-content:center}
+.price.feat .btn{background:var(--sun);color:var(--on-sun);box-shadow:5px 5px 0 var(--bg)}
+.price.add{background:var(--sun);color:var(--on-sun);border-color:var(--sun)}
+.price.add .amt{font-size:clamp(2.6rem,4vw,3.4rem)}
+.price.add .mono{opacity:.8}
+.badge{position:absolute;top:-14px;left:24px;background:var(--sun);color:var(--on-sun);padding:5px 10px;font-size:.66rem}
+
+/* farm */
+.farm{display:grid;grid-template-columns:1.15fr 1fr;gap:64px}
+.farm .story p{margin-bottom:18px;max-width:34em;color:var(--muted);font-size:1.05rem}
+.farm .story p:first-of-type{color:var(--fg);font-size:1.3rem;line-height:1.4;font-family:Unbounded;font-weight:400;letter-spacing:-.02em}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:34px;border-top:2px solid var(--fg)}
+.nums div{padding:16px 16px 0 0}
+.nums b{font-family:Unbounded;font-size:2rem;display:block;color:var(--brand-ink)}
+.nums span{font-size:.84rem;color:var(--muted);display:block;line-height:1.35}
+.people{display:grid;gap:0;border:2px solid var(--fg);align-self:start}
+.person{display:grid;grid-template-columns:84px 1fr;gap:18px;padding:20px;border-bottom:2px solid var(--fg);align-items:center}
+.person:last-child{border-bottom:0}
+.person:nth-child(even){background:var(--card)}
+.mono-av{width:84px;height:84px;display:grid;place-items:center;font-family:Unbounded;font-weight:800;font-size:1.7rem;color:var(--on-brand);background:var(--brand);position:relative;overflow:hidden}
+.person:nth-child(2) .mono-av{background:var(--sun);color:var(--on-sun);border-radius:50%}
+.person:nth-child(3) .mono-av{background:var(--deep);color:var(--on-deep);border-radius:42px 0 42px 0}
+.person b{font-family:Unbounded;font-weight:600;font-size:1rem;display:block}
+.person .mono{color:var(--brand-ink);display:block;margin:2px 0 6px}
+.person p{font-size:.9rem;color:var(--muted);line-height:1.45}
+
+/* faq */
+.faq{max-width:880px;margin-left:232px}
+details{border-top:2px solid var(--fg)}
+details:last-child{border-bottom:2px solid var(--fg)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;padding:24px 0;font-family:Unbounded;font-weight:600;font-size:1.1rem;line-height:1.3}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.8rem;line-height:1;width:34px;height:34px;display:grid;place-items:center;background:var(--sun);color:var(--on-sun);flex:none;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 54px 26px 0;color:var(--muted);max-width:42em}
+
+/* signup */
+#join{background:var(--deep);color:var(--on-deep);border-top:0}
+#join h2{font-size:clamp(2rem,5vw,4.2rem);font-weight:800}
+#join .mono{color:inherit;opacity:.8}
+.join{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.join p.lead{margin-top:22px;font-size:1.1rem;opacity:.88;max-width:28em}
+form{background:var(--bg);color:var(--fg);padding:32px;display:grid;gap:22px;box-shadow:10px 10px 0 var(--sun)}
+fieldset{border:0;padding:0;display:grid;gap:10px;min-width:0}
+legend{padding:0;margin-bottom:10px;color:var(--muted)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.opt label{display:block;border:2px solid var(--line);padding:12px 14px;cursor:pointer;line-height:1.25}
+.opt label b{display:block;font-family:Unbounded;font-weight:600;font-size:.95rem}
+.opt label span{font-size:.84rem;color:var(--muted)}
+.opt input:checked + label{border-color:var(--fg);background:var(--card);box-shadow:inset 0 0 0 1px var(--fg)}
+.opt input:focus-visible + label{outline:3px solid var(--brand-ink);outline-offset:2px}
+.f{display:grid;gap:6px}
+.f label{font-size:.85rem;color:var(--muted)}
+.f input,.f select{font:inherit;color:var(--fg);background:var(--bg);border:2px solid var(--line);padding:.8em .9em;width:100%;border-radius:0}
+.f input:focus,.f select:focus{border-color:var(--fg)}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--fg);padding-top:16px;font-size:.95rem;color:var(--muted)}
+.total b{font-family:Unbounded;font-size:1.6rem;color:var(--fg)}
+form .btn{justify-content:center;width:100%}
+.ok{display:none;padding:14px;background:var(--sun);color:var(--on-sun);font-weight:600}
+.ok.on{display:block}
+
+footer{padding:40px 0 48px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+footer .wrap{display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.tint{display:flex;align-items:center;gap:10px}
+.tint input{width:36px;height:36px;padding:0;border:2px solid var(--fg);background:none;cursor:pointer}
+
+@media (max-width:1000px){
+  .hero .wrap,.box-grid,.farm,.join{grid-template-columns:1fr;gap:44px}
+  .steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(2){border-right:0}
+  .step:nth-child(1),.step:nth-child(2){border-bottom:2px solid var(--fg)}
+  .step:nth-child(2){background:var(--card)}.step:nth-child(3){background:var(--card)}.step:nth-child(4){background:var(--bg)}
+  .prices{grid-template-columns:1fr}
+  .week{position:static}
+  .sec-head,.points{grid-template-columns:1fr;gap:8px}
+  .sec-head .mono,.points .mono{padding:0}
+  .faq{margin-left:0}
+  .pl{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .nav nav{display:none}
+  .nav .wrap{gap:12px}
+  .nav .btn{margin-left:auto}
+  .hero{padding:32px 0 48px}
+  section{padding:64px 0}
+  .steps{grid-template-columns:1fr}
+  .step{border-right:0!important;border-bottom:2px solid var(--fg);min-height:0}
+  .step:last-child{border-bottom:0}
+  .step:nth-child(n){background:var(--bg)}.step:nth-child(even){background:var(--card)}
+  .pl{grid-template-columns:1fr}
+  .nums{grid-template-columns:1fr 1fr}
+  .opts{grid-template-columns:1fr}
+  form{padding:22px 18px}
+  .items li{grid-template-columns:40px 1fr auto;gap:12px;padding:12px 14px}
+  .person{grid-template-columns:64px 1fr;padding:16px}
+  .mono-av{width:64px;height:64px;font-size:1.3rem}
+  summary{font-size:1rem}
+  details p{padding-right:0}
+  .hero .facts{gap:22px}
+  .map .pin{right:8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>Polder&nbsp;&amp;&nbsp;Plot</a>
+    <nav aria-label="Разделы">
+      <a href="#how">Как это работает</a>
+      <a href="#box">Коробка недели</a>
+      <a href="#prices">Цены</a>
+      <a href="#farm">Ферма</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <button class="theme" id="theme" aria-label="Сменить тему" title="Светлая / тёмная тема">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+    <a class="btn" href="#join">Заказать</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" style="border-top:0;padding-bottom:72px">
+  <div class="wrap">
+    <div>
+      <div class="kicker mono"><b></b>Роттердам · Сезон 2026 · Неделя 44</div>
+      <h1>Два гектара грядок на месте <em>старого порта</em></h1>
+      <p class="lead">Каждую неделю мы собираем овощи, которые вчера росли в пяти километрах от вашей кухни, и складываем их в одну коробку. Без склада, без перекупщиков, без плёнки.</p>
+      <div class="cta">
+        <a class="btn" href="#join">Выбрать коробку <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href="#box">Что в коробке сейчас</a>
+      </div>
+      <div class="facts">
+        <div><b>2 га</b><span>бывшей портовой земли</span></div>
+        <div><b>41</b><span>культура за сезон</span></div>
+        <div><b>&lt; 24 ч</b><span>от грядки до выдачи</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="map" role="img" aria-label="Схема фермы: участки с разными культурами">
+        <div class="plot p1"><span class="mono">01 свёкла</span></div>
+        <div class="plot p2"><span class="mono">02 тыква</span></div>
+        <div class="plot p3"><span class="mono">03 кале</span></div>
+        <div class="plot p4"><span class="mono">04 картофель</span></div>
+        <div class="plot p5"><span class="mono">05</span></div>
+        <div class="plot p6"><span class="mono">06 корнеплоды</span></div>
+        <div class="plot p7"><span class="mono">теплица</span></div>
+        <div class="plot p8"></div>
+        <div class="pin mono">вы здесь, в 5 км</div>
+      </div>
+      <div class="map-cap mono"><span>План фермы</span><span>Масштаб: 1 полоса = 1 ряд</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">01 — Как это работает</span>
+      <div>
+        <h2>Четыре решения, и каждую неделю всё происходит само</h2>
+        <p>Никаких долгих обязательств: подписка живёт ровно столько, сколько вам удобно.</p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Выберите размер</h3><p>Маленькая коробка для одного-двух человек или большая для семьи. Сменить размер можно в любой момент до среды.</p></div>
+      <div class="step"><span class="n">2</span><h3>Заберите или закажите</h3><p>Один из четырёх пунктов выдачи в вашем районе или доставка на грузовом велосипеде до двери.</p></div>
+      <div class="step"><span class="n">3</span><h3>Получайте каждую неделю</h3><p>Состав зависит от того, что созрело. В пятницу присылаем письмо с содержимым и рецептом.</p></div>
+      <div class="step"><span class="n">4</span><h3>Пропустите, когда нужно</h3><p>Уезжаете или в холодильнике ещё полно свёклы? Поставьте любую неделю на паузу одним нажатием.</p></div>
+    </div>
+    <div class="points">
+      <span class="mono">Пункты выдачи</span>
+      <ul class="pl">
+        <li><b>Катендрехт</b><span>Кафе Het Veem · вт 17:00–20:00</span></li>
+        <li><b>Кралинген</b><span>Книжная лавка Boekie · ср 16:00–19:30</span></li>
+        <li><b>Ауде-Ноорден</b><span>Пекарня Zuurdesem · чт 15:00–19:00</span></li>
+        <li class="bike"><b>Грузовой велосипед</b><span>До двери по Роттердаму · +€4 в неделю</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="box">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">02 — Коробка недели</span>
+      <div>
+        <h2>Что лежит в коробке на этой неделе</h2>
+      </div>
+    </div>
+    <div class="box-grid">
+      <div class="week">
+        <span class="mono">Выдача 28–30 октября</span>
+        <div class="big">44</div>
+        <p>Конец октября: земля отдаёт последнее. Корнеплоды сладкие после первых заморозков, кале особенно хорош.</p>
+        <div class="seg" role="group" aria-label="Размер коробки">
+          <button type="button" data-size="S" aria-pressed="true">Маленькая</button>
+          <button type="button" data-size="L" aria-pressed="false">Большая</button>
+        </div>
+        <div class="weight"><span id="kg">≈ 4,5 кг</span><small id="kgn">9 позиций</small></div>
+      </div>
+      <div>
+        <ul class="items" id="items" data-size="S">
+          <li><i class="g g1"></i><div><b>Свёкла «Детройт»</b><small>с ботвой, сладкая</small></div><span class="q"><span class="s">600 г</span><span class="l">1 кг</span></span></li>
+          <li><i class="g g2"></i><div><b>Морковь «Нантская»</b><small>после заморозков</small></div><span class="q"><span class="s">700 г</span><span class="l">1,2 кг</span></span></li>
+          <li><i class="g g3"></i><div><b>Кале чёрный</b><small>«Неро ди Тоскана»</small></div><span class="q"><span class="s">1 пучок</span><span class="l">2 пучка</span></span></li>
+          <li><i class="g g4"></i><div><b>Пастернак</b><small>для печи и пюре</small></div><span class="q"><span class="s">500 г</span><span class="l">800 г</span></span></li>
+          <li><i class="g g5"></i><div><b>Лук-порей</b><small>тонкий, нежный</small></div><span class="q"><span class="s">3 шт.</span><span class="l">5 шт.</span></span></li>
+          <li><i class="g g6"></i><div><b>Картофель «Бинтье»</b><small>восковой, для варки</small></div><span class="q"><span class="s">1,2 кг</span><span class="l">2 кг</span></span></li>
+          <li><i class="g g7"></i><div><b>Тыква хоккайдо</b><small>можно с кожурой</small></div><span class="q"><span class="s">1 малая</span><span class="l">1 большая</span></span></li>
+          <li><i class="g g8"></i><div><b>Сельдерей корневой</b><small>для супа и салата</small></div><span class="q"><span class="s">1 шт.</span><span class="l">2 шт.</span></span></li>
+          <li><i class="g g1" style="background:var(--sun)"></i><div><b>Петрушка и тимьян</b><small>из теплицы</small></div><span class="q"><span class="s">2 пучка</span><span class="l">3 пучка</span></span></li>
+        </ul>
+        <p class="note">Состав может немного меняться: вы узнаете окончательный список в пятничном письме.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">03 — Цены</span>
+      <div>
+        <h2>Цена за неделю, без скрытых платежей</h2>
+        <p>Платите только за те недели, которые получаете. Пауза бесплатна.</p>
+      </div>
+    </div>
+    <div class="prices">
+      <div class="price">
+        <span class="mono">Один-два человека</span>
+        <h3>Маленькая</h3>
+        <div class="amt"><sup>€</sup>17<small> / неделя</small></div>
+        <ul><li>около 4,5 кг овощей</li><li>8–10 видов</li><li>рецепт на неделю в письме</li></ul>
+        <a class="btn ghost" href="#join" data-pick="S">Выбрать маленькую</a>
+      </div>
+      <div class="price feat">
+        <span class="badge mono">Берут чаще всего</span>
+        <span class="mono">Семья или большая компания</span>
+        <h3>Большая</h3>
+        <div class="amt"><sup>€</sup>27<small> / неделя</small></div>
+        <ul><li>около 7,5 кг овощей</li><li>10–12 видов</li><li>запас для заготовок и супа</li></ul>
+        <a class="btn" href="#join" data-pick="L">Выбрать большую</a>
+      </div>
+      <div class="price add">
+        <span class="mono">Дополнительно</span>
+        <h3>Доставка</h3>
+        <div class="amt"><sup>+€</sup>4<small> / неделя</small></div>
+        <ul><li>на грузовом велосипеде</li><li>до двери в пределах Роттердама</li><li>бесплатно, если забираете сами</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="farm">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">04 — Ферма</span>
+      <div><h2>Земля, которая раньше принимала контейнеры</h2></div>
+    </div>
+    <div class="farm">
+      <div class="story">
+        <p>Двенадцать лет назад здесь стояли краны. Сегодня на тех же двух гектарах растут свёкла и кале, а грунт мы собирали по горсти из компоста города.</p>
+        <p>Мы не сертифицированная «органика» ради значка, а соседи, которых можно найти на грядке в любой будний день. Мы не используем синтетических пестицидов, возим урожай на велосипедах и приглашаем подписчиков на сбор в первую субботу месяца.</p>
+        <div class="nums">
+          <div><b>12</b><span>лет с первой грядки</span></div>
+          <div><b>340</b><span>семей в подписке</span></div>
+          <div><b>0</b><span>синтетических пестицидов</span></div>
+        </div>
+      </div>
+      <div class="people">
+        <div class="person"><div class="mono-av">ХД</div><div><b>Ханне ван Дейк</b><span class="mono">Главный агроном</span><p>Бывший инженер порта. Знает каждый квадратный метр почвы и любит повторять, что земля помнит всё.</p></div></div>
+        <div class="person"><div class="mono-av">ЮА</div><div><b>Юсеф Амрани</b><span class="mono">Овощи и теплицы</span><p>Выращивает редкие сорта томатов и зелень. Сам решает, что попадёт в коробку.</p></div></div>
+        <div class="person"><div class="mono-av">МБ</div><div><b>Марейке Бос</b><span class="mono">Сбор и логистика</span><p>Собирает коробки и ведёт команду велокурьеров. Отвечает на ваши письма.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">05 — Вопросы</span>
+      <div><h2>Что обычно спрашивают</h2></div>
+    </div>
+    <div class="faq">
+      <details open><summary>Можно ли поставить неделю на паузу?<span></span></summary><p>Да, в любой момент. Нажмите «пауза» в письме или личном кабинете до 12:00 в воскресенье перед выдачей. Платить за пропущенную неделю не нужно, подписка продолжится автоматически.</p></details>
+      <details><summary>Что делать, если я не успел забрать коробку?<span></span></summary><p>Пункты выдачи хранят коробку до конца дня. Если вы не пришли, отнесём её в продуктовый банк района, а вам вернём половину стоимости. Предупредите нас заранее, и мы переложим выдачу на другой пункт.</p></details>
+      <details><summary>А если в коробке окажется то, что я не ем?<span></span></summary><p>Укажите до трёх продуктов-исключений в личном кабинете, и мы заменим их другими овощами сезона. Совсем без сюрпризов не получится, но вы получите больше того, что точно приготовите.</p></details>
+      <details><summary>Куда доезжает доставка на велосипеде?<span></span></summary><p>В пределах Роттердама: от Катендрехта до Кралингена и от Делфсхавена до Ауде-Ноордена. Курьер приезжает в окно с 17:00 до 21:00 и оставляет коробку у двери, если вас нет. Стоимость: €4 в неделю.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <div class="join">
+      <div>
+        <span class="mono">06 — Подписка</span>
+        <h2 style="margin-top:18px">Первая коробка — уже на этой неделе</h2>
+        <p class="lead">Оформите заказ до воскресенья 12:00, и во вторник мы соберём вашу коробку. Отменить или поставить на паузу можно в любой момент.</p>
+      </div>
+      <form id="form" novalidate>
+        <fieldset>
+          <legend class="mono">Размер</legend>
+          <div class="opts">
+            <div class="opt"><input type="radio" name="size" id="sz-s" value="17" checked><label for="sz-s"><b>Маленькая</b><span>€17 в неделю</span></label></div>
+            <div class="opt"><input type="radio" name="size" id="sz-l" value="27"><label for="sz-l"><b>Большая</b><span>€27 в неделю</span></label></div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="mono">Как получать</legend>
+          <div class="opts">
+            <div class="opt"><input type="radio" name="del" id="d-p" value="0" checked><label for="d-p"><b>Самовывоз</b><span>бесплатно</span></label></div>
+            <div class="opt"><input type="radio" name="del" id="d-b" value="4"><label for="d-b"><b>Велосипед</b><span>+€4 в неделю</span></label></div>
+          </div>
+        </fieldset>
+        <div class="f" id="pp"><label for="point">Пункт выдачи</label>
+          <select id="point"><option>Катендрехт, Het Veem, вторник</option><option>Кралинген, Boekie, среда</option><option>Ауде-Ноорден, Zuurdesem, четверг</option></select>
+        </div>
+        <div class="f"><label for="mail">Электронная почта</label><input id="mail" type="email" placeholder="name@example.com" autocomplete="email"></div>
+        <div class="total"><span>Итого за неделю</span><b id="sum">€17</b></div>
+        <button class="btn" type="submit">Оформить подписку <span aria-hidden="true">→</span></button>
+        <div class="ok" id="ok" role="status">Готово! Мы отправили письмо с подтверждением и ссылкой на паузу.</div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Polder &amp; Plot · Роттердам, Нидерланды · hallo@polderplot.nl</span>
+    <label class="tint mono">Цвет бренда <input type="color" id="tint" value="#2F6B3A" aria-label="Выбрать цвет бренда"></label>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  // theme toggle
+  var tb=document.getElementById('theme');
+  tb.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    root.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  });
+  // box size
+  var items=document.getElementById('items'),kg=document.getElementById('kg'),kgn=document.getElementById('kgn');
+  var segs=document.querySelectorAll('.seg button');
+  function setSize(s){
+    items.setAttribute('data-size',s);
+    segs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.size===s)});
+    kg.textContent=s==='S'?'≈ 4,5 кг':'≈ 7,5 кг';
+    kgn.textContent=s==='S'?'9 позиций':'9 позиций, больше каждой';
+  }
+  segs.forEach(function(b){b.addEventListener('click',function(){setSize(b.dataset.size)})});
+  // form
+  var f=document.getElementById('form'),sum=document.getElementById('sum'),pp=document.getElementById('pp');
+  function calc(){
+    var s=+f.elements.size.value,d=+f.elements.del.value;
+    sum.textContent='€'+(s+d);
+    pp.style.display=d?'none':'grid';
+  }
+  f.addEventListener('change',calc);calc();
+  document.querySelectorAll('[data-pick]').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.getElementById(a.dataset.pick==='S'?'sz-s':'sz-l').checked=true;calc();
+    });
+  });
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var m=document.getElementById('mail');
+    var ok=document.getElementById('ok');
+    if(!/^\S+@\S+\.\S+$/.test(m.value)){m.focus();m.style.borderColor='var(--fg)';ok.classList.remove('on');m.placeholder='Введите адрес почты';return}
+    ok.classList.add('on');
+  });
+  // brand colour preview
+  document.getElementById('tint').addEventListener('input',function(e){root.style.setProperty('--brand',e.target.value)});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polder &amp; Plot | Vegetable box from a harbour farm in Rotterdam</title>
+<meta name="description" content="A weekly vegetable box grown on 2 hectares of former quay in Rotterdam. Small box €17, Large box €27. Pick up at 4 points or get it by cargo bike. Pause any week.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f2f5ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161b17" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   TOKENS. Change --brand only; everything below is derived from it.
+   Large fields never use the raw brand: lightness and chroma are clamped.
+   "f" in the expressions = how light the brand is (0 dark ... 1 pale/yellow).
+   Pale brands get a pale field with dark text; others get a deep field.
+   ===================================================================== */
+:root {
+  --brand: #2F6B3A;
+
+  color-scheme: light;
+  --bg:        oklch(from var(--brand) 0.972 0.010 h);
+  --bg-alt:    oklch(from var(--brand) 0.940 0.022 h);
+  --surface:   oklch(from var(--brand) 0.995 0.004 h);
+  --text:      oklch(from var(--brand) 0.220 0.025 h);
+  --muted:     oklch(from var(--brand) 0.440 0.030 h);
+  --line:      oklch(from var(--brand) 0.850 0.020 h);
+  --line-strong: oklch(from var(--brand) 0.560 0.035 h);
+  --accent:    oklch(from var(--brand) min(l, 0.46) min(c, 0.13) h);
+  --on-accent: oklch(from var(--brand) 0.985 0.008 h);
+  --field:     oklch(from var(--brand) calc(0.30 + clamp(0, (l - 0.70) * 25, 1) * 0.60) min(c, 0.10) h);
+  --on-field:  oklch(from var(--brand) calc(0.97 - clamp(0, (l - 0.70) * 25, 1) * 0.77) 0.02 h);
+  --on-field-muted: oklch(from var(--brand) calc(0.84 - clamp(0, (l - 0.70) * 25, 1) * 0.38) 0.03 h);
+  --signal:    oklch(0.76 0.155 58);
+  --on-signal: oklch(0.20 0.03 58);
+  --focus:     var(--accent);
+  --soil:      color-mix(in oklab, var(--accent) 38%, var(--bg));
+  --soil-deep: color-mix(in oklab, var(--text) 18%, var(--bg-alt));
+
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-text: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-1: 2px;
+  --r-2: 4px;
+  --gutter: clamp(16px, 4vw, 40px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:        oklch(from var(--brand) 0.190 0.014 h);
+    --bg-alt:    oklch(from var(--brand) 0.235 0.022 h);
+    --surface:   oklch(from var(--brand) 0.255 0.020 h);
+    --text:      oklch(from var(--brand) 0.940 0.015 h);
+    --muted:     oklch(from var(--brand) 0.770 0.030 h);
+    --line:      oklch(from var(--brand) 0.340 0.025 h);
+    --line-strong: oklch(from var(--brand) 0.640 0.035 h);
+    --accent:    oklch(from var(--brand) clamp(0.74, l, 0.88) min(c, 0.14) h);
+    --on-accent: oklch(from var(--brand) 0.170 0.030 h);
+    --field:     oklch(from var(--brand) 0.285 calc(min(c, 0.07) * (1 - clamp(0, (l - 0.70) * 25, 1) * 0.6)) h);
+    --on-field:  oklch(from var(--brand) 0.965 0.015 h);
+    --on-field-muted: oklch(from var(--brand) 0.840 0.025 h);
+    --soil:      color-mix(in oklab, var(--accent) 30%, var(--bg));
+    --soil-deep: color-mix(in oklab, var(--bg) 70%, black);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:        oklch(from var(--brand) 0.190 0.014 h);
+  --bg-alt:    oklch(from var(--brand) 0.235 0.022 h);
+  --surface:   oklch(from var(--brand) 0.255 0.020 h);
+  --text:      oklch(from var(--brand) 0.940 0.015 h);
+  --muted:     oklch(from var(--brand) 0.770 0.030 h);
+  --line:      oklch(from var(--brand) 0.340 0.025 h);
+  --line-strong: oklch(from var(--brand) 0.640 0.035 h);
+  --accent:    oklch(from var(--brand) clamp(0.74, l, 0.88) min(c, 0.14) h);
+  --on-accent: oklch(from var(--brand) 0.170 0.030 h);
+  --field:     oklch(from var(--brand) 0.285 calc(min(c, 0.07) * (1 - clamp(0, (l - 0.70) * 25, 1) * 0.6)) h);
+  --on-field:  oklch(from var(--brand) 0.965 0.015 h);
+  --on-field-muted: oklch(from var(--brand) 0.840 0.025 h);
+  --soil:      color-mix(in oklab, var(--accent) 30%, var(--bg));
+  --soil-deep: color-mix(in oklab, var(--bg) 70%, black);
+}
+
+/* ===== base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 16px; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 1.0625rem/1.55 var(--f-text);
+  overflow-x: hidden;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+::selection { background: var(--signal); color: var(--on-signal); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--r-1); }
+.on-field :focus-visible { outline-color: var(--signal); }
+.wrap { width: 100%; max-width: 1320px; margin-inline: auto; padding-inline: var(--gutter); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: absolute; left: 8px; top: -60px; background: var(--signal); color: var(--on-signal); padding: 10px 14px; font-weight: 700; z-index: 10; border-radius: var(--r-1); }
+.skip:focus { top: 8px; }
+
+.display { font-family: var(--f-display); font-weight: 800; line-height: .9; text-wrap: balance; }
+h2.display { font-size: clamp(2.8rem, 6.4vw, 5.2rem); }
+.amt, .bed, .big44, .n { font-variant-numeric: tabular-nums; }
+h3 { font-size: 1.2rem; line-height: 1.25; font-weight: 700; }
+.muted { color: var(--muted); }
+.small { font-size: .9375rem; }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px;
+  font: 700 1.0625rem/1 var(--f-text); text-decoration: none; border: 2px solid transparent; border-radius: var(--r-2);
+  background: var(--accent); color: var(--on-accent); cursor: pointer;
+  transition: background-color .18s ease-out, color .18s ease-out, border-color .18s ease-out;
+}
+.btn:hover { background: color-mix(in oklab, var(--accent) 82%, var(--text)); text-decoration: none; }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn--signal { background: var(--signal); color: var(--on-signal); }
+.btn--signal:hover { background: color-mix(in oklab, var(--signal) 85%, white); }
+.btn--ghost { background: transparent; color: var(--on-field); border-color: color-mix(in oklab, var(--on-field) 60%, transparent); }
+.btn--ghost:hover { background: color-mix(in oklab, var(--on-field) 14%, transparent); }
+.btn--sm { min-height: 44px; padding: 0 18px; font-size: 1rem; }
+
+/* ===== hero ===== */
+.hero { background: var(--field); color: var(--on-field); overflow: hidden; }
+.hero a:not(.btn) { color: inherit; }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 20px; }
+.mark { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--on-field); font: 800 1.9rem/1 var(--f-display); }
+.mark svg { width: 34px; height: 34px; flex: none; }
+.mark .amp { font-weight: 600; opacity: .8; }
+.nav { display: flex; gap: 28px; font-weight: 500; }
+.nav a { text-decoration: none; padding: 10px 2px; }
+.nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
+@media (max-width: 860px) { .nav { display: none; } }
+
+.hero h1 { font-size: clamp(3.4rem, 8.6vw, 8.1rem); font-weight: 900; letter-spacing: 0; margin-top: clamp(12px, 3vw, 40px); }
+.hero h1 span { display: block; }
+.hero-row { display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: clamp(20px, 3vw, 36px); align-items: end; }
+@media (min-width: 900px) { .hero-row { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 64px; } }
+.hero-row p { font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.5; max-width: 38em; color: var(--on-field); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.plan-wrap { margin-top: clamp(28px, 4vw, 56px); margin-bottom: -2px; }
+.plan { display: block; width: 100%; height: auto; overflow: visible; }
+.plan text { font-family: var(--f-text); fill: var(--on-field-muted); font-size: 15px; }
+.plan .site { fill: color-mix(in oklab, var(--on-field) 5%, transparent); stroke: var(--on-field); stroke-width: 2; }
+.plan .quay { stroke: var(--on-field); stroke-width: 7; }
+.plan .bollard { fill: var(--field); stroke: var(--on-field); stroke-width: 2; }
+.plan .water path { fill: none; stroke: var(--on-field); stroke-opacity: .32; stroke-width: 1.6; }
+.plan .dim line, .plan .scale line { stroke: var(--on-field-muted); stroke-width: 1.5; }
+.plan .dim text, .plan .scale text { font-size: 14px; }
+.plan .bed rect { fill: color-mix(in oklab, var(--on-field) 9%, transparent); stroke: var(--on-field); stroke-opacity: .6; stroke-width: 1.5; }
+.plan .rows { stroke: var(--on-field); stroke-opacity: .28; stroke-width: 1; }
+.plan .bednum { font-size: 17px; font-weight: 700; fill: var(--on-field-muted); }
+.plan .is-harvest rect { fill: var(--signal); stroke: var(--signal); stroke-opacity: 1; }
+.plan .is-harvest .rows { stroke: var(--on-signal); stroke-opacity: .35; }
+.plan .is-harvest .bednum { fill: var(--on-signal); }
+.plan .tunnel rect { fill: none; stroke: var(--on-field); stroke-opacity: .7; stroke-width: 1.8; }
+.plan .tunnel line { stroke: var(--on-field); stroke-opacity: .3; stroke-width: 1; }
+.plan .tunnel.is-harvest rect { fill: var(--signal); stroke: var(--signal); }
+.plan .tunnel.is-harvest line { stroke: var(--on-signal); stroke-opacity: .35; }
+.plan .path { stroke: var(--on-field); stroke-opacity: .4; stroke-width: 1.5; stroke-dasharray: 8 7; }
+.plan .build { fill: color-mix(in oklab, var(--on-field) 14%, transparent); stroke: var(--on-field); stroke-width: 1.8; }
+.plan .gate { stroke: var(--field); stroke-width: 6; }
+.plan .gate-arrow { fill: none; stroke: var(--on-field); stroke-width: 2; }
+.plan .north circle { fill: none; stroke: var(--on-field); stroke-width: 1.5; }
+.plan .north path { fill: var(--on-field); }
+.plan .north text { font-size: 17px; font-weight: 700; fill: var(--on-field); }
+.plan .tb rect:first-child { fill: none; stroke: var(--on-field); stroke-width: 1.8; }
+.plan .tb line { stroke: var(--on-field); stroke-width: 1.2; }
+.plan .tb text { font-size: 15px; fill: var(--on-field); }
+.plan .tb .tb-big { font-family: var(--f-display); font-weight: 800; font-size: 34px; }
+.plan .tb .swatch { fill: var(--signal); }
+.plan .lab { font-size: 15px; }
+.plan .basin { font-style: italic; }
+@media (max-width: 700px) { .plan .lab:not(.basin) { display: none; } .plan .bednum { font-size: 22px; } .plan .tb text, .plan .dim text, .plan .scale text { font-size: 18px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .plan .bed, .plan .tunnel { animation: bed-in .7s ease-out both; animation-delay: calc(var(--i, 0) * 55ms + 150ms); }
+  @keyframes bed-in { from { opacity: 0; } to { opacity: 1; } }
+}
+
+/* ===== sections ===== */
+section { padding-block: clamp(64px, 9vw, 128px); }
+.sec-head { max-width: 22ch; }
+
+/* how it works */
+.how-grid { display: grid; gap: 48px; margin-top: clamp(32px, 4vw, 56px); }
+@media (min-width: 1000px) { .how-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 80px; } }
+.steps { counter-reset: s; border-top: 2px solid var(--text); }
+.steps li { display: grid; grid-template-columns: 64px 1fr; gap: 8px 16px; padding: 22px 0 24px; border-bottom: 1px solid var(--line); }
+.steps .n { font: 800 4rem/.8 var(--f-display); color: var(--accent); grid-row: span 2; }
+.steps h3 { align-self: end; }
+.steps p { color: var(--muted); max-width: 40ch; }
+.steps b { color: var(--text); font-weight: 700; }
+.transit-fig { position: sticky; top: 24px; align-self: start; }
+.transit { display: block; width: 100%; height: auto; }
+.transit text { font-family: var(--f-text); }
+.transit .s1 { font-size: 17px; font-weight: 700; fill: var(--text); }
+.transit .s2 { font-size: 15px; fill: var(--muted); }
+.transit .line { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.transit .line.dashed { stroke-width: 5; stroke-dasharray: 2 13; }
+.transit .stop { fill: var(--bg); stroke: var(--text); stroke-width: 5; }
+.transit .door { fill: var(--bg); stroke: var(--accent); stroke-width: 3; }
+.transit-fig figcaption { margin-top: 8px; color: var(--muted); font-size: .9375rem; }
+
+/* box */
+.box { background: var(--bg-alt); }
+.box-grid { display: grid; gap: 24px 64px; }
+@media (min-width: 1000px) { .box-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+.big44 { font: 900 clamp(9rem, 26vw, 21rem)/.74 var(--f-display); color: var(--accent); margin-left: -.04em; }
+.box-side p { margin-top: 20px; max-width: 30ch; }
+.box-side .weekno { margin-top: 28px !important; font: 800 clamp(1.8rem, 3vw, 2.4rem)/1 var(--f-display); margin-top: 12px; }
+@media (min-width: 1000px) { .box-side { margin-left: calc(-1 * var(--gutter) * .5); } }
+.rows { border-top: 2px solid var(--text); }
+.rows-head, .row {
+  display: grid; align-items: baseline; column-gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 48px 72px 72px;
+}
+.rows-head { padding: 10px 0; font-size: .875rem; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line-strong); }
+.rows-head :nth-child(n+3), .row .g { text-align: right; }
+.row { padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.row .name { font-weight: 700; font-size: 1.125rem; }
+.row .name small { display: block; font-weight: 400; font-size: .875rem; color: var(--muted); }
+.row .bed { justify-self: start; min-width: 36px; text-align: center; padding: 1px 6px; border-radius: var(--r-1); background: var(--signal); color: var(--on-signal); font-weight: 700; font-size: .9375rem; }
+.bars { grid-column: 1 / -1; margin-top: 10px; height: 8px; position: relative; background: transparent; }
+.bars i { position: absolute; left: 0; top: 0; bottom: 0; display: block; border-radius: var(--r-1); }
+.bars .l { background: color-mix(in oklab, var(--accent) 35%, var(--bg-alt)); width: calc(var(--l) / 1400 * 100%); }
+.bars .s { background: var(--accent); width: calc(var(--s) / 1400 * 100%); }
+.row.total { border-bottom: 2px solid var(--text); padding-block: 18px 16px; }
+.row.total .name { font: 800 1.9rem/1 var(--f-display); }
+.row.total .g { font-weight: 700; font-size: 1.0625rem; }
+.key { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 16px; font-size: .9375rem; color: var(--muted); }
+.key span::before { content: ""; display: inline-block; width: 22px; height: 8px; margin-right: 8px; vertical-align: 1px; border-radius: var(--r-1); }
+.key .ks::before { background: var(--accent); }
+.key .kl::before { background: color-mix(in oklab, var(--accent) 35%, var(--bg-alt)); }
+.key .kb::before { background: var(--signal); height: 14px; width: 14px; vertical-align: -2px; }
+@media (max-width: 520px) {
+  .rows-head, .row { grid-template-columns: minmax(0, 1fr) 40px 58px 58px; column-gap: 8px; }
+  .row .name { font-size: 1rem; }
+}
+
+/* prices */
+.price-grid { display: grid; gap: 48px 80px; margin-top: clamp(32px, 4vw, 56px); }
+@media (min-width: 1000px) { .price-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; } }
+.ledger li { display: grid; grid-template-columns: auto 1fr auto; align-items: end; column-gap: 14px; padding: 22px 0 18px; border-bottom: 1px solid var(--line); }
+.ledger .what { font: 800 clamp(2rem, 4.4vw, 3.2rem)/.9 var(--f-display); }
+.ledger .lead { height: 0; border-bottom: 3px dotted var(--line-strong); margin-bottom: .45em; min-width: 20px; }
+.ledger .amt { font: 900 clamp(4.2rem, 10vw, 8rem)/.74 var(--f-display); color: var(--accent); white-space: nowrap; }
+.ledger .amt sup { font-size: .42em; vertical-align: .95em; margin-right: .04em; font-weight: 800; }
+.ledger .amt small { font: 500 1rem/1 var(--f-text); color: var(--muted); margin-left: 8px; }
+.ledger .note { grid-column: 1 / -1; margin-top: 12px; color: var(--muted); max-width: 52ch; }
+.ledger li.add .amt { font-size: clamp(2.8rem, 6vw, 4.6rem); }
+.ledger li.add .what { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.matrix h3 { font: 800 1.9rem/1 var(--f-display); margin-bottom: 14px; }
+.matrix table { width: 100%; border-collapse: collapse; }
+.matrix th, .matrix td { padding: 14px 10px 14px 0; text-align: left; border-bottom: 1px solid var(--line); font-weight: 400; }
+.matrix thead th { font-size: .9375rem; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--line-strong); }
+.matrix td { text-align: right; font-size: 1.25rem; font-weight: 700; padding-right: 0; }
+.matrix thead th:not(:first-child) { text-align: right; padding-right: 0; }
+.matrix tbody th { font-weight: 700; }
+.matrix p { margin-top: 14px; color: var(--muted); font-size: .9375rem; max-width: 40ch; }
+
+/* farm */
+.farm { background: var(--bg); border-top: 2px solid var(--text); }
+.farm-top { display: grid; gap: 28px 80px; }
+@media (min-width: 1000px) { .farm-top { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: end; } }
+.farm-top p { max-width: 44ch; font-size: 1.125rem; }
+.section-fig { margin-top: clamp(32px, 4vw, 56px); }
+.section-dwg { display: block; width: 100%; height: auto; }
+.section-dwg text { font-family: var(--f-text); fill: var(--text); }
+.section-dwg .s1 { font-size: 17px; font-weight: 700; }
+.section-dwg .s2 { font-size: 15px; fill: var(--muted); }
+.section-dwg .fill-bg { fill: var(--soil-deep); }
+.section-dwg .stone { fill: none; stroke: var(--text); stroke-opacity: .42; stroke-width: 1.2; }
+.section-dwg .compost { fill: var(--soil); }
+.section-dwg .on-compost { fill: var(--text); }
+.section-dwg .on-fill, .section-dwg .on-basin { fill: var(--text); }
+.section-dwg .on-fill.s1 { paint-order: stroke; stroke: var(--soil-deep); stroke-width: 6px; }
+.section-dwg .on-fill.s2 { paint-order: stroke; stroke: var(--soil-deep); stroke-width: 6px; }
+.section-dwg .ground { stroke: var(--text); stroke-width: 2; }
+.section-dwg .barrier { stroke: var(--signal); stroke-width: 5; }
+.section-dwg .leek { stroke: var(--accent); stroke-width: 9; stroke-linecap: round; }
+.section-dwg .wall { fill: var(--text); }
+.section-dwg .basin { fill: color-mix(in oklab, var(--accent) 22%, var(--bg)); }
+.section-dwg .wl { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.section-dwg .lead { stroke: var(--text); stroke-width: 1.5; }
+.section-dwg .lead-dot { fill: var(--text); }
+.section-dwg .dim-l { stroke: var(--text); stroke-width: 1.5; }
+.section-fig figcaption { margin-top: 10px; color: var(--muted); font-size: .9375rem; max-width: 70ch; }
+.growers { display: grid; gap: 0 32px; margin-top: clamp(40px, 5vw, 72px); }
+@media (min-width: 800px) { .growers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.growers li { border-top: 2px solid var(--text); padding: 18px 0 28px; }
+.growers p.who { font: 800 2.4rem/.95 var(--f-display); color: var(--text); margin: 0; max-width: none; }
+.growers .role { color: var(--accent); font-weight: 700; margin-top: 8px; }
+.growers p { margin-top: 12px; color: var(--muted); max-width: 34ch; }
+
+/* faq */
+.faq { background: var(--bg-alt); }
+.faq-grid { display: grid; gap: 32px 80px; }
+@media (min-width: 1000px) { .faq-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+details { border-top: 1px solid var(--line-strong); }
+details:last-child { border-bottom: 1px solid var(--line-strong); }
+summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 64px; padding: 14px 0; font: 700 1.3rem/1.25 var(--f-text); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; flex: none; font: 500 2rem/1 var(--f-text); color: var(--accent); width: 24px; text-align: center; }
+details[open] summary::after { content: "2"; }
+summary:hover { color: var(--accent); }
+
+/* join */
+.join { background: var(--field); color: var(--on-field); }
+.join-grid { display: grid; gap: 40px 72px; }
+@media (min-width: 1000px) { .join-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; } }
+.join h2 { font-size: clamp(3.2rem, 8vw, 6.6rem); font-weight: 900; }
+.join .lede { margin-top: 20px; max-width: 34ch; font-size: 1.1875rem; }
+.summary { margin-top: 36px; border-top: 2px solid var(--on-field); max-width: 460px; }
+.summary div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid color-mix(in oklab, var(--on-field) 35%, transparent); }
+.summary dt { color: var(--on-field-muted); }
+.summary dd { font-weight: 700; text-align: right; }
+.summary .tot { border-bottom: 2px solid var(--on-field); align-items: baseline; padding-block: 16px; }
+.summary .tot dt { color: var(--on-field); font-weight: 700; }
+.summary .tot dd { font: 900 3.2rem/.8 var(--f-display); }
+form.panel { background: var(--surface); color: var(--text); padding: clamp(20px, 3vw, 36px); border-radius: var(--r-2); }
+fieldset { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
+legend, label.lbl { display: block; font-weight: 700; margin-bottom: 8px; padding: 0; }
+.opts { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 420px) { .opts { grid-template-columns: 1fr; } }
+.opt { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--line-strong); border-radius: var(--r-2); padding: 12px 14px; cursor: pointer; min-height: 56px; background: var(--surface); }
+.opt:has(input:checked) { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: -2px; background: var(--bg-alt); }
+.opt:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.opt input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); flex: none; }
+.opt b { display: block; line-height: 1.25; }
+.opt small { display: block; color: var(--muted); font-size: .875rem; line-height: 1.3; margin-top: 2px; }
+select, input[type=email] { width: 100%; min-height: 48px; padding: 0 12px; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-2); }
+select { appearance: auto; }
+.field + .field { margin-top: 18px; }
+.panel .btn { width: 100%; min-height: 58px; font-size: 1.1875rem; }
+.fineprint { margin-top: 14px; font-size: .875rem; color: var(--muted); }
+.done { display: none; padding: 8px 0; }
+.done h3 { font: 800 2.6rem/.95 var(--f-display); }
+.done p { margin-top: 12px; max-width: 40ch; }
+form.is-done .fields { display: none; }
+form.is-done .done { display: block; }
+[hidden] { display: none !important; }
+
+footer { background: var(--bg); padding-block: 48px 56px; border-top: 2px solid var(--text); }
+.foot { display: grid; gap: 28px 48px; }
+@media (min-width: 800px) { .foot { grid-template-columns: 1.4fr 1fr 1fr; } }
+.foot .mark { color: var(--text); font-size: 1.7rem; }
+.foot p, .foot li { color: var(--muted); font-size: .9375rem; }
+.foot a { color: var(--text); }
+.foot ul li { padding: 3px 0; }
+</style>
+</head>
+<body>
+<a class="skip" href="#join">Skip to sign-up</a>
+
+<header class="hero on-field">
+  <div class="wrap">
+    <div class="bar">
+      <a class="mark" href="#top" aria-label="Polder &amp; Plot, home">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="2" y="2" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M2 20 q 5 -4 10 0 t 10 0 t 10 0" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="2" y="20" width="30" height="12" fill="currentColor" opacity=".35"/></svg>
+        <span>Polder <span class="amp">&amp;</span> Plot</span>
+      </a>
+      <nav class="nav" aria-label="Page">
+        <a href="#how">How it works</a>
+        <a href="#box">Week 44</a>
+        <a href="#prices">Prices</a>
+        <a href="#farm">The farm</a>
+        <a href="#faq">Questions</a>
+      </nav>
+      <a class="btn btn--signal btn--sm" href="#join">Start a box</a>
+    </div>
+    <h1 id="top" class="display"><span>Two hectares of old harbour,</span><span>boxed up every Thursday.</span></h1>
+    <div class="hero-row">
+      <p>Polder &amp; Plot is a community-supported farm on Kade 7, a former container quay in Rotterdam. Choose a Small or Large box, collect it at one of 4 points or let a cargo bike bring it, and skip any week you like.</p>
+      <div class="hero-cta">
+        <a class="btn btn--signal" href="#join">Start a box from €17 a week</a>
+        <a class="btn btn--ghost" href="#box">See what is in week 44</a>
+      </div>
+    </div>
+    <div class="plan-wrap">
+<svg class="plan" viewBox="0 0 1000 560" role="img" aria-labelledby="plan-t plan-d" preserveAspectRatio="xMidYMin meet">
+<title id="plan-t">Plot plan of Kade 7</title>
+<desc id="plan-d">Plan of the 2 hectare farm: 24 growing beds in two rows, 3 polytunnels, a packing shed, compost bays and a quay on the harbour basin. Beds 3, 5, 7, 9, 11, 14 and 20 and tunnel 2 are harvested for the week 44 box.</desc>
+<g class="water">
+<path d="M-20 462 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-6 478 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-20 494 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-6 510 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-20 526 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-6 542 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+<path d="M-20 558 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0 q 10 -6 20 0 t 20 0"/>
+</g>
+<rect class="site" x="60" y="70" width="760" height="380"/>
+<line class="quay" x1="56" y1="450" x2="824" y2="450"/>
+<circle class="bollard" cx="80" cy="458" r="3.5"/>
+<circle class="bollard" cx="170" cy="458" r="3.5"/>
+<circle class="bollard" cx="260" cy="458" r="3.5"/>
+<circle class="bollard" cx="350" cy="458" r="3.5"/>
+<circle class="bollard" cx="440" cy="458" r="3.5"/>
+<circle class="bollard" cx="530" cy="458" r="3.5"/>
+<circle class="bollard" cx="620" cy="458" r="3.5"/>
+<circle class="bollard" cx="710" cy="458" r="3.5"/>
+<circle class="bollard" cx="800" cy="458" r="3.5"/>
+<g class="dim"><line x1="60" y1="42" x2="820" y2="42"/><line x1="60" y1="36" x2="60" y2="48"/><line x1="820" y1="36" x2="820" y2="48"/><text x="440" y="34" text-anchor="middle">200 m</text><line x1="32" y1="70" x2="32" y2="450"/><line x1="26" y1="70" x2="38" y2="70"/><line x1="26" y1="450" x2="38" y2="450"/><text transform="translate(22 260) rotate(-90)" text-anchor="middle">100 m</text></g>
+<g class="tunnel" style="--i:0"><rect x="84" y="90" width="216" height="34" rx="17"/>
+<line x1="114" y1="93" x2="114" y2="121"/>
+<line x1="144" y1="93" x2="144" y2="121"/>
+<line x1="174" y1="93" x2="174" y2="121"/>
+<line x1="204" y1="93" x2="204" y2="121"/>
+<line x1="234" y1="93" x2="234" y2="121"/>
+<line x1="264" y1="93" x2="264" y2="121"/>
+<text class="bednum" x="192" y="113" text-anchor="middle">T1</text></g>
+<g class="tunnel is-harvest" style="--i:1"><rect x="84" y="140" width="216" height="34" rx="17"/>
+<line x1="114" y1="143" x2="114" y2="171"/>
+<line x1="144" y1="143" x2="144" y2="171"/>
+<line x1="174" y1="143" x2="174" y2="171"/>
+<line x1="204" y1="143" x2="204" y2="171"/>
+<line x1="234" y1="143" x2="234" y2="171"/>
+<line x1="264" y1="143" x2="264" y2="171"/>
+<text class="bednum" x="192" y="163" text-anchor="middle">T2</text></g>
+<g class="tunnel" style="--i:2"><rect x="84" y="190" width="216" height="34" rx="17"/>
+<line x1="114" y1="193" x2="114" y2="221"/>
+<line x1="144" y1="193" x2="144" y2="221"/>
+<line x1="174" y1="193" x2="174" y2="221"/>
+<line x1="204" y1="193" x2="204" y2="221"/>
+<line x1="234" y1="193" x2="234" y2="221"/>
+<line x1="264" y1="193" x2="264" y2="221"/>
+<text class="bednum" x="192" y="213" text-anchor="middle">T3</text></g>
+<g class="bed" style="--i:1"><rect x="332" y="90" width="34" height="140"/>
+<line class="rows" x1="340.5" y1="98" x2="340.5" y2="222"/>
+<line class="rows" x1="349.0" y1="98" x2="349.0" y2="222"/>
+<line class="rows" x1="357.5" y1="98" x2="357.5" y2="222"/>
+<text class="bednum" x="349" y="116" text-anchor="middle">1</text></g>
+<g class="bed" style="--i:2"><rect x="371" y="90" width="34" height="140"/>
+<line class="rows" x1="379.5" y1="98" x2="379.5" y2="222"/>
+<line class="rows" x1="388.0" y1="98" x2="388.0" y2="222"/>
+<line class="rows" x1="396.5" y1="98" x2="396.5" y2="222"/>
+<text class="bednum" x="388" y="116" text-anchor="middle">2</text></g>
+<g class="bed is-harvest" style="--i:3"><rect x="410" y="90" width="34" height="140"/>
+<line class="rows" x1="418.5" y1="98" x2="418.5" y2="222"/>
+<line class="rows" x1="427.0" y1="98" x2="427.0" y2="222"/>
+<line class="rows" x1="435.5" y1="98" x2="435.5" y2="222"/>
+<text class="bednum" x="427" y="116" text-anchor="middle">3</text></g>
+<g class="bed" style="--i:4"><rect x="449" y="90" width="34" height="140"/>
+<line class="rows" x1="457.5" y1="98" x2="457.5" y2="222"/>
+<line class="rows" x1="466.0" y1="98" x2="466.0" y2="222"/>
+<line class="rows" x1="474.5" y1="98" x2="474.5" y2="222"/>
+<text class="bednum" x="466" y="116" text-anchor="middle">4</text></g>
+<g class="bed is-harvest" style="--i:5"><rect x="488" y="90" width="34" height="140"/>
+<line class="rows" x1="496.5" y1="98" x2="496.5" y2="222"/>
+<line class="rows" x1="505.0" y1="98" x2="505.0" y2="222"/>
+<line class="rows" x1="513.5" y1="98" x2="513.5" y2="222"/>
+<text class="bednum" x="505" y="116" text-anchor="middle">5</text></g>
+<g class="bed" style="--i:6"><rect x="527" y="90" width="34" height="140"/>
+<line class="rows" x1="535.5" y1="98" x2="535.5" y2="222"/>
+<line class="rows" x1="544.0" y1="98" x2="544.0" y2="222"/>
+<line class="rows" x1="552.5" y1="98" x2="552.5" y2="222"/>
+<text class="bednum" x="544" y="116" text-anchor="middle">6</text></g>
+<g class="bed is-harvest" style="--i:7"><rect x="566" y="90" width="34" height="140"/>
+<line class="rows" x1="574.5" y1="98" x2="574.5" y2="222"/>
+<line class="rows" x1="583.0" y1="98" x2="583.0" y2="222"/>
+<line class="rows" x1="591.5" y1="98" x2="591.5" y2="222"/>
+<text class="bednum" x="583" y="116" text-anchor="middle">7</text></g>
+<g class="bed" style="--i:8"><rect x="605" y="90" width="34" height="140"/>
+<line class="rows" x1="613.5" y1="98" x2="613.5" y2="222"/>
+<line class="rows" x1="622.0" y1="98" x2="622.0" y2="222"/>
+<line class="rows" x1="630.5" y1="98" x2="630.5" y2="222"/>
+<text class="bednum" x="622" y="116" text-anchor="middle">8</text></g>
+<g class="bed is-harvest" style="--i:9"><rect x="644" y="90" width="34" height="140"/>
+<line class="rows" x1="652.5" y1="98" x2="652.5" y2="222"/>
+<line class="rows" x1="661.0" y1="98" x2="661.0" y2="222"/>
+<line class="rows" x1="669.5" y1="98" x2="669.5" y2="222"/>
+<text class="bednum" x="661" y="116" text-anchor="middle">9</text></g>
+<g class="bed" style="--i:10"><rect x="683" y="90" width="34" height="140"/>
+<line class="rows" x1="691.5" y1="98" x2="691.5" y2="222"/>
+<line class="rows" x1="700.0" y1="98" x2="700.0" y2="222"/>
+<line class="rows" x1="708.5" y1="98" x2="708.5" y2="222"/>
+<text class="bednum" x="700" y="116" text-anchor="middle">10</text></g>
+<g class="bed is-harvest" style="--i:11"><rect x="722" y="90" width="34" height="140"/>
+<line class="rows" x1="730.5" y1="98" x2="730.5" y2="222"/>
+<line class="rows" x1="739.0" y1="98" x2="739.0" y2="222"/>
+<line class="rows" x1="747.5" y1="98" x2="747.5" y2="222"/>
+<text class="bednum" x="739" y="116" text-anchor="middle">11</text></g>
+<g class="bed" style="--i:0"><rect x="761" y="90" width="34" height="140"/>
+<line class="rows" x1="769.5" y1="98" x2="769.5" y2="222"/>
+<line class="rows" x1="778.0" y1="98" x2="778.0" y2="222"/>
+<line class="rows" x1="786.5" y1="98" x2="786.5" y2="222"/>
+<text class="bednum" x="778" y="116" text-anchor="middle">12</text></g>
+<g class="bed" style="--i:4"><rect x="332" y="258" width="34" height="140"/>
+<line class="rows" x1="340.5" y1="266" x2="340.5" y2="390"/>
+<line class="rows" x1="349.0" y1="266" x2="349.0" y2="390"/>
+<line class="rows" x1="357.5" y1="266" x2="357.5" y2="390"/>
+<text class="bednum" x="349" y="284" text-anchor="middle">13</text></g>
+<g class="bed is-harvest" style="--i:5"><rect x="371" y="258" width="34" height="140"/>
+<line class="rows" x1="379.5" y1="266" x2="379.5" y2="390"/>
+<line class="rows" x1="388.0" y1="266" x2="388.0" y2="390"/>
+<line class="rows" x1="396.5" y1="266" x2="396.5" y2="390"/>
+<text class="bednum" x="388" y="284" text-anchor="middle">14</text></g>
+<g class="bed" style="--i:6"><rect x="410" y="258" width="34" height="140"/>
+<line class="rows" x1="418.5" y1="266" x2="418.5" y2="390"/>
+<line class="rows" x1="427.0" y1="266" x2="427.0" y2="390"/>
+<line class="rows" x1="435.5" y1="266" x2="435.5" y2="390"/>
+<text class="bednum" x="427" y="284" text-anchor="middle">15</text></g>
+<g class="bed" style="--i:7"><rect x="449" y="258" width="34" height="140"/>
+<line class="rows" x1="457.5" y1="266" x2="457.5" y2="390"/>
+<line class="rows" x1="466.0" y1="266" x2="466.0" y2="390"/>
+<line class="rows" x1="474.5" y1="266" x2="474.5" y2="390"/>
+<text class="bednum" x="466" y="284" text-anchor="middle">16</text></g>
+<g class="bed" style="--i:8"><rect x="488" y="258" width="34" height="140"/>
+<line class="rows" x1="496.5" y1="266" x2="496.5" y2="390"/>
+<line class="rows" x1="505.0" y1="266" x2="505.0" y2="390"/>
+<line class="rows" x1="513.5" y1="266" x2="513.5" y2="390"/>
+<text class="bednum" x="505" y="284" text-anchor="middle">17</text></g>
+<g class="bed" style="--i:9"><rect x="527" y="258" width="34" height="140"/>
+<line class="rows" x1="535.5" y1="266" x2="535.5" y2="390"/>
+<line class="rows" x1="544.0" y1="266" x2="544.0" y2="390"/>
+<line class="rows" x1="552.5" y1="266" x2="552.5" y2="390"/>
+<text class="bednum" x="544" y="284" text-anchor="middle">18</text></g>
+<g class="bed" style="--i:10"><rect x="566" y="258" width="34" height="140"/>
+<line class="rows" x1="574.5" y1="266" x2="574.5" y2="390"/>
+<line class="rows" x1="583.0" y1="266" x2="583.0" y2="390"/>
+<line class="rows" x1="591.5" y1="266" x2="591.5" y2="390"/>
+<text class="bednum" x="583" y="284" text-anchor="middle">19</text></g>
+<g class="bed is-harvest" style="--i:11"><rect x="605" y="258" width="34" height="140"/>
+<line class="rows" x1="613.5" y1="266" x2="613.5" y2="390"/>
+<line class="rows" x1="622.0" y1="266" x2="622.0" y2="390"/>
+<line class="rows" x1="630.5" y1="266" x2="630.5" y2="390"/>
+<text class="bednum" x="622" y="284" text-anchor="middle">20</text></g>
+<g class="bed" style="--i:12"><rect x="644" y="258" width="34" height="140"/>
+<line class="rows" x1="652.5" y1="266" x2="652.5" y2="390"/>
+<line class="rows" x1="661.0" y1="266" x2="661.0" y2="390"/>
+<line class="rows" x1="669.5" y1="266" x2="669.5" y2="390"/>
+<text class="bednum" x="661" y="284" text-anchor="middle">21</text></g>
+<g class="bed" style="--i:13"><rect x="683" y="258" width="34" height="140"/>
+<line class="rows" x1="691.5" y1="266" x2="691.5" y2="390"/>
+<line class="rows" x1="700.0" y1="266" x2="700.0" y2="390"/>
+<line class="rows" x1="708.5" y1="266" x2="708.5" y2="390"/>
+<text class="bednum" x="700" y="284" text-anchor="middle">22</text></g>
+<g class="bed" style="--i:14"><rect x="722" y="258" width="34" height="140"/>
+<line class="rows" x1="730.5" y1="266" x2="730.5" y2="390"/>
+<line class="rows" x1="739.0" y1="266" x2="739.0" y2="390"/>
+<line class="rows" x1="747.5" y1="266" x2="747.5" y2="390"/>
+<text class="bednum" x="739" y="284" text-anchor="middle">23</text></g>
+<g class="bed" style="--i:3"><rect x="761" y="258" width="34" height="140"/>
+<line class="rows" x1="769.5" y1="266" x2="769.5" y2="390"/>
+<line class="rows" x1="778.0" y1="266" x2="778.0" y2="390"/>
+<line class="rows" x1="786.5" y1="266" x2="786.5" y2="390"/>
+<text class="bednum" x="778" y="284" text-anchor="middle">24</text></g>
+<line class="path" x1="320" y1="244" x2="806" y2="244"/>
+<rect class="build" x="84" y="290" width="96" height="62"/><text class="lab" x="132" y="326" text-anchor="middle">Shed</text>
+<rect class="build" x="196" y="290" width="104" height="30"/><text class="lab" x="248" y="310" text-anchor="middle">Cargo bikes</text>
+<rect class="build" x="84" y="384" width="38" height="46"/>
+<rect class="build" x="128" y="384" width="38" height="46"/>
+<rect class="build" x="172" y="384" width="38" height="46"/>
+<text class="lab" x="84" y="376">Compost bays</text>
+<line class="gate" x1="60" y1="300" x2="60" y2="350"/><path class="gate-arrow" d="M44 325 H74 M66 317 L74 325 L66 333"/>
+<text class="lab" x="24" y="372" text-anchor="start">Farm gate</text>
+<g class="north"><circle cx="905" cy="108" r="26"/><path d="M905 86 L914 118 L905 112 L896 118 Z"/><text x="905" y="66" text-anchor="middle">N</text></g>
+<g class="tb"><rect x="842" y="164" width="140" height="196"/><line x1="842" y1="212" x2="982" y2="212"/><line x1="842" y1="310" x2="982" y2="310"/><text class="tb-big" x="852" y="198">Kade 7</text><text x="852" y="236">Plot plan</text><text x="852" y="258">2.0 ha</text><text x="852" y="280">24 beds</text><text x="852" y="302">3 tunnels</text><rect class="swatch" x="852" y="322" width="16" height="16"/><text x="876" y="335">Week 44</text><text x="876" y="352">harvest</text></g>
+<g class="scale"><line x1="842" y1="396" x2="982" y2="396"/><line x1="842" y1="390" x2="842" y2="402"/><line x1="912" y1="392" x2="912" y2="400"/><line x1="982" y1="390" x2="982" y2="402"/><text x="842" y="420">0</text><text x="912" y="420" text-anchor="middle">25</text><text x="982" y="420" text-anchor="end">50 m</text></g>
+<text class="lab basin" x="900" y="520" text-anchor="middle">Harbour basin</text>
+</svg>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="how">
+  <div class="wrap">
+    <h2 class="display sec-head">How the box works</h2>
+    <div class="how-grid">
+      <ol class="steps">
+        <li><span class="n" aria-hidden="true">1</span><h3>Choose a size</h3><p><b>Small</b> is about 4.3 kg and feeds one or two people. <b>Large</b> is about 6.7 kg and feeds three or four.</p></li>
+        <li><span class="n" aria-hidden="true">2</span><h3>Choose how it reaches you</h3><p>Collect it at one of 4 pickup points, Thursday 16:00 to 19:00. Or a cargo bike brings it to your door for €4 a week.</p></li>
+        <li><span class="n" aria-hidden="true">3</span><h3>Get what is ready that week</h3><p>We harvest on Wednesday and Thursday morning. The contents change with the beds, and the list goes up here each Monday.</p></li>
+        <li><span class="n" aria-hidden="true">4</span><h3>Pause any week</h3><p>Press pause before Monday 12:00 and you pay nothing for that week. Start again when you want.</p></li>
+      </ol>
+      <figure class="transit-fig">
+<svg class="transit" viewBox="0 0 600 400" role="img" aria-labelledby="tr-t tr-d">
+<title id="tr-t">Pickup points and cargo-bike route</title>
+<desc id="tr-d">Diagram, not to scale. One line from the farm gate on Kade 7 to Buurthuis De Kolk in Delfshaven, Fietsenmaker Van Loon in Kralingen and Wijkcentrum Noord in Oude Noorden. A dashed line shows the cargo-bike route to your door.</desc>
+<path class="line" d="M70 250 H210 L280 180 H410 L470 120 H550"/>
+<path class="line dashed" d="M70 250 V330 H530"/>
+<rect class="door" x="143" y="323" width="14" height="14"/>
+<rect class="door" x="219" y="323" width="14" height="14"/>
+<rect class="door" x="295" y="323" width="14" height="14"/>
+<rect class="door" x="371" y="323" width="14" height="14"/>
+<rect class="door" x="447" y="323" width="14" height="14"/>
+<rect class="door" x="523" y="323" width="14" height="14"/>
+<circle class="stop" cx="70" cy="250" r="11"/>
+<text class="s1" x="59" y="206" text-anchor="start">Farm gate</text><text class="s2" x="59" y="224" text-anchor="start">Kade 7, Katendrecht</text>
+<circle class="stop" cx="210" cy="250" r="11"/>
+<text class="s1" x="210" y="286" text-anchor="middle">Buurthuis De Kolk</text><text class="s2" x="210" y="304" text-anchor="middle">Delfshaven</text>
+<circle class="stop" cx="410" cy="180" r="11"/>
+<text class="s1" x="410" y="216" text-anchor="middle">Fietsenmaker Van Loon</text><text class="s2" x="410" y="234" text-anchor="middle">Kralingen</text>
+<circle class="stop" cx="550" cy="120" r="11"/>
+<text class="s1" x="558" y="78" text-anchor="end">Wijkcentrum Noord</text><text class="s2" x="558" y="96" text-anchor="end">Oude Noorden</text>
+<text class="s1" x="70" y="372">Cargo bike to your door</text><text class="s2" x="70" y="392">Within 6 km of Kade 7, +€4 a week</text>
+<text class="s2" x="580" y="290" text-anchor="end">Thursday 16:00 to 19:00</text>
+</svg>
+        <figcaption>Diagram of the 4 pickup points and the cargo-bike route. Not to scale.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="box" class="box">
+  <div class="wrap box-grid">
+    <div class="box-side">
+      <div class="big44" aria-hidden="true">44</div>
+      <h2 class="weekno">This week's box</h2>
+      <p class="muted">Week 44, harvested Wednesday 28 and Thursday 29 October. Bed numbers match the plot plan at the top of the page.</p>
+    </div>
+    <div>
+      <div class="rows" role="table" aria-label="Contents of the week 44 box">
+        <div class="rows-head" role="row"><span role="columnheader">Vegetable</span><span role="columnheader">Bed</span><span role="columnheader">Small</span><span role="columnheader">Large</span></div>
+        <div class="row" role="row"><span class="name" role="cell">Leeks<small>Bandit, trimmed</small></span><span class="bed" role="cell">3</span><span class="g" role="cell">600 g</span><span class="g" role="cell">900 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:900"></i><i class="s" style="--s:600"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Carrots<small>Napoli, with tops cut</small></span><span class="bed" role="cell">5</span><span class="g" role="cell">800 g</span><span class="g" role="cell">1,200 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:1200"></i><i class="s" style="--s:800"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Beetroot<small>Chioggia, striped inside</small></span><span class="bed" role="cell">7</span><span class="g" role="cell">500 g</span><span class="g" role="cell">800 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:800"></i><i class="s" style="--s:500"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Red onions<small>Red Baron, cured</small></span><span class="bed" role="cell">9</span><span class="g" role="cell">500 g</span><span class="g" role="cell">700 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:700"></i><i class="s" style="--s:500"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Celeriac<small>Prinz</small></span><span class="bed" role="cell">11</span><span class="g" role="cell">700 g</span><span class="g" role="cell">1,100 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:1100"></i><i class="s" style="--s:700"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Kale<small>Black Tuscan</small></span><span class="bed" role="cell">14</span><span class="g" role="cell">250 g</span><span class="g" role="cell">400 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:400"></i><i class="s" style="--s:250"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Pumpkin<small>Uchiki Kuri, one piece</small></span><span class="bed" role="cell">20</span><span class="g" role="cell">900 g</span><span class="g" role="cell">1,400 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:1400"></i><i class="s" style="--s:900"></i></span></div>
+        <div class="row" role="row"><span class="name" role="cell">Lamb's lettuce<small>Grown in tunnel 2</small></span><span class="bed" role="cell">T2</span><span class="g" role="cell">100 g</span><span class="g" role="cell">150 g</span><span class="bars" aria-hidden="true"><i class="l" style="--l:150"></i><i class="s" style="--s:100"></i></span></div>
+        <div class="row total" role="row"><span class="name" role="cell">Total</span><span role="cell"></span><span class="g" role="cell">4.35 kg</span><span class="g" role="cell">6.65 kg</span></div>
+      </div>
+      <div class="key" aria-hidden="true"><span class="kb">Bed on the plot plan</span><span class="ks">Small box</span><span class="kl">Large box</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="wrap">
+    <h2 class="display sec-head">Prices</h2>
+    <div class="price-grid">
+      <ul class="ledger">
+        <li><span class="what">Small box</span><span class="lead" aria-hidden="true"></span><span class="amt"><sup>€</sup>17<small>a week</small></span><p class="note">About 4.3 kg of vegetables in week 44. Feeds one or two people.</p></li>
+        <li><span class="what">Large box</span><span class="lead" aria-hidden="true"></span><span class="amt"><sup>€</sup>27<small>a week</small></span><p class="note">About 6.7 kg in week 44. Feeds three or four people.</p></li>
+        <li class="add"><span class="what">Cargo-bike delivery</span><span class="lead" aria-hidden="true"></span><span class="amt"><sup>+€</sup>4<small>a week</small></span><p class="note">To your door, within 6 km of the farm. Pickup at any of the 4 points costs nothing extra. A paused week costs nothing.</p></li>
+      </ul>
+      <div class="matrix">
+        <h3>What you pay each week</h3>
+        <table>
+          <thead><tr><th scope="col">Box</th><th scope="col">Pickup</th><th scope="col">Cargo bike</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Small</th><td>€17</td><td>€21</td></tr>
+            <tr><th scope="row">Large</th><td>€27</td><td>€31</td></tr>
+          </tbody>
+        </table>
+        <p>We charge on Monday for that week's box. No contract, no joining fee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="farm" class="farm">
+  <div class="wrap">
+    <div class="farm-top">
+      <h2 class="display">A farm on ground that was never meant for one</h2>
+      <p>Kade 7 was a container quay until 2019. Under the paving lies harbour fill, so we do not dig. Every bed sits on 40 cm of our own compost, above a root barrier. The vegetables never touch the old ground.</p>
+    </div>
+    <figure class="section-fig">
+<svg class="section-dwg" viewBox="0 0 900 340" role="img" aria-labelledby="sec-t sec-d">
+<title id="sec-t">Cross-section of a raised bed on the quay</title>
+<desc id="sec-d">Section drawing. From the top: crop rows, 40 cm of compost, a root barrier, then harbour fill. At the right edge the quay wall drops to the harbour basin.</desc>
+<rect class="fill-bg" x="0" y="196" width="640" height="116"/>
+<ellipse class="stone" cx="546" cy="222" rx="7" ry="4" transform="rotate(-26 546 222)"/>
+<ellipse class="stone" cx="363" cy="214" rx="13" ry="8" transform="rotate(-2 363 214)"/>
+<ellipse class="stone" cx="441" cy="242" rx="9" ry="8" transform="rotate(1 441 242)"/>
+<ellipse class="stone" cx="597" cy="286" rx="8" ry="6" transform="rotate(-28 597 286)"/>
+<ellipse class="stone" cx="306" cy="296" rx="7" ry="6" transform="rotate(-9 306 296)"/>
+<ellipse class="stone" cx="493" cy="208" rx="15" ry="8" transform="rotate(-36 493 208)"/>
+<ellipse class="stone" cx="469" cy="273" rx="13" ry="9" transform="rotate(7 469 273)"/>
+<ellipse class="stone" cx="526" cy="267" rx="11" ry="7" transform="rotate(-11 526 267)"/>
+<ellipse class="stone" cx="310" cy="303" rx="12" ry="10" transform="rotate(38 310 303)"/>
+<ellipse class="stone" cx="519" cy="288" rx="5" ry="5" transform="rotate(-12 519 288)"/>
+<ellipse class="stone" cx="559" cy="262" rx="11" ry="7" transform="rotate(-4 559 262)"/>
+<ellipse class="stone" cx="629" cy="240" rx="7" ry="5" transform="rotate(3 629 240)"/>
+<ellipse class="stone" cx="455" cy="304" rx="13" ry="8" transform="rotate(20 455 304)"/>
+<ellipse class="stone" cx="409" cy="288" rx="11" ry="6" transform="rotate(-32 409 288)"/>
+<ellipse class="stone" cx="399" cy="223" rx="13" ry="9" transform="rotate(-5 399 223)"/>
+<ellipse class="stone" cx="309" cy="302" rx="15" ry="10" transform="rotate(36 309 302)"/>
+<ellipse class="stone" cx="214" cy="284" rx="6" ry="7" transform="rotate(11 214 284)"/>
+<ellipse class="stone" cx="596" cy="211" rx="8" ry="10" transform="rotate(-24 596 211)"/>
+<ellipse class="stone" cx="414" cy="295" rx="6" ry="9" transform="rotate(-23 414 295)"/>
+<ellipse class="stone" cx="523" cy="228" rx="12" ry="7" transform="rotate(-31 523 228)"/>
+<ellipse class="stone" cx="323" cy="290" rx="12" ry="10" transform="rotate(17 323 290)"/>
+<ellipse class="stone" cx="381" cy="257" rx="8" ry="6" transform="rotate(23 381 257)"/>
+<ellipse class="stone" cx="579" cy="245" rx="11" ry="8" transform="rotate(11 579 245)"/>
+<ellipse class="stone" cx="246" cy="300" rx="12" ry="8" transform="rotate(17 246 300)"/>
+<ellipse class="stone" cx="100" cy="304" rx="8" ry="4" transform="rotate(-13 100 304)"/>
+<ellipse class="stone" cx="387" cy="221" rx="10" ry="4" transform="rotate(-28 387 221)"/>
+<ellipse class="stone" cx="406" cy="235" rx="6" ry="10" transform="rotate(40 406 235)"/>
+<ellipse class="stone" cx="593" cy="302" rx="11" ry="6" transform="rotate(-36 593 302)"/>
+<ellipse class="stone" cx="505" cy="216" rx="5" ry="4" transform="rotate(31 505 216)"/>
+<ellipse class="stone" cx="80" cy="293" rx="13" ry="9" transform="rotate(-6 80 293)"/>
+<ellipse class="stone" cx="562" cy="287" rx="7" ry="6" transform="rotate(-21 562 287)"/>
+<ellipse class="stone" cx="195" cy="281" rx="13" ry="5" transform="rotate(-18 195 281)"/>
+<ellipse class="stone" cx="578" cy="253" rx="8" ry="6" transform="rotate(33 578 253)"/>
+<ellipse class="stone" cx="556" cy="254" rx="9" ry="7" transform="rotate(-5 556 254)"/>
+<ellipse class="stone" cx="372" cy="229" rx="7" ry="9" transform="rotate(-18 372 229)"/>
+<ellipse class="stone" cx="630" cy="258" rx="12" ry="5" transform="rotate(-11 630 258)"/>
+<ellipse class="stone" cx="509" cy="234" rx="7" ry="8" transform="rotate(1 509 234)"/>
+<ellipse class="stone" cx="419" cy="268" rx="14" ry="7" transform="rotate(-40 419 268)"/>
+<ellipse class="stone" cx="365" cy="209" rx="7" ry="5" transform="rotate(32 365 209)"/>
+<ellipse class="stone" cx="596" cy="221" rx="13" ry="7" transform="rotate(-31 596 221)"/>
+<ellipse class="stone" cx="56" cy="284" rx="6" ry="7" transform="rotate(31 56 284)"/>
+<ellipse class="stone" cx="288" cy="291" rx="12" ry="7" transform="rotate(-35 288 291)"/>
+<ellipse class="stone" cx="463" cy="268" rx="6" ry="9" transform="rotate(-12 463 268)"/>
+<ellipse class="stone" cx="402" cy="262" rx="9" ry="8" transform="rotate(9 402 262)"/>
+<ellipse class="stone" cx="309" cy="287" rx="10" ry="10" transform="rotate(-13 309 287)"/>
+<ellipse class="stone" cx="622" cy="257" rx="6" ry="7" transform="rotate(-23 622 257)"/>
+<ellipse class="stone" cx="515" cy="258" rx="6" ry="7" transform="rotate(30 515 258)"/>
+<ellipse class="stone" cx="363" cy="247" rx="9" ry="6" transform="rotate(-35 363 247)"/>
+<ellipse class="stone" cx="353" cy="230" rx="9" ry="9" transform="rotate(21 353 230)"/>
+<ellipse class="stone" cx="484" cy="275" rx="12" ry="10" transform="rotate(-1 484 275)"/>
+<ellipse class="stone" cx="159" cy="281" rx="11" ry="7" transform="rotate(-13 159 281)"/>
+<ellipse class="stone" cx="624" cy="253" rx="7" ry="10" transform="rotate(-11 624 253)"/>
+<ellipse class="stone" cx="619" cy="260" rx="13" ry="5" transform="rotate(-11 619 260)"/>
+<ellipse class="stone" cx="449" cy="291" rx="10" ry="10" transform="rotate(32 449 291)"/>
+<ellipse class="stone" cx="211" cy="303" rx="9" ry="8" transform="rotate(30 211 303)"/>
+<ellipse class="stone" cx="393" cy="241" rx="5" ry="6" transform="rotate(-35 393 241)"/>
+<ellipse class="stone" cx="493" cy="303" rx="10" ry="7" transform="rotate(11 493 303)"/>
+<ellipse class="stone" cx="352" cy="303" rx="14" ry="7" transform="rotate(-20 352 303)"/>
+<ellipse class="stone" cx="269" cy="282" rx="10" ry="4" transform="rotate(9 269 282)"/>
+<ellipse class="stone" cx="594" cy="274" rx="5" ry="5" transform="rotate(18 594 274)"/>
+<ellipse class="stone" cx="400" cy="230" rx="7" ry="4" transform="rotate(-18 400 230)"/>
+<ellipse class="stone" cx="227" cy="290" rx="8" ry="7" transform="rotate(-2 227 290)"/>
+<ellipse class="stone" cx="18" cy="297" rx="7" ry="10" transform="rotate(19 18 297)"/>
+<ellipse class="stone" cx="245" cy="281" rx="12" ry="5" transform="rotate(7 245 281)"/>
+<ellipse class="stone" cx="251" cy="282" rx="7" ry="8" transform="rotate(21 251 282)"/>
+<ellipse class="stone" cx="368" cy="228" rx="14" ry="6" transform="rotate(25 368 228)"/>
+<ellipse class="stone" cx="607" cy="214" rx="14" ry="5" transform="rotate(18 607 214)"/>
+<ellipse class="stone" cx="423" cy="271" rx="14" ry="5" transform="rotate(-34 423 271)"/>
+<ellipse class="stone" cx="441" cy="209" rx="6" ry="6" transform="rotate(-39 441 209)"/>
+<ellipse class="stone" cx="244" cy="295" rx="12" ry="5" transform="rotate(39 244 295)"/>
+<ellipse class="stone" cx="27" cy="279" rx="7" ry="9" transform="rotate(-36 27 279)"/>
+<ellipse class="stone" cx="464" cy="278" rx="9" ry="5" transform="rotate(-30 464 278)"/>
+<ellipse class="stone" cx="495" cy="278" rx="11" ry="4" transform="rotate(19 495 278)"/>
+<rect class="wall" x="640" y="130" width="24" height="182"/>
+<rect class="basin" x="664" y="228" width="236" height="84"/>
+<path class="wl" d="M664 228 q 10 -6 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0 t 20 0"/>
+<rect class="compost" x="0" y="150" width="640" height="46"/>
+<line class="barrier" x1="0" y1="196" x2="640" y2="196"/>
+<line class="ground" x1="0" y1="150" x2="640" y2="150"/>
+<line class="leek" x1="26" y1="150" x2="26" y2="100"/>
+<line class="leek" x1="60" y1="150" x2="60" y2="93"/>
+<line class="leek" x1="94" y1="150" x2="94" y2="86"/>
+<line class="leek" x1="128" y1="150" x2="128" y2="99"/>
+<line class="leek" x1="162" y1="150" x2="162" y2="94"/>
+<line class="leek" x1="196" y1="150" x2="196" y2="100"/>
+<line class="leek" x1="230" y1="150" x2="230" y2="94"/>
+<line class="leek" x1="264" y1="150" x2="264" y2="96"/>
+<line class="leek" x1="298" y1="150" x2="298" y2="103"/>
+<line class="leek" x1="332" y1="150" x2="332" y2="98"/>
+<line class="leek" x1="366" y1="150" x2="366" y2="101"/>
+<line class="leek" x1="400" y1="150" x2="400" y2="87"/>
+<line class="leek" x1="434" y1="150" x2="434" y2="104"/>
+<line class="leek" x1="468" y1="150" x2="468" y2="91"/>
+<line class="leek" x1="502" y1="150" x2="502" y2="95"/>
+<line class="leek" x1="536" y1="150" x2="536" y2="86"/>
+<line class="leek" x1="570" y1="150" x2="570" y2="91"/>
+<line class="leek" x1="604" y1="150" x2="604" y2="91"/>
+<line class="lead" x1="300" y1="110" x2="330" y2="60"/><circle class="lead-dot" cx="300" cy="110" r="3"/>
+<text class="s1" x="336" y="56" text-anchor="start">Crop rows</text><text class="s2" x="336" y="74" text-anchor="start">Planted on the plan, bed by bed</text>
+<text class="s1" x="20" y="182" >40 cm compost</text>
+<text class="s2 on-compost" x="190" y="182">made in the 3 bays on site</text>
+<text class="s1 on-fill" x="20" y="226">Root barrier</text>
+<text class="s2 on-fill" x="140" y="226">nothing grows down into the old ground</text>
+<text class="s1 on-fill" x="20" y="262">Harbour fill</text>
+<text class="s2 on-fill" x="140" y="262">never dug, never moved</text>
+<text class="s1" x="780" y="198" text-anchor="middle">Quay wall</text>
+<text class="s2" x="780" y="216" text-anchor="middle">about 1.8 m above the water</text>
+<text class="s1 on-basin" x="782" y="270" text-anchor="middle">Harbour basin</text>
+<line class="dim-l" x1="14" y1="150" x2="14" y2="196"/>
+</svg>
+      <figcaption>Cross-section of a bed, not to scale except the 40 cm of compost. Height of the quay wall is approximate.</figcaption>
+    </figure>
+    <ul class="growers">
+      <li><p class="who">Lotte Verhoeven</p><p class="role">Head grower</p><p>Draws the 24 beds on graph paper every January and still plants from that sheet.</p></li>
+      <li><p class="who">Samir Aziz</p><p class="role">Soil and compost</p><p>Turns the 3 compost bays and tests the pH of every bed before it is planted.</p></li>
+      <li><p class="who">Joost de Wit</p><p class="role">Tunnels and the Thursday round</p><p>Grows the winter salads in the 3 tunnels, then rides the cargo-bike route himself.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="wrap faq-grid">
+    <h2 class="display sec-head">Questions</h2>
+    <div>
+      <details>
+        <summary>How do I pause a week?</summary>
+        <p>Open your account and press Pause on the week you want to skip. Do it before Monday 12:00. We do not charge that week and we do not harvest for you.</p>
+      </details>
+      <details>
+        <summary>What if I cannot collect on Thursday?</summary>
+        <p>Your box waits in our cold room at the pickup point until Friday 12:00. After that it goes to the food bank in Delfshaven and we still charge the week. If you know in advance, pause instead.</p>
+      </details>
+      <details>
+        <summary>Can I choose what goes in the box?</summary>
+        <p>No, the box holds what is ready that week. You can list up to 3 vegetables you do not eat. We replace them with something else of the same weight.</p>
+      </details>
+      <details>
+        <summary>Where does the cargo bike go?</summary>
+        <p>To any address within 6 km of Kade 7, on Thursday between 16:00 and 19:00. Enter your postcode when you sign up and we tell you at once if it is outside the route.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="join on-field">
+  <div class="wrap join-grid">
+    <div>
+      <h2 class="display">Start your box</h2>
+      <p class="lede">Pick a size and how you want it. The first box comes on a Thursday. Pause any week after that.</p>
+      <dl class="summary" aria-live="polite">
+        <div><dt>Box</dt><dd id="s-size">Small, €17</dd></div>
+        <div><dt>How it reaches you</dt><dd id="s-how">Pickup, free</dd></div>
+        <div><dt>First box</dt><dd id="s-first">Thursday 5 November</dd></div>
+        <div class="tot"><dt>Each week</dt><dd id="s-total">€17</dd></div>
+      </dl>
+    </div>
+    <form class="panel" id="f" novalidate>
+      <div class="fields">
+        <fieldset>
+          <legend>Box size</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="size" value="17" checked><span><b>Small, €17</b><small>1 or 2 people, about 4.3 kg</small></span></label>
+            <label class="opt"><input type="radio" name="size" value="27"><span><b>Large, €27</b><small>3 or 4 people, about 6.7 kg</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>How you get it</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="how" value="0" checked><span><b>Pickup, free</b><small>Thursday 16:00 to 19:00</small></span></label>
+            <label class="opt"><input type="radio" name="how" value="4"><span><b>Cargo bike, +€4</b><small>To your door, within 6 km</small></span></label>
+          </div>
+        </fieldset>
+        <div class="field" id="pick-field">
+          <label class="lbl" for="pick">Pickup point</label>
+          <select id="pick" name="pick">
+            <option>Farm gate, Kade 7, Katendrecht</option>
+            <option>Buurthuis De Kolk, Delfshaven</option>
+            <option>Fietsenmaker Van Loon, Kralingen</option>
+            <option>Wijkcentrum Noord, Oude Noorden</option>
+          </select>
+        </div>
+        <div class="field" id="pc-field" hidden>
+          <label class="lbl" for="pc">Postcode for delivery</label>
+          <input id="pc" name="pc" type="text" inputmode="text" autocomplete="postal-code" placeholder="3072 AB" style="width:100%;min-height:48px;padding:0 12px;font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-2)">
+        </div>
+        <div class="field">
+          <label class="lbl" for="first">First box</label>
+          <select id="first" name="first">
+            <option>Thursday 5 November</option>
+            <option>Thursday 12 November</option>
+            <option>Thursday 19 November</option>
+          </select>
+        </div>
+        <div class="field" style="margin-bottom:24px">
+          <label class="lbl" for="em">Email</label>
+          <input id="em" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+          <p class="small" id="em-err" role="alert" style="color:var(--text);margin-top:6px" hidden>Enter your email address so we can send the confirmation.</p>
+        </div>
+        <button class="btn" type="submit" id="go">Start my box</button>
+        <p class="fineprint">You pay on Mondays for that week. By signing up you accept the <a href="#terms">terms</a> and the <a href="#privacy">privacy policy</a>.</p>
+      </div>
+      <div class="done" role="status" tabindex="-1" id="done">
+        <h3>Your box is booked</h3>
+        <p id="done-p"></p>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="mark" href="#top" aria-label="Polder &amp; Plot, top of page">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="2" y="2" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M2 20 q 5 -4 10 0 t 10 0 t 10 0" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="2" y="20" width="30" height="12" fill="currentColor" opacity=".35"/></svg>
+        <span>Polder <span class="amp">&amp;</span> Plot</span>
+      </a>
+      <p style="margin-top:14px">Kade 7, 3072 Rotterdam<br>hello@polderandplot.example</p>
+    </div>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#box">This week's box</a></li>
+      <li><a href="#prices">Prices</a></li>
+      <li><a href="#faq">Questions</a></li>
+    </ul>
+    <ul>
+      <li><a id="terms" href="#terms">Terms of use</a></li>
+      <li><a id="privacy" href="#privacy">Privacy policy</a></li>
+      <li>Farm open for visits, first Saturday of the month, 10:00 to 13:00</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var f = document.getElementById('f');
+  var $ = function (id) { return document.getElementById(id); };
+  function val(n) { return f.querySelector('input[name="' + n + '"]:checked').value; }
+  function update() {
+    var size = +val('size'), how = +val('how');
+    $('s-size').textContent = (size === 17 ? 'Small' : 'Large') + ', €' + size;
+    $('s-how').textContent = how ? 'Cargo bike, +€4' : 'Pickup, free';
+    $('s-first').textContent = $('first').value;
+    $('s-total').textContent = '€' + (size + how);
+    $('pick-field').hidden = !!how;
+    $('pc-field').hidden = !how;
+  }
+  f.addEventListener('change', update);
+  update();
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var em = $('em');
+    if (!em.value || !em.checkValidity()) { $('em-err').hidden = false; em.setAttribute('aria-invalid', 'true'); em.focus(); return; }
+    $('em-err').hidden = true; em.removeAttribute('aria-invalid');
+    var size = +val('size'), how = +val('how');
+    $('done-p').textContent = 'We sent a confirmation to ' + em.value + '. Your ' + (size === 17 ? 'Small' : 'Large') + ' box ' +
+      (how ? 'arrives by cargo bike' : 'waits at ' + $('pick').value) + ' on ' + $('first').value + '. You pay €' + (size + how) + ' a week and can pause any week before Monday 12:00.';
+    f.classList.add('is-done');
+    $('done').focus();
+  });
+})();
+</script>
+</body>
+</html>

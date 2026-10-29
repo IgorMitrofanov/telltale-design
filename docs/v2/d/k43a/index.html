@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morning Stock · St. Elisabeth Pharmacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500;700&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* ------------------------------------------------------------------
+   One value re-themes the page. Everything below is derived from it.
+   ------------------------------------------------------------------ */
+:root{
+  --brand:#1F5FAD;
+
+  /* fallbacks for engines without relative colour */
+  --paper:#F3F5F8; --surface:#FFFFFF; --ink:#16202C; --ink-2:#4C5868; --ink-3:#6E7886;
+  --rule:#DCE1E8; --rule-2:#C5CDD8;
+  --accent:#1F5FAD; --accent-soft:#E6EEF8; --on-accent:#fff;
+
+  --urgent:#B42318; --urgent-soft:#FCEBE8; --urgent-rule:#F1C4BD;
+  --warn:#8A5A00;  --warn-soft:#FAF1DC;  --warn-rule:#EBD6A6;
+  --ok:#2F6B4F;
+
+  --font:"Atkinson Hyperlegible Next", "Segoe UI", system-ui, sans-serif;
+  --mono:"Atkinson Hyperlegible Mono", ui-monospace, "Cascadia Mono", monospace;
+  --r:10px;
+  color-scheme:light;
+}
+@supports (color: oklch(from red l c h)){
+  :root{
+    --paper:   oklch(from var(--brand) 0.968 0.008 h);
+    --surface: oklch(from var(--brand) 0.995 0.003 h);
+    --ink:     oklch(from var(--brand) 0.23 0.025 h);
+    --ink-2:   oklch(from var(--brand) 0.44 0.025 h);
+    --ink-3:   oklch(from var(--brand) 0.55 0.02 h);
+    --rule:    oklch(from var(--brand) 0.90 0.012 h);
+    --rule-2:  oklch(from var(--brand) 0.83 0.016 h);
+    /* brand clamped into a range that always reads on paper */
+    --accent:      oklch(from var(--brand) clamp(0.36, l, 0.50) clamp(0.02, c, 0.17) h);
+    --accent-soft: oklch(from var(--brand) 0.935 0.035 h);
+    --on-accent:   oklch(from var(--accent) clamp(0, (0.64 - l) * 999, 1) 0 0);
+  }
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#11161D; --surface:#171E27; --ink:#E7ECF2; --ink-2:#A9B4C2; --ink-3:#8793A2;
+    --rule:#27313D; --rule-2:#34404E;
+    --accent:#8DB6EA; --accent-soft:#1B2A3D; --on-accent:#0B1420;
+    --urgent:#FF8F80; --urgent-soft:#3A1C1A; --urgent-rule:#5E2B26;
+    --warn:#E9BD62;  --warn-soft:#33281A;  --warn-rule:#574325;
+    --ok:#7FC4A1;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#11161D; --surface:#171E27; --ink:#E7ECF2; --ink-2:#A9B4C2; --ink-3:#8793A2;
+  --rule:#27313D; --rule-2:#34404E;
+  --accent:#8DB6EA; --accent-soft:#1B2A3D; --on-accent:#0B1420;
+  --urgent:#FF8F80; --urgent-soft:#3A1C1A; --urgent-rule:#5E2B26;
+  --warn:#E9BD62;  --warn-soft:#33281A;  --warn-rule:#574325;
+  --ok:#7FC4A1;
+}
+@supports (color: oklch(from red l c h)){
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:   oklch(from var(--brand) 0.185 0.014 h);
+      --surface: oklch(from var(--brand) 0.225 0.016 h);
+      --ink:     oklch(from var(--brand) 0.94 0.008 h);
+      --ink-2:   oklch(from var(--brand) 0.77 0.016 h);
+      --ink-3:   oklch(from var(--brand) 0.66 0.016 h);
+      --rule:    oklch(from var(--brand) 0.30 0.016 h);
+      --rule-2:  oklch(from var(--brand) 0.37 0.018 h);
+      --accent:      oklch(from var(--brand) clamp(0.74, l, 0.84) clamp(0.02, c, 0.13) h);
+      --accent-soft: oklch(from var(--brand) 0.29 0.045 h);
+      --on-accent:   oklch(from var(--brand) 0.18 0.02 h);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:   oklch(from var(--brand) 0.185 0.014 h);
+    --surface: oklch(from var(--brand) 0.225 0.016 h);
+    --ink:     oklch(from var(--brand) 0.94 0.008 h);
+    --ink-2:   oklch(from var(--brand) 0.77 0.016 h);
+    --ink-3:   oklch(from var(--brand) 0.66 0.016 h);
+    --rule:    oklch(from var(--brand) 0.30 0.016 h);
+    --rule-2:  oklch(from var(--brand) 0.37 0.018 h);
+    --accent:      oklch(from var(--brand) clamp(0.74, l, 0.84) clamp(0.02, c, 0.13) h);
+    --accent-soft: oklch(from var(--brand) 0.29 0.045 h);
+    --on-accent:   oklch(from var(--brand) 0.18 0.02 h);
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font); font-size:15px; line-height:1.45;
+  font-feature-settings:"tnum" 1;
+}
+.mono{font-family:var(--mono); font-feature-settings:"zero" 1}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+.wrap{max-width:1360px; margin:0 auto; padding:0 32px}
+
+/* ---------- top bar ---------- */
+.bar{
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding:18px 0 16px; border-bottom:1px solid var(--rule);
+}
+.mark{display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit}
+.mark svg{flex:none}
+.mark b{display:block; font-weight:800; font-size:16px; letter-spacing:-.005em}
+.mark span{display:block; font-size:12.5px; color:var(--ink-2)}
+.bar .stamp{margin-left:auto; display:flex; gap:22px; align-items:baseline; font-size:13px; color:var(--ink-2)}
+.bar .stamp strong{color:var(--ink); font-weight:700}
+.theme{
+  border:1px solid var(--rule-2); background:var(--surface); border-radius:999px;
+  padding:5px 12px; font-size:12.5px; cursor:pointer; color:var(--ink-2);
+}
+.theme:hover{color:var(--ink); border-color:var(--ink-3)}
+
+/* ---------- the label: what to do first ---------- */
+.first{margin:28px 0 36px; display:grid; grid-template-columns:minmax(0,1fr); gap:0}
+.label{
+  position:relative; background:var(--surface);
+  border:1px solid var(--rule-2); border-radius:var(--r);
+  padding:22px 28px 22px 44px;
+  box-shadow:0 1px 0 var(--rule), 0 12px 30px -22px oklch(0.2 0.05 250 / .35);
+}
+/* the torn-off perforation on the left edge of a dispensing label */
+.label::before{
+  content:""; position:absolute; left:16px; top:14px; bottom:14px; width:4px;
+  background:radial-gradient(circle, var(--rule-2) 1.6px, transparent 2px) 0 0/4px 9px repeat-y;
+}
+.label-head{
+  display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline;
+  font-size:11.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3);
+  padding-bottom:12px; border-bottom:1px dashed var(--rule-2);
+}
+.label-head .rx{font-family:var(--mono); letter-spacing:0; text-transform:none; color:var(--accent); font-weight:700; font-size:13px}
+.label-head .right{margin-left:auto}
+.first h1{
+  margin:16px 0 4px; font-size:clamp(28px, 3.1vw, 40px); line-height:1.05;
+  font-weight:800; letter-spacing:-.025em;
+}
+.first h1 em{font-style:normal; color:var(--urgent)}
+.first .sub{margin:0 0 18px; color:var(--ink-2); max-width:62ch}
+
+.todo{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:0}
+.todo li{
+  display:grid; grid-template-columns:auto 1fr; gap:4px 14px; align-content:start;
+  padding:14px 22px 6px 0; margin-right:22px; border-right:1px solid var(--rule);
+}
+.todo li:last-child{border-right:0; margin-right:0}
+.todo .n{
+  grid-row:span 3; font-family:var(--mono); font-weight:700; font-size:13px;
+  width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+  border:1.5px solid currentColor; color:var(--urgent); margin-top:1px;
+}
+.todo li.w .n{color:var(--warn)}
+.todo h2{margin:0; font-size:17px; line-height:1.25; font-weight:700; letter-spacing:-.005em}
+.todo p{margin:0; color:var(--ink-2); font-size:14px}
+.todo .act{margin-top:8px; display:flex; gap:8px; flex-wrap:wrap}
+.btn{
+  display:inline-flex; align-items:center; gap:6px; border-radius:7px; cursor:pointer;
+  padding:6px 12px; font-size:13.5px; font-weight:700; text-decoration:none;
+  border:1px solid var(--accent); background:var(--accent); color:var(--on-accent);
+}
+.btn.ghost{background:transparent; color:var(--accent); border-color:var(--rule-2)}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost:hover{border-color:var(--accent); filter:none}
+.btn[aria-pressed="true"]{background:var(--accent-soft); color:var(--accent); border-color:transparent}
+
+/* ---------- layout ---------- */
+.grid{display:grid; grid-template-columns:minmax(0,1.62fr) minmax(0,1fr); gap:36px 40px; padding-bottom:40px}
+.col{display:grid; gap:36px; align-content:start; min-width:0}
+section{min-width:0}
+.sec-head{display:flex; align-items:baseline; gap:12px; padding-bottom:10px; border-bottom:2px solid var(--ink)}
+.sec-head h3{margin:0; white-space:nowrap; font-size:19px; font-weight:800; letter-spacing:-.012em}
+.sec-head .count{font-family:var(--mono); font-size:13px; color:var(--ink-2); white-space:nowrap}
+.sec-head .note{margin-left:auto; font-size:12.5px; color:var(--ink-3); text-align:right}
+
+/* ---------- low stock rows with the days-left scale ---------- */
+.stock{list-style:none; margin:0; padding:0}
+.srow{
+  display:grid; align-items:center; gap:4px 20px;
+  grid-template-columns:minmax(0,1.5fr) 86px 64px minmax(190px,1.1fr);
+  padding:12px 0; border-bottom:1px solid var(--rule);
+}
+.colhead{padding:8px 0 6px; font-size:11.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--rule)}
+.colhead span:nth-child(2), .colhead span:nth-child(3){text-align:right}
+.drug b{display:block; font-weight:700; font-size:15px; line-height:1.25}
+.drug small{display:block; color:var(--ink-2); font-size:12.5px; margin-top:2px}
+.tag{
+  display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:1px 6px; border-radius:4px; vertical-align:2px; margin-left:6px;
+  border:1px solid var(--rule-2); color:var(--ink-2);
+}
+.tag.ha{border-color:var(--urgent-rule); color:var(--urgent)}
+.tag.cd{border-color:var(--warn-rule); color:var(--warn)}
+.num{text-align:right; font-family:var(--mono); font-size:14px}
+.num small{display:block; font-family:var(--font); font-size:11.5px; color:var(--ink-3)}
+.num .of{color:var(--ink-3)}
+
+/* the scale: a graduated barrel, 0 to 7 days, plunger drawn to days left */
+.scale{display:grid; grid-template-columns:1fr 66px; gap:12px; align-items:center}
+.barrel{
+  --d:0; position:relative; height:22px; border-radius:4px;
+  border:1px solid var(--rule-2); background:var(--surface); overflow:hidden;
+}
+.barrel .fill{
+  position:absolute; inset:0 auto 0 0; width:calc(var(--d) / 7 * 100%);
+  background:var(--tone-soft, var(--accent-soft));
+  border-right:2.5px solid var(--tone, var(--accent));
+}
+.barrel .ticks{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(90deg, var(--rule-2) 1px, transparent 1px) 0 100%/calc(100%/7) 9px repeat-x,
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px) calc(100%/14) 100%/calc(100%/7) 5px repeat-x;
+}
+.days{font-family:var(--mono); font-weight:700; font-size:15px; text-align:right; color:var(--tone, var(--ink)); line-height:1.1}
+.days small{display:block; font-family:var(--font); font-weight:400; font-size:11.5px; color:var(--ink-3)}
+.t-crit{--tone:var(--urgent); --tone-soft:var(--urgent-soft)}
+.t-low{--tone:var(--warn); --tone-soft:var(--warn-soft)}
+.cover{font-size:12.5px; color:var(--ok); margin-top:3px}
+.cover.none{color:var(--urgent); font-weight:700}
+.scale-key{display:grid; grid-template-columns:1fr 66px; gap:12px}
+.scale-key div{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--ink-3); padding:0 1px}
+
+/* ---------- tables ---------- */
+.tbox{overflow-x:auto; -webkit-overflow-scrolling:touch}
+table{border-collapse:collapse; width:100%; min-width:620px}
+th{font-weight:400; text-align:left; font-size:11.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3); padding:8px 12px 6px 0; border-bottom:1px solid var(--rule); white-space:nowrap}
+td{padding:11px 12px 11px 0; border-bottom:1px solid var(--rule); vertical-align:top}
+td.r, th.r{text-align:right}
+td .mono{font-size:13.5px}
+.when{white-space:nowrap}
+.when b{font-family:var(--mono); font-weight:700}
+.when small{display:block; font-size:12px; color:var(--ink-3)}
+tr.soon .when b{color:var(--urgent)}
+tr.near .when b{color:var(--warn)}
+
+/* ---------- orders ---------- */
+.orders{list-style:none; margin:0; padding:0}
+.orders li{display:grid; grid-template-columns:52px 1fr auto; gap:2px 14px; padding:12px 0; border-bottom:1px solid var(--rule)}
+.orders time{font-family:var(--mono); font-size:14px; color:var(--ink-2); padding-top:1px}
+.orders .ward{font-weight:700}
+.orders .items{grid-column:2 / 4; color:var(--ink-2); font-size:13.5px}
+.prio{font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; align-self:start; padding:2px 8px; border-radius:999px; color:var(--ink-3); border:1px solid var(--rule-2)}
+.orders li.u{background:linear-gradient(90deg, var(--urgent-soft), transparent 70%); margin:0 -12px; padding-left:12px; padding-right:12px; border-radius:6px 0 0 6px; box-shadow:inset 3px 0 0 var(--urgent)}
+.orders li.u .prio{color:var(--urgent); border-color:var(--urgent-rule); background:var(--surface)}
+.orders li.u time{color:var(--urgent); font-weight:700}
+
+/* ---------- deliveries: today on a ruler ---------- */
+.day{position:relative; margin:16px 0 6px; height:34px}
+.day .line{position:absolute; left:0; right:0; top:15px; height:1px; background:var(--rule-2)}
+.day .hr{position:absolute; top:10px; height:11px; width:1px; background:var(--rule-2)}
+.day .hr span{position:absolute; top:14px; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:10.5px; color:var(--ink-3)}
+.day .win{position:absolute; top:10px; height:11px; border-radius:3px; background:var(--accent); opacity:.85}
+.day .now{position:absolute; top:2px; height:27px; width:2px; background:var(--urgent); border-radius:2px}
+.day .now span{position:absolute; top:-2px; left:6px; font-size:10.5px; font-weight:700; color:var(--urgent); white-space:nowrap; letter-spacing:.04em; text-transform:uppercase}
+.deliv{list-style:none; margin:0; padding:0}
+.deliv li{display:grid; grid-template-columns:96px 1fr; gap:2px 14px; padding:12px 0; border-bottom:1px solid var(--rule)}
+.deliv .eta{font-family:var(--mono); font-size:14px; font-weight:700; color:var(--accent)}
+.deliv .eta small{display:block; font-family:var(--font); font-weight:400; font-size:11.5px; color:var(--ink-3)}
+.deliv .who{font-weight:700}
+.deliv p{margin:2px 0 0; font-size:13.5px; color:var(--ink-2)}
+.deliv .cold{color:var(--accent); font-weight:700}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule); padding:16px 0 36px; display:flex; flex-wrap:wrap; gap:10px 24px; align-items:center; font-size:12.5px; color:var(--ink-3)}
+footer label{display:inline-flex; align-items:center; gap:8px; margin-left:auto}
+footer input[type=color]{width:30px; height:22px; padding:0; border:1px solid var(--rule-2); border-radius:5px; background:none; cursor:pointer}
+footer code{font-family:var(--mono); color:var(--ink-2)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .col{display:contents}
+  #stock{order:1} #orders{order:2} #expiring{order:3} #deliveries{order:4}
+}
+@media (max-width:860px){
+  .todo{grid-template-columns:minmax(0,1fr)}
+  .todo li{border-right:0; margin-right:0; padding-right:0; border-bottom:1px solid var(--rule); padding-bottom:14px}
+  .todo li:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  .wrap{padding:0 16px}
+  .bar{gap:10px 14px}
+  .bar .stamp{margin-left:0; width:100%; flex-wrap:wrap; gap:2px 16px; order:3; font-size:12.5px}
+  .bar .theme{margin-left:auto}
+  .first{margin:18px 0 28px}
+  .label{padding:16px 16px 16px 30px}
+  .label::before{left:10px}
+  .label-head .right{margin-left:0}
+  .colhead{display:none}
+  .srow{grid-template-columns:1fr auto auto; gap:8px 16px}
+  .srow .drug{grid-column:1 / -1}
+  .srow .scale{grid-column:1 / 2; grid-row:2; grid-template-columns:1fr 52px; gap:10px}
+  .scale-key{display:none}
+  .sec-head{flex-wrap:wrap}
+  .sec-head .note{margin-left:0; width:100%; text-align:left}
+  .deliv li{grid-template-columns:78px 1fr}
+}
+@media (prefers-reduced-motion:no-preference){
+  .barrel .fill{animation:draw .7s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes draw{from{width:0}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="bar">
+  <a class="mark" href="#" aria-label="St. Elisabeth Hospital Pharmacy">
+    <!-- a cross formed by four rounded tablets -->
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <rect x="1" y="1" width="32" height="32" rx="9" fill="var(--accent)"/>
+      <rect x="14" y="6" width="6" height="22" rx="3" fill="var(--on-accent)"/>
+      <rect x="6" y="14" width="22" height="6" rx="3" fill="var(--on-accent)"/>
+      <circle cx="17" cy="17" r="1.6" fill="var(--accent)"/>
+    </svg>
+    <div><b>St. Elisabeth Pharmacy</b><span>Morning stock · main dispensary, level −1</span></div>
+  </a>
+  <div class="stamp">
+    <span><strong>Wednesday 28 October</strong></span>
+    <span>Stock count closed <strong class="mono">06:45</strong></span>
+    <span>Night handover: <strong>J. Okafor</strong></span>
+  </div>
+  <button class="theme" id="theme" type="button" aria-label="Change colour theme">Theme: auto</button>
+</header>
+
+<main>
+<section class="first" aria-labelledby="first-title">
+  <div class="label">
+    <div class="label-head">
+      <span class="rx">Rx 07:00</span>
+      <span>Before the 10:00 wholesaler cut-off</span>
+      <span class="right">3 of 25 lines need you now</span>
+    </div>
+    <h1 id="first-title">Noradrenaline runs out <em>before 21:00</em> tonight.</h1>
+    <p class="sub">It is not on any delivery today and ICU has asked for 20 ampoules. Start there, then the two urgent ward orders, then the insulin pens on 4B.</p>
+    <ol class="todo">
+      <li>
+        <span class="n">1</span>
+        <h2>Place an emergency order for noradrenaline 4&nbsp;mg/4&nbsp;ml</h2>
+        <p>14 in stock, 22 used a day. Minimum is 60. Alliance can still add it to the 10:30 run if called before 10:00.</p>
+        <div class="act"><button class="btn" type="button" data-done="Ordered">Place order</button><a class="btn ghost" href="#stock">See stock</a></div>
+      </li>
+      <li>
+        <span class="n">2</span>
+        <h2>Pick the urgent orders for ICU, Emergency and Maternity</h2>
+        <p>Three urgent requests since 06:42. ICU's propofol can go now; the noradrenaline follows step 1.</p>
+        <div class="act"><button class="btn" type="button" data-done="Picking">Start picking</button><a class="btn ghost" href="#orders">See orders</a></div>
+      </li>
+      <li class="w">
+        <span class="n">3</span>
+        <h2>Bring back 12 insulin aspart pens from Ward 4B</h2>
+        <p>Batch NN4K221 expires Friday 30 October. Swap them on the 09:00 ward round.</p>
+        <div class="act"><button class="btn" type="button" data-done="Swap booked">Book swap</button><a class="btn ghost" href="#expiring">See expiring</a></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="grid">
+  <div class="col">
+    <section id="stock" aria-labelledby="stock-h">
+      <div class="sec-head">
+        <h3 id="stock-h">Below minimum stock</h3><span class="count" id="stock-count"></span>
+        <span class="note">Days left = current ÷ average daily use, last 14 days</span>
+      </div>
+      <div class="srow colhead" aria-hidden="true">
+        <span>Item</span><span>Current / min</span><span>Daily use</span>
+        <div class="scale-key"><div><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7 d</span></div><span style="text-align:right">Days left</span></div>
+      </div>
+      <ul class="stock" id="stock-list"></ul>
+    </section>
+
+    <section id="expiring" aria-labelledby="exp-h">
+      <div class="sec-head">
+        <h3 id="exp-h">Expiring within 30 days</h3><span class="count" id="exp-count"></span>
+        <span class="note">Up to Friday 27 November</span>
+      </div>
+      <div class="tbox" tabindex="0" role="region" aria-label="Expiring items table">
+        <table>
+          <thead><tr><th>Expires</th><th>Item</th><th>Batch</th><th class="r">Qty</th><th>Where it is</th></tr></thead>
+          <tbody id="exp-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section id="orders" aria-labelledby="ord-h">
+      <div class="sec-head">
+        <h3 id="ord-h">Ward orders today</h3><span class="count" id="ord-count"></span>
+        <span class="note">Urgent first</span>
+      </div>
+      <ul class="orders" id="ord-list"></ul>
+    </section>
+
+    <section id="deliveries" aria-labelledby="del-h">
+      <div class="sec-head">
+        <h3 id="del-h">Deliveries expected today</h3><span class="count" id="del-count"></span>
+      </div>
+      <div class="day" id="day" aria-hidden="true"></div>
+      <ul class="deliv" id="del-list"></ul>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer>
+  <span>Figures from the 06:45 stock count. Ward orders refresh every 5 minutes.</span>
+  <span>Questions: pharmacy desk ext. <span class="mono">4410</span></span>
+  <label>Brand colour <code id="brand-val">#1F5FAD</code><input type="color" id="brand" value="#1F5FAD" aria-label="Brand colour"></label>
+</footer>
+</div>
+
+<script>
+const stock = [
+  {n:"Noradrenaline 4 mg/4 ml", f:"Ampoule · ICU, theatres", cur:14, min:60, use:22, ha:true, cover:null},
+  {n:"Piperacillin/tazobactam 4 g/0.5 g", f:"Vial · all wards", cur:38, min:120, use:46, cover:"200 arriving with Alliance, 09:30–10:30"},
+  {n:"Enoxaparin 40 mg/0.4 ml", f:"Pre-filled syringe · all wards", cur:70, min:200, use:64, ha:true, cover:"300 arriving with Alliance, 09:30–10:30"},
+  {n:"Paracetamol 1 g/100 ml", f:"IV infusion · surgery, ED", cur:96, min:240, use:58, cover:"480 arriving with Fresenius Kabi, 11:00"},
+  {n:"Ondansetron 4 mg/2 ml", f:"Ampoule · oncology, surgery", cur:40, min:80, use:18, cover:null},
+  {n:"Furosemide 20 mg/2 ml", f:"Ampoule · cardiology, 4B", cur:55, min:100, use:15, cover:"60 arriving with Alliance, 09:30–10:30"},
+  {n:"Potassium chloride 10 mmol/10 ml", f:"Concentrate · controlled area", cur:60, min:90, use:12, ha:true, cover:null},
+  {n:"Amoxicillin/clavulanic acid 1.2 g", f:"Vial · paediatrics, medicine", cur:110, min:150, use:19, cover:null},
+  {n:"Levothyroxine 50 microgram", f:"Tablet · all wards", cur:300, min:500, use:42, cover:null}
+];
+const expiring = [
+  {d:"2026-10-30", n:"Insulin aspart 100 units/ml", f:"FlexPen", b:"NN4K221", q:"12 pens", w:"Ward 4B · Internal medicine"},
+  {d:"2026-11-02", n:"Alteplase 50 mg", f:"Vial", b:"23B1187", q:"1 vial", w:"Emergency department"},
+  {d:"2026-11-06", n:"Ceftriaxone 2 g", f:"Vial", b:"KL0921", q:"40 vials", w:"Main store, bay C3"},
+  {d:"2026-11-11", n:"Morphine 10 mg/ml", f:"Ampoule", b:"M22-3305", q:"25 amp", w:"ICU · CD cupboard", cd:true},
+  {d:"2026-11-15", n:"Human albumin 20%, 100 ml", f:"Infusion bottle", b:"A7731Q", q:"8 bottles", w:"Surgery 2"},
+  {d:"2026-11-24", n:"Phytomenadione 10 mg/ml", f:"Ampoule", b:"VK2209", q:"30 amp", w:"Maternity"}
+];
+const orders = [
+  {t:"06:42", w:"ICU", u:true, i:"Noradrenaline 4 mg ×20, Propofol 1% 50 ml ×10"},
+  {t:"06:55", w:"Emergency department", u:true, i:"Tranexamic acid 1 g ×10, Ondansetron 4 mg ×20"},
+  {t:"06:58", w:"Maternity", u:true, i:"Oxytocin 10 units ×20, Phytomenadione 10 mg ×5"},
+  {t:"05:50", w:"Paediatrics 3", u:false, i:"Amoxicillin 250 mg/5 ml susp. ×6, Salbutamol inhaler ×4"},
+  {t:"06:10", w:"Ward 4B · Internal medicine", u:false, i:"9 lines, weekly top-up incl. insulin aspart ×12"},
+  {t:"06:30", w:"Surgery 2", u:false, i:"Cefazolin 2 g ×30, Paracetamol 1 g IV ×40"},
+  {t:"07:05", w:"Oncology day unit", u:false, i:"Dexamethasone 8 mg ×15, Granisetron 1 mg ×15"}
+];
+const deliveries = [
+  {s:"09:30", e:"10:30", who:"Alliance Healthcare", p:"14 lines · piperacillin/tazobactam ×200, enoxaparin ×300, furosemide ×60"},
+  {s:"11:00", e:"11:30", who:"Fresenius Kabi", p:"IV fluids, 6 pallets · paracetamol 1 g IV ×480"},
+  {s:"14:00", e:"15:00", who:"Sanquin", p:"Plasma products · albumin 20% ×24", cold:true}
+];
+
+const NOW = new Date("2026-10-28T07:00:00");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* low stock */
+stock.forEach(r => r.days = r.cur / r.use);
+stock.sort((a,b) => a.days - b.days);
+$("stock-count").textContent = stock.length + " items";
+$("stock-list").innerHTML = stock.map(r => {
+  const tone = r.days < 1 ? "t-crit" : r.days < 3 ? "t-low" : "";
+  const hrs = Math.round(r.days * 24);
+  const sub = r.days < 1 ? `≈ ${hrs} h` : r.days < 2 ? "tomorrow" : "days";
+  const cover = r.cover ? `<div class="cover">${esc(r.cover)}</div>`
+              : r.days < 3 ? `<div class="cover none">Not on any delivery today</div>` : "";
+  return `<li class="srow ${tone}">
+    <div class="drug"><b>${esc(r.n)}${r.ha ? '<span class="tag ha" title="High-alert medicine">High alert</span>' : ''}</b><small>${esc(r.f)}</small>${cover}</div>
+    <div class="num"><span>${r.cur}</span><span class="of"> / ${r.min}</span><small>in stock / min</small></div>
+    <div class="num">${r.use}<small>per day</small></div>
+    <div class="scale">
+      <div class="barrel" style="--d:${Math.min(r.days,7).toFixed(2)}" role="img" aria-label="${r.days.toFixed(1)} days left"><div class="fill"></div><div class="ticks"></div></div>
+      <div class="days">${r.days.toFixed(1)}<small>${sub}</small></div>
+    </div>
+  </li>`;
+}).join("");
+
+/* expiring */
+const fmt = new Intl.DateTimeFormat("en-GB", {weekday:"short", day:"numeric", month:"short"});
+$("exp-count").textContent = expiring.length + " batches";
+$("exp-body").innerHTML = expiring.map(r => {
+  const d = new Date(r.d + "T00:00:00");
+  const days = Math.round((d - new Date("2026-10-28T00:00:00")) / 864e5);
+  const cls = days <= 7 ? "soon" : days <= 14 ? "near" : "";
+  return `<tr class="${cls}">
+    <td class="when"><b>${fmt.format(d)}</b><small>in ${days} days</small></td>
+    <td><b>${esc(r.n)}</b>${r.cd ? '<span class="tag cd" title="Controlled drug">CD</span>' : ''}<br><small style="color:var(--ink-2)">${esc(r.f)}</small></td>
+    <td><span class="mono">${esc(r.b)}</span></td>
+    <td class="r">${esc(r.q)}</td>
+    <td>${esc(r.w)}</td>
+  </tr>`;
+}).join("");
+
+/* orders */
+orders.sort((a,b) => (b.u - a.u) || a.t.localeCompare(b.t));
+const urgentN = orders.filter(o => o.u).length;
+$("ord-count").textContent = `${orders.length} open · ${urgentN} urgent`;
+$("ord-list").innerHTML = orders.map(o => `<li class="${o.u ? 'u' : ''}">
+  <time>${o.t}</time><span class="ward">${esc(o.w)}</span><span class="prio">${o.u ? 'Urgent' : 'Normal'}</span>
+  <span class="items">${esc(o.i)}</span></li>`).join("");
+
+/* deliveries + day ruler 07:00–17:00 */
+const H0 = 7, H1 = 17, pos = t => { const [h,m] = t.split(":").map(Number); return ((h + m/60 - H0) / (H1 - H0) * 100); };
+$("del-count").textContent = deliveries.length + " suppliers";
+let ruler = '<div class="line"></div>';
+for (let h = H0; h <= H1; h += 2) ruler += `<div class="hr" style="left:${pos(h+':00')}%"><span>${String(h).padStart(2,'0')}</span></div>`;
+deliveries.forEach(d => ruler += `<div class="win" style="left:${pos(d.s)}%;width:${pos(d.e)-pos(d.s)}%"></div>`);
+ruler += `<div class="now" style="left:0"><span>Now</span></div>`;
+$("day").innerHTML = ruler;
+$("del-list").innerHTML = deliveries.map(d => `<li>
+  <div class="eta">${d.s}<small>until ${d.e}</small></div>
+  <div><span class="who">${esc(d.who)}</span><p>${esc(d.p)}${d.cold ? ' · <span class="cold">cold chain, 2–8 °C</span>' : ''}</p></div></li>`).join("");
+
+/* action buttons acknowledge in place */
+document.querySelectorAll("[data-done]").forEach(b => b.addEventListener("click", () => {
+  const on = b.getAttribute("aria-pressed") !== "true";
+  b.dataset.label ??= b.textContent;
+  b.setAttribute("aria-pressed", on);
+  b.textContent = on ? "✓ " + b.dataset.done : b.dataset.label;
+}));
+
+/* theme: auto → light → dark */
+const modes = ["auto","light","dark"]; let mi = 0;
+$("theme").addEventListener("click", () => {
+  mi = (mi + 1) % 3;
+  if (modes[mi] === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", modes[mi]);
+  $("theme").textContent = "Theme: " + modes[mi];
+});
+const dt = document.documentElement.getAttribute("data-theme");
+if (dt) { mi = modes.indexOf(dt); $("theme").textContent = "Theme: " + dt; }
+
+/* brand colour preview */
+const cur = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim();
+if (/^#[0-9a-f]{6}$/i.test(cur)) { $("brand").value = cur; $("brand-val").textContent = cur.toUpperCase(); }
+$("brand").addEventListener("input", e => {
+  document.documentElement.style.setProperty("--brand", e.target.value);
+  $("brand-val").textContent = e.target.value.toUpperCase();
+});
+</script>
+</body>
+</html>

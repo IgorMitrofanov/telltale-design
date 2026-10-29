@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lantern Nights — программа и билеты</title>
+<meta name="description" content="Камерный фестиваль в бывшей пивоварне в Генте, 14–16 августа 2027. Расписание на три дня, билеты, как добраться.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Onest:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@1,8..60,400;1,8..60,600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#A6592B;
+
+  --paper:#f2e9da; --card:#faf4e8; --ink:#2b1e15; --muted:#6a5646;
+  --line:color-mix(in oklab,var(--ink) 20%,transparent);
+  --accent:color-mix(in oklab,var(--brand) 78%,#000);
+  --tint:color-mix(in oklab,var(--brand) 11%,var(--paper));
+  --tint2:color-mix(in oklab,var(--brand) 20%,var(--paper));
+  --hero:var(--brand);
+  --on-brand:#fff; --on-btn:#fff;
+  --on-btn:oklch(from var(--brand) clamp(0,(0.66 - l) * 1000,1) 0 0);
+  --on-brand:oklch(from var(--brand) clamp(0,(0.66 - l) * 1000,1) 0 0);
+  --brick:color-mix(in oklab,var(--brand) 82%,#000);
+  --shadow:color-mix(in oklab,var(--ink) 88%,transparent);
+  --stage-v:var(--accent); --stage-s:#3f6b5c;
+  --grain:.07;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Onest",system-ui,sans-serif;
+  --serif:"Source Serif 4",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1b1410; --card:#251b15; --ink:#f3e8d6; --muted:#b9a690;
+    --accent:color-mix(in oklab,var(--brand) 58%,#fff);
+    --tint:color-mix(in oklab,var(--brand) 16%,var(--paper));
+    --tint2:color-mix(in oklab,var(--brand) 28%,var(--paper));
+    --hero:color-mix(in oklab,var(--brand) 78%,#000);
+    --on-brand:oklch(from var(--hero) clamp(0,(0.66 - l) * 1000,1) 0 0);
+    --brick:color-mix(in oklab,var(--brand) 60%,#000);
+    --shadow:#000; --stage-s:#7fb8a3; --grain:.12; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#1b1410; --card:#251b15; --ink:#f3e8d6; --muted:#b9a690;
+    --accent:color-mix(in oklab,var(--brand) 58%,#fff);
+    --tint:color-mix(in oklab,var(--brand) 16%,var(--paper));
+    --tint2:color-mix(in oklab,var(--brand) 28%,var(--paper));
+    --hero:color-mix(in oklab,var(--brand) 78%,#000);
+    --on-brand:oklch(from var(--hero) clamp(0,(0.66 - l) * 1000,1) 0 0);
+    --brick:color-mix(in oklab,var(--brand) 60%,#000);
+    --shadow:#000; --stage-s:#7fb8a3; --grain:.12; color-scheme:dark;
+}
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--body);-webkit-text-size-adjust:100%;overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:var(--grain);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] body::before{mix-blend-mode:screen}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::before{mix-blend-mode:screen}}
+a{color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
+.logo{font:700 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:9px;margin-right:auto}
+.logo svg{width:16px;height:22px;color:var(--accent)}
+.nav a.l{font:500 14px var(--display);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:none}
+.nav a.l:hover{color:var(--accent)}
+.theme{appearance:none;border:2px solid var(--ink);background:transparent;color:var(--ink);width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.theme svg{width:16px;height:16px}
+@media(min-width:900px){.nav a.l{display:block}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 16px/1 var(--display);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;
+  padding:15px 24px;background:var(--brand);color:var(--on-btn);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--shadow);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.sm{padding:10px 16px;font-size:14px;box-shadow:3px 3px 0 var(--shadow)}
+.hero .btn{background:var(--on-brand);color:var(--hero);border-color:var(--on-brand);box-shadow:4px 4px 0 color-mix(in oklab,var(--hero) 50%,#000)}
+.hero .btn.ghost{background:transparent;color:var(--on-brand)}
+
+/* hero */
+.hero{background:var(--hero);color:var(--on-brand);position:relative;overflow:hidden;border-bottom:2px solid var(--ink)}
+.hero::before{content:"";position:absolute;inset:0;opacity:.28;
+  background:
+   linear-gradient(var(--brick) 0 0) 0 0/100% 3px,
+   repeating-linear-gradient(90deg,transparent 0 94px,var(--brick) 94px 97px);
+  background-size:100% 52px,auto;
+  mask:linear-gradient(180deg,transparent,#000 70%)}
+.hero::after{content:"";position:absolute;inset:0;opacity:.28;
+  background:repeating-linear-gradient(0deg,transparent 0 49px,var(--brick) 49px 52px);mask:linear-gradient(180deg,transparent,#000 70%)}
+.hero .wrap{position:relative;z-index:1;padding:44px 0 56px;display:grid;gap:26px}
+.eyebrow{font:500 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;display:flex;gap:14px;flex-wrap:wrap}
+.eyebrow{max-width:calc(100% - 70px)}@media(min-width:700px){.eyebrow{max-width:none}}
+.eyebrow span+span::before{content:"/";margin-right:14px;opacity:.6}
+h1{font:700 clamp(68px,25vw,260px)/.82 var(--display);text-transform:uppercase;letter-spacing:-.01em}
+h1 em{display:block;font:italic 400 .22em/1 var(--serif);text-transform:none;letter-spacing:0;margin:.3em 0 .5em .1em}
+h1 span{display:block}
+h1 span:last-of-type{padding-left:.4em}
+.hero p.lead{font:400 clamp(18px,2.4vw,24px)/1.4 var(--body);max-width:34ch}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-lantern{position:absolute;right:3%;top:0;width:clamp(52px,13vw,190px);color:var(--on-brand);z-index:1;transform-origin:50% 0;animation:sway 6s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){.hero-lantern{animation:none}html{scroll-behavior:auto}}
+.stamp{position:absolute;right:max(20px,calc((100% - 1240px)/2));bottom:36px;z-index:2;width:clamp(120px,17vw,190px);aspect-ratio:1;border:3px double var(--on-brand);border-radius:50%;display:grid;place-content:center;text-align:center;
+  transform:rotate(-12deg);font:700 clamp(20px,2.6vw,30px)/1 var(--display);text-transform:uppercase;background:color-mix(in oklab,var(--hero) 85%,transparent)}
+.stamp small{display:block;font:500 11px var(--mono);letter-spacing:.12em;margin-top:6px}
+@media(max-width:620px){.stamp{position:relative;right:auto;bottom:auto;margin:6px 0 0;width:112px;justify-self:end}}
+
+/* ticker */
+.ticker{border-bottom:2px solid var(--ink);background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap}
+.ticker div{display:inline-block;padding:10px 0;font:500 14px var(--display);letter-spacing:.16em;text-transform:uppercase;animation:tick 40s linear infinite}
+.ticker span{margin:0 18px}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker div{animation:none}}
+
+section.block{padding:72px 0 8px}
+.sec-head{display:grid;gap:10px;margin-bottom:30px}
+.kick{font:500 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h2{font:700 clamp(40px,7vw,84px)/.92 var(--display);text-transform:uppercase}
+h2 i{font:italic 400 .5em var(--serif);text-transform:none;color:var(--accent);margin-left:.2em}
+.sec-head p{max-width:56ch;color:var(--muted)}
+
+/* programme */
+.tools{position:sticky;top:58px;z-index:30;background:var(--paper);padding:10px 0;margin-bottom:16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{appearance:none;font:600 14px var(--display);letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.chip .d{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:0}
+.legend{font:400 13px/1.3 var(--mono);color:var(--muted);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.legend b{color:var(--ink);font-weight:700}
+
+.day{display:grid;gap:0;margin-bottom:44px}
+.day-head{display:flex;gap:18px;align-items:flex-end;padding-bottom:14px;border-bottom:4px solid var(--ink)}
+.day-num{font:700 clamp(72px,14vw,150px)/.78 var(--display);color:var(--accent)}
+.day-head h3{font:600 clamp(22px,3.4vw,34px)/1.05 var(--display);text-transform:uppercase}
+.day-head h3 span{display:block;font:500 13px var(--mono);letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.day-head p{color:var(--muted);font:italic 400 17px/1.35 var(--serif);margin-top:6px;max-width:46ch}
+.list{list-style:none;padding:0}
+.c{display:grid;grid-template-columns:78px 1fr;gap:4px 16px;padding:18px 0;border-bottom:1px dashed var(--line);position:relative}
+.c-time{font:700 24px/1.1 var(--mono);letter-spacing:-.03em;grid-row:span 2;padding-top:2px}
+.c-body h4{font:600 clamp(21px,2.6vw,28px)/1.12 var(--display);text-transform:uppercase;letter-spacing:.01em}
+.c-body p{color:var(--muted);font-size:15.5px;margin-top:3px}
+.c-meta{grid-column:2;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.stage{font:600 12.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 9px 4px 8px;border:1.5px solid currentColor;display:inline-flex;gap:7px;align-items:center}
+.stage::before{content:"";width:8px;height:8px;background:currentColor;border-radius:50%}
+.stage-v{color:var(--stage-v)}.stage-s{color:var(--stage-s)}
+.tier{display:inline-flex;align-items:center;gap:8px;font:600 14px var(--mono)}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink);display:block}
+.dots i.on{background:var(--ink)}
+.c.hide{display:none}
+.c:hover{background:linear-gradient(90deg,var(--tint),transparent)}
+@media(min-width:900px){
+  .day{grid-template-columns:minmax(0,1fr)}
+  .c{grid-template-columns:110px minmax(0,1.6fr) minmax(0,1fr);align-items:center;padding:22px 12px 22px 0}
+  .c-time{grid-row:auto;font-size:30px}
+  .c-meta{grid-column:auto;margin:0;justify-content:flex-end}
+}
+
+/* tickets */
+.tix{display:grid;gap:22px;margin-top:6px}
+@media(min-width:900px){.tix{grid-template-columns:1fr 1.2fr 1fr;align-items:stretch}}
+.t{background:var(--card);border:2px solid var(--ink);padding:26px 24px 24px;display:flex;flex-direction:column;gap:12px;box-shadow:6px 6px 0 var(--shadow);position:relative}
+.t.hot{background:var(--hero);color:var(--on-brand)}
+.t .tag{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.t h3{font:700 32px/1 var(--display);text-transform:uppercase}
+.price{font:700 clamp(64px,9vw,96px)/.9 var(--display);display:flex;align-items:flex-start;gap:4px}
+.price sup{font-size:.4em;margin-top:.1em}
+.t ul{list-style:none;padding:0;display:grid;gap:8px;font-size:16px;margin-bottom:10px}
+.t li{padding-left:24px;position:relative}
+.t li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:6px;border-left:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(-45deg)}
+.t .btn{margin-top:auto;justify-content:center}
+.t.hot .btn{background:var(--on-brand);color:var(--hero);border-color:var(--on-brand);box-shadow:4px 4px 0 color-mix(in oklab,var(--hero) 50%,#000)}
+.badge{position:absolute;top:-16px;right:18px;background:var(--ink);color:var(--paper);font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;transform:rotate(3deg)}
+.note{margin-top:26px;display:grid;gap:10px;font-size:15.5px;color:var(--muted)}
+.note b{color:var(--ink)}
+.tiers{display:flex;gap:18px;flex-wrap:wrap;font:500 14px var(--mono);color:var(--ink)}
+.tiers span{display:inline-flex;gap:8px;align-items:center}
+
+/* venue */
+.two{display:grid;gap:30px}
+@media(min-width:900px){.two{grid-template-columns:1.05fr 1fr;gap:56px;align-items:start}}
+.map{border:2px solid var(--ink);background:var(--tint);box-shadow:6px 6px 0 var(--shadow)}
+.map svg{display:block;width:100%;height:auto}
+.way{display:grid;gap:0}
+.way div{padding:18px 0;border-bottom:1px dashed var(--line);display:grid;grid-template-columns:44px 1fr;gap:14px}
+.way div:first-child{padding-top:0}
+.way svg{width:34px;height:34px;color:var(--accent)}
+.way h3{font:600 22px/1.1 var(--display);text-transform:uppercase;margin-bottom:4px}
+.way p{color:var(--muted);font-size:16px}
+.addr{font:italic 400 22px/1.3 var(--serif);margin-bottom:18px}
+
+/* a11y */
+.acc{display:grid;gap:16px;margin-top:8px}
+@media(min-width:700px){.acc{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.acc{grid-template-columns:repeat(3,1fr)}}
+.ac{background:var(--tint);padding:20px 20px 22px;border-left:6px solid var(--accent)}
+.ac h3{font:600 20px/1.1 var(--display);text-transform:uppercase;margin-bottom:8px}
+.ac p{font-size:15.5px;color:var(--muted)}
+
+/* faq */
+.faq{border-top:2px solid var(--ink)}
+.faq details{border-bottom:2px solid var(--ink)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:20px 0;font:600 clamp(20px,2.6vw,28px)/1.15 var(--display);text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:500 36px/1 var(--mono);color:var(--accent);flex:none;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 22px;max-width:64ch;color:var(--muted)}
+
+/* footer */
+footer{margin-top:90px;background:var(--ink);color:var(--paper);padding:56px 0 110px}
+footer .big{font:700 clamp(54px,13vw,190px)/.85 var(--display);text-transform:uppercase;color:var(--accent);margin-bottom:30px}
+footer .cols{display:grid;gap:26px;font-size:15.5px}
+@media(min-width:800px){footer .cols{grid-template-columns:2fr 1fr 1fr 1.4fr}}
+footer h3{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;opacity:.65;margin-bottom:8px}
+footer a{text-decoration:none;border-bottom:1px solid currentColor}
+.pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pick input[type=color]{width:40px;height:32px;border:2px solid var(--paper);padding:0;background:none;cursor:pointer}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--paper);cursor:pointer;padding:0}
+:root[data-theme="light"] footer,:root[data-theme="dark"] footer{}
+
+/* mobile buy bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--paper);border-top:2px solid var(--ink);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;justify-content:space-between}
+.bar span{font:500 13px/1.2 var(--mono);color:var(--muted)}
+.bar span b{display:block;color:var(--ink);font:700 18px var(--display);letter-spacing:.04em;text-transform:uppercase}
+@media(min-width:900px){.bar{display:none}footer{padding-bottom:56px}}
+</style>
+</head>
+<body>
+
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Lantern Nights — на главную">
+    <svg viewBox="0 0 16 22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 1v3M4 4h8l2 3v9l-2 3H4l-2-3V7z"/><path d="M8 8c2 2 1.6 4-0 5-1.600-1-2-3 0-5z" fill="currentColor"/></svg>
+    Lantern Nights</a>
+  <a class="l" href="#programme">Программа</a><a class="l" href="#tickets">Билеты</a><a class="l" href="#venue">Как добраться</a><a class="l" href="#faq">Вопросы</a>
+  <button class="theme" id="theme" aria-label="Переключить тему"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+  <a class="btn sm" href="#tickets">Купить</a>
+</div></header>
+
+<main id="top">
+<div class="hero">
+  <svg class="hero-lantern" viewBox="0 0 120 260" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true">
+    <path d="M60 0v40" /><path d="M44 40h32l6 14H38z" fill="currentColor"/><path d="M36 60h48l10 22v78l-10 22H36l-10-22V82z"/>
+    <path d="M60 78c20 22 16 44 0 58-16-12-20-36 0-58z" fill="currentColor" stroke="none"/><path d="M36 60v122M84 60v122M26 82h68M26 160h68" stroke-width="2.5" opacity=".6"/>
+    <path d="M42 182h36l6 14H36z" fill="currentColor"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow"><span>14–16 августа 2027</span><span>Гент, Бельгия</span><span>Бывшая пивоварня</span></div>
+    <h1><span>Lantern</span><span>Nights</span><em>камерная музыка в кирпичных стенах</em></h1>
+    <p class="lead">Три дня, две сцены, пятнадцать концертов. Приходите в кроссовках: здесь пахнет хмелем, а не нафталином.</p>
+    <div class="cta"><a class="btn" href="#programme">Смотреть программу →</a><a class="btn ghost" href="#tickets">Билеты от €20</a></div>
+    <div class="stamp" aria-hidden="true">15<br>концертов<small>2 сцены</small></div>
+  </div>
+</div>
+<div class="ticker" aria-hidden="true"><div>
+  <span>Lantern Nights</span>★<span>14–16.08.2027</span>★<span>Гент</span>★<span>Варочный цех</span>★<span>Солодовня</span>★<span>Без дресс-кода</span>★<span>Lantern Nights</span>★<span>14–16.08.2027</span>★<span>Гент</span>★<span>Варочный цех</span>★<span>Солодовня</span>★<span>Без дресс-кода</span>★
+  <span>Lantern Nights</span>★<span>14–16.08.2027</span>★<span>Гент</span>★<span>Варочный цех</span>★<span>Солодовня</span>★<span>Без дресс-кода</span>★<span>Lantern Nights</span>★<span>14–16.08.2027</span>★<span>Гент</span>★<span>Варочный цех</span>★<span>Солодовня</span>★<span>Без дресс-кода</span>★
+</div></div>
+
+<section class="block" id="programme"><div class="wrap">
+  <div class="sec-head"><div class="kick">01 — Расписание</div><h2>Программа <i>на три дня</i></h2>
+  <p>Концерты идут на двух сценах: большой Варочный цех под стальными чанами и камерная Солодовня с деревянным потолком. Нажмите на сцену, чтобы оставить только её.</p></div>
+  <div class="tools">
+    <div class="chips" role="group" aria-label="Фильтр по сцене">
+      <button class="chip" data-f="all" aria-pressed="true">Все сцены</button>
+      <button class="chip" data-f="v" aria-pressed="false"><span class="d" style="background:var(--stage-v)"></span>Варочный цех</button>
+      <button class="chip" data-f="s" aria-pressed="false"><span class="d" style="background:var(--stage-s)"></span>Солодовня</button>
+    </div>
+    <div class="legend">Категория билета: <span><span class="dots"><i class="on"></i><i></i><i></i></span> <b>€12</b></span><span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span> <b>€18</b></span><span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span> <b>€28</b></span></div>
+  </div>
+  <section class="day" id="day-14" aria-labelledby="dh-14">
+  <header class="day-head"><div class="day-num" aria-hidden="true">14</div>
+  <div><h3 id="dh-14"><span>пятница, 14 августа</span> Открытие</h3><p>Первый вечер: тёплый свет, тяжёлые кирпичные стены и Бетховен.</p></div></header>
+  <ol class="list"><li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-14T16:00">16:00</time>
+  <div class="c-body"><h4>Сонаты для виолончели и рояля</h4><p>Анна Верховен, виолончель · Тимур Касымов, рояль</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-14T18:00">18:00</time>
+  <div class="c-body"><h4>Бетховен: ночь открытия</h4><p>Квартет Ван Эйк · квартеты op. 18</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 2: билет €18"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><b>€18</b><span class="sr">категория 2</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-14T19:30">19:30</time>
+  <div class="c-body"><h4>Шуберт на двоих</h4><p>Дуэт «Клара и Йозеф» · фортепиано в четыре руки</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-14T21:00">21:00</time>
+  <div class="c-body"><h4>Гала в сусле: Моцарт и Дворжак</h4><p>Камерный оркестр Гента · дирижёр Лиза Вермёлен</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 3: билет €28"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>€28</b><span class="sr">категория 3</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-14T22:45">22:45</time>
+  <div class="c-body"><h4>Ночной сет: лютня и электроника</h4><p>Мария Денеф · живая обработка звука</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li></ol></section><section class="day" id="day-15" aria-labelledby="dh-15">
+  <header class="day-head"><div class="day-num" aria-hidden="true">15</div>
+  <div><h3 id="dh-15"><span>суббота, 15 августа</span> Длинный день</h3><p>С утра до ночи: детский концерт, секстет и два вечерних события.</p></div></header>
+  <ol class="list"><li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-15T12:00">12:00</time>
+  <div class="c-body"><h4>Карнавал животных для всей семьи</h4><p>Ансамбль «Мальц» · рассказчик Ян де Бок</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-15T14:00">14:00</time>
+  <div class="c-body"><h4>Брамс: секстет № 1</h4><p>Секстет «Хмель» · с живым комментарием</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 2: билет €18"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><b>€18</b><span class="sr">категория 2</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-15T16:30">16:30</time>
+  <div class="c-body"><h4>Сольные сюиты Баха</h4><p>Лукас Виртен, виолончель</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-15T19:00">19:00</time>
+  <div class="c-body"><h4>Шостакович и Прокофьев</h4><p>Квартет Ван Эйк · Игорь Лавров, рояль</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 3: билет €28"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>€28</b><span class="sr">категория 3</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-15T21:30">21:30</time>
+  <div class="c-body"><h4>Фаду и барокко</h4><p>Ана Мендиш · ансамбль «Бочка»</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 2: билет €18"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><b>€18</b><span class="sr">категория 2</span></span></div>
+</li></ol></section><section class="day" id="day-16" aria-labelledby="dh-16">
+  <header class="day-head"><div class="day-num" aria-hidden="true">16</div>
+  <div><h3 id="dh-16"><span>воскресенье, 16 августа</span> Финал</h3><p>Неспешное утро, джазовый завтрак и общий Октет на закрытие.</p></div></header>
+  <ol class="list"><li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-16T11:30">11:30</time>
+  <div class="c-body"><h4>Джаз-завтрак: Равель и Гершвин</h4><p>Трио «Рокот» · кофе из пивоварни</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-16T14:00">14:00</time>
+  <div class="c-body"><h4>Песни без слов</h4><p>Эмма Янссенс, меццо-сопрано · Тимур Касымов, рояль</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 2: билет €18"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><b>€18</b><span class="sr">категория 2</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-16T16:00">16:00</time>
+  <div class="c-body"><h4>Вивальди на кирпиче</h4><p>Камерный оркестр Гента · солистка Софи Баккер</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 2: билет €18"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><b>€18</b><span class="sr">категория 2</span></span></div>
+</li>
+<li class="c" data-stage="s">
+  <time class="c-time" datetime="2027-08-16T18:00">18:00</time>
+  <div class="c-body"><h4>Современная музыка: открытая репетиция</h4><p>Ансамбль «Мальц» · вход свободный для всех пассов</p></div>
+  <div class="c-meta"><span class="stage stage-s">Солодовня</span>
+  <span class="tier" title="Категория 1: билет €12"><span class="dots" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><b>€12</b><span class="sr">категория 1</span></span></div>
+</li>
+<li class="c" data-stage="v">
+  <time class="c-time" datetime="2027-08-16T20:00">20:00</time>
+  <div class="c-body"><h4>Финал: Октет Шуберта</h4><p>Артисты фестиваля · семь музыкантов и один контрабас</p></div>
+  <div class="c-meta"><span class="stage stage-v">Варочный цех</span>
+  <span class="tier" title="Категория 3: билет €28"><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>€28</b><span class="sr">категория 3</span></span></div>
+</li></ol></section>
+</div></section>
+
+<section class="block" id="tickets"><div class="wrap">
+  <div class="sec-head"><div class="kick">02 — Билеты</div><h2>Билеты <i>и пассы</i></h2>
+  <p>Пассы покрывают концерты всех категорий на обеих сценах. Отдельные билеты на концерт — по цене категории из программы.</p></div>
+  <div class="tix">
+    <article class="t"><div class="tag">Один день</div><h3>Day pass</h3><div class="price">€45</div>
+      <ul><li>Все концерты выбранного дня</li><li>Обе сцены без очередей</li><li>Свободный вход и выход в течение дня</li></ul>
+      <a class="btn" href="#buy-day">Купить на день</a></article>
+    <article class="t hot"><span class="badge">Выгоднее на 25 €</span><div class="tag">Три дня</div><h3>Festival pass</h3><div class="price">€110</div>
+      <ul><li>Все 15 концертов, 14–16 августа</li><li>Браслет на руку: заходите когда захотите</li><li>Место в приоритетной зоне перед сценой</li><li>Кружка Lantern Nights в подарок</li></ul>
+      <a class="btn" href="#buy-festival">Купить Festival pass</a></article>
+    <article class="t"><div class="tag">Моложе 26 лет</div><h3>Under-26</h3><div class="price">€20</div>
+      <ul><li>Любой концерт любого дня</li><li>Продаётся только на кассе в день концерта</li><li>Нужен документ с датой рождения</li></ul>
+      <a class="btn ghost" href="#venue">Где находится касса</a></article>
+  </div>
+  <div class="note"><div class="tiers"><span>Отдельный билет:</span><span><span class="dots"><i class="on"></i><i></i><i></i></span>€12</span><span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span>€18</span><span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span>€28</span></div>
+  <p><b>Дети до 12 лет</b> — бесплатно в сопровождении взрослого. <b>Возврат</b> — до 31 июля 2027, потом можно передать билет другому человеку.</p></div>
+</div></section>
+
+<section class="block" id="venue"><div class="wrap">
+  <div class="sec-head"><div class="kick">03 — Место</div><h2>Как <i>добраться</i></h2></div>
+  <div class="two">
+    <div class="map">
+      <svg viewBox="0 0 600 420" role="img" aria-label="Схема: вокзал Гент-Синт-Питерс, река Лейе и пивоварня">
+        <rect width="600" height="420" fill="none"/>
+        <path d="M-10 300C120 250 190 330 320 270S520 190 610 230V300C520 270 400 350 320 340S120 310 -10 360z" fill="var(--tint2)"/>
+        <text x="40" y="378" font-family="JetBrains Mono" font-size="12" letter-spacing="2" fill="var(--muted)">РЕКА ЛЕЙЕ</text>
+        <g stroke="var(--ink)" stroke-width="2" fill="none" opacity=".35"><path d="M0 70H600M0 150H600M120 0V250M300 0V230M470 0V200"/></g>
+        <path d="M70 60L300 130" stroke="var(--ink)" stroke-width="4" stroke-dasharray="2 9" stroke-linecap="round"/>
+        <path d="M70 60C150 95 210 95 300 130" stroke="var(--accent)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <rect x="40" y="38" width="62" height="44" fill="var(--ink)"/><text x="71" y="65" text-anchor="middle" font-family="Oswald" font-weight="600" font-size="15" fill="var(--paper)">ВОКЗАЛ</text>
+        <text x="40" y="104" font-family="JetBrains Mono" font-size="12" fill="var(--ink)">Gent-Sint-Pieters</text>
+        <rect x="285" y="112" width="170" height="82" fill="var(--hero)" stroke="var(--ink)" stroke-width="3"/>
+        <text x="370" y="144" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="22" fill="var(--on-brand)">LANTERN NIGHTS</text>
+        <text x="370" y="168" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="var(--on-brand)">Бывшая пивоварня</text>
+        <rect x="322" y="178" width="14" height="40" fill="var(--ink)"/><rect x="352" y="188" width="14" height="30" fill="var(--ink)"/>
+        <circle cx="500" cy="100" r="18" fill="var(--card)" stroke="var(--ink)" stroke-width="2.5"/><text x="500" y="106" text-anchor="middle" font-family="Oswald" font-weight="700" font-size="18" fill="var(--ink)">P</text>
+        <text x="500" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="var(--ink)">парковка</text>
+        <text x="150" y="128" font-family="Source Serif 4" font-style="italic" font-size="15" fill="var(--accent)" transform="rotate(14 150 128)">25 минут пешком</text>
+        <g transform="translate(560 392)" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M0 -20V0M-6 -12L0 -22L6 -12"/></g>
+      </svg>
+    </div>
+    <div>
+      <p class="addr">Brouwerijstraat 14, 9000 Гент<br>вход со двора, под красной трубой</p>
+      <div class="way">
+        <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="7" y="4" width="18" height="19" rx="4"/><path d="M7 15h18M11 28l3-5M21 28l-3-5"/><circle cx="12" cy="19" r="1.2" fill="currentColor"/><circle cx="20" cy="19" r="1.2" fill="currentColor"/></svg>
+          <span><h3>На поезде</h3><p>До вокзала Gent-Sint-Pieters из Брюсселя — 35 минут, из Антверпена — 50. Дальше трамвай № 1 до остановки «Пивоварня» (8 минут) или 25 минут пешком вдоль реки.</p></span></div>
+        <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="8" cy="22" r="5"/><circle cx="25" cy="22" r="5"/><path d="M8 22l5-10h8l4 10M13 12l5 10M11 8h4"/></svg>
+          <span><h3>На велосипеде</h3><p>Велодорожка вдоль Лейе приведёт прямо к воротам. Во дворе — охраняемая стоянка на 400 мест, бесплатно, плюс станция с насосом и ремонтным набором.</p></span></div>
+        <div><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="4" width="24" height="24" rx="4"/><path d="M12 24V9h6a4.500 4.500 0 0 1 0 9h-6"/></svg>
+          <span><h3>На машине</h3><p>Парковка у пивоварни на 120 мест: €8 за вечер, €15 за сутки, места для людей с инвалидностью — бесплатно. Ближе к концу дня лучше воспользоваться парковкой Parking Ketelpoort (7 минут пешком).</p></span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="block" id="access"><div class="wrap">
+  <div class="sec-head"><div class="kick">04 — Для всех</div><h2>Доступность</h2>
+  <p>Старые пивоварни не создавались для людей, но мы многое переделали. Если не нашли нужного, напишите — ответим в течение дня.</p></div>
+  <div class="acc">
+    <div class="ac"><h3>Без ступенек</h3><p>Вход со двора и обе сцены на уровне земли. Лифт на второй этаж, ширина всех дверей не менее 90 см.</p></div>
+    <div class="ac"><h3>Места для колясок</h3><p>В каждом зале — площадки у первого ряда и у прохода, рядом с ними места для сопровождающих. Сопровождающие проходят бесплатно.</p></div>
+    <div class="ac"><h3>Туалеты</h3><p>Адаптированные кабины на каждом этаже, с поручнями и кнопкой вызова помощи.</p></div>
+    <div class="ac"><h3>Слух</h3><p>В Варочном цехе работает индукционная петля, в Солодовне — наушники с усилителем на стойке информации.</p></div>
+    <div class="ac"><h3>Тихая комната</h3><p>Кабинет в бывшей лаборатории, приглушённый свет, без звука. Открыта весь фестивальный день.</p></div>
+    <div class="ac"><h3>Собаки-помощники</h3><p>Допускаются на все концерты. Для них у входа есть миска с водой и место для отдыха.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="faq"><div class="wrap">
+  <div class="sec-head"><div class="kick">05 — Вопросы</div><h2>Частые <i>вопросы</i></h2></div>
+  <div class="faq">
+    <details open><summary>Что надеть?</summary><p>Что угодно удобное. Мы в пивоварне, а не в опере: кроссовки, свитер и футболка подходят. Вечером в цехах бывает прохладно, возьмите лёгкую кофту.</p></details>
+    <details><summary>Можно ли выходить во время концерта?</summary><p>Можно между произведениями: ведущий скажет, когда пауза. Браслет позволяет выйти и вернуться, билет тоже. Заходить в зал во время исполнения не нужно.</p></details>
+    <details><summary>Будет ли еда и напитки?</summary><p>Во дворе работает бар с пивом, сваренным в этих же стенах, безалкогольными напитками и кофе, есть вегетарианские и веганские блюда. Бутылки можно ставить на стойку, но не проносить в зал.</p></details>
+    <details><summary>Что делать, если пойдёт дождь?</summary><p>Все концерты проходят в залах, так что дождь им не помеха. Двор с баром частично под навесом, а на случай ливня мы открываем для публики бывший склад с диванами.</p></details>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="big">Lantern<br>Nights</div>
+  <div class="cols">
+    <div><h3>Фестиваль</h3>14–16 августа 2027<br>Brouwerijstraat 14, Гент</div>
+    <div><h3>Связь</h3><a href="mailto:hello@lanternnights.example">hello@lanternnights.example</a></div>
+    <div><h3>Касса</h3>Ежедневно с 10:00<br>до конца последнего концерта</div>
+    <div><h3>Цвет фестиваля</h3>
+      <div class="pick"><input type="color" id="brand" value="#a6592b" aria-label="Фирменный цвет">
+      <button class="sw" style="background:#A6592B" data-c="#A6592B" aria-label="Терракота"></button><button class="sw" style="background:#2f6f6a" data-c="#2f6f6a" aria-label="Морская волна"></button><button class="sw" style="background:#d9a21b" data-c="#d9a21b" aria-label="Янтарь"></button><button class="sw" style="background:#7a2e4d" data-c="#7a2e4d" aria-label="Слива"></button></div></div>
+  </div>
+</div></footer>
+
+<div class="bar"><span>Festival pass<b>€110 · 3 дня</b></span><a class="btn sm" href="#tickets">Купить</a></div>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var chips=document.querySelectorAll('.chip');
+  chips.forEach(function(b){b.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var f=b.dataset.f;
+    document.querySelectorAll('.c').forEach(function(c){c.classList.toggle('hide',f!=='all'&&c.dataset.stage!==f)});
+  })});
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  document.getElementById('theme').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(mq.matches?'dark':'light');
+    root.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  });
+  function setBrand(c){root.style.setProperty('--brand',c)}
+  var inp=document.getElementById('brand');
+  inp.addEventListener('input',function(){setBrand(inp.value)});
+  document.querySelectorAll('.sw').forEach(function(s){s.addEventListener('click',function(){setBrand(s.dataset.c);inp.value=s.dataset.c})});
+})();
+</script>
+</body>
+</html>

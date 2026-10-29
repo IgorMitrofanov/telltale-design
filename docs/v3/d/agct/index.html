@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ночная смена на Девятом причале — The Tidewatch</title>
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&family=Playfair+Display:ital,wght@0,600..900;1,600..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#B3402A;
+
+  /* derived from --brand: change the one value above and everything follows */
+  --accent: color-mix(in oklab, var(--brand) 66%, #000);          /* text accent on paper */
+  --accent-soft: color-mix(in oklab, var(--brand) 16%, var(--paper));
+  --accent-mid: color-mix(in oklab, var(--brand) 42%, var(--paper));
+  --on-brand: #fff;
+  --on-brand: oklch(from var(--brand) clamp(0, (l - 0.66) * -1000, 1) 0 0);
+
+  --paper: color-mix(in oklab, var(--brand) 4%, #f3eee4);
+  --paper-2: color-mix(in oklab, var(--brand) 7%, #ebe4d6);
+  --ink: #1c1916;
+  --ink-2: #3b352f;
+  --muted: #6d645a;
+  --rule: color-mix(in oklab, var(--ink) 22%, var(--paper));
+
+  --night-1:#080d15; --night-2:#121c2a;
+  --glow: color-mix(in oklab, var(--brand) 42%, #16202e);
+  --hero-ink:#f3ede2;
+  --hero-accent: color-mix(in oklab, var(--brand) 55%, #fff);
+
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --display:"Playfair Display", "Literata", Georgia, serif;
+  --label:"IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark; --dark:1; }
+}
+:root[data-theme="dark"]{ color-scheme:dark; }
+:root[data-theme="light"]{ color-scheme:light; }
+
+/* dark palette, defined twice (media query + attribute) because custom properties can't be shared across both selectors */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --accent: color-mix(in oklab, var(--brand) 58%, #fff);
+    --paper: color-mix(in oklab, var(--brand) 5%, #14120f);
+    --paper-2: color-mix(in oklab, var(--brand) 9%, #1d1a16);
+    --ink:#ece5d8; --ink-2:#cfc7b8; --muted:#9c9385;
+    --rule: color-mix(in oklab, var(--ink) 20%, var(--paper));
+    --accent-soft: color-mix(in oklab, var(--brand) 22%, var(--paper));
+    --accent-mid: color-mix(in oklab, var(--brand) 55%, var(--paper));
+  }
+}
+:root[data-theme="dark"]{
+  --accent: color-mix(in oklab, var(--brand) 58%, #fff);
+  --paper: color-mix(in oklab, var(--brand) 5%, #14120f);
+  --paper-2: color-mix(in oklab, var(--brand) 9%, #1d1a16);
+  --ink:#ece5d8; --ink-2:#cfc7b8; --muted:#9c9385;
+  --rule: color-mix(in oklab, var(--ink) 20%, var(--paper));
+  --accent-soft: color-mix(in oklab, var(--brand) 22%, var(--paper));
+  --accent-mid: color-mix(in oklab, var(--brand) 55%, var(--paper));
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:18px;line-height:1.7;
+  font-optical-sizing:auto;text-rendering:optimizeLegibility;
+  hyphens:auto;overflow-x:hidden;
+}
+::selection{background:var(--brand);color:var(--on-brand)}
+a{color:inherit}
+.label{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+
+/* progress */
+.progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:50;background:transparent}
+.progress i{display:block;height:100%;width:0;background:var(--brand)}
+
+/* top bar */
+.topbar{
+  position:absolute;z-index:10;inset:0 0 auto 0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px clamp(16px,4vw,40px);color:var(--hero-ink);
+}
+.logo{font-family:var(--display);font-style:italic;font-weight:800;font-size:26px;letter-spacing:-.01em;text-decoration:none;line-height:1}
+.logo span{color:var(--hero-accent)}
+.tools{display:flex;align-items:center;gap:10px}
+.tool{
+  display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;
+  border:1px solid rgba(243,237,226,.35);background:rgba(8,13,21,.35);color:inherit;
+  font:600 11px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  backdrop-filter:blur(6px);
+}
+.tool:hover{border-color:var(--hero-ink)}
+.tool:focus-visible,.nl button:focus-visible,.nl input:focus-visible,a:focus-visible{outline:2px solid var(--hero-accent);outline-offset:3px}
+.tool input[type=color]{appearance:none;-webkit-appearance:none;width:16px;height:16px;border:0;padding:0;background:none;cursor:pointer;border-radius:50%}
+.tool input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.tool input[type=color]::-webkit-color-swatch{border:1.5px solid #f3ede2;border-radius:50%}
+.tool input[type=color]::-moz-color-swatch{border:1.5px solid #f3ede2;border-radius:50%}
+@media (max-width:520px){.tool .t{display:none}.tool{padding:0 10px}.logo{font-size:22px}}
+
+/* hero */
+.hero{
+  position:relative;overflow:hidden;color:var(--hero-ink);
+  background:linear-gradient(180deg,var(--night-1) 0%,var(--night-2) 55%,var(--glow) 100%);
+  padding:clamp(96px,14vh,140px) clamp(16px,4vw,40px) 0;
+  min-height:min(92vh,860px);display:flex;flex-direction:column;
+}
+.hero-in{position:relative;z-index:2;width:100%;max-width:1320px;margin:0 auto;display:grid;gap:22px}
+.kicker{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;color:var(--hero-accent)}
+.kicker b{background:var(--brand);color:var(--on-brand);padding:5px 9px 4px;font-weight:600}
+.kicker span{color:rgba(243,237,226,.7)}
+h1{
+  margin:0;font-family:var(--display);font-weight:900;
+  font-size:clamp(2.7rem,8.4vw,7.4rem);line-height:.96;letter-spacing:-.02em;max-width:11.5ch;
+  text-wrap:balance;hyphens:manual;
+}
+h1 em{font-style:italic;font-weight:800;color:var(--hero-accent)}
+.stand{
+  margin:0;max-width:34em;font-size:clamp(1.1rem,2.1vw,1.45rem);line-height:1.5;
+  color:rgba(243,237,226,.88);font-style:italic;font-weight:400;
+}
+.by{
+  display:flex;flex-wrap:wrap;gap:6px 26px;padding-top:16px;margin-top:6px;border-top:1px solid rgba(243,237,226,.28);
+  font-family:var(--label);font-size:13px;letter-spacing:.06em;color:rgba(243,237,226,.78);max-width:760px;
+}
+.by b{color:var(--hero-ink);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:11px;margin-right:6px}
+.scene{position:absolute;inset:auto 0 0 0;width:100%;height:clamp(200px,34vw,430px);z-index:1;display:block}
+.hero-spacer{flex:1;min-height:clamp(170px,30vw,400px)}
+
+/* scene colours follow brand */
+.scene .c1{fill:var(--brand)}
+.scene .c2{fill:color-mix(in oklab,var(--brand) 55%,#0b1018)}
+.scene .c3{fill:color-mix(in oklab,var(--brand) 40%,#5d7385)}
+.scene .c4{fill:#2c3a4b}
+.scene .c5{fill:color-mix(in oklab,var(--brand) 70%,#f3ede2)}
+.scene .crane{fill:#06090f}
+.scene .lamp{fill:#ffe9b0}
+
+/* layout */
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.main{padding-top:clamp(40px,6vw,80px)}
+.cols{display:block}
+.toc{display:none}
+@media (min-width:1000px){
+  .cols{display:grid;grid-template-columns:200px minmax(0,680px) 1fr;column-gap:56px;justify-content:center}
+  .toc{display:block;position:sticky;top:36px;align-self:start;padding-top:8px}
+}
+.toc .label{color:var(--muted);display:block;padding-bottom:12px;border-bottom:3px double var(--rule);margin-bottom:6px}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:t}
+.toc li{counter-increment:t;border-bottom:1px solid var(--rule)}
+.toc a{display:grid;grid-template-columns:28px 1fr;gap:6px;padding:11px 0;text-decoration:none;font-family:var(--serif);font-size:14.5px;line-height:1.35;color:var(--ink-2);transition:color .2s}
+.toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.06em;color:var(--muted);padding-top:2px}
+.toc a:hover{color:var(--accent)}
+.toc a.on{color:var(--accent);font-weight:600}
+.toc a.on::before{color:var(--accent)}
+.toc .stat{margin-top:22px;font-family:var(--label);font-size:12px;letter-spacing:.08em;color:var(--muted);line-height:1.7}
+.toc .stat b{display:block;font-family:var(--display);font-size:34px;font-weight:800;letter-spacing:-.01em;color:var(--accent);line-height:1.1}
+
+/* article */
+article{min-width:0}
+article p{margin:0 0 1.25em}
+.lede::first-letter{
+  float:left;font-family:var(--display);font-weight:900;color:var(--accent);
+  font-size:5.6em;line-height:.78;padding:.06em .1em 0 0;margin-left:-.02em;
+}
+.lede::first-line{font-variant:small-caps;letter-spacing:.04em}
+h2{
+  margin:2.1em 0 .8em;padding-top:18px;border-top:3px double var(--rule);
+  font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,3.4vw,2.35rem);line-height:1.12;letter-spacing:-.01em;
+  text-wrap:balance;hyphens:manual;
+}
+h2 .n{display:block;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.16em;color:var(--accent);margin-bottom:10px}
+article > p + p{text-indent:0}
+
+.pq{
+  margin:2em 0;padding:22px 0 18px;border-top:4px solid var(--brand);border-bottom:1px solid var(--rule);
+  position:relative;
+}
+.pq p{
+  margin:0;font-family:var(--display);font-style:italic;font-weight:700;
+  font-size:clamp(1.55rem,3vw,2.2rem);line-height:1.2;letter-spacing:-.005em;text-wrap:balance;hyphens:manual;
+}
+.pq p::before{content:"«";color:var(--accent)}
+.pq p::after{content:"»";color:var(--accent)}
+.pq cite{display:block;margin-top:14px;font-style:normal;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+@media (min-width:1360px){
+  .pq{margin-right:-240px}
+  .pq.r p{font-size:2.45rem}
+}
+
+/* figure */
+.fig{margin:2.4em 0;padding:22px 0 0;border-top:1px solid var(--ink);display:grid;gap:18px}
+.fig .art{background:var(--paper-2);padding:18px 18px 10px;border:1px solid var(--rule)}
+.fig svg{display:block;width:100%;height:auto;max-width:520px;margin:0 auto;overflow:visible}
+.fig figcaption{font-family:var(--serif);font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.fig figcaption b{display:block;font-family:var(--label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--accent);margin-bottom:6px}
+.fig figcaption .note{display:block;margin-top:12px;color:var(--muted);font-size:13px}
+@media (min-width:1360px){
+  .fig{grid-template-columns:minmax(0,1fr) 220px;margin-right:-240px;align-items:start;gap:28px}
+}
+.ch text{font-family:var(--label);font-size:13.5px;fill:var(--ink-2);font-weight:500}
+.ch .v{font-weight:600;fill:var(--ink)}
+.ch .grid{stroke:var(--rule);stroke-width:1;stroke-dasharray:2 4}
+.ch .bar{fill:var(--accent-mid)}
+.ch .peak{fill:var(--brand)}
+.ch .mid{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:5 4}
+.ch .midt{fill:var(--accent);font-style:italic}
+.ch .ax{fill:var(--muted);font-size:12px;letter-spacing:.04em}
+
+@media (max-width:600px){.fig .art{padding:12px 8px 6px}.ch text{font-size:16.5px}.ch .ax,.ch .midt{font-size:14px!important}}
+/* bio */
+.bio{
+  margin:3em 0 0;padding:24px 0 0;border-top:3px double var(--rule);display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:start;
+  font-size:15.5px;line-height:1.6;color:var(--ink-2)
+}
+.mono{width:72px;height:72px;border-radius:50%;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-style:italic;font-size:26px}
+.bio b{display:block;font-family:var(--label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--accent);margin-bottom:6px}
+.bio p{margin:0}
+.end{display:inline-block;width:.7em;height:.7em;background:var(--brand);margin-left:.4em;vertical-align:baseline}
+
+/* more */
+.more{margin-top:clamp(56px,9vw,110px);padding:clamp(32px,5vw,56px) 0 clamp(40px,6vw,72px);border-top:4px solid var(--ink)}
+.more-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.more-head h3{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,3.6vw,2.6rem);letter-spacing:-.01em;line-height:1.1}
+.more-head span{color:var(--muted)}
+.cards{display:grid;gap:28px;grid-template-columns:1fr}
+@media (min-width:760px){.cards{grid-template-columns:repeat(3,1fr);gap:32px}}
+.card{display:grid;gap:14px;text-decoration:none;align-content:start}
+.card .pic{aspect-ratio:4/3;position:relative;overflow:hidden;background:var(--accent-soft);border:1px solid var(--rule)}
+.card .pic svg{position:absolute;inset:0;width:100%;height:100%}
+.card h4{margin:0;font-family:var(--display);font-weight:800;font-size:1.4rem;line-height:1.15;letter-spacing:-.005em;transition:color .2s}
+.card:hover h4{color:var(--accent)}
+.card p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.card .label{color:var(--accent)}
+.card .meta{color:var(--muted);font-family:var(--label);font-size:12px;letter-spacing:.08em}
+.pic .p1{fill:var(--brand)} .pic .p2{fill:color-mix(in oklab,var(--brand) 55%,var(--paper))}
+.pic .p3{fill:var(--paper)} .pic .p4{stroke:var(--ink)}
+.pic .s{stroke:var(--accent);fill:none}
+
+/* newsletter */
+.nl-wrap{background:var(--brand);color:var(--on-brand)}
+.nl{max-width:1320px;margin:0 auto;padding:clamp(40px,7vw,88px) clamp(16px,4vw,40px);display:grid;gap:28px}
+@media (min-width:900px){.nl{grid-template-columns:1.1fr 1fr;gap:64px;align-items:end}}
+.nl h3{margin:0 0 14px;font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,3.6rem);line-height:1.02;letter-spacing:-.02em;text-wrap:balance;hyphens:manual}
+.nl h3 em{font-weight:800}
+.nl p{margin:0;max-width:30em;font-size:17px;line-height:1.55;opacity:.92}
+.nl form{display:grid;gap:12px}
+.nl label{font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.nl .row{display:flex;gap:0;flex-wrap:wrap}
+.nl input{
+  flex:1 1 220px;min-width:0;height:54px;padding:0 16px;border:2px solid currentColor;border-right:0;background:transparent;color:inherit;
+  font:400 17px var(--serif);border-radius:0;
+}
+.nl input::placeholder{color:inherit;opacity:.65}
+.nl button{
+  height:54px;padding:0 24px;border:2px solid currentColor;background:var(--on-brand);color:var(--brand);
+  font:600 13px var(--label);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:0
+}
+.nl button:hover{filter:brightness(.94)}
+.nl input:focus-visible,.nl button:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+.nl small{font-size:13px;opacity:.82}
+.nl .ok{display:none;font-family:var(--display);font-style:italic;font-weight:700;font-size:1.4rem}
+.nl.done form .row,.nl.done form label,.nl.done small{display:none}
+.nl.done .ok{display:block}
+@media (max-width:520px){.nl input{border-right:2px solid currentColor;flex-basis:100%}.nl button{width:100%}}
+
+footer{background:var(--night-1);color:rgba(243,237,226,.7);padding:28px 0;font-family:var(--label);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+footer div{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,40px);display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><i id="pbar"></i></div>
+
+<header class="hero" id="top">
+  <div class="topbar">
+    <a class="logo" href="#top">The Tide<span>watch</span></a>
+    <div class="tools">
+      <label class="tool" title="Акцентный цвет"><input type="color" id="brandPick" value="#b3402a" aria-label="Акцентный цвет"><span class="t">Цвет</span></label>
+      <button class="tool" id="themeBtn" type="button" aria-label="Переключить тему"><span aria-hidden="true">◐</span><span class="t" id="themeLbl">Тема</span></button>
+    </div>
+  </div>
+
+  <div class="hero-in">
+    <div class="kicker label"><b>Репортаж</b><span>Осень 2026 · № 3 · стр. 46–53</span></div>
+    <h1>Ночная смена на <em>Девятом причале</em></h1>
+    <p class="stand">С полуночи до рассвета тридцать один человек разгружает судно, которое к утру должно уйти. Мы провели ночь с теми, чьими руками город получает завтрашние покупки, и выяснили, как звучит порт, когда в нём никого не видно.</p>
+    <div class="by">
+      <span><b>Текст</b>Марина Ведерникова</span>
+      <span><b>Фото</b>Артём Шалыгин</span>
+      <span><b>Дата</b>14 октября 2026</span>
+      <span><b>Чтение</b>8 минут</span>
+    </div>
+  </div>
+  <div class="hero-spacer"></div>
+
+  <svg class="scene" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="moon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff7e2" stop-opacity=".95"/><stop offset=".3" stop-color="#fff7e2" stop-opacity=".25"/><stop offset="1" stop-color="#fff7e2" stop-opacity="0"/></radialGradient>
+      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a121c" stop-opacity=".55"/><stop offset="1" stop-color="#05080d" stop-opacity=".95"/></linearGradient>
+      <pattern id="rib" width="6" height="10" patternUnits="userSpaceOnUse"><rect width="2" height="10" fill="#000" opacity=".22"/></pattern>
+      <g id="crane">
+        <path class="crane" d="M0 0V-190h10V0zM84 0V-190h10V0z"/>
+        <path class="crane" d="M-6-190h112v10H-6zM-8-180L48-236L104-180zM-6-208h196v10H-6z"/>
+        <path class="crane" d="M-6-198h12v-4h-12z"/>
+        <rect class="crane" x="150" y="-198" width="34" height="18"/>
+        <path d="M167-180v62" stroke="#06090f" stroke-width="2"/>
+        <rect class="c1" x="140" y="-118" width="54" height="22"/>
+        <rect x="140" y="-118" width="54" height="22" fill="url(#rib)"/>
+        <rect class="lamp" x="-4" y="-196" width="4" height="4"/>
+        <rect class="lamp" x="186" y="-196" width="4" height="4"/>
+        <circle class="lamp" cx="48" cy="-238" r="2.5"/>
+        <path d="M10-168h72M10-130h72M10-92h72M10-54h72" stroke="#06090f" stroke-width="3"/>
+      </g>
+      <g id="stack">
+        <rect class="c1" x="0" y="-26" width="64" height="26"/><rect class="c3" x="68" y="-26" width="64" height="26"/>
+        <rect class="c2" x="0" y="-52" width="64" height="26"/><rect class="c4" x="68" y="-52" width="64" height="26"/>
+        <rect class="c5" x="34" y="-78" width="64" height="26"/>
+        <rect x="0" y="-78" width="132" height="78" fill="url(#rib)"/>
+      </g>
+    </defs>
+    <!-- stars + moon -->
+    <g fill="#fff7e2" opacity=".75"><circle cx="120" cy="60" r="1.3"/><circle cx="300" cy="110" r="1"/><circle cx="520" cy="40" r="1.2"/><circle cx="760" cy="90" r="1"/><circle cx="940" cy="34" r="1.3"/><circle cx="1330" cy="140" r="1"/><circle cx="1050" cy="120" r="1"/><circle cx="640" cy="150" r="1"/></g>
+    <circle cx="1170" cy="86" r="90" fill="url(#moon)"/><mask id="cres"><rect width="1440" height="400" fill="#fff"/><circle cx="1180" cy="80" r="19" fill="#000"/></mask><circle cx="1170" cy="86" r="21" fill="#fff4d6" mask="url(#cres)"/>
+    <!-- far skyline + far cranes -->
+    <g fill="#0c1420" opacity=".9"><rect x="0" y="262" width="1440" height="30"/><rect x="60" y="240" width="40" height="30"/><rect x="460" y="246" width="70" height="30"/><rect x="900" y="236" width="50" height="40"/></g>
+    <g transform="translate(980 292) scale(.55)" opacity=".7"><use href="#crane"/></g>
+    <g transform="translate(110 292) scale(.5)" opacity=".7"><use href="#crane"/></g>
+    <!-- quay -->
+    <rect x="0" y="290" width="1440" height="110" fill="#0a111b"/>
+    <rect x="0" y="290" width="1440" height="5" fill="#27384b"/>
+    <!-- ship -->
+    <g>
+      <path d="M170 292h760l-34 -30H214z" fill="#0b121c"/>
+      <g transform="translate(236 262)"><use href="#stack"/></g>
+      <g transform="translate(370 262)"><use href="#stack"/></g>
+      <g transform="translate(504 262) scale(1 .85)"><use href="#stack"/></g>
+      <g transform="translate(638 262)"><use href="#stack"/></g>
+      <rect x="800" y="212" width="86" height="50" fill="#0f1a28"/><rect x="810" y="222" width="66" height="6" class="lamp" opacity=".85"/><rect x="830" y="196" width="30" height="16" fill="#0f1a28"/>
+    </g>
+    <!-- foreground cranes + stacks -->
+    <g transform="translate(300 300) scale(1.05)"><use href="#crane"/></g>
+    <g transform="translate(560 300) scale(1.05)"><use href="#crane"/></g>
+    <g transform="translate(1010 300) scale(.9) "><use href="#stack"/></g>
+    <g transform="translate(1146 300) scale(.9)"><use href="#stack"/></g>
+    <g transform="translate(1282 300) scale(.9)"><use href="#stack"/></g>
+    <g transform="translate(1076 300) scale(.9)" opacity="0"><use href="#stack"/></g>
+    <!-- water -->
+    <rect x="0" y="330" width="1440" height="70" fill="url(#water)"/>
+    <g stroke="#ffe9b0" stroke-linecap="round" opacity=".5"><path d="M300 346h50M312 358h26M590 350h44M600 364h22" stroke-width="2"/><path d="M1170 342h40M1180 356h22" stroke-width="2" stroke="#fff4d6"/></g>
+    <g stroke="var(--brand)" stroke-linecap="round" opacity=".55"><path d="M230 372h70M250 384h30M980 374h90" stroke-width="2"/></g>
+  </svg>
+</header>
+
+<main class="main wrap">
+  <div class="cols">
+    <nav class="toc" aria-label="Содержание">
+      <span class="label">В материале</span>
+      <ol>
+        <li><a href="#s1">Без пяти полночь</a></li>
+        <li><a href="#s2">Язык, которого нет в словарях</a></li>
+        <li><a href="#s3">Арифметика темноты</a></li>
+        <li><a href="#s4">Те, кто не спит дома</a></li>
+        <li><a href="#s5">Рассвет без свидетелей</a></li>
+      </ol>
+      <div class="stat"><b>6 115 т</b>за одну ночь через причал №9<br><br><b>31</b>человек в смене</div>
+    </nav>
+
+    <article>
+      <p class="lede">В половине двенадцатого ночи порт перестаёт быть местом, куда привозят вещи, и становится местом, где время считают контейнерами. Город за рекой гасит окна, последний трамвай уходит от Литейной набережной, а на Девятом причале всё только начинается. Четыре портальных крана склоняют шеи над палубой контейнеровоза «Ингрид Б.», и свет прожекторов ложится на воду так плотно, что кажется: по ней можно пройти.</p>
+      <p>Судно пришло в семь вечера из Роттердама с одиннадцатью сотнями контейнеров на борту. К шести утра оно должно уйти с другим грузом, иначе портовый график, составленный на три недели вперёд, поползёт, как плохо натянутый брезент. Поэтому на причале не спрашивают, хочется ли спать. Спрашивают, кто на каком кране.</p>
+
+      <h2 id="s1"><span class="n">01</span>Без пяти полночь</h2>
+      <p>Смена собирается в вагончике у въезда, который все называют «аквариумом»: стеклянная стена, две электроплитки, доска с фамилиями. Бригадир Геннадий Ларин, пятьдесят восемь лет, двадцать шесть из них ночью, читает разнарядку вслух, хотя она висит на стене. «Бумага — это бумага, а голос — это договорённость», — объясняет он. Никто не спорит.</p>
+      <p>В бригаде тридцать один человек: крановщики, стропальщики, водители тягачей, сцепщики, трое диспетчеров и учётчица Рая, которая пришла сюда в девяностых и помнит порт, где контейнеров было ещё мало, а мешков с цементом много. Средний возраст сорок четыре года. Младшему, Тимуру, двадцать три; он пришёл после колледжа и первую неделю, по его словам, «просто смотрел вверх».</p>
+
+      <aside class="pq">
+        <p>Днём порт — это машина. Ночью — это люди, которые эту машину слушают</p>
+        <cite>Геннадий Ларин, бригадир</cite>
+      </aside>
+
+      <h2 id="s2"><span class="n">02</span>Язык, которого нет в словарях</h2>
+      <p>На высоте сорока двух метров кабина крановщика похожа на капсулу: кресло, два джойстика, стеклянный пол. Через него видно всё: крышки трюмов, крошечные фигуры стропальщиков, чёрную воду в щели между бортом и стенкой. Ольга Сивцова работает на третьем кране одиннадцатый год. Она берёт сорокатонный контейнер за замки, поднимает на высоту девятиэтажного дома и опускает на платформу тягача с точностью, которую сама называет «в ладонь».</p>
+      <p>Внизу её слышат не по радио, а по жестам. Стропальщики ночью работают с фонариками на касках, и у каждого свой короткий набор знаков: круг означает «выбирай слабину», ладонь вниз — «тише», два скрещённых луча — «стоп, не трогай». На выучку новичку уходит месяц. «Сначала думаешь, что это танец, — говорит Тимур. — Потом понимаешь, что это грамматика».</p>
+      <p>Радио, впрочем, тоже работает, но им пользуются как страховкой. Ночью в порту странно слышно: стук замков на тридцать метров вокруг, скрип каната, далёкий гудок на реке. Крановщики утверждают, что по звуку отличают груженый контейнер от порожнего ещё до того, как поднимут его на метр.</p>
+
+      <h2 id="s3"><span class="n">03</span>Арифметика темноты</h2>
+      <p>Ночная работа в порту подчиняется простой кривой, которую диспетчеры знают наизусть. До полуночи темп набирается: бригады разогреваются, тягачи выстраиваются в очередь, терминальная система выдаёт первые планы укладки. Между часом и тремя ночи наступает пик. В эту ночь он пришёлся на два часа и составил 960 тонн за шестьдесят минут. После трёх усталость берёт своё: падает не скорость рук, а внимание, и диспетчеры сознательно снижают темп, чтобы не ошибиться в маркировке.</p>
+
+      <figure class="fig">
+        <div class="art">
+          <svg class="ch" viewBox="0 0 440 384" role="img" aria-labelledby="figt figd">
+            <title id="figt">Тонн за час через причал №9</title>
+            <desc id="figd">Горизонтальная диаграмма по часам с 21:00 до 06:00: от 310 тонн в 21:00 до пика в 960 тонн в 02:00 и спада до 240 тонн к 06:00.</desc>
+            <g class="grid"><path d="M127 28V366M202 28V366M277 28V366M352 28V366"/></g>
+            <g class="ax"><text x="127" y="18" text-anchor="middle">250</text><text x="202" y="18" text-anchor="middle">500</text><text x="277" y="18" text-anchor="middle">750</text><text x="352" y="18" text-anchor="middle">1000 т</text></g>
+            <g>
+              <text x="0" y="56">21:00</text><rect class="bar" x="52" y="40" width="93" height="21"/><text class="v" x="151" y="56">310</text>
+              <text x="0" y="89">22:00</text><rect class="bar" x="52" y="73" width="156" height="21"/><text class="v" x="214" y="89">520</text>
+              <text x="0" y="122">23:00</text><rect class="bar" x="52" y="106" width="192" height="21"/><text class="v" x="250" y="122">640</text>
+              <text x="0" y="155">00:00</text><rect class="bar" x="52" y="139" width="234" height="21"/><text class="v" x="292" y="155">780</text>
+              <text x="0" y="188">01:00</text><rect class="bar" x="52" y="172" width="272" height="21"/><text class="v" x="330" y="188">905</text>
+              <text x="0" y="221" style="font-weight:600;fill:var(--ink)">02:00</text><rect class="peak" x="52" y="205" width="288" height="21"/><text class="v" x="346" y="221">960 · пик</text>
+              <text x="0" y="254">03:00</text><rect class="bar" x="52" y="238" width="246" height="21"/><text class="v" x="304" y="254">820</text>
+              <text x="0" y="287">04:00</text><rect class="bar" x="52" y="271" width="168" height="21"/><text class="v" x="226" y="287">560</text>
+              <text x="0" y="320">05:00</text><rect class="bar" x="52" y="304" width="114" height="21"/><text class="v" x="172" y="320">380</text>
+              <text x="0" y="353">06:00</text><rect class="bar" x="52" y="337" width="72" height="21"/><text class="v" x="130" y="353">240</text>
+            </g>
+            <path class="mid" d="M0 133H440"/><text class="midt" x="438" y="129" text-anchor="end" style="font-size:12px">полночь</text>
+          </svg>
+        </div>
+        <figcaption>
+          <b>Рис. 1</b>
+          Сколько тонн груза проходит через причал за каждый час ночи. Смена 14–15 октября, контейнеровоз «Ингрид Б.».
+          <span class="note">Всего за ночь — 6 115 т. Источник: диспетчерская терминала, журнал выгрузки.</span>
+        </figcaption>
+      </figure>
+
+      <p>Эта осторожность стоит денег, причём постоянно. Но цена ошибки выше: контейнер с химией или с рыбой, поставленный не в тот ряд, — это сутки простоя и штраф, равный месячному заработку всей смены. «Лучше потерять десять минут, чем сутки», — говорит диспетчер Вера Колесникова, и по лицу видно, что эту фразу она произносила не один раз и не в одном споре.</p>
+
+      <h2 id="s4"><span class="n">04</span>Те, кто не спит дома</h2>
+      <p>Ночная смена — это ещё и особая география семей. Водитель тягача Сергей Ивашов видит дочь по утрам, пока она ест кашу, и по вечерам, пока она делает уроки; между этими встречами остаются шестнадцать часов, которые он делит между сном и дорогой. Жена Ольги ставит на подоконник лампу, когда та возвращается: в семь утра темно только в ноябре. А у учётчицы Раи на кухне висят часы, которые показывают «портовое время», на два часа впереди городского. «Чтобы не путаться, — объясняет она. — Я же всё равно живу по ним».</p>
+
+      <aside class="pq r">
+        <p>Сначала думаешь, что это танец. Потом понимаешь, что это грамматика</p>
+        <cite>Тимур, стропальщик, 23 года</cite>
+      </aside>
+
+      <p>За ночную работу платят на сорок процентов больше, чем за дневную, но говорят здесь не об этом. Говорят о тишине. О том, что в три часа ночи начальство спит, звонки не идут, а работа, если её делать как следует, получается чище. «Деньги есть везде, — пожимает плечами Геннадий. — А здесь, пока всё идёт по плану, ты сам себе хозяин».</p>
+      <p>Цена этой свободы известна всем: врачи, к которым ходят по понедельникам, друзья, которые перестали звонить, давление, которое надо мерить. В бригаде есть негласное правило: после сорока пяти раз в год обязательное обследование, и бригадир следит за этим строже, чем за нормами выработки.</p>
+
+      <h2 id="s5"><span class="n">05</span>Рассвет без свидетелей</h2>
+      <p>К пяти утра небо над рекой становится цвета мокрого цемента. «Ингрид Б.» стоит с новой палубной раскладкой, аккуратной, как шахматная доска. Ольга опускает последний контейнер, отпускает замки и несколько секунд просто сидит, глядя сквозь стеклянный пол на воду. Это её единственный ритуал: ни кофе, ни сигареты, только эти секунды.</p>
+      <p>В пять сорок приходит дневная смена: свежие, громкие, пахнущие домашним кофе. Ночные передают им журнал и ключи, не рассказывая лишнего: всё, что нужно знать, записано в строках. Потом они идут к проходной, не торопясь, по двое-трое. Город уже проснулся и смотрит в телефоны. Никто из тех, кого они встретят по дороге, не подумает, что вчерашние покупки, сегодняшний хлеб и завтрашние холодильники прошли через эти руки.</p>
+      <p>Геннадий останавливается у ворот и по привычке оглядывается на причал. Краны уже поворачиваются, и в их прожекторах медленно гаснет ночь. «Порт не заканчивается, — говорит он. — Он просто передаёт тебя следующим». И, не дожидаясь ответа, идёт к остановке, на которой не будет ни одного знакомого лица.<span class="end" aria-hidden="true"></span></p>
+
+      <aside class="bio">
+        <div class="mono" aria-hidden="true">МВ</div>
+        <div>
+          <b>Об авторе</b>
+          <p><strong>Марина Ведерникова</strong> пишет о реках и портовых городах двенадцать лет. Выросла в Нижнем Новгороде, живёт в Санкт-Петербурге, автор книги очерков «Вода, которая работает». Фотографии к материалу сделал <strong>Артём Шалыгин</strong>: он провёл на Девятом причале шесть ночей и снимал только при свете, который там уже был.</p>
+        </div>
+      </aside>
+    </article>
+  </div>
+
+  <section class="more" aria-labelledby="moreh">
+    <div class="more-head"><h3 id="moreh">Ещё в этом номере</h3><span class="label">Осень 2026</span></div>
+    <div class="cards">
+      <a class="card" href="#">
+        <div class="pic"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" class="p3" opacity="0"/><path class="p2" d="M0 190c50-26 100 26 150 0s100-26 150 0 70 18 100 0V300H0z"/><path class="p1" d="M0 232c50-26 100 26 150 0s100-26 150 0 70 18 100 0V300H0z"/><path class="p4" stroke-width="3" fill="none" d="M120 172l54-48h112l16 48z"/><path class="p4" stroke-width="3" d="M226 124V70M226 70l40 18-40 16" fill="none"/></svg></div>
+        <span class="label">Очерк</span>
+        <h4>Последний лодочник Шексны</h4>
+        <p>Он возит почту на острова, куда не ходит ни один паром, и отказывается от моста, который строят прямо над его причалом.</p>
+        <span class="meta">12 минут · Фото Л. Орлова</span>
+      </a>
+      <a class="card" href="#">
+        <div class="pic"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect x="0" y="120" width="400" height="180" class="p2"/><rect x="60" y="70" width="90" height="230" class="p1"/><rect x="250" y="70" width="90" height="230" class="p1"/><rect x="150" y="190" width="100" height="110" class="p3" opacity=".9"/><path class="p4" stroke-width="3" d="M60 70h90M250 70h90M150 190h100" fill="none"/></svg></div>
+        <span class="label">Люди</span>
+        <h4>Шлюз, которого нет на картах</h4>
+        <p>Как смотрители Волго-Балтийского пути открывают ворота для барж, которые никто не ждал, и закрывают их для тех, кого ждали слишком долго.</p>
+        <span class="meta">9 минут · Фото М. Абрамова</span>
+      </a>
+      <a class="card" href="#">
+        <div class="pic"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="200" cy="140" r="86" class="p1"/><circle cx="200" cy="140" r="58" class="p3" opacity=".9"/><circle cx="200" cy="140" r="30" class="p2"/><path class="p4" stroke-width="3" d="M40 250h320M70 270h260" fill="none"/></svg></div>
+        <span class="label">Быт</span>
+        <h4>Кухня на воде: как кормят баржу</h4>
+        <p>Четыре конфорки, сорок суток без берега и повариха, которая считает хорошим тот борщ, что не выплеснулся при шторме.</p>
+        <span class="meta">7 минут · Фото Е. Лаптевой</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<section class="nl-wrap">
+  <div class="nl" id="nl">
+    <div>
+      <h3>Читайте <em>Tidewatch</em> каждый квартал</h3>
+      <p>Раз в три месяца мы присылаем одно длинное письмо: самый сильный репортаж номера, фотографии и список того, что стоит прочитать на воде. Без рекламы и без спешки.</p>
+    </div>
+    <form id="nlf" novalidate>
+      <label for="em">Ваша электронная почта</label>
+      <div class="row">
+        <input id="em" type="email" placeholder="name@example.ru" autocomplete="email" required>
+        <button type="submit">Подписаться</button>
+      </div>
+      <small>Отписаться можно одним нажатием. Мы не передаём адреса третьим лицам.</small>
+      <div class="ok" role="status">Спасибо. Следующее письмо придёт с первым льдом.</div>
+    </form>
+  </div>
+</section>
+<footer><div><span>The Tidewatch · Независимый квартальный журнал о реках, каналах и портах</span><span>© 2026</span></div></footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  // progress
+  var pb=document.getElementById('pbar');
+  function prog(){var h=document.documentElement.scrollHeight-innerHeight;pb.style.width=(h>0?Math.min(100,scrollY/h*100):0)+'%'}
+  addEventListener('scroll',prog,{passive:true});prog();
+  // toc spy
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var heads=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var cur=-1;heads.forEach(function(h,i){if(h.getBoundingClientRect().top<innerHeight*.4)cur=i});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)})}
+  addEventListener('scroll',spy,{passive:true});spy();
+  // theme
+  var order=['auto','light','dark'],labels={auto:'Авто',light:'День',dark:'Ночь'};
+  var mode='auto';
+  try{mode=localStorage.getItem('tw-theme')||'auto'}catch(e){}
+  function applyTheme(){if(mode==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',mode);
+    document.getElementById('themeLbl').textContent=labels[mode]}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    mode=order[(order.indexOf(mode)+1)%3];try{localStorage.setItem('tw-theme',mode)}catch(e){}applyTheme()});
+  applyTheme();
+  // brand colour
+  var pick=document.getElementById('brandPick');
+  pick.addEventListener('input',function(){root.style.setProperty('--brand',pick.value)});
+  // newsletter
+  var f=document.getElementById('nlf');
+  f.addEventListener('submit',function(e){e.preventDefault();var i=document.getElementById('em');
+    if(!i.value||i.value.indexOf('@')<1){i.focus();i.setCustomValidity('Введите адрес почты');i.reportValidity();i.setCustomValidity('');return}
+    document.getElementById('nl').classList.add('done')});
+})();
+</script>
+</body>
+</html>

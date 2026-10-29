@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lantern Nights: programme and tickets</title>
+<meta name="description" content="Lantern Nights, a chamber music festival in a former brewery in Ghent, 14 to 16 August 2027. Timetable, tickets, how to get there.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#A6592B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   BRAND: the only colour value to edit. Everything below is
+   derived from it (OKLCH relative colour), in both themes.
+   ========================================================== */
+:root { --brand: #A6592B; }
+
+/* ---------- Tokens, light ---------- */
+:root, :root[data-theme="light"] {
+  color-scheme: light;
+  --bg:        oklch(from var(--brand) 0.945 0.011 h);
+  --bg-alt:    oklch(from var(--brand) 0.905 0.016 h);
+  --text:      oklch(from var(--brand) 0.22 0.02 h);
+  --muted:     oklch(from var(--brand) 0.43 0.025 h);
+  --line:      oklch(from var(--brand) 0.80 0.02 h);
+  --line-strong: oklch(from var(--brand) 0.40 0.03 h);
+  --accent:    oklch(from var(--brand) clamp(0.30, l, 0.46) min(c, 0.15) h);
+  --fill:      oklch(from var(--brand) clamp(0.42, l, 0.86) min(c, 0.17) h);
+  --fill-hover:oklch(from var(--fill) calc(l - 0.06) c h);
+  --on-fill:   oklch(from var(--fill) clamp(0.12, (0.575 - l) * 1000, 1) 0.005 h);
+  --lamp:      oklch(0.93 0.10 88);
+  /* hero */
+  --hero-bg:   var(--fill);
+  --hero-fg:   var(--on-fill);
+  --hero-btn-bg: var(--on-fill);
+  --hero-btn-fg: var(--fill);
+  --ink:       oklch(from var(--fill) calc(l * 0.42) calc(c * 0.6) h);
+  --ink-2:     oklch(from var(--fill) calc(l * 0.62) calc(c * 0.8) h);
+  /* tickets band */
+  --t-bg:      var(--fill);
+  --t-fg:      var(--on-fill);
+  --t-btn-bg:  var(--on-fill);
+  --t-btn-fg:  var(--fill);
+}
+/* ---------- Tokens, dark ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:        oklch(from var(--brand) 0.19 0.012 h);
+    --bg-alt:    oklch(from var(--brand) 0.235 0.018 h);
+    --text:      oklch(from var(--brand) 0.93 0.012 h);
+    --muted:     oklch(from var(--brand) 0.76 0.025 h);
+    --line:      oklch(from var(--brand) 0.34 0.025 h);
+    --line-strong: oklch(from var(--brand) 0.70 0.03 h);
+    --accent:    oklch(from var(--brand) clamp(0.74, l, 0.88) min(c, 0.15) h);
+    --fill:      oklch(from var(--brand) clamp(0.42, l, 0.86) min(c, 0.17) h);
+    --fill-hover:oklch(from var(--fill) calc(l + 0.05) c h);
+    --on-fill:   oklch(from var(--fill) clamp(0.12, (0.575 - l) * 1000, 1) 0.005 h);
+    --hero-bg:   var(--bg-alt);
+    --hero-fg:   var(--accent);
+    --hero-btn-bg: var(--fill);
+    --hero-btn-fg: var(--on-fill);
+    --ink:       oklch(from var(--brand) 0.12 0.015 h);
+    --ink-2:     oklch(from var(--brand) 0.17 0.02 h);
+    --t-bg:      var(--bg-alt);
+    --t-fg:      var(--text);
+    --t-btn-bg:  var(--fill);
+    --t-btn-fg:  var(--on-fill);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:        oklch(from var(--brand) 0.19 0.012 h);
+  --bg-alt:    oklch(from var(--brand) 0.235 0.018 h);
+  --text:      oklch(from var(--brand) 0.93 0.012 h);
+  --muted:     oklch(from var(--brand) 0.76 0.025 h);
+  --line:      oklch(from var(--brand) 0.34 0.025 h);
+  --line-strong: oklch(from var(--brand) 0.70 0.03 h);
+  --accent:    oklch(from var(--brand) clamp(0.74, l, 0.88) min(c, 0.15) h);
+  --fill:      oklch(from var(--brand) clamp(0.42, l, 0.86) min(c, 0.17) h);
+  --fill-hover:oklch(from var(--fill) calc(l + 0.05) c h);
+  --on-fill:   oklch(from var(--fill) clamp(0.12, (0.575 - l) * 1000, 1) 0.005 h);
+  --hero-bg:   var(--bg-alt);
+  --hero-fg:   var(--accent);
+  --hero-btn-bg: var(--fill);
+  --hero-btn-fg: var(--on-fill);
+  --ink:       oklch(from var(--brand) 0.12 0.015 h);
+  --ink-2:     oklch(from var(--brand) 0.17 0.02 h);
+  --t-bg:      var(--bg-alt);
+  --t-fg:      var(--text);
+  --t-btn-bg:  var(--fill);
+  --t-btn-fg:  var(--on-fill);
+}
+
+/* ---------- Type and space ---------- */
+:root {
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-serif: "Newsreader", Georgia, serif;
+  --f-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gutter: 16px;
+  --wrap: 1200px;
+  --r: 4px;
+}
+@media (min-width: 760px) { :root { --gutter: 40px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 130px; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 17px/1.55 var(--f-ui);
+  overflow-x: hidden;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+::selection { background: var(--fill); color: var(--on-fill); }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.h-display { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; line-height: 0.86; letter-spacing: 0.012em; }
+.lede { font-size: 1.2rem; line-height: 1.5; max-width: 34em; }
+.muted { color: var(--muted); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 22px; border: 2px solid transparent; border-radius: var(--r);
+  font: 600 1rem/1 var(--f-ui); text-decoration: none; cursor: pointer; white-space: nowrap;
+  background: var(--fill); color: var(--on-fill);
+  transition: background-color .18s ease-out, color .18s ease-out, border-color .18s ease-out;
+}
+.btn:hover { background: var(--fill-hover); color: var(--on-fill); }
+.btn:active { transform: translateY(1px); }
+.btn.small { min-height: 40px; padding: 0 16px; font-size: .95rem; }
+
+/* ---------- Header ---------- */
+.top { position: sticky; top: 0; z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
+.mark { font: 800 1.7rem/1 var(--f-display); text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.mark svg { width: 18px; height: 26px; flex: none; }
+.mark:hover { color: var(--text); }
+.nav { display: none; gap: 28px; }
+.nav a { text-decoration: none; font-weight: 500; padding: 8px 0; border-bottom: 2px solid transparent; }
+.nav a:hover { border-bottom-color: var(--accent); color: var(--text); }
+@media (min-width: 900px) { .nav { display: flex; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; background: var(--hero-bg); color: var(--hero-fg); overflow: hidden; }
+.lights { position: absolute; left: 0; top: 0; width: 100%; height: 150px; pointer-events: none; }
+.hero-grid { position: relative; display: grid; gap: 28px; padding-top: 112px; padding-bottom: 36px; }
+.hero h1 { font-size: clamp(4.6rem, 20vw, 14rem); }
+.hero h1 span { display: block; }
+.hero .lede { margin-top: 24px; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero .btn { background: var(--hero-btn-bg); color: var(--hero-btn-fg); }
+.hero .btn:hover { background: var(--hero-btn-bg); color: var(--hero-btn-fg); text-decoration: underline; text-underline-offset: 4px; }
+.hero .btn.line { background: transparent; color: var(--hero-fg); border-color: currentColor; }
+.hero .btn.line:hover { background: transparent; color: var(--hero-fg); }
+.days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.days a { display: block; text-decoration: none; border-top: 2px solid currentColor; padding-top: 8px; color: var(--hero-fg); }
+.days a:hover { color: var(--hero-fg); }
+.days a:hover .n { text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 6px; }
+.days .n { font: 800 3.4rem/0.95 var(--f-display); display: block; }
+.days .d { display: block; font-weight: 500; }
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr) 250px; align-items: end; padding-top: 140px; gap: 56px; }
+  .hero h1 { font-size: clamp(9rem, 15.2vw, 15rem); }
+  .days { grid-template-columns: 1fr; gap: 20px; }
+  .days .n { font-size: 5.4rem; display: inline-block; margin-right: 14px; }
+  .days .d { display: inline-block; }
+  .days a { padding-top: 6px; }
+}
+.skyline { display: block; width: 100%; height: clamp(170px, 27vw, 380px); }
+
+/* ---------- Sections ---------- */
+section { padding-block: 72px; }
+@media (min-width: 900px) { section { padding-block: 104px; } }
+.sec-head { display: grid; gap: 20px; margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(3.6rem, 11vw, 8rem); }
+@media (min-width: 900px) { .sec-head { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: end; gap: 56px; } }
+
+/* ---------- Programme ---------- */
+.stages { display: grid; gap: 14px; }
+.stage-def { display: grid; grid-template-columns: 26px 1fr; gap: 4px 10px; align-items: baseline; }
+.stage-def b { font-weight: 600; }
+.stage-def span { grid-column: 2; color: var(--muted); font-size: .95rem; }
+.g { display: inline-block; width: 14px; height: 14px; flex: none; border: 2px solid var(--text); position: relative; top: 1px; }
+.g.mash { background: var(--text); }
+.g.coop { border-radius: 50%; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between; padding-block: 12px; }
+.daybar { position: sticky; top: 60px; z-index: 20; background: var(--bg); border-block: 1px solid var(--line-strong); }
+.seg { display: flex; gap: 0; }
+.seg button {
+  font: 600 .98rem/1 var(--f-ui); padding: 0 16px; min-height: 44px; color: var(--text); background: transparent;
+  border: 0; border-bottom: 4px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.seg button:hover { border-bottom-color: var(--line-strong); }
+.seg button[aria-pressed="true"] { border-bottom-color: var(--accent); color: var(--accent); }
+.seg.days-seg { margin-inline: -16px; overflow-x: auto; }
+.seg.days-seg button { flex: 1 0 auto; text-align: center; }
+.stage-seg { gap: 8px; flex-wrap: wrap; }
+.stage-seg button { border: 1px solid var(--line-strong); border-radius: 99px; min-height: 36px; padding: 0 14px; display: inline-flex; align-items: center; gap: 8px; }
+.stage-seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.stage-seg button[aria-pressed="true"] .g { border-color: var(--bg); }
+.stage-seg button[aria-pressed="true"] .g.mash { background: var(--bg); }
+.count { color: var(--muted); font-size: .95rem; }
+@media (min-width: 760px) { .seg.days-seg { margin-inline: 0; } }
+
+.day { padding-top: 40px; }
+.day[hidden] { display: none; }
+.day-head { display: grid; gap: 12px; align-items: end; margin-bottom: 8px; }
+.day-head h3 { font: 800 clamp(2.8rem, 8vw, 4.6rem)/0.9 var(--f-display); text-transform: uppercase; }
+.day-head h3 small { font: 500 1rem/1 var(--f-ui); text-transform: none; color: var(--muted); margin-left: 10px; }
+@media (min-width: 900px) { .day-head { grid-template-columns: 1fr 440px; } }
+.strip { position: relative; height: 46px; border-bottom: 1px solid var(--line-strong); }
+.strip .lane { position: absolute; left: 0; right: 0; height: 14px; }
+.strip .l1 { top: 4px; } .strip .l2 { top: 22px; }
+.strip i { position: absolute; top: 0; bottom: 0; border: 2px solid var(--text); }
+.strip i.mash { background: var(--text); }
+.strip i.coop { border-radius: 99px; }
+.strip .tick { position: absolute; bottom: -22px; font-size: .75rem; color: var(--muted); transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+.strip .tick:first-of-type { transform: none; }
+.strip-wrap { padding-bottom: 22px; }
+
+.gigs { list-style: none; margin: 0; padding: 0; }
+.gig {
+  display: grid; gap: 2px 16px; padding: 22px 0; border-bottom: 1px solid var(--line);
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "when where" "what what" "tier tier";
+}
+.gig[hidden] { display: none; }
+.when { grid-area: when; font: 800 2.7rem/0.9 var(--f-display); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.when .until { display: block; font: 500 .85rem/1.5 var(--f-ui); color: var(--muted); }
+.where { grid-area: where; justify-self: end; align-self: start; display: inline-flex; gap: 8px; align-items: center; font-weight: 600; padding-top: 4px; }
+.what { grid-area: what; padding-top: 10px; }
+.what h4 { font: 500 1.65rem/1.15 var(--f-serif); font-optical-sizing: auto; }
+.what .works { font-family: var(--f-serif); font-style: italic; color: var(--muted); font-size: 1.05rem; margin-top: 4px; }
+.what .who { margin-top: 6px; font-size: .98rem; }
+.tier { grid-area: tier; display: flex; align-items: center; gap: 10px; padding-top: 10px; font-size: .95rem; }
+.tier b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pips { display: inline-flex; gap: 4px; }
+.pips i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); }
+.pips i.on { background: var(--accent); }
+@media (min-width: 900px) {
+  .gig { grid-template-columns: 150px minmax(0, 1fr) 170px 190px; grid-template-areas: "when what where tier"; gap: 24px; align-items: start; padding: 26px 0; transition: background-color .15s ease-out; }
+  .gig:hover { background: var(--bg-alt); }
+  .what { padding-top: 0; }
+  .where, .tier { justify-self: start; padding-top: 8px; }
+  .when { font-size: 3.4rem; }
+}
+
+/* ---------- Tickets ---------- */
+.tickets { background: var(--t-bg); color: var(--t-fg); }
+.tickets .wrap { display: grid; gap: 40px; }
+.tickets h2 { font-size: clamp(3.6rem, 11vw, 8rem); margin-bottom: 24px; }
+.tickets .lede { margin-bottom: 28px; }
+.tickets a:hover { color: var(--t-fg); }
+.tiers { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tiers caption { text-align: left; font-weight: 600; padding-bottom: 8px; }
+.tiers th, .tiers td { text-align: left; padding: 10px 0; border-top: 1px solid color-mix(in oklab, var(--t-fg) 45%, transparent); font-weight: 400; }
+.tiers td:last-child, .tiers th:last-child { text-align: right; }
+.tiers .pips i { border-color: var(--t-fg); } .tiers .pips i.on { background: var(--t-fg); }
+.tiers td:first-child { display: flex; align-items: center; gap: 10px; }
+@media (min-width: 900px) { .tickets .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; } }
+.order { display: grid; gap: 14px; align-content: start; border: 0; padding: 0; margin: 0; min-width: 0; }
+.opt { display: grid; grid-template-columns: 24px 1fr auto; gap: 2px 14px; padding: 18px; border: 2px solid var(--t-fg); border-radius: var(--r); cursor: pointer; align-items: center; }
+.opt input { grid-row: 1 / span 2; width: 22px; height: 22px; margin: 0; accent-color: var(--t-fg); }
+.opt b { font: 800 1.9rem/1 var(--f-display); text-transform: uppercase; }
+.opt .price { font: 800 2.4rem/1 var(--f-display); grid-row: 1 / span 2; grid-column: 3; }
+.opt span.d { grid-column: 2; font-size: .95rem; }
+.opt:has(input:checked) { background: var(--t-fg); color: var(--t-bg); }
+.opt:has(input:checked) input { accent-color: var(--t-bg); }
+.opt:has(input:focus-visible) { outline: 3px solid var(--t-fg); outline-offset: 3px; }
+.opt:hover { border-style: dashed; }
+.opt:has(input:checked):hover { border-style: solid; }
+.door { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 16px 18px; border: 2px dashed color-mix(in oklab, var(--t-fg) 70%, transparent); border-radius: var(--r); align-items: center; }
+.door b { font: 800 1.5rem/1 var(--f-display); text-transform: uppercase; }
+.door .price { font: 800 2rem/1 var(--f-display); grid-row: 1 / span 2; grid-column: 2; }
+.door span { font-size: .95rem; }
+.ctl { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: end; }
+.ctl label, .ctl .lab { display: grid; gap: 6px; font-weight: 600; font-size: .95rem; }
+.ctl select { font: 500 1rem var(--f-ui); min-height: 48px; padding: 0 12px; border-radius: var(--r); border: 2px solid var(--t-fg); background: var(--bg); color: var(--text); min-width: 200px; }
+.ctl select:focus-visible { outline: 3px solid var(--t-fg); outline-offset: 3px; }
+.qty { display: inline-flex; align-items: stretch; border: 2px solid var(--t-fg); border-radius: var(--r); background: var(--bg); color: var(--text); }
+.qty button { width: 48px; min-height: 44px; border: 0; background: transparent; color: inherit; font: 600 1.4rem var(--f-ui); cursor: pointer; }
+.qty button:hover { background: var(--bg-alt); }
+.qty output { min-width: 44px; display: grid; place-items: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.total { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-top: 2px solid var(--t-fg); padding-top: 14px; }
+.total .sum { font: 800 4rem/0.9 var(--f-display); font-variant-numeric: tabular-nums; }
+.tickets .buy { background: var(--t-btn-bg); color: var(--t-btn-fg); min-height: 56px; font-size: 1.1rem; width: 100%; }
+.tickets .buy:hover { background: var(--t-btn-bg); color: var(--t-btn-fg); text-decoration: underline; text-underline-offset: 4px; }
+.fine { font-size: .9rem; }
+
+/* ---------- Visit ---------- */
+.visit-grid { display: grid; gap: 40px; }
+@media (min-width: 900px) { .visit-grid { grid-template-columns: 400px minmax(0, 1fr); gap: 80px; } }
+.route { width: 100%; max-width: 440px; height: auto; display: block; }
+.route text { font-family: var(--f-ui); fill: var(--text); font-size: 15px; }
+.route .st { font-weight: 700; }
+.route .sub { fill: var(--muted); font-size: 13.5px; }
+.how { display: grid; gap: 32px; align-content: start; }
+.how h3 { font: 800 2.4rem/0.95 var(--f-display); text-transform: uppercase; margin-bottom: 8px; }
+.how p + p { margin-top: 8px; }
+.addr { font: 500 1.4rem/1.3 var(--f-serif); margin-top: 20px; }
+
+/* ---------- Access ---------- */
+.access { background: var(--bg-alt); }
+.tbl-scroll { overflow-x: auto; border-block: 1px solid var(--line-strong); }
+.acc { width: 100%; min-width: 640px; border-collapse: collapse; }
+.acc th, .acc td { text-align: left; padding: 14px 16px 14px 0; vertical-align: top; border-top: 1px solid var(--line); font-weight: 400; }
+.acc thead th { font-weight: 700; border-top: 0; padding-block: 16px; }
+.acc tbody th { font-weight: 600; width: 24%; }
+.acc tr:first-child td, .acc thead + tbody tr:first-child th { border-top: 0; }
+.access-extra { display: grid; gap: 24px; margin-top: 32px; }
+@media (min-width: 900px) { .access-extra { grid-template-columns: repeat(3, 1fr); gap: 40px; } }
+.access-extra h3 { font: 600 1.15rem/1.3 var(--f-ui); margin-bottom: 4px; }
+
+/* ---------- FAQ ---------- */
+.faq-grid { display: grid; gap: 32px; }
+@media (min-width: 900px) { .faq-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 80px; } }
+details { border-top: 1px solid var(--line-strong); }
+details:last-of-type { border-bottom: 1px solid var(--line-strong); }
+summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; font: 500 1.4rem/1.25 var(--f-serif); min-height: 56px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; flex: none; width: 14px; height: 14px; background:
+  linear-gradient(var(--accent), var(--accent)) center / 100% 2px no-repeat,
+  linear-gradient(var(--accent), var(--accent)) center / 2px 100% no-repeat; }
+details[open] summary::after { background: linear-gradient(var(--accent), var(--accent)) center / 100% 2px no-repeat; }
+summary:hover { color: var(--accent); }
+details p { padding: 0 0 22px; max-width: 38em; }
+
+/* ---------- Footer ---------- */
+footer { background: var(--ink); color: oklch(from var(--brand) 0.92 0.015 h); padding-block: 56px 40px; }
+footer a:hover { color: var(--lamp); }
+.foot { display: grid; gap: 32px; }
+@media (min-width: 900px) { .foot { grid-template-columns: 1.4fr 1fr 1fr; } }
+.foot .big { font: 800 clamp(3rem, 8vw, 5.5rem)/0.88 var(--f-display); text-transform: uppercase; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.foot h3 { font: 700 1rem/1.3 var(--f-ui); margin-bottom: 10px; color: var(--lamp); }
+.themes { display: inline-flex; gap: 8px; margin-top: 8px; }
+.themes button { font: 600 .9rem var(--f-ui); min-height: 40px; padding: 0 14px; background: transparent; color: inherit; border: 1px solid currentColor; border-radius: 99px; cursor: pointer; }
+.themes button[aria-pressed="true"] { background: oklch(from var(--brand) 0.92 0.015 h); color: var(--ink); }
+.legal { margin-top: 40px; font-size: .9rem; opacity: .85; }
+@media (max-width: 759px) { footer { padding-bottom: 110px; } }
+
+/* ---------- Mobile buy bar ---------- */
+.buybar { position: fixed; inset: auto 0 0 0; z-index: 40; background: var(--bg); border-top: 2px solid var(--text); padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); display: none; align-items: center; justify-content: space-between; gap: 12px; transition: transform .2s ease-out; }
+.buybar.off { transform: translateY(110%); }
+.buybar p { font-size: .95rem; line-height: 1.25; }
+.buybar b { font: 800 1.5rem/1 var(--f-display); text-transform: uppercase; display: block; }
+@media (max-width: 759px) { .buybar { display: flex; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Lantern Nights, top of page">
+      <svg viewBox="0 0 18 26" aria-hidden="true"><path d="M9 1v3M5 4h8l2 4v11l-2 3H5l-2-3V8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9v8" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></svg>
+      Lantern Nights
+    </a>
+    <nav class="nav" aria-label="Page sections">
+      <a href="#programme">Programme</a>
+      <a href="#tickets">Tickets</a>
+      <a href="#visit">Getting there</a>
+      <a href="#access">Accessibility</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn small" href="#tickets">Buy tickets</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <svg class="lights" viewBox="0 0 1440 150" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><path d="M-20 14 Q360 150 740 22" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M740 22 Q1100 120 1460 10" fill="none" stroke="var(--ink)" stroke-width="2.5"/><g transform="translate(64 41)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(149 61)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(233 75)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(318 83)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(402 84)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(487 78)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(571 66)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(656 47)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(820 41)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(900 55)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(980 64)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(1060 68)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(1140 67)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(1220 60)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(1300 49)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g><g transform="translate(1380 32)"><rect x="-3" y="0" width="6" height="7" fill="var(--ink)"/><path d="M-8 7h16l-3 17h-10z" fill="var(--lamp)"/></g></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <h1 class="h-display"><span>Lantern</span><span>Nights</span></h1>
+      <p class="lede">Three days of chamber music in the old mash house of a Ghent brewery. Two stages, thirteen concerts, 14 to 16 August 2027. Come as you are, sneakers welcome.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#tickets">Buy tickets</a>
+        <a class="btn line" href="#programme">See the programme</a>
+      </div>
+    </div>
+    <ul class="days" aria-label="Jump to a day">
+      <li><a href="#programme" data-jump="fri"><span class="n">14</span><span class="d">Friday</span></a></li>
+      <li><a href="#programme" data-jump="sat"><span class="n">15</span><span class="d">Saturday</span></a></li>
+      <li><a href="#programme" data-jump="sun"><span class="n">16</span><span class="d">Sunday</span></a></li>
+    </ul>
+  </div>
+  <svg class="skyline" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<g fill="var(--ink)">
+<path d="M110 400V250L110 196L266 250V196L422 250V196L578 250V196L734 250V196L890 250V400z"/>
+<rect x="0" y="312" width="96" height="88"/>
+<path d="M925 400V170L990 120L1055 170V400z"/>
+<rect x="1098" y="52" width="40" height="348"/><rect x="1088" y="40" width="60" height="16"/>
+<rect x="0" y="396" width="1440" height="24"/>
+</g>
+<path d="M150 372v-52a20 20 0 0 1 40 0v52z" fill="var(--lamp)"/><path d="M242 372v-52a20 20 0 0 1 40 0v52z" fill="var(--lamp)"/><path d="M334 372v-52a20 20 0 0 1 40 0v52z" fill="var(--ink-2)"/><path d="M426 372v-52a20 20 0 0 1 40 0v52z" fill="var(--lamp)"/><path d="M518 372v-52a20 20 0 0 1 40 0v52z" fill="var(--lamp)"/><path d="M610 372v-52a20 20 0 0 1 40 0v52z" fill="var(--ink-2)"/><path d="M702 372v-52a20 20 0 0 1 40 0v52z" fill="var(--lamp)"/><path d="M794 372v-52a20 20 0 0 1 40 0v52z" fill="var(--ink-2)"/>
+<path d="M958 400v-58a32 32 0 0 1 64 0v58z" fill="var(--lamp)"/>
+<circle cx="990" cy="166" r="16" fill="var(--lamp)"/>
+<path d="M1190 360V215a30 30 0 0 1 60 0v145z" fill="var(--ink)"/><rect x="1196" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1238" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1212" y="262" width="16" height="3" fill="var(--ink-2)"/><path d="M1262 360V215a30 30 0 0 1 60 0v145z" fill="var(--ink)"/><rect x="1268" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1310" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1284" y="262" width="16" height="3" fill="var(--ink-2)"/><path d="M1334 360V215a30 30 0 0 1 60 0v145z" fill="var(--ink)"/><rect x="1340" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1382" y="360" width="6" height="40" fill="var(--ink)"/><rect x="1356" y="262" width="16" height="3" fill="var(--ink-2)"/>
+</svg>
+</div>
+
+<section id="programme" aria-labelledby="prog-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="prog-h" class="h-display">Programme</h2>
+      <div>
+        <p class="lede" style="margin-bottom:20px">Pick a day, then scan down. Times are the start of each concert; most run 60 to 90 minutes.</p>
+        <div class="stages">
+          <div class="stage-def"><i class="g mash"></i><b>Mash Hall</b><span>The old brewhouse, 380 seats, big sound, the copper kettles still on view.</span></div>
+          <div class="stage-def"><i class="g coop"></i><b>Cooperage</b><span>The barrel workshop, 90 seats, close to the players, smaller programmes.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="daybar">
+    <div class="wrap filters">
+      <div class="seg days-seg" id="daySeg" role="group" aria-label="Show day">
+        <button type="button" data-day="fri" aria-pressed="false">Fri 14</button>
+        <button type="button" data-day="sat" aria-pressed="false">Sat 15</button>
+        <button type="button" data-day="sun" aria-pressed="false">Sun 16</button>
+        <button type="button" data-day="all" aria-pressed="true">All days</button>
+      </div>
+      <div class="seg stage-seg" id="stageSeg" role="group" aria-label="Show stage">
+        <button type="button" data-stage="all" aria-pressed="true">Both stages</button>
+        <button type="button" data-stage="mash" aria-pressed="false"><i class="g mash"></i>Mash Hall</button>
+        <button type="button" data-stage="coop" aria-pressed="false"><i class="g coop"></i>Cooperage</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <p class="count" id="count" role="status" aria-live="polite" style="padding-top:16px"></p>
+    <div class="day" data-day="fri" id="day-fri">
+ <div class="day-head"><h3>Friday<small>14 August</small></h3>
+ <div class="strip-wrap"><div class="strip" aria-hidden="true"><span class="lane l2"><i class="coop" style="left:34.62%;width:7.69%"></i></span><span class="lane l1"><i class="mash" style="left:53.85%;width:11.54%"></i></span><span class="lane l1"><i class="mash" style="left:73.08%;width:9.62%"></i></span><span class="lane l2"><i class="coop" style="left:88.46%;width:7.69%"></i></span><span class="tick" style="left:11.54%">12:00</span><span class="tick" style="left:34.62%">15:00</span><span class="tick" style="left:57.69%">18:00</span><span class="tick" style="left:80.77%">21:00</span></div></div></div>
+ <ol class="gigs">
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="15:00">15:00</time><span class="until">to 16:00</span></div>
+ <div class="what"><h4>First Pour</h4><p class="works">String Quartet in C major, Op. 20 No. 2, Haydn</p><p class="who">Aurelia Quartet</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><span>Tier A, <b>€15</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="17:30">17:30</time><span class="until">to 19:00</span></div>
+ <div class="what"><h4>Copper and Strings</h4><p class="works">Piano Quintet in F minor, Brahms</p><p class="who">Ysaline Dumont, piano, with the Aurelia Quartet</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><span>Tier B, <b>€22</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="20:00">20:00</time><span class="until">to 21:15</span></div>
+ <div class="what"><h4>Opening Night Octet</h4><p class="works">Octet in E-flat major, Mendelssohn</p><p class="who">Eight players of the Lantern Nights Ensemble</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span>Tier C, <b>€30</b></span></div>
+</li>
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="22:00">22:00</time><span class="until">to 23:00</span></div>
+ <div class="what"><h4>Late Cellos</h4><p class="works">Suites Nos. 1, 3 and 5, Bach</p><p class="who">Tomás Ribeiro, cello</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><span>Tier A, <b>€15</b></span></div>
+</li>
+ </ol></div>
+<div class="day" data-day="sat" id="day-sat">
+ <div class="day-head"><h3>Saturday<small>15 August</small></h3>
+ <div class="strip-wrap"><div class="strip" aria-hidden="true"><span class="lane l2"><i class="coop" style="left:3.85%;width:7.69%"></i></span><span class="lane l1"><i class="mash" style="left:26.92%;width:9.62%"></i></span><span class="lane l2"><i class="coop" style="left:46.15%;width:7.69%"></i></span><span class="lane l1"><i class="mash" style="left:65.38%;width:11.54%"></i></span><span class="lane l2"><i class="coop" style="left:84.62%;width:7.69%"></i></span><span class="tick" style="left:11.54%">12:00</span><span class="tick" style="left:34.62%">15:00</span><span class="tick" style="left:57.69%">18:00</span><span class="tick" style="left:80.77%">21:00</span></div></div></div>
+ <ol class="gigs">
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="11:00">11:00</time><span class="until">to 12:00</span></div>
+ <div class="what"><h4>Morning Winds</h4><p class="works">Wind Quintet, Nielsen; Six Bagatelles, Ligeti</p><p class="who">Fjord Wind Quintet</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><span>Tier A, <b>€15</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="14:00">14:00</time><span class="until">to 15:15</span></div>
+ <div class="what"><h4>Schubert Afternoon</h4><p class="works">Piano Quintet in A major, “Trout”, Schubert</p><p class="who">Ysaline Dumont, piano, with Tarek Haddad, Elin Sørensen, Pieter Claes and Jonas Willems</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><span>Tier B, <b>€22</b></span></div>
+</li>
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="16:30">16:30</time><span class="until">to 17:30</span></div>
+ <div class="what"><h4>New Voices from Flanders</h4><p class="works">Three world premieres</p><p class="who">Collectief Ketel, with composers Fleur Anseeuw, Bram Op de Beeck and Lien Maes</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><span>Tier A, <b>€15</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="19:00">19:00</time><span class="until">to 20:30</span></div>
+ <div class="what"><h4>Dvořák at Dusk</h4><p class="works">Piano Quintet in A major, Op. 81, Dvořák</p><p class="who">Aurelia Quartet with Ysaline Dumont, piano</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span>Tier C, <b>€30</b></span></div>
+</li>
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="21:30">21:30</time><span class="until">to 22:30</span></div>
+ <div class="what"><h4>Tanks and Tangos</h4><p class="works">Piazzolla and Ginastera</p><p class="who">Duo Sotto Voce: Marta Lenoir, violin, and Ilias Georgiou, accordion</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><span>Tier B, <b>€22</b></span></div>
+</li>
+ </ol></div>
+<div class="day" data-day="sun" id="day-sun">
+ <div class="day-head"><h3>Sunday<small>16 August</small></h3>
+ <div class="strip-wrap"><div class="strip" aria-hidden="true"><span class="lane l1"><i class="mash" style="left:7.69%;width:5.77%"></i></span><span class="lane l2"><i class="coop" style="left:26.92%;width:7.69%"></i></span><span class="lane l1"><i class="mash" style="left:46.15%;width:9.62%"></i></span><span class="lane l1"><i class="mash" style="left:65.38%;width:11.54%"></i></span><span class="tick" style="left:11.54%">12:00</span><span class="tick" style="left:34.62%">15:00</span><span class="tick" style="left:57.69%">18:00</span><span class="tick" style="left:80.77%">21:00</span></div></div></div>
+ <ol class="gigs">
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="11:30">11:30</time><span class="until">to 12:15</span></div>
+ <div class="what"><h4>The Brewer’s Apprentice</h4><p class="works">A concert story for ages 6 and up</p><p class="who">Kasimir Quartet with narrator Sanne Peeters</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class=""></i><i class=""></i></span><span>Tier A, <b>€15</b></span></div>
+</li>
+<li class="gig" data-stage="coop">
+ <div class="when"><time datetime="14:00">14:00</time><span class="until">to 15:00</span></div>
+ <div class="what"><h4>Songs Without Words</h4><p class="works">Songs by Fauré and Schumann</p><p class="who">Mireille van Aken, soprano, and Pieter Claes, piano</p></div>
+ <div class="where"><i class="g coop"></i>Cooperage</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><span>Tier B, <b>€22</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="16:30">16:30</time><span class="until">to 17:45</span></div>
+ <div class="what"><h4>Shostakovich Eight</h4><p class="works">String Quartet No. 8 in C minor, Shostakovich</p><p class="who">Kasimir Quartet</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i></span><span>Tier B, <b>€22</b></span></div>
+</li>
+<li class="gig" data-stage="mash">
+ <div class="when"><time datetime="19:00">19:00</time><span class="until">to 20:30</span></div>
+ <div class="what"><h4>Closing Night Sextet</h4><p class="works">String Sextet No. 1 in B-flat major, Brahms</p><p class="who">All festival players</p></div>
+ <div class="where"><i class="g mash"></i>Mash Hall</div>
+ <div class="tier"><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span>Tier C, <b>€30</b></span></div>
+</li>
+ </ol></div>
+  </div>
+</section>
+
+<section class="tickets" id="tickets" aria-labelledby="tix-h">
+  <div class="wrap">
+    <div>
+      <h2 id="tix-h" class="h-display">Tickets</h2>
+      <p class="lede">A pass gets you into every concert it covers, on both stages. Single tickets are sold by price tier, shown on each concert above.</p>
+      <table class="tiers">
+        <caption>Single concert tickets</caption>
+        <tbody>
+          <tr><td><span class="pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span>Tier A, 5 concerts</td><td>€15</td></tr>
+          <tr><td><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>Tier B, 5 concerts</td><td>€22</td></tr>
+          <tr><td><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>Tier C, 3 concerts</td><td>€30</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <form class="order" id="order" action="https://tickets.lanternnights.example/checkout" method="get">
+      <fieldset class="order" style="border:0;padding:0;margin:0">
+        <legend class="sr">Choose a pass</legend>
+        <label class="opt"><input type="radio" name="pass" value="day" checked><b>Day pass</b><span class="d">Every concert on one day you choose.</span><span class="price">€45</span></label>
+        <label class="opt"><input type="radio" name="pass" value="festival"><b>Festival pass</b><span class="d">All 13 concerts, three days. Saves €25 against three day passes.</span><span class="price">€110</span></label>
+      </fieldset>
+      <div class="ctl">
+        <label id="dayWrap">Day<select name="day" id="daySel"><option value="fri">Friday 14 August</option><option value="sat">Saturday 15 August</option><option value="sun">Sunday 16 August</option></select></label>
+        <div class="lab">Number of passes
+          <div class="qty"><button type="button" id="minus" aria-label="One pass fewer">−</button><output id="qty" aria-live="polite">1</output><button type="button" id="plus" aria-label="One pass more">+</button></div>
+          <input type="hidden" name="qty" id="qtyField" value="1">
+        </div>
+      </div>
+      <div class="total"><span>Total</span><span class="sum" id="sum">€45</span></div>
+      <button class="btn buy" id="buy" type="submit">Buy 1 day pass, Friday</button>
+      <div class="door">
+        <b>Under-26</b><span>Show ID at the door. Any concert with space left.</span>
+        <span class="price">€20</span>
+      </div>
+      <p class="fine">Under-26 tickets are sold only at the door, from one hour before each day opens. Service fee of €2 per order is added at checkout.</p>
+    </form>
+  </div>
+</section>
+
+<section id="visit" aria-labelledby="visit-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="visit-h" class="h-display">Getting there</h2>
+      <p class="lede">The brewery sits on the old Sluizeken dock, 2 km from the centre of Ghent. Walk the last two minutes along the water.</p>
+    </div>
+    <div class="visit-grid">
+      <svg class="route" viewBox="0 0 400 470" role="img" aria-labelledby="rt">
+<title id="rt">Route diagram: P+R Gentbrugge, Gent-Sint-Pieters station and Brouwerijstraat bus stop on bus line 3, then 2 minutes on foot to the brewery. A dashed bike route runs from the station to the brewery along the canal.</title>
+<path d="M60 40V300" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round"/>
+<path d="M60 300V404" fill="none" stroke="var(--text)" stroke-width="4" stroke-dasharray="1 9" stroke-linecap="round"/>
+<path d="M52 158C6 200 6 360 46 396" fill="none" stroke="var(--text)" stroke-width="4" stroke-dasharray="14 8"/>
+<g fill="var(--bg)" stroke="var(--text)" stroke-width="4"><circle cx="60" cy="40" r="11"/><circle cx="60" cy="150" r="11"/><circle cx="60" cy="300" r="11"/></g>
+<rect x="44" y="388" width="32" height="32" fill="var(--text)"/>
+<rect x="53" y="399" width="14" height="21" fill="var(--bg)"/>
+<text class="st" x="92" y="36">P+R Gentbrugge</text><text class="sub" x="92" y="56">Park for €4 a day</text>
+<text class="sub" x="86" y="98">Bus 3, 18 min</text>
+<text class="st" x="92" y="146">Gent-Sint-Pieters</text><text class="sub" x="92" y="166">Trains from Brussels 35 min, Antwerp 50 min</text>
+<text class="sub" x="86" y="238">Bus 3, 12 min</text>
+<text class="st" x="92" y="296">Brouwerijstraat</text><text class="sub" x="92" y="316">Bus stop, then 2 min on foot</text>
+<text class="st" x="92" y="408">The brewery</text><text class="sub" x="92" y="428">Kaaistraat 12, bikes at the gate</text>
+<text class="sub" x="92" y="352">Dashed line: by bike, 15 min</text><text class="sub" x="92" y="370">along the canal path</text>
+</svg>
+      <div class="how">
+        <div>
+          <h3>By train</h3>
+          <p>Get off at Gent-Sint-Pieters. Trains run from Brussels in 35 minutes and from Antwerp in 50. Outside the station, take bus 3 to Brouwerijstraat (12 minutes, every 10 minutes until 01:00 during the festival). The brewery gate is 2 minutes on foot.</p>
+        </div>
+        <div>
+          <h3>By bike</h3>
+          <p>From the station, follow the canal path north for 4 km (15 minutes). We run a staffed bike park for 400 bikes at the Kaaistraat gate, free for ticket holders. Blue-bike shared bikes are available at the station.</p>
+        </div>
+        <div>
+          <h3>By car</h3>
+          <p>The brewery has no public parking. Leave your car at P+R Gentbrugge (€4 a day) and take bus 3 for 18 minutes. Two accessible bays are held at the gate: reserve one at least 3 days ahead through tickets@lanternnights.example.</p>
+        </div>
+        <p class="addr">Former Brouwerij Sluizeken<br>Kaaistraat 12, 9000 Ghent</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="access" id="access" aria-labelledby="acc-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="acc-h" class="h-display">Accessibility</h2>
+      <p class="lede">We want every seat to be easy to reach. If something below does not meet your needs, write to us and we will find a way.</p>
+    </div>
+    <div class="tbl-scroll" tabindex="0" role="region" aria-label="Accessibility by stage, scrolls sideways on small screens">
+      <table class="acc">
+        <thead><tr><th scope="col">What</th><th scope="col"><i class="g mash"></i> Mash Hall</th><th scope="col"><i class="g coop"></i> Cooperage</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Entrance</th><td>Step-free from the courtyard through a 1.6 m wide door.</td><td>Ramp (1:12) at the side door. A steward opens it for you.</td></tr>
+          <tr><th scope="row">Wheelchair spaces</th><td>8 spaces on the flat floor, each with a companion seat.</td><td>3 spaces at the front, each with a companion seat.</td></tr>
+          <tr><th scope="row">Hearing</th><td>Fixed hearing loop. Ask a steward for a receiver.</td><td>Portable loop on request at the door.</td></tr>
+          <tr><th scope="row">Seating</th><td>Raked seats with armrests. Aisle seats can be held for you.</td><td>Benches and 20 chairs with armrests and backs.</td></tr>
+          <tr><th scope="row">Toilets</th><td>Accessible toilet on the ground floor, next to the foyer.</td><td>Use the accessible toilet in the foyer, 30 m away on a flat path.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="access-extra">
+      <div><h3>Free companion ticket</h3><p>If you need support to attend, your companion enters free. Write to us before you book.</p></div>
+      <div><h3>Quiet room</h3><p>The Hop Room is open all day on the ground floor, away from the music, with soft light and seats.</p></div>
+      <div><h3>Assistance dogs and print</h3><p>Assistance dogs are welcome in both halls. Large-print programmes are at the foyer desk.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <div>
+      <h2 id="faq-h" class="h-display" style="font-size:clamp(3.6rem,11vw,8rem)">Questions</h2>
+      <p class="lede" style="margin-top:20px">Something else? Write to <a href="mailto:hello@lanternnights.example">hello@lanternnights.example</a>. We answer within two working days.</p>
+    </div>
+    <div>
+      <details open><summary>Is there a dress code?</summary><p>No. Sneakers, work boots and linen are all fine. The brewery floor is concrete and cools down in the evening, so bring a jumper.</p></details>
+      <details><summary>Can I eat and drink during the festival?</summary><p>Yes. The brewery bar pours beer from the tanks next door and serves hot food between concerts. Drinks stay in the foyer and courtyard. You can bring water into both halls.</p></details>
+      <details><summary>Can I change or refund my ticket?</summary><p>You can move a pass to another name for free until 7 August 2027. You can get a refund until 15 July 2027. We keep the €2 service fee.</p></details>
+      <details><summary>How do Under-26 tickets work?</summary><p>You pay €20 at the door and show an ID with your date of birth. Doors open one hour before the first concert each day. The halls can sell out on Saturday, so come early for the evening concerts.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="big">See you in<br>the brewery</p>
+    <div>
+      <h3>Lantern Nights vzw</h3>
+      <ul>
+        <li>Kaaistraat 12, 9000 Ghent</li>
+        <li><a href="mailto:tickets@lanternnights.example">tickets@lanternnights.example</a></li>
+        <li><a href="#privacy">Privacy policy</a></li>
+        <li><a href="#terms">Terms of sale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Page theme</h3>
+      <div class="themes" id="themes" role="group" aria-label="Page theme">
+        <button type="button" data-t="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-t="light" aria-pressed="false">Light</button>
+        <button type="button" data-t="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><p class="legal">Programme subject to change. 14 to 16 August 2027.</p></div>
+</footer>
+
+<div class="buybar" id="buybar">
+  <p><b>From €20</b>Day pass €45, Festival pass €110</p>
+  <a class="btn" href="#tickets">Buy tickets</a>
+</div>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* Programme filters */
+  var state = { day: 'all', stage: 'all' };
+  function apply() {
+    var shown = 0;
+    $$('.day').forEach(function (d) {
+      var dayOk = state.day === 'all' || d.dataset.day === state.day;
+      var n = 0;
+      $$('.gig', d).forEach(function (g) {
+        var ok = state.stage === 'all' || g.dataset.stage === state.stage;
+        g.hidden = !ok; if (ok) n++;
+      });
+      d.hidden = !dayOk || n === 0;
+      if (dayOk) shown += n;
+    });
+    $$('#daySeg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.day === state.day)); });
+    $$('#stageSeg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.stage === state.stage)); });
+    $('#count').textContent = shown ? 'Showing ' + shown + (shown === 1 ? ' concert' : ' concerts') + '.' : 'No concerts match. Choose another stage or day.';
+  }
+  $('#daySeg').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { state.day = b.dataset.day; apply(); } });
+  $('#stageSeg').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { state.stage = b.dataset.stage; apply(); } });
+  $$('[data-jump]').forEach(function (a) { a.addEventListener('click', function () { state.day = a.dataset.jump; apply(); }); });
+  apply();
+
+  /* Order form */
+  var names = { fri: 'Friday', sat: 'Saturday', sun: 'Sunday' };
+  var qty = 1;
+  function order() {
+    var pass = $('input[name=pass]:checked').value;
+    var unit = pass === 'day' ? 45 : 110;
+    $('#dayWrap').style.display = pass === 'day' ? '' : 'none';
+    $('#qty').textContent = qty; $('#qtyField').value = qty;
+    $('#sum').textContent = '€' + (unit * qty);
+    $('#buy').textContent = 'Buy ' + qty + (pass === 'day' ? ' day pass' + (qty > 1 ? 'es, ' + names[$('#daySel').value] : ', ' + names[$('#daySel').value]) : ' festival pass' + (qty > 1 ? 'es' : ''));
+  }
+  $('#minus').addEventListener('click', function () { qty = Math.max(1, qty - 1); order(); });
+  $('#plus').addEventListener('click', function () { qty = Math.min(10, qty + 1); order(); });
+  $('#order').addEventListener('change', order);
+  order();
+
+  /* Theme override */
+  var root = document.documentElement;
+  $('#themes').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.t === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', b.dataset.t);
+    $$('#themes button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+  });
+
+  /* Hide the mobile buy bar while the ticket form is on screen */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { $('#buybar').classList.toggle('off', en[0].isIntersecting); }, { threshold: 0.15 }).observe($('#tickets'));
+  }
+})();
+</script>
+</body>
+</html>

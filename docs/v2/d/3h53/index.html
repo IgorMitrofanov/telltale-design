@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morning stock, St. Elisabeth Pharmacy</title>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1F5FAD">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+/* ===== TOKENS. Change --brand only; every other colour derives from it. ===== */
+:root{
+  --brand:#1F5FAD;
+
+  color-scheme:light;
+  --accent:oklch(from var(--brand) clamp(0.40,l,0.52) min(c,0.19) h);
+  --accent-hover:oklch(from var(--accent) calc(l - 0.07) c h);
+  --on-accent:#fff;
+  --bg:oklch(from var(--brand) 0.985 min(c,0.008) h);
+  --tint:oklch(from var(--brand) 0.95 min(c,0.035) h);
+  --tint-line:oklch(from var(--brand) 0.87 min(c,0.05) h);
+  --ink:oklch(from var(--brand) 0.22 min(c,0.03) h);
+  --muted:oklch(from var(--brand) 0.46 min(c,0.03) h);
+  --line:oklch(from var(--brand) 0.88 min(c,0.02) h);
+  --field:oklch(from var(--brand) 0.25 min(c,0.07) h);
+  --on-field:oklch(from var(--brand) 0.97 min(c,0.012) h);
+  --on-field-muted:oklch(from var(--brand) 0.80 min(c,0.03) h);
+  --field-line:oklch(from var(--brand) 0.38 min(c,0.06) h);
+  --bad:oklch(0.50 0.17 27);
+  --bad-on-field:oklch(0.80 0.13 25);
+  --warn:oklch(0.50 0.11 65);
+  --good:oklch(0.48 0.10 150);
+  --track:oklch(from var(--brand) 0.92 min(c,0.02) h);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --accent:oklch(from var(--brand) clamp(0.72,l,0.84) min(c,0.16) h);
+    --accent-hover:oklch(from var(--accent) calc(l + 0.06) c h);
+    --on-accent:oklch(from var(--brand) 0.2 min(c,0.04) h);
+    --bg:oklch(from var(--brand) 0.19 min(c,0.02) h);
+    --tint:oklch(from var(--brand) 0.25 min(c,0.05) h);
+    --tint-line:oklch(from var(--brand) 0.34 min(c,0.06) h);
+    --ink:oklch(from var(--brand) 0.95 min(c,0.012) h);
+    --muted:oklch(from var(--brand) 0.74 min(c,0.03) h);
+    --line:oklch(from var(--brand) 0.30 min(c,0.03) h);
+    --field:oklch(from var(--brand) 0.26 min(c,0.07) h);
+    --field-line:oklch(from var(--brand) 0.38 min(c,0.06) h);
+    --bad:oklch(0.76 0.15 25);
+    --warn:oklch(0.80 0.12 80);
+    --good:oklch(0.78 0.12 155);
+    --track:oklch(from var(--brand) 0.28 min(c,0.03) h);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --accent:oklch(from var(--brand) clamp(0.72,l,0.84) min(c,0.16) h);
+  --accent-hover:oklch(from var(--accent) calc(l + 0.06) c h);
+  --on-accent:oklch(from var(--brand) 0.2 min(c,0.04) h);
+  --bg:oklch(from var(--brand) 0.19 min(c,0.02) h);
+  --tint:oklch(from var(--brand) 0.25 min(c,0.05) h);
+  --tint-line:oklch(from var(--brand) 0.34 min(c,0.06) h);
+  --ink:oklch(from var(--brand) 0.95 min(c,0.012) h);
+  --muted:oklch(from var(--brand) 0.74 min(c,0.03) h);
+  --line:oklch(from var(--brand) 0.30 min(c,0.03) h);
+  --field:oklch(from var(--brand) 0.26 min(c,0.07) h);
+  --field-line:oklch(from var(--brand) 0.38 min(c,0.06) h);
+  --bad:oklch(0.76 0.15 25);
+  --warn:oklch(0.80 0.12 80);
+  --good:oklch(0.78 0.12 155);
+  --track:oklch(from var(--brand) 0.28 min(c,0.03) h);
+}
+
+/* ===== BASE ===== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:400 15px/1.45 "IBM Plex Sans",system-ui,sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+.serif{font-family:"Newsreader",Georgia,serif}
+a{color:var(--accent);text-underline-offset:3px}
+a:hover{color:var(--accent-hover)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.field :focus-visible{outline-color:var(--on-field)}
+::selection{background:var(--accent);color:var(--on-accent)}
+ul{list-style:none;margin:0;padding:0}
+h1,h2,p{margin:0}
+.wrap{max-width:1400px;margin:0 auto;padding:0 40px}
+
+/* ===== MASTHEAD + LEAD (dark field) ===== */
+.field{background:var(--field);color:var(--on-field)}
+.mast{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--field-line)}
+.mast .name{font-weight:600;font-size:15px;line-height:1.2}
+.mast .name span{display:block;font-weight:400;color:var(--on-field-muted);font-size:13px}
+.mast .when{margin-left:auto;text-align:right;color:var(--on-field-muted);font-size:13px;line-height:1.35}
+.mast .when b{color:var(--on-field);font-weight:500}
+.mark{flex:none}
+.btn{
+  font:inherit;font-size:13px;color:inherit;background:transparent;border:1px solid var(--field-line);
+  border-radius:4px;padding:6px 10px;min-height:32px;cursor:pointer
+}
+.btn:hover{border-color:var(--on-field-muted)}
+
+.lead{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:64px;padding:56px 0 44px;align-items:start}
+.lead h1{
+  font-family:"Newsreader",Georgia,serif;font-weight:500;
+  font-size:clamp(34px,4.4vw,62px);line-height:1.04;letter-spacing:-0.012em;text-wrap:balance;
+}
+.lead h1 em{font-style:italic;font-weight:400;color:var(--bad-on-field)}
+.lead .sub{margin-top:20px;font-size:17px;line-height:1.5;color:var(--on-field-muted);max-width:52ch}
+.lead .sub b{color:var(--on-field);font-weight:500}
+.todo-h{font-size:13px;color:var(--on-field-muted);margin-bottom:10px;font-weight:500}
+.todo li{display:grid;grid-template-columns:44px 1fr;gap:4px 12px;padding:14px 0;border-top:1px solid var(--field-line)}
+.todo li:last-child{border-bottom:1px solid var(--field-line)}
+.todo .n{font-family:"Newsreader",serif;font-size:34px;line-height:1;color:var(--on-field-muted);font-weight:400}
+.todo strong{font-weight:500;display:block;font-size:16px}
+.todo p{color:var(--on-field-muted);font-size:14px;margin-top:2px}
+.todo time{font-variant-numeric:tabular-nums;color:var(--on-field);font-weight:500}
+
+.jump{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--field-line)}
+.jump a{
+  display:flex;align-items:baseline;gap:10px;padding:16px 28px 16px 0;margin-right:28px;
+  color:var(--on-field);text-decoration:none;font-size:15px;min-height:44px
+}
+.jump a b{font-family:"Newsreader",serif;font-weight:500;font-size:30px;line-height:1}
+.jump a small{color:var(--on-field-muted);font-size:13px}
+.jump a:hover span{text-decoration:underline;text-underline-offset:4px}
+
+/* ===== SECTIONS ===== */
+.cols{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0 64px;padding:56px 0 24px;align-items:start}
+.col{display:flex;flex-direction:column;gap:64px;min-width:0}
+section{min-width:0;scroll-margin-top:16px}
+.sh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.sh h2{font-family:"Newsreader",serif;font-weight:500;font-size:28px;line-height:1.1}
+.sh .ct{font-family:"Newsreader",serif;font-size:28px;color:var(--accent);line-height:1.1}
+.sh p{flex-basis:100%;color:var(--muted);font-size:14px;margin-top:2px}
+.colhead{display:grid;gap:14px;padding:10px 0;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);align-items:end}
+.num{text-align:right}
+.lbl{display:none}
+.chip{
+  display:inline-block;font-size:12.5px;font-weight:600;line-height:1;padding:5px 8px;border-radius:3px;
+  border:1px solid currentColor;white-space:nowrap;color:var(--muted)
+}
+.chip.bad{color:var(--bad)} .chip.warn{color:var(--warn)}
+.chip.solid{background:var(--bad);border-color:var(--bad);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip.solid{color:oklch(0.2 0.03 25)}}
+:root[data-theme="dark"] .chip.solid{color:oklch(0.2 0.03 25)}
+.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:1px 5px;margin-left:6px;white-space:nowrap;font-weight:500}
+
+/* Low stock */
+.low .colhead,.low li{grid-template-columns:84px minmax(0,1fr) 120px 52px 52px 60px 92px}
+.low li{display:grid;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.days{display:flex;flex-direction:column;line-height:1}
+.days b{font-family:"Newsreader",serif;font-weight:500;font-size:46px;letter-spacing:-0.02em;margin-left:-2px}
+.days small{font-size:12px;color:var(--muted);margin-top:2px}
+.days.bad b{color:var(--bad)} .days.warn b{color:var(--warn)}
+.item strong{font-weight:600;display:block}
+.item span{color:var(--muted);font-size:13.5px}
+.gauge{position:relative;height:8px;background:var(--track);border-radius:2px}
+.gauge i{position:absolute;left:0;top:0;bottom:0;border-radius:2px 0 0 2px;background:var(--muted)}
+.gauge.bad i{background:var(--bad)} .gauge.warn i{background:var(--warn)}
+.gauge::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.low .st{text-align:right}
+
+/* Expiring */
+.exp .colhead,.exp li{grid-template-columns:96px minmax(0,1fr) 86px 150px}
+.exp li{display:grid;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.stamp{border:1px solid var(--ink);border-radius:3px;padding:6px 8px;line-height:1.1;display:inline-block;width:100%}
+.stamp small{display:block;font-size:11px;color:var(--muted);letter-spacing:.04em}
+.stamp b{font-family:"Newsreader",serif;font-size:21px;font-weight:500;display:block;white-space:nowrap}
+.stamp em{font-style:normal;font-size:12px;font-weight:600;color:var(--muted)}
+.stamp.bad{border-color:var(--bad)} .stamp.bad em,.stamp.bad b{color:var(--bad)}
+.stamp.warn{border-color:var(--warn)} .stamp.warn em,.stamp.warn b{color:var(--warn)}
+.lot{font-size:13px;color:var(--muted)}
+
+/* Orders */
+.ord li{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+.ord .t{font-family:"Newsreader",serif;font-size:26px;line-height:1;font-weight:500;padding-top:1px}
+.ord .w{font-weight:600}
+.ord .it{color:var(--muted);font-size:13.5px;margin-top:1px}
+.ord .r{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.pick{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;min-height:24px}
+.pick input{appearance:none;width:18px;height:18px;margin:0;border:1.5px solid var(--muted);border-radius:3px;display:grid;place-content:center;cursor:pointer;background:transparent}
+.pick input:checked{background:var(--accent);border-color:var(--accent)}
+.pick input:checked::after{content:"";width:9px;height:5px;border-left:2px solid var(--on-accent);border-bottom:2px solid var(--on-accent);transform:rotate(-45deg) translate(1px,-1px)}
+.ord li.done .w,.ord li.done .it,.ord li.done .t{opacity:.55;text-decoration:line-through;text-decoration-thickness:1px}
+.ord li.done .r .chip{opacity:.6}
+
+/* Deliveries (tinted field) */
+.dlv{background:var(--tint);border:1px solid var(--tint-line);border-radius:4px;padding:22px 24px 6px;margin-top:0}
+.dlv .sh{border-bottom-color:var(--accent)}
+.dlv li{display:grid;grid-template-columns:78px minmax(0,1fr);gap:2px 14px;padding:16px 0;border-bottom:1px solid var(--tint-line)}
+.dlv li:last-child{border-bottom:0}
+.dlv .t{font-family:"Newsreader",serif;font-size:32px;line-height:1;font-weight:500;color:var(--accent)}
+.dlv .win{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.dlv strong{font-weight:600}
+.dlv .it{font-size:14px}
+.dlv .cov{font-size:13px;color:var(--muted);margin-top:4px}
+.dlv .cov b{color:var(--ink);font-weight:500}
+
+footer{border-top:1px solid var(--line);margin-top:48px;padding:20px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.brandpick{display:flex;align-items:center;gap:10px}
+.brandpick input[type=color]{width:36px;height:28px;padding:0;border:1px solid var(--muted);background:transparent;border-radius:3px;cursor:pointer}
+.brandpick input[type=text]{font:inherit;width:92px;padding:5px 8px;border:1px solid var(--muted);border-radius:3px;background:transparent;color:var(--ink);min-height:32px}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:1100px){
+  .lead{grid-template-columns:1fr;gap:36px;padding-top:40px}
+  .cols{display:flex;flex-direction:column;gap:56px;padding-top:40px}
+  .col{display:contents}
+  #low{order:1}#orders{order:2}#deliveries{order:3}#expiring{order:4}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .mast{flex-wrap:wrap;gap:10px 12px;padding:14px 0}
+  .mast .when{margin-left:0;flex-basis:100%;text-align:left;order:3;font-size:12.5px}
+  .mast .btn{margin-left:auto}
+  .lead{padding:28px 0 28px;gap:28px}
+  .lead .sub{font-size:16px}
+  .jump{display:grid;grid-template-columns:1fr 1fr}
+  .jump a{margin-right:0;padding:12px 8px 12px 0}
+  .jump a b{font-size:28px}
+  .sh h2,.sh .ct{font-size:24px}
+
+  .colhead{display:none}
+  .lbl{display:inline;color:var(--muted);font-size:12px;margin-left:4px;font-weight:400}
+  .low li{grid-template-columns:62px minmax(0,1fr) auto;grid-template-areas:"d i s" "d g g" "d n n";gap:6px 12px;align-items:start}
+  .low .days{grid-area:d}.low .item{grid-area:i}.low .st{grid-area:s}
+  .low .gauge{grid-area:g;margin:6px 0 4px}
+  .low .nums{grid-area:n;display:flex;gap:18px;font-size:14px}
+  .low li > .num{display:none}
+  .days b{font-size:40px}
+  .exp li{grid-template-columns:92px minmax(0,1fr);grid-template-areas:"s i" "s w";gap:2px 14px;align-items:start}
+  .exp .stamp{grid-area:s;width:auto}.exp .item{grid-area:i}.exp .wardq{grid-area:w;font-size:13.5px}
+  .exp li > .num{display:none}
+  .dlv{padding:18px 16px 4px}
+  .dlv li{grid-template-columns:70px minmax(0,1fr)}
+  .dlv .t{font-size:28px}
+  .pick{min-height:44px}
+}
+@media (min-width:641px){
+  .nums{display:contents}
+  .wardq .q{display:none}
+}
+@media (max-width:640px){ .wardq .q{display:inline} .wardq .wd{display:block} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.btn,.brandpick{display:none}}
+</style>
+</head>
+<body>
+
+<header class="field">
+  <div class="wrap">
+    <div class="mast">
+      <svg class="mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <g transform="rotate(-35 17 17)">
+          <path d="M9 9h8v16H9a8 8 0 0 1 0-16z" transform="translate(-1 0)" fill="var(--on-field)"/>
+          <path d="M17 9h8a8 8 0 0 1 0 16h-8z" transform="translate(1 0)" fill="none" stroke="var(--on-field)" stroke-width="1.6"/>
+        </g>
+      </svg>
+      <div class="name">St. Elisabeth Hospital<span>Pharmacy, 300 beds</span></div>
+      <div class="when"><b>Thursday 29 October 2026, 07:02</b><br>Stock counted at 06:45</div>
+      <button class="btn" id="themeBtn" type="button" aria-label="Change colour theme">Theme: Auto</button>
+    </div>
+
+    <div class="lead">
+      <div>
+        <h1>Noradrenaline lasts <em>20 hours.</em> ICU wants 30 ampoules by 07:30.</h1>
+        <p class="sub">Send <b>30</b> now. <b>8</b> remain until Nordmed Wholesale delivers 200 at 08:15. Nine more items are below minimum, and 3 orders are urgent.</p>
+      </div>
+      <div>
+        <p class="todo-h">Do these first</p>
+        <ol class="todo" style="margin:0;padding:0;list-style:none">
+          <li><span class="n">1</span><div><strong><time>07:30</time> ICU: send 30 noradrenaline</strong><p>Stock 38 ampoules, minimum 120.</p></div></li>
+          <li><span class="n">2</span><div><strong><time>08:00</time> Theatre 2: send 10 heparin vials</strong><p>Stock 52 vials lasts 1.7 days. Delivery at 08:15 brings 100.</p></div></li>
+          <li><span class="n">3</span><div><strong>Offer rocuronium lot RX4471 to Theatre 2 first</strong><p>18 vials expire 02 Nov, in 4 days. Keep at 2 to 8 °C.</p></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <nav class="jump" aria-label="Sections">
+      <a href="#low"><b id="nLow">10</b><span>below minimum</span></a>
+      <a href="#expiring"><b id="nExp">7</b><span>expire within 30 days</span></a>
+      <a href="#orders"><b id="nOrd">8</b><span>open orders<small id="nUrg"></small></span></a>
+      <a href="#deliveries"><b id="nDel">3</b><span>deliveries today</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="cols">
+    <div class="col">
+      <section id="low" class="low" aria-labelledby="hLow">
+        <div class="sh"><h2 id="hLow">Below minimum stock</h2><span class="ct" id="cLow"></span>
+          <p>Fewest days left first. The black tick on each bar is the minimum.</p></div>
+        <div class="colhead" aria-hidden="true"><span>Days left</span><span>Item</span><span>Stock</span><span class="num">Now</span><span class="num">Min</span><span class="num">Use/day</span><span class="num">Status</span></div>
+        <ul id="lowList"></ul>
+      </section>
+
+      <section id="expiring" class="exp" aria-labelledby="hExp">
+        <div class="sh"><h2 id="hExp">Expiring within 30 days</h2><span class="ct" id="cExp"></span>
+          <p>Soonest expiry first. Use or return before the date shown.</p></div>
+        <div class="colhead" aria-hidden="true"><span>Expires</span><span>Item and batch</span><span class="num">Quantity</span><span>Ward</span></div>
+        <ul id="expList"></ul>
+      </section>
+    </div>
+
+    <div class="col">
+      <section id="orders" class="ord" aria-labelledby="hOrd">
+        <div class="sh"><h2 id="hOrd">Open ward orders</h2><span class="ct" id="cOrd"></span>
+          <p>Urgent first, then by requested time. Tick an order when it is picked.</p></div>
+        <ul id="ordList"></ul>
+      </section>
+
+      <section id="deliveries" class="dlv" aria-labelledby="hDel">
+        <div class="sh"><h2 id="hDel">Deliveries expected today</h2><span class="ct" id="cDel"></span></div>
+        <ul id="delList"></ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sample data for design review. Daily use is the 14-day average.</span>
+    <label class="brandpick">Brand colour
+      <input type="color" id="brandColor" value="#1f5fad" aria-label="Brand colour picker">
+      <input type="text" id="brandHex" value="#1F5FAD" maxlength="7" aria-label="Brand colour hex value" spellcheck="false">
+    </label>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var TODAY = new Date(2026,9,29);
+  var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var low = [
+    {n:"Noradrenaline 4 mg/4 mL",u:"ampoule",cur:38,min:120,use:46},
+    {n:"Heparin sodium 5,000 IU/mL",u:"5 mL vial",cur:52,min:150,use:31},
+    {n:"Salbutamol 2.5 mg/2.5 mL",u:"nebule",cur:140,min:400,use:72},
+    {n:"Ceftriaxone 1 g",u:"IV vial",cur:210,min:500,use:95},
+    {n:"Sodium chloride 0.9%",u:"500 mL bag",cur:460,min:1200,use:180},
+    {n:"Insulin glargine 100 U/mL",u:"pen",cur:24,min:60,use:8,tag:"2–8 °C"},
+    {n:"Morphine sulfate 10 mg/mL",u:"ampoule",cur:40,min:100,use:11,tag:"CD"},
+    {n:"Enoxaparin 40 mg",u:"prefilled syringe",cur:96,min:200,use:22},
+    {n:"Paracetamol 1 g/100 mL",u:"IV bag",cur:130,min:300,use:28},
+    {n:"Furosemide 20 mg/2 mL",u:"ampoule",cur:85,min:150,use:14}
+  ];
+  var exp = [
+    {n:"Rocuronium 50 mg/5 mL",lot:"RX4471",d:[2026,10,2],q:18,u:"vials",ward:"Theatre 2",tag:"2–8 °C"},
+    {n:"Amoxicillin-clavulanate 1.2 g",lot:"AC2208",d:[2026,10,6],q:40,u:"vials",ward:"Medical 4B"},
+    {n:"Dexamethasone 4 mg/mL",lot:"DX9034",d:[2026,10,11],q:60,u:"ampoules",ward:"A&E"},
+    {n:"Insulin aspart 100 U/mL",lot:"IA1187",d:[2026,10,14],q:12,u:"pens",ward:"Diabetes 6A",tag:"2–8 °C"},
+    {n:"Midazolam 5 mg/mL",lot:"MZ3320",d:[2026,10,19],q:25,u:"ampoules",ward:"ICU",tag:"CD"},
+    {n:"Vancomycin 500 mg",lot:"VN7752",d:[2026,10,24],q:30,u:"vials",ward:"Oncology 5C"},
+    {n:"Ondansetron 4 mg/2 mL",lot:"OD6619",d:[2026,10,27],q:48,u:"ampoules",ward:"Paediatrics 3A"}
+  ];
+  var ord = [
+    {w:"ICU",it:"Noradrenaline 4 mg ×30, midazolam 5 mg/mL ×10",p:"urgent",t:"07:30"},
+    {w:"A&E",it:"Salbutamol nebules ×60, ceftriaxone 1 g ×30",p:"urgent",t:"07:45"},
+    {w:"Theatre 2",it:"Heparin 5,000 IU ×10, sodium chloride 0.9% ×40",p:"urgent",t:"08:00"},
+    {w:"Oncology 5C",it:"Ondansetron 4 mg ×20, dexamethasone 4 mg ×15",p:"normal",t:"09:00"},
+    {w:"Paediatrics 3A",it:"Paracetamol 1 g/100 mL ×24",p:"normal",t:"09:30"},
+    {w:"Cardiology 4A",it:"Enoxaparin 40 mg ×30, furosemide 20 mg ×20",p:"normal",t:"10:00"},
+    {w:"Diabetes 6A",it:"Insulin glargine pens ×6",p:"normal",t:"10:30"},
+    {w:"Maternity 2B",it:"Oxytocin 10 IU/mL ×20",p:"normal",t:"11:00"}
+  ];
+  var del = [
+    {s:"Nordmed Wholesale",t:"08:15",win:"08:15 to 08:45",it:"Noradrenaline 4 mg ×200, heparin 5,000 IU ×100",dock:"Dock 2",cov:["Noradrenaline","Heparin"]},
+    {s:"ColdLine Biologics",t:"10:30",win:"10:30 to 11:00",it:"Insulin glargine pens ×48",dock:"Cold room",cold:true,cov:["Insulin glargine"]},
+    {s:"Alder & Finch Pharma",t:"14:00",win:"14:00 to 15:00",it:"Sodium chloride 0.9% 500 mL ×1,200, ceftriaxone 1 g ×300",dock:"Dock 1",cov:["Sodium chloride","Ceftriaxone"]}
+  ];
+
+  function el(h){var d=document.createElement("div");d.innerHTML=h;return d.firstElementChild}
+  function fmt(n){return n.toLocaleString("en-GB")}
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+  function tag(x){return x?'<span class="tag">'+x+'</span>':''}
+
+  /* low stock */
+  low.forEach(function(r){r.days=r.cur/r.use});
+  low.sort(function(a,b){return a.days-b.days});
+  var lowEl=document.getElementById("lowList");
+  low.forEach(function(r){
+    var cls=r.days<2?"bad":(r.days<4?"warn":"");
+    var word=r.days<1?"Out today":(r.days<2?"Critical":(r.days<4?"Low":"Reorder"));
+    var pct=Math.min(r.cur/(r.min*2),1)*100;
+    lowEl.appendChild(el(
+      '<li><div class="days '+cls+'"><b>'+r.days.toFixed(1)+'</b><small>days left</small></div>'+
+      '<div class="item"><strong>'+esc(r.n)+tag(r.tag)+'</strong><span>'+r.u+'</span></div>'+
+      '<div class="gauge '+cls+'" aria-hidden="true"><i style="width:'+pct.toFixed(1)+'%"></i></div>'+
+      '<div class="nums"><span class="num"><span class="lbl">Now</span>'+fmt(r.cur)+'</span>'+
+      '<span class="num"><span class="lbl">Min</span>'+fmt(r.min)+'</span>'+
+      '<span class="num"><span class="lbl">Use/day</span>'+fmt(r.use)+'</span></div>'+
+      '<div class="st"><span class="chip '+cls+'">'+word+'</span></div></li>'));
+  });
+
+  /* expiring */
+  var expEl=document.getElementById("expList");
+  exp.forEach(function(r){r.date=new Date(r.d[0],r.d[1],r.d[2]);r.left=Math.round((r.date-TODAY)/864e5)});
+  exp.sort(function(a,b){return a.left-b.left});
+  exp.forEach(function(r){
+    var cls=r.left<=7?"bad":(r.left<=14?"warn":"");
+    var dd=("0"+r.d[2]).slice(-2)+" "+MON[r.d[1]];
+    expEl.appendChild(el(
+      '<li><div class="stamp '+cls+'"><small>EXP</small><b>'+dd+'</b><em>in '+r.left+' days</em></div>'+
+      '<div class="item"><strong>'+esc(r.n)+tag(r.tag)+'</strong><span class="lot">Lot '+r.lot+'</span></div>'+
+      '<div class="num">'+r.q+' <span style="color:var(--muted);font-size:13px">'+r.u+'</span></div>'+
+      '<div class="wardq"><span class="wd">'+esc(r.ward)+'</span><span class="q"> '+r.q+' '+r.u+'</span></div></li>'));
+  });
+  /* on wide screens the quantity column is separate; hide duplicated mobile ward line via CSS */
+
+  /* orders */
+  var saved={};try{saved=JSON.parse(localStorage.getItem("picked")||"{}")}catch(e){}
+  ord.sort(function(a,b){return (a.p==="urgent"?0:1)-(b.p==="urgent"?0:1)||a.t.localeCompare(b.t)});
+  var ordEl=document.getElementById("ordList");
+  ord.forEach(function(r,i){
+    var li=el('<li><div class="t">'+r.t+'</div><div><div class="w">'+esc(r.w)+'</div><div class="it">'+esc(r.it)+'</div></div>'+
+      '<div class="r"><span class="chip '+(r.p==="urgent"?"solid":"")+'">'+(r.p==="urgent"?"Urgent":"Normal")+'</span>'+
+      '<label class="pick"><input type="checkbox"> Picked</label></div></li>');
+    var cb=li.querySelector("input");
+    cb.setAttribute("aria-label","Picked: "+r.w+" order for "+r.t);
+    if(saved[r.w]){cb.checked=true;li.classList.add("done")}
+    cb.addEventListener("change",function(){
+      li.classList.toggle("done",cb.checked);saved[r.w]=cb.checked;
+      try{localStorage.setItem("picked",JSON.stringify(saved))}catch(e){}
+    });
+    ordEl.appendChild(li);
+  });
+
+  /* deliveries */
+  var delEl=document.getElementById("delList");
+  del.forEach(function(r){
+    delEl.appendChild(el(
+      '<li><div><div class="t">'+r.t+'</div><span class="win">'+r.win+'</span></div>'+
+      '<div><strong>'+esc(r.s)+'</strong>'+tag(r.cold?"2–8 °C":"")+'<div class="it">'+esc(r.it)+'</div>'+
+      '<div class="cov">'+r.dock+'. Restocks <b>'+r.cov.join(", ")+'</b></div></div></li>'));
+  });
+
+  /* counts */
+  var urg=ord.filter(function(o){return o.p==="urgent"}).length;
+  document.getElementById("cLow").textContent=low.length;
+  document.getElementById("cExp").textContent=exp.length;
+  document.getElementById("cOrd").textContent=ord.length;
+  document.getElementById("cDel").textContent=del.length;
+  document.getElementById("nLow").textContent=low.length;
+  document.getElementById("nExp").textContent=exp.length;
+  document.getElementById("nOrd").textContent=ord.length;
+  document.getElementById("nDel").textContent=del.length;
+  document.getElementById("nUrg").textContent=" ("+urg+" urgent)";
+
+  /* theme toggle: auto, light, dark */
+  var modes=["auto","light","dark"],mi=0,root=document.documentElement,tb=document.getElementById("themeBtn");
+  try{var s=localStorage.getItem("theme");if(s&&modes.indexOf(s)>-1)mi=modes.indexOf(s)}catch(e){}
+  function applyTheme(){
+    var m=modes[mi];
+    if(m==="auto")root.removeAttribute("data-theme");else root.setAttribute("data-theme",m);
+    tb.textContent="Theme: "+m.charAt(0).toUpperCase()+m.slice(1);
+    try{localStorage.setItem("theme",m)}catch(e){}
+  }
+  if(!root.hasAttribute("data-theme")||mi) applyTheme();
+  tb.addEventListener("click",function(){mi=(mi+1)%3;applyTheme()});
+
+  /* brand colour */
+  var pk=document.getElementById("brandColor"),hx=document.getElementById("brandHex");
+  function setBrand(v){
+    if(!/^#[0-9a-f]{6}$/i.test(v))return;
+    root.style.setProperty("--brand",v);pk.value=v.toLowerCase();hx.value=v.toUpperCase();
+    document.querySelector('meta[name="theme-color"]').setAttribute("content",v);
+  }
+  pk.addEventListener("input",function(){setBrand(pk.value)});
+  hx.addEventListener("input",function(){setBrand(hx.value.charAt(0)==="#"?hx.value:"#"+hx.value)});
+})();
+</script>
+</body>
+</html>

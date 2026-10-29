@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polder &amp; Plot — овощной ящик с фермы в Роттердаме</title>
+<meta name="description" content="Еженедельный овощной ящик с фермы на месте бывшего порта. Выбираете размер, забираете в одном из четырёх пунктов или заказываете доставку на грузовом велосипеде.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Unbounded:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#2F6B3A;
+
+  /* fallbacks for browsers without relative colour syntax */
+  --bg:#f1f5f2; --surface:#fbfdfb; --ink:#14231a; --muted:#52645a; --line:#d3ddd6;
+  --accent:#2F6B3A; --on-accent:#fff; --soft:#dcebdf; --signal:#e8643c;
+  --tl:.88; --ff-display:"Unbounded","Onest",system-ui,sans-serif; --ff-body:"Onest",system-ui,sans-serif; --ff-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light dark;
+}
+@supports (color: oklch(from red l c h)){
+  :root{
+    --bg:oklch(from var(--brand) .955 .014 h);
+    --surface:oklch(from var(--brand) .99 .006 h);
+    --ink:oklch(from var(--brand) .22 .035 h);
+    --muted:oklch(from var(--brand) .43 .035 h);
+    --line:oklch(from var(--brand) .85 .02 h);
+    --accent:oklch(from var(--brand) clamp(.3, l, .46) c h);
+    --on-accent:oklch(1 0 0);
+    --soft:oklch(from var(--brand) .91 calc(c * .45) h);
+    --signal:oklch(from var(--brand) .68 .17 calc(h - 100));
+    --tl:.88;
+  }
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --tl:.36; }
+}
+:root[data-theme="dark"]{ --tl:.36; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1713; --surface:#16201a; --ink:#eaf2ec; --muted:#a2b3a8; --line:#2a3a30;
+    --accent:#7fc58c; --on-accent:#08170d; --soft:#22352a; --signal:#f08a63;
+  }
+  @supports (color: oklch(from red l c h)){
+    :root:not([data-theme="light"]){
+      --bg:oklch(from var(--brand) .17 .02 h);
+      --surface:oklch(from var(--brand) .21 .024 h);
+      --ink:oklch(from var(--brand) .95 .012 h);
+      --muted:oklch(from var(--brand) .75 .03 h);
+      --line:oklch(from var(--brand) .32 .03 h);
+      --accent:oklch(from var(--brand) clamp(.72, l, .84) c h);
+      --on-accent:oklch(from var(--brand) .17 .03 h);
+      --soft:oklch(from var(--brand) .3 calc(c * .5) h);
+      --signal:oklch(from var(--brand) .76 .15 calc(h - 100));
+    }
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1713; --surface:#16201a; --ink:#eaf2ec; --muted:#a2b3a8; --line:#2a3a30;
+  --accent:#7fc58c; --on-accent:#08170d; --soft:#22352a; --signal:#f08a63;
+}
+@supports (color: oklch(from red l c h)){
+  :root[data-theme="dark"]{
+    --bg:oklch(from var(--brand) .17 .02 h);
+    --surface:oklch(from var(--brand) .21 .024 h);
+    --ink:oklch(from var(--brand) .95 .012 h);
+    --muted:oklch(from var(--brand) .75 .03 h);
+    --line:oklch(from var(--brand) .32 .03 h);
+    --accent:oklch(from var(--brand) clamp(.72, l, .84) c h);
+    --on-accent:oklch(from var(--brand) .17 .03 h);
+    --soft:oklch(from var(--brand) .3 calc(c * .5) h);
+    --signal:oklch(from var(--brand) .76 .15 calc(h - 100));
+  }
+}
+:root[data-theme="light"]{ color-scheme:light; }
+:root[data-theme="dark"]{ color-scheme:dark; }
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--ff-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.mono{font-family:var(--ff-mono);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--ff-display);font-weight:600;line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:clamp(1.6rem,1rem + 2.6vw,3rem)}
+h3{font-size:1.15rem;letter-spacing:-.01em}
+p{text-wrap:pretty}
+section{padding-block:clamp(56px,9vw,120px)}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(28px,4vw,52px);max-width:44rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.6em;background:var(--accent);color:var(--on-accent);border:0;border-radius:999px;padding:.95em 1.5em;font-weight:700;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 -2px var(--signal)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--ink),0 8px 0 -2px var(--signal)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--ff-display);font-weight:600;text-decoration:none;font-size:1rem;letter-spacing:-.02em;white-space:nowrap}
+.logo svg{width:26px;height:26px}
+.top nav{display:flex;gap:22px;margin-left:auto;font-size:.95rem}
+.top nav a{text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--signal);text-decoration-thickness:3px;text-underline-offset:6px}
+.top .btn{padding:.55em 1.1em;font-size:.92rem}
+.theme{background:none;border:1px solid var(--line);border-radius:999px;width:36px;height:36px;cursor:pointer;display:grid;place-items:center}
+.theme svg{width:18px;height:18px}
+@media(max-width:860px){.top nav{display:none}.top .btn{margin-left:auto}}
+
+/* hero */
+.hero{padding-block:clamp(36px,6vw,80px) clamp(48px,7vw,96px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center}
+.hero h1{font-size:clamp(1.9rem,.9rem + 4.1vw,4.2rem);font-weight:600;margin:18px 0 24px}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--signal) 62% 92%,transparent 92%);padding-inline:.04em}
+.hero .lead{font-size:1.2rem;max-width:34rem;color:var(--muted)}
+.hero .lead b{color:var(--ink);font-weight:500}
+.hero .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;align-items:center}
+.hero .next{margin-top:22px}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 14px 10px;position:relative}
+.map > svg{display:block;width:100%;height:auto}
+.map figcaption{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:10px}
+.bed{fill:var(--soft);opacity:0;animation:bedin .5s ease forwards}
+.bed.b1{fill:color-mix(in srgb,var(--accent) 22%,var(--soft))}
+.bed.b2{fill:color-mix(in srgb,var(--accent) 42%,var(--soft))}
+.bed.gh{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 3}
+.bed.hot{fill:var(--signal)}
+.mapt{font:500 9px var(--ff-mono);fill:var(--muted);text-anchor:middle}
+.mapl{font:500 10px var(--ff-mono);fill:var(--ink)}
+.wave{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:.55}
+@keyframes bedin{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.bed{transform-box:fill-box;transform-origin:center}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
+.step{padding:26px 26px 30px 0;display:grid;gap:12px;align-content:start}
+.step + .step{padding-left:26px;border-left:1px solid var(--line)}
+.step .mono{color:var(--accent)}
+.step p{color:var(--muted)}
+.points{list-style:none;padding:0;display:grid;gap:4px;font-size:.95rem}
+.points li{display:flex;gap:8px;align-items:baseline}
+.points li::before{content:"";flex:none;width:8px;height:8px;background:var(--signal);transform:translateY(-1px)}
+.week{margin-top:clamp(32px,5vw,56px)}
+.week .mono{margin-bottom:12px;display:block}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 12px 14px;display:grid;gap:6px;align-content:start;min-height:112px}
+.day b{font-family:var(--ff-display);font-weight:600;font-size:1.05rem}
+.day span{font-size:.85rem;line-height:1.3;color:var(--muted)}
+.day.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.on span{color:inherit;opacity:.92}
+.day.stop{border:2px dashed var(--signal)}
+@media(max-width:860px){
+  .steps{grid-template-columns:1fr}
+  .step,.step + .step{padding:22px 0;border-left:0}
+  .step + .step{border-top:1px solid var(--line)}
+  .days{grid-template-columns:1fr}
+  .day{min-height:0;grid-template-columns:44px 1fr;align-items:baseline}
+}
+
+/* box */
+.boxsec{background:var(--surface);border-block:1px solid var(--line)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:.5em 1.2em;border-radius:999px;cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.box-top{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.box-top .tot{font-family:var(--ff-display);font-size:1.4rem}
+.tree{position:relative;width:100%;aspect-ratio:16/8.5;container-type:inline-size}
+.tile{position:absolute;padding:3px;transition:left .6s cubic-bezier(.3,.7,.2,1),top .6s cubic-bezier(.3,.7,.2,1),width .6s cubic-bezier(.3,.7,.2,1),height .6s cubic-bezier(.3,.7,.2,1),opacity .4s}
+.tile.off{opacity:0;pointer-events:none}
+.tile > div{width:100%;height:100%;container-type:size;border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;background:var(--soft)}
+@supports (color: oklch(from red l c h)){
+  .tile > div{background:oklch(from var(--brand) var(--tl) clamp(.02, c * .55, .065) calc(h + var(--dh)))}
+}
+.tile .nm{font-family:var(--ff-display);font-weight:600;font-size:clamp(.8rem,.5rem + 1.3vw,1.5rem);line-height:1.1;letter-spacing:-.02em}
+.tile .meta{display:flex;justify-content:space-between;align-items:end;gap:8px;font-family:var(--ff-mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.03em}
+.tile .meta b{font-weight:500;font-size:1.05em}
+@container (max-height:78px) or (max-width:140px){.tile .meta span{display:none}}
+.tile .meta{white-space:nowrap}
+@container (max-width:110px){.tile .nm{font-size:.68rem;overflow-wrap:anywhere}}
+@container (max-height:52px){.tile .meta{display:none}}
+.tile > div:hover{outline:3px solid var(--signal);outline-offset:-3px}
+.box-note{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between}
+@media(max-width:700px){.tree{aspect-ratio:1/1.35}}
+
+/* prices */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.plan{border:2px solid var(--ink);border-radius:6px;padding:26px 26px 24px;display:grid;gap:14px;align-content:start;background:var(--surface);position:relative}
+.plan[data-on="true"]{box-shadow:10px 10px 0 var(--accent)}
+.plan .price{font-family:var(--ff-display);font-size:clamp(2.6rem,2rem + 3vw,4.4rem);font-weight:600;letter-spacing:-.04em;line-height:1}
+.plan .price small{font-family:var(--ff-body);font-size:1rem;font-weight:400;letter-spacing:0;color:var(--muted)}
+.plan ul{list-style:none;padding:0;display:grid;gap:6px;color:var(--muted)}
+.plan .btn{justify-self:start;margin-top:6px}
+.addon{margin-top:20px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between;border:2px dashed var(--signal);border-radius:6px;padding:18px 22px}
+.check{display:flex;gap:12px;align-items:center;cursor:pointer;font-weight:500}
+.check input{appearance:none;width:26px;height:26px;border:2px solid var(--ink);border-radius:4px;display:grid;place-items:center;flex:none;background:var(--surface)}
+.check input:checked{background:var(--accent);border-color:var(--accent)}
+.check input:checked::after{content:"";width:10px;height:6px;border:solid var(--on-accent);border-width:0 0 3px 3px;transform:rotate(-45deg) translate(1px,-1px)}
+.sum{font-family:var(--ff-display);font-size:1.25rem}
+.sum b{color:var(--accent);font-weight:600}
+@media(max-width:700px){.plans{grid-template-columns:1fr}}
+
+/* farm */
+.farm{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px)}
+.farm .story{display:grid;gap:18px;align-content:start;color:var(--muted);font-size:1.1rem}
+.farm .story p b{color:var(--ink);font-weight:500}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:2px solid var(--ink);margin-top:10px}
+.facts div{padding:14px 0;border-bottom:1px solid var(--line)}
+.facts div:nth-child(odd){padding-right:16px}
+.facts strong{display:block;font-family:var(--ff-display);font-weight:600;font-size:1.7rem;color:var(--ink);letter-spacing:-.03em}
+.growers{display:grid;gap:0}
+.grower{display:grid;grid-template-columns:76px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+.grower:first-child{border-top:2px solid var(--ink)}
+.mono-fig{width:76px;height:76px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-family:var(--ff-display);font-weight:600;font-size:1.5rem;letter-spacing:-.05em}
+.grower:nth-child(2) .mono-fig{border-radius:50%}
+.grower:nth-child(3) .mono-fig{border-radius:0 38px 0 38px}
+.grower p{color:var(--muted);margin-top:4px}
+.grower h3 span{font-family:var(--ff-body);font-weight:400;font-size:.95rem;color:var(--muted);letter-spacing:0;display:block;margin-top:4px}
+@media(max-width:860px){.farm{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:52rem}
+details{border-top:2px solid var(--ink);padding:0}
+details:last-child{border-bottom:2px solid var(--ink)}
+summary{list-style:none;cursor:pointer;padding:22px 0;display:flex;justify-content:space-between;gap:20px;font-family:var(--ff-display);font-weight:600;font-size:1.1rem;letter-spacing:-.01em;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:18px;height:18px;background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat,linear-gradient(var(--ink),var(--ink)) center/2px 100% no-repeat;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 40px 24px 0;color:var(--muted);max-width:42rem}
+
+/* join */
+.join{background:var(--accent);color:var(--on-accent);padding-block:clamp(56px,8vw,110px)}
+.join .wrap{display:grid;grid-template-columns:1fr minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
+.join h2{font-size:clamp(1.9rem,1rem + 3.4vw,3.6rem)}
+.join .lead{margin-top:20px;font-size:1.15rem;max-width:30rem;opacity:.92}
+.bigsum{margin-top:30px;border-top:2px solid currentColor;padding-top:16px;display:grid;gap:6px}
+.bigsum .n{font-family:var(--ff-display);font-weight:600;font-size:clamp(2.4rem,2rem + 3vw,4.2rem);letter-spacing:-.04em;line-height:1}
+.join .mono{color:inherit;opacity:.85}
+form{background:var(--surface);color:var(--ink);border-radius:6px;padding:clamp(20px,3vw,34px);display:grid;gap:20px;box-shadow:10px 10px 0 var(--signal)}
+fieldset{border:0;padding:0;display:grid;gap:10px;min-width:0}
+legend{font-family:var(--ff-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:8px;padding:0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opt span{display:block;border:2px solid var(--line);border-radius:6px;padding:12px 14px;line-height:1.3;transition:border-color .15s,background .15s}
+.opt span small{display:block;color:var(--muted);font-size:.85rem}
+.opt input:checked + span{border-color:var(--accent);background:var(--soft)}
+.opt input:focus-visible + span{outline:3px solid var(--signal);outline-offset:2px}
+label.f{display:grid;gap:6px;font-weight:500}
+.f input[type=text],.f input[type=email],.f select{border:2px solid var(--line);background:var(--bg);border-radius:6px;padding:.75em .9em;width:100%}
+.f input:focus,.f select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--signal)}
+form .btn{justify-self:stretch;justify-content:center;font-size:1.1rem}
+.ok{display:none;background:var(--soft);border-left:6px solid var(--accent);padding:14px 16px;border-radius:4px}
+.ok.show{display:block}
+.hide{display:none!important}
+@media(max-width:860px){.join .wrap{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
+
+footer{padding-block:36px 48px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center;color:var(--muted);font-size:.92rem}
+.tune{display:flex;gap:10px;align-items:center}
+.tune input[type=color]{width:36px;height:30px;border:1px solid var(--line);border-radius:4px;padding:0;background:none;cursor:pointer}
+.tune button{background:none;border:0;text-decoration:underline;cursor:pointer;color:var(--muted)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .bed{opacity:1}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Polder &amp; Plot — на главную">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="1" fill="var(--accent)"/><rect x="14" y="1" width="11" height="11" rx="1" fill="var(--signal)"/><rect x="1" y="14" width="11" height="11" rx="1" fill="none" stroke="var(--accent)" stroke-width="2"/><rect x="14" y="14" width="11" height="11" rx="1" fill="var(--accent)" opacity=".45"/></svg>
+      Polder &amp; Plot
+    </a>
+    <nav aria-label="Разделы">
+      <a href="#how">Как это работает</a>
+      <a href="#box">Ящик недели</a>
+      <a href="#price">Цены</a>
+      <a href="#farm">Ферма</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Переключить светлую и тёмную тему">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+    </button>
+    <a class="btn" href="#join">Записаться</a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" style="padding-top:clamp(36px,6vw,80px)">
+  <div class="wrap">
+    <div>
+      <span class="mono">Ферма на бывшей причальной площадке · Роттердам</span>
+      <h1>Ужин растёт там, где <em>стояли контейнеры.</em></h1>
+      <p class="lead">Два гектара грядок на месте старого порта. <b>Раз в неделю мы собираем овощной ящик</b> и отдаём его вам: в одном из четырёх пунктов или на грузовом велосипеде к двери.</p>
+      <div class="cta">
+        <a class="btn" href="#join">Выбрать ящик</a>
+        <a class="btn ghost" href="#box">Что в ящике сейчас</a>
+      </div>
+      <p class="mono next">Ближайшая выдача — четверг, 5 ноября · запись до воскресенья, 20:00</p>
+    </div>
+    <figure class="map">
+      <svg id="map" viewBox="0 0 596 450" role="img" aria-label="Схема фермы: 12 на 9 грядок. Оранжевым отмечены грядки, с которых собран ящик этой недели."></svg>
+      <figcaption>
+        <span class="mono">Ферма, 2 га · 108 гряд</span>
+        <span class="mono"><svg width="10" height="10" aria-hidden="true" style="vertical-align:-1px"><rect width="10" height="10" fill="var(--signal)"/></svg> с этих гряд собран ящик недели 44</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Как это работает</span>
+      <h2>Три решения, один раз. Дальше овощи приходят сами.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="mono">Первое</span>
+        <h3>Выберите размер</h3>
+        <p>Small на одного–двух человек, Large на семью из трёх–четырёх. Размер можно менять в любую неделю.</p>
+      </div>
+      <div class="step">
+        <span class="mono">Второе</span>
+        <h3>Заберите или закажите доставку</h3>
+        <p>По четвергам с 16:00 до 20:00 ящик ждёт в одном из пунктов:</p>
+        <ul class="points">
+          <li>Het Veerhuis, Катендрехт</li>
+          <li>Библиотека Дельфсхавен</li>
+          <li>Спортзал, Кралинген</li>
+          <li>Кофейня «Старый Север»</li>
+        </ul>
+        <p>Или в пятницу привезём на грузовом велосипеде.</p>
+      </div>
+      <div class="step">
+        <span class="mono">Третье</span>
+        <h3>Ставьте на паузу</h3>
+        <p>Уезжаете или в холодильнике ещё прошлый ящик? Нажмите «Пауза» до воскресенья 20:00 — деньги за эту неделю не спишутся. Без штрафов и звонков.</p>
+      </div>
+    </div>
+
+    <div class="week">
+      <span class="mono">Неделя на ферме</span>
+      <div class="days">
+        <div class="day"><b>Пн</b><span>Растёт. Мы решаем, что собирать</span></div>
+        <div class="day"><b>Вт</b><span>Растёт. Обходим грядки</span></div>
+        <div class="day on"><b>Ср</b><span>Сбор урожая с утра</span></div>
+        <div class="day on"><b>Чт</b><span>Выдача в пунктах, 16–20</span></div>
+        <div class="day on"><b>Пт</b><span>Доставка на велосипеде, 10–18</span></div>
+        <div class="day"><b>Сб</b><span>Ферма открыта для гостей</span></div>
+        <div class="day stop"><b>Вс</b><span>Пауза или смена размера до 20:00</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="box" class="boxsec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Неделя 44 · 26 октября – 1 ноября</span>
+      <h2>Что в ящике на этой неделе</h2>
+      <p>Площадь плитки равна весу овоща. Рядом с названием — гряда на карте фермы, с которой он собран.</p>
+    </div>
+    <div class="box-top">
+      <div class="seg" role="group" aria-label="Размер ящика">
+        <button type="button" data-size="S" aria-pressed="true">Small</button>
+        <button type="button" data-size="L" aria-pressed="false">Large</button>
+      </div>
+      <div class="tot" id="boxtot" aria-live="polite">9 овощей · 3,8 кг</div>
+    </div>
+    <div class="tree" id="tree" role="list"></div>
+    <div class="box-note">
+      <span class="mono">Состав меняется каждую неделю вместе с урожаем</span>
+      <span class="mono">Аллергия или нелюбимый овощ? Напишите, заменим</span>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Цены</span>
+      <h2>Платите только за недели, когда берёте ящик</h2>
+    </div>
+    <div class="plans">
+      <article class="plan" data-plan="S">
+        <span class="mono">Small · 1–2 человека</span>
+        <div class="price">€17<small> / неделя</small></div>
+        <ul><li>Около 3,8 кг овощей</li><li>8–9 видов сезонных овощей</li><li>Пауза в любую неделю</li></ul>
+        <button class="btn" type="button" data-pick="S">Выбрать Small</button>
+      </article>
+      <article class="plan" data-plan="L">
+        <span class="mono">Large · 3–4 человека</span>
+        <div class="price">€27<small> / неделя</small></div>
+        <ul><li>Около 6,6 кг овощей</li><li>9–10 видов, больше корнеплодов</li><li>Пауза в любую неделю</li></ul>
+        <button class="btn" type="button" data-pick="L">Выбрать Large</button>
+      </article>
+    </div>
+    <div class="addon">
+      <label class="check"><input type="checkbox" id="bike"> Доставка на грузовом велосипеде, +€4 / неделя</label>
+      <div class="sum" id="sumline">Итого: <b>€17</b> в неделю</div>
+    </div>
+  </div>
+</section>
+
+<section id="farm" class="boxsec">
+  <div class="wrap farm">
+    <div class="story">
+      <span class="mono">Ферма</span>
+      <h2>Земля, которой раньше не было</h2>
+      <p>Лет двадцать здесь грузили контейнеры. Почва под асфальтом оказалась непригодной, поэтому <b>мы насыпали грядки сами</b>: из компоста с городских кухонь и речного ила. Сегодня это 108 гряд размером примерно 18 на 10 метров.</p>
+      <p>Мы не ставим теплицы с подогревом и не возим овощи из Испании. Если в ноябре в ящике нет помидоров, значит, их и не должно быть. Зато есть тыква, которую мы поливали в августе.</p>
+      <div class="facts">
+        <div><strong>2 га</strong>бывший порт</div>
+        <div><strong>43</strong>культуры за сезон</div>
+        <div><strong>4 км</strong>от самой дальней выдачи</div>
+        <div><strong>0</strong>километров на фуре</div>
+      </div>
+    </div>
+    <div class="growers">
+      <div class="grower"><div class="mono-fig" aria-hidden="true">ЛВ</div><div><h3>Ларс ван дер Влит<span>Основатель, корнеплоды</span></h3><p>Раньше проектировал склады для порта. Теперь знает про каждую гряду, сколько в ней песка.</p></div></div>
+      <div class="grower"><div class="mono-fig" aria-hidden="true">ЯЭ</div><div><h3>Ясмина Эль-Амрани<span>Зелень и салаты</span></h3><p>Агроном. Придумала севооборот, при котором ни одна гряда не отдыхает дольше месяца.</p></div></div>
+      <div class="grower"><div class="mono-fig" aria-hidden="true">ИВ</div><div><h3>Ирина Волкова<span>Выдача и доставка</span></h3><p>Знает всех по именам и по любимым овощам. Возит Large на велосипеде с прицепом.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Вопросы</span>
+      <h2>Что обычно спрашивают</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Что, если я не успею забрать ящик?</summary><p>В пункте выдачи ящик хранится до пятницы, 12:00. Если вы не пришли и не предупредили, мы передаём овощи в районную продовольственную кладовую. За этот ящик деньги всё равно спишутся.</p></details>
+      <details><summary>Как поставить на паузу?</summary><p>Откройте письмо с напоминанием и нажмите «Пропустить неделю» до воскресенья, 20:00. Можно пропустить хоть пять недель подряд. Подписка не отменяется, и ящик вернётся, когда вы скажете.</p></details>
+      <details><summary>Можно ли выбирать овощи самому?</summary><p>Нет, состав зависит от урожая. Мы не берём овощи, которых вам не хочется: назовите до трёх продуктов, и мы заменим их похожими. Сезонная замена бывает, например, свёкла на пастернак.</p></details>
+      <details><summary>Что с ящиком зимой? Растёт ли что-нибудь?</summary><p>Да. Зимой в ящике корнеплоды, капуста, кале, лук, чеснок и тыква из хранилища. Не больше 10% состава мы докупаем у двух соседних ферм в окрестностях Роттердама и всегда пишем об этом в карточке недели.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="join">
+  <div class="wrap">
+    <div>
+      <span class="mono">Записаться</span>
+      <h2 style="margin-top:14px">Первый ящик уже в четверг.</h2>
+      <p class="lead">Оставьте почту, выберите размер и способ получения. Платёж спишется только за недели, когда вы берёте ящик.</p>
+      <div class="bigsum" aria-live="polite">
+        <span class="mono">Ваш платёж в неделю</span>
+        <span class="n" id="bign">€17</span>
+        <span id="bigd" class="mono">Small, самовывоз</span>
+      </div>
+    </div>
+    <form id="form" novalidate>
+      <fieldset>
+        <legend>Размер ящика</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="size" value="S" checked><span>Small<small>1–2 человека · €17</small></span></label>
+          <label class="opt"><input type="radio" name="size" value="L"><span>Large<small>3–4 человека · €27</small></span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Как получать</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="how" value="pickup" checked><span>Заберу сам<small>по четвергам, бесплатно</small></span></label>
+          <label class="opt"><input type="radio" name="how" value="bike"><span>Привезите<small>по пятницам, +€4</small></span></label>
+        </div>
+      </fieldset>
+      <label class="f" id="pointwrap">Пункт выдачи
+        <select id="point"><option>Het Veerhuis, Катендрехт</option><option>Библиотека Дельфсхавен</option><option>Спортзал, Кралинген</option><option>Кофейня «Старый Север»</option></select>
+      </label>
+      <label class="f hide" id="addrwrap">Адрес доставки
+        <input type="text" id="addr" placeholder="Улица, дом, индекс" autocomplete="street-address">
+      </label>
+      <label class="f">Электронная почта
+        <input type="email" id="email" placeholder="you@example.nl" autocomplete="email" required>
+      </label>
+      <button class="btn" type="submit">Записаться на ящик</button>
+      <div class="ok" id="ok" role="status"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Polder &amp; Plot · Merwehaven, Rotterdam · hallo@polderplot.example</span>
+    <span class="tune"><label for="brandpick">Цвет бренда</label><input type="color" id="brandpick" value="#2f6b3a"><button type="button" id="brandreset">Сбросить</button></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var state={size:'S',bike:false};
+  var NS='http://www.w3.org/2000/svg';
+
+  /* ---------- farm map ---------- */
+  var cols='АБВГДЕЖЗИКЛМ'.split(''), svg=document.getElementById('map');
+  var cell=40, gap=6, ox=36, oy=30;
+  var hot={'Е4':1,'Б2':1,'К3':1,'Г6':1,'Л7':1,'Д8':1,'З2':1,'В5':1,'И6':1};
+  function el(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e}
+  function seed(i){var x=Math.sin(i*91.7)*10000;return x-Math.floor(x)}
+  for(var c=0;c<12;c++){var t=el('text',{x:ox+c*(cell+gap)+cell/2,y:20,'class':'mapt'});t.textContent=cols[c]}
+  for(var r=0;r<9;r++){var t2=el('text',{x:14,y:oy+r*(cell+gap)+cell/2+3,'class':'mapt'});t2.textContent=r+1}
+  var gh={'10_1':1,'11_1':1,'10_2':1,'11_2':1};
+  for(r=0;r<9;r++)for(c=0;c<12;c++){
+    var code=cols[c]+(r+1), i=r*12+c, s=seed(i);
+    var cls='bed '+(s>.62?'b2':s>.3?'b1':'');
+    var isGh=gh[c+'_'+r];
+    if(isGh) cls='bed gh';
+    if(hot[code]) cls='bed hot';
+    var x=ox+c*(cell+gap), y=oy+r*(cell+gap);
+    var rc=el('rect',{x:x,y:y,width:cell,height:cell,rx:2,'class':cls});
+    rc.style.animationDelay=(i*14)+'ms';
+    if(hot[code]){var l=el('text',{x:x+cell/2,y:y+cell/2+3,'class':'mapt'});l.style.fill='var(--on-accent-hot,#1a0d06)';l.style.fontWeight='700';l.textContent=code}
+  }
+  var wy=oy+9*(cell+gap)+2;
+  for(var w=0;w<2;w++){
+    var d='M'+ox+' '+(wy+8+w*9);
+    for(var k=0;k<11;k++)d+=' q 23 '+(w?6:-6)+' 46 0 t 0 0';
+    el('path',{d:d.replace(/ t 0 0/g,''),'class':'wave'});
+  }
+  var tg=el('text',{x:ox,y:wy+34,'class':'mapl'});tg.textContent='← причал, Мервехавен';
+  var th=el('text',{x:ox+10*(cell+gap)-6,y:oy-5,'class':'mapt'});th.textContent='';
+  svg.setAttribute('viewBox','0 0 596 '+(wy+42));
+
+  /* ---------- box treemap ---------- */
+  var items=[
+    {id:'tykva',n:'Тыква хоккайдо',g:[900,1450],bed:'Е4',dh:0},
+    {id:'kart',n:'Картофель',g:[700,1100],bed:'Б2',dh:-11},
+    {id:'mor',n:'Морковь',g:[600,950],bed:'К3',dh:16},
+    {id:'svek',n:'Свёкла',g:[500,800],bed:'Г6',dh:-22},
+    {id:'por',n:'Лук-порей',g:[400,650],bed:'Л7',dh:9},
+    {id:'kolr',n:'Кольраби',g:[350,550],bed:'Д8',dh:24},
+    {id:'past',n:'Пастернак',g:[300,500],bed:'З2',dh:-5},
+    {id:'kale',n:'Кале',g:[200,300],bed:'В5',dh:30},
+    {id:'sel',n:'Корневой сельдерей',g:[0,450],bed:'И6',dh:-16}
+  ];
+  var tree=document.getElementById('tree');
+  items.forEach(function(it){
+    var t=document.createElement('div');t.className='tile';t.setAttribute('role','listitem');
+    t.innerHTML='<div style="--dh:'+it.dh+'"><span class="nm">'+it.n+'</span><span class="meta"><span>гряда '+it.bed+'</span><b></b></span></div>';
+    it.el=t;it.gEl=t.querySelector('b');tree.appendChild(t);
+  });
+  function sum(a){return a.reduce(function(s,i){return s+i.v},0)}
+  function lay(list,x,y,w,h,out){
+    if(list.length===1){out.push({it:list[0],x:x,y:y,w:w,h:h});return}
+    var tot=sum(list),acc=0,best=1,bd=1e9;
+    for(var k=1;k<list.length;k++){acc+=list[k-1].v;var d=Math.abs(acc-tot/2);if(d<bd){bd=d;best=k}}
+    var a=sum(list.slice(0,best)),f=a/tot;
+    if(w>=h){lay(list.slice(0,best),x,y,w*f,h,out);lay(list.slice(best),x+w*f,y,w*(1-f),h,out)}
+    else{lay(list.slice(0,best),x,y,w,h*f,out);lay(list.slice(best),x,y+h*f,w,h*(1-f),out)}
+  }
+  function fmt(g){return g>=1000?(g/1000).toFixed(2).replace('.',',').replace(/0$/,'')+' кг':g+' г'}
+  function renderTree(){
+    var si=state.size==='S'?0:1,list=[];
+    items.forEach(function(it){it.v=it.g[si];if(it.v>0)list.push(it)});
+    list.sort(function(a,b){return b.v-a.v});
+    var r=tree.getBoundingClientRect(),out=[];
+    lay(list,0,0,r.width||1000,r.height||530,out);
+    items.forEach(function(it){if(!it.v)it.el.classList.add('off');else it.el.classList.remove('off')});
+    out.forEach(function(o){
+      var s=o.it.el.style,W=r.width||1000,H=r.height||530;
+      s.left=(o.x/W*100)+'%';s.top=(o.y/H*100)+'%';s.width=(o.w/W*100)+'%';s.height=(o.h/H*100)+'%';
+      o.it.gEl.textContent=fmt(o.it.v);
+    });
+    var total=sum(list);
+    document.getElementById('boxtot').textContent=list.length+' овощей · '+(total/1000).toFixed(1).replace('.',',')+' кг';
+  }
+  window.addEventListener('resize',renderTree);
+
+  /* ---------- shared state ---------- */
+  var names={S:'Small',L:'Large'},price={S:17,L:27};
+  function total(){return price[state.size]+(state.bike?4:0)}
+  function sync(){
+    document.querySelectorAll('[data-size]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.size===state.size)});
+    document.querySelectorAll('[data-plan]').forEach(function(p){p.dataset.on=p.dataset.plan===state.size});
+    document.getElementById('bike').checked=state.bike;
+    document.getElementById('sumline').innerHTML='Итого: <b>€'+total()+'</b> в неделю';
+    document.getElementById('bign').textContent='€'+total();
+    document.getElementById('bigd').textContent=names[state.size]+(state.bike?', доставка на велосипеде':', самовывоз');
+    document.querySelectorAll('input[name=size]').forEach(function(i){i.checked=i.value===state.size});
+    document.querySelectorAll('input[name=how]').forEach(function(i){i.checked=(i.value==='bike')===state.bike});
+    document.getElementById('pointwrap').classList.toggle('hide',state.bike);
+    document.getElementById('addrwrap').classList.toggle('hide',!state.bike);
+    renderTree();
+  }
+  document.querySelectorAll('[data-size]').forEach(function(b){b.onclick=function(){state.size=b.dataset.size;sync()}});
+  document.querySelectorAll('[data-pick]').forEach(function(b){b.onclick=function(){state.size=b.dataset.pick;sync();document.getElementById('join').scrollIntoView({behavior:'smooth'})}});
+  document.getElementById('bike').onchange=function(e){state.bike=e.target.checked;sync()};
+  document.querySelectorAll('input[name=size]').forEach(function(i){i.onchange=function(){state.size=i.value;sync()}});
+  document.querySelectorAll('input[name=how]').forEach(function(i){i.onchange=function(){state.bike=i.value==='bike';sync()}});
+  sync();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(renderTree);
+
+  document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var em=document.getElementById('email'),ok=document.getElementById('ok');
+    if(!/^\S+@\S+\.\S+$/.test(em.value)){ok.className='ok show';ok.textContent='Проверьте почту: адрес должен выглядеть как name@example.nl.';em.focus();return}
+    if(state.bike&&!document.getElementById('addr').value.trim()){ok.className='ok show';ok.textContent='Укажите адрес доставки, чтобы мы могли привезти ящик.';document.getElementById('addr').focus();return}
+    var where=state.bike?'Привезём в пятницу, 6 ноября':'Ждём в четверг, 5 ноября, в пункте «'+document.getElementById('point').value+'»';
+    ok.className='ok show';
+    ok.textContent='Вы записаны: '+names[state.size]+', €'+total()+' в неделю. '+where+'. Подтверждение отправили на '+em.value+'.';
+  });
+
+  /* ---------- theme & brand ---------- */
+  var tb=document.getElementById('theme');
+  tb.onclick=function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur)cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    root.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  };
+  var bp=document.getElementById('brandpick');
+  bp.oninput=function(){root.style.setProperty('--brand',bp.value)};
+  document.getElementById('brandreset').onclick=function(){root.style.removeProperty('--brand');bp.value='#2f6b3a'};
+})();
+</script>
+</body>
+</html>
