@@ -1,0 +1,54 @@
+{
+ "set": "2026-10-28",
+ "note": "Maps design codes to brief and condition. Not loaded by the page.",
+ "codes": {
+  "4myg": {
+   "brief": "b1",
+   "condition": "telltale-r2"
+  },
+  "q5k7": {
+   "brief": "b1",
+   "condition": "telltale-r1"
+  },
+  "t9b8": {
+   "brief": "b1",
+   "condition": "frontend-design"
+  },
+  "97fk": {
+   "brief": "b1",
+   "condition": "no-skill"
+  },
+  "kaea": {
+   "brief": "b2",
+   "condition": "telltale-r2"
+  },
+  "teww": {
+   "brief": "b2",
+   "condition": "telltale-r1"
+  },
+  "hwsz": {
+   "brief": "b2",
+   "condition": "frontend-design"
+  },
+  "hhbw": {
+   "brief": "b2",
+   "condition": "no-skill"
+  },
+  "jj2b": {
+   "brief": "b3",
+   "condition": "telltale-r2"
+  },
+  "ab8s": {
+   "brief": "b3",
+   "condition": "telltale-r1"
+  },
+  "wsmd": {
+   "brief": "b3",
+   "condition": "frontend-design"
+  },
+  "ggwx": {
+   "brief": "b3",
+   "condition": "no-skill"
+  }
+ }
+}

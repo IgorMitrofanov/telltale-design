@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polder &amp; Plot</title>
+<meta name="description" content="A weekly vegetable box from a 2-hectare farm on the old Keilehaven quay, Rotterdam. Small €17, Large €27 a week. Pickup at 4 points or cargo-bike delivery.">
+<meta name="theme-color" content="#2F6B3A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Big+Shoulders+Stencil+Display:wght@800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS. The only colour literals in this file live here.
+   Change --brand and everything else is derived from it.
+   ============================================================ */
+:root {
+  --brand: #2F6B3A;
+
+  color-scheme: light;
+
+  /* Brand field: large colour areas. Lightness is snapped away from the
+     middle band, so the field is either dark (light text) or light (dark text). */
+  --field: oklch(from var(--brand)
+    calc((1 - clamp(0, (l - 0.62) * 1000, 1)) * clamp(0.28, l, 0.47) + clamp(0, (l - 0.62) * 1000, 1) * max(l, 0.86))
+    min(c, 0.15) h);
+  /* Text on the field: near-white or near-black, picked from the field lightness. */
+  --on-field: oklch(from var(--field) clamp(0.19, (0.66 - l) * 1000, 0.975) min(c, 0.025) h);
+  --on-field-muted: color-mix(in oklab, var(--on-field) 82%, var(--field));
+  --field-line: color-mix(in oklab, var(--on-field) 42%, var(--field));
+  --field-faint: color-mix(in oklab, var(--on-field) 14%, var(--field));
+  --water: color-mix(in oklab, var(--field) 84%, var(--on-field));
+
+  /* Neutrals: harbour concrete, cool and nearly grey. They do not follow the brand hue. */
+  --bg: oklch(0.958 0.004 240);
+  --surface: oklch(0.99 0.002 240);
+  --sunk: oklch(0.925 0.006 240);
+  --text: oklch(0.21 0.012 250);
+  --text-muted: oklch(0.43 0.012 250);
+  --line: oklch(0.80 0.008 250);
+  --line-strong: oklch(0.52 0.01 250);
+
+  /* Brand used as text and small marks on the neutral background. */
+  --accent: oklch(from var(--brand) clamp(0.30, l, 0.45) clamp(0.06, c, 0.14) h);
+  --accent-soft: color-mix(in oklab, var(--field) 22%, var(--bg));
+  --accent-water: color-mix(in oklab, var(--field) 30%, var(--bg));
+
+  --bad: oklch(0.50 0.17 27);
+  --focus: var(--accent);
+
+  /* Type */
+  --f-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --f-stencil: "Big Shoulders Stencil Display", "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --f-text: "Newsreader", Georgia, serif;
+
+  --r1: 2px;
+  --r2: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --field: oklch(from var(--brand)
+      calc((1 - clamp(0, (l - 0.62) * 1000, 1)) * clamp(0.30, l, 0.42) + clamp(0, (l - 0.62) * 1000, 1) * clamp(0.80, l, 0.84))
+      min(c, 0.13) h);
+    --bg: oklch(0.175 0.008 250);
+    --surface: oklch(0.215 0.009 250);
+    --sunk: oklch(0.15 0.008 250);
+    --text: oklch(0.935 0.006 240);
+    --text-muted: oklch(0.76 0.01 240);
+    --line: oklch(0.34 0.01 250);
+    --line-strong: oklch(0.58 0.01 250);
+    --accent: oklch(from var(--brand) clamp(0.80, l, 0.88) clamp(0.05, c, 0.12) h);
+    --accent-soft: color-mix(in oklab, var(--field) 35%, var(--bg));
+    --accent-water: color-mix(in oklab, var(--field) 45%, var(--bg));
+    --bad: oklch(0.75 0.14 27);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --field: oklch(from var(--brand)
+    calc((1 - clamp(0, (l - 0.62) * 1000, 1)) * clamp(0.30, l, 0.42) + clamp(0, (l - 0.62) * 1000, 1) * clamp(0.80, l, 0.84))
+    min(c, 0.13) h);
+  --bg: oklch(0.175 0.008 250);
+  --surface: oklch(0.215 0.009 250);
+  --sunk: oklch(0.15 0.008 250);
+  --text: oklch(0.935 0.006 240);
+  --text-muted: oklch(0.76 0.01 240);
+  --line: oklch(0.34 0.01 250);
+  --line-strong: oklch(0.58 0.01 250);
+  --accent: oklch(from var(--brand) clamp(0.80, l, 0.88) clamp(0.05, c, 0.12) h);
+  --accent-soft: color-mix(in oklab, var(--field) 35%, var(--bg));
+  --accent-water: color-mix(in oklab, var(--field) 45%, var(--bg));
+  --bad: oklch(0.75 0.14 27);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-text);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-optical-sizing: auto;
+  overflow-x: hidden;
+}
+::selection { background: var(--field); color: var(--on-field); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--r1); }
+.on-field :focus-visible { outline-color: var(--on-field); }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 800; }
+p { margin: 0; text-wrap: pretty; }
+.wrap { width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 56px); }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.h2 {
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 6.2vw, 5.75rem);
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  font-weight: 800;
+}
+.lede { font-size: clamp(1.1875rem, 1.5vw, 1.375rem); line-height: 1.45; max-width: 34em; color: var(--text-muted); }
+.caption { font-size: 0.9375rem; line-height: 1.45; color: var(--text-muted); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+  min-height: 52px; padding: 0 1.4em;
+  font: 700 1.25rem/1 var(--f-display); letter-spacing: 0.02em;
+  text-decoration: none; border-radius: var(--r2); border: 2px solid transparent;
+  cursor: pointer; transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out;
+}
+.btn-primary { background: var(--field); color: var(--on-field); }
+.btn-primary:hover { background: color-mix(in oklab, var(--field) 86%, var(--text)); }
+.btn-quiet { background: transparent; color: var(--text); border-color: var(--line-strong); }
+.btn-quiet:hover { border-color: var(--text); }
+.on-field .btn-primary { background: var(--on-field); color: var(--field); }
+.on-field .btn-primary:hover { background: color-mix(in oklab, var(--on-field) 85%, var(--field)); }
+.on-field .btn-quiet { color: var(--on-field); border-color: var(--field-line); }
+.on-field .btn-quiet:hover { border-color: var(--on-field); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.on-field { background: var(--field); color: var(--on-field); }
+.on-field a { color: var(--on-field); }
+.hero { position: relative; overflow: hidden; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 22px; padding-bottom: 22px; }
+.wordmark { display: inline-flex; align-items: baseline; gap: 0.2em; font: 900 1.875rem/1 var(--f-stencil); letter-spacing: 0.01em; text-decoration: none; color: inherit; }
+.wordmark span { font-family: var(--f-text); font-style: italic; font-weight: 400; font-size: 0.8em; }
+.nav { display: flex; gap: 28px; align-items: center; }
+.nav a { font: 600 1.125rem/1 var(--f-display); letter-spacing: 0.03em; text-decoration: none; padding: 10px 0; }
+.nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+.nav .btn { min-height: 44px; font-size: 1.0625rem; padding: 0 1.1em; }
+
+.hero-grid {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px;
+  align-items: start; padding-top: clamp(24px, 4vw, 56px); padding-bottom: 0;
+}
+.hero h1 {
+  font-family: var(--f-stencil);
+  font-weight: 900;
+  font-size: clamp(4.5rem, 10.4vw, 10.5rem);
+  line-height: 0.84;
+  letter-spacing: 0;
+  margin-bottom: 32px;
+  text-wrap: initial;
+}
+.hero h1 .l { display: block; }
+.hero-copy { padding-bottom: 56px; }
+.hero-copy .lede { color: var(--on-field-muted); max-width: 25em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero-plan { margin: 0 calc(-1 * clamp(16px, 4vw, 56px)) 0 0; align-self: end; }
+.hero-plan svg { display: block; width: 100%; height: auto; }
+.hero-plan figcaption { color: var(--on-field-muted); font-size: 0.9375rem; padding: 0 clamp(16px, 4vw, 56px) 20px 8px; max-width: 46em; }
+.legend-swatch { display: inline-block; width: 0.7em; height: 1em; vertical-align: -0.12em; background: var(--on-field); margin-right: 0.35em; border-radius: 1px; }
+
+/* plan drawing roles */
+.p-land { fill: var(--field); }
+.p-water { fill: var(--water); }
+.p-ink { stroke: var(--on-field); fill: none; }
+.p-thin { stroke: var(--field-line); fill: none; }
+.p-bed { fill: none; stroke: var(--field-line); stroke-width: 1.25; }
+.p-bed.on { fill: var(--on-field); stroke: var(--on-field); }
+.p-tunnel { fill: var(--field-faint); stroke: var(--field-line); stroke-width: 1.25; }
+.p-tunnel.on { fill: var(--on-field); stroke: var(--on-field); }
+.p-text { fill: currentColor; color: var(--on-field); font-family: var(--f-display); font-weight: 700; }
+.p-text-muted { fill: currentColor; color: var(--on-field-muted); font-family: var(--f-text); font-style: italic; }
+.p-bedlabel { fill: var(--field); font-family: var(--f-display); font-weight: 800; font-size: 12.5px; letter-spacing: 0.04em; }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section { scroll-margin-top: 16px; }
+.section { padding: clamp(72px, 9vw, 136px) 0; }
+.section-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: end; margin-bottom: clamp(40px, 5vw, 72px); }
+.section-head .lede { justify-self: start; }
+
+/* How it works */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--text); }
+.step { padding: 28px 32px 8px 0; }
+.step + .step { padding-left: 32px; border-left: 1px solid var(--line); }
+.step-n { font: 900 4rem/0.8 var(--f-stencil); color: var(--accent); display: block; margin-bottom: 20px; }
+.step h3 { font: 800 2rem/1 var(--f-display); margin-bottom: 12px; }
+.step p { color: var(--text-muted); max-width: 26em; }
+
+.week { margin-top: clamp(56px, 7vw, 96px); }
+.week-title { font: 800 1.75rem/1.05 var(--f-display); margin-bottom: 6px; }
+.week-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-top: 20px; border: 1px solid var(--line); border-radius: var(--r2); overflow: hidden; background: var(--surface); }
+.day { padding: 16px 16px 20px; min-height: 172px; border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.day:first-child { border-left: 0; }
+.day-name { font: 800 1.375rem/1 var(--f-display); letter-spacing: 0.02em; }
+.day-date { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px; }
+.day p { font-size: 0.9375rem; line-height: 1.4; }
+.day .t { font-weight: 600; }
+.day.quiet .day-name { color: var(--text-muted); }
+.day.box { background: var(--field); color: var(--on-field); }
+.day.box .day-date { color: var(--on-field-muted); }
+.day.deadline { background: var(--accent-soft); }
+.day.deadline .day-date { color: var(--text); }
+
+.pickup { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 4vw, 64px); margin-top: clamp(56px, 7vw, 96px); align-items: start; }
+.map svg { display: block; width: 100%; height: auto; }
+.m-land { fill: var(--surface); stroke: var(--line); }
+.m-river { fill: none; stroke: var(--accent-water); stroke-linecap: round; }
+.m-ring { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; }
+.m-route { fill: none; stroke: var(--line-strong); stroke-width: 1.25; stroke-dasharray: 5 5; }
+.m-bridge { stroke: var(--text); stroke-width: 3; stroke-linecap: round; }
+.m-dot { fill: var(--field); stroke: var(--bg); stroke-width: 3; }
+.m-dotnum { fill: var(--on-field); font: 800 17px var(--f-display); }
+.m-label { fill: currentColor; color: var(--text); font: 700 17px var(--f-display); letter-spacing: 0.02em; }
+.m-small { fill: currentColor; color: var(--text-muted); font: italic 14px var(--f-text); }
+.m-ringlabel { fill: currentColor; color: var(--accent); font: italic 15px var(--f-text); }
+
+.points { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--text); }
+.points li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 4px 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.pin { width: 30px; height: 30px; border-radius: 50%; background: var(--field); color: var(--on-field); display: grid; place-items: center; font: 800 1.0625rem/1 var(--f-display); margin-top: 2px; }
+.pin.bike { border-radius: var(--r1); }
+.points h3 { font: 800 1.375rem/1.1 var(--f-display); letter-spacing: 0.01em; }
+.points p { font-size: 1rem; color: var(--text-muted); grid-column: 2; }
+.points .when { color: var(--text); font-weight: 500; }
+
+/* This week's box: the manifest */
+.manifest-wrap { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(32px, 4vw, 64px); align-items: start; }
+.manifest { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+.manifest caption { text-align: left; caption-side: top; padding-bottom: 14px; }
+.manifest th, .manifest td { padding: 13px 12px; text-align: left; vertical-align: baseline; border-bottom: 1px solid var(--line); }
+.manifest th:first-child, .manifest td:first-child { padding-left: 0; }
+.manifest th:last-child, .manifest td:last-child { padding-right: 0; }
+.manifest thead th { font: 700 1rem/1.2 var(--f-display); letter-spacing: 0.04em; color: var(--text-muted); border-bottom: 2px solid var(--text); vertical-align: bottom; }
+.manifest .r { text-align: right; }
+.manifest .item { font: 700 clamp(1.375rem, 2vw, 1.75rem)/1.05 var(--f-display); letter-spacing: 0.005em; }
+.manifest .variety { display: block; font: italic 400 0.9375rem/1.3 var(--f-text); color: var(--text-muted); letter-spacing: 0; margin-top: 3px; }
+.manifest .bed { font: 800 1.0625rem/1 var(--f-display); letter-spacing: 0.04em; color: var(--accent); white-space: nowrap; }
+.manifest .qty { white-space: nowrap; }
+.manifest .kg { color: var(--text-muted); font-size: 0.9375rem; display: block; }
+.manifest .none { color: var(--text-muted); }
+.manifest tfoot td { border-bottom: 0; border-top: 2px solid var(--text); font-weight: 600; }
+.manifest tfoot .tot { font: 900 2.25rem/1 var(--f-display); }
+.bar { display: block; height: 4px; background: var(--line); margin-top: 8px; border-radius: 1px; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 1px; }
+
+.notes { position: sticky; top: 24px; display: grid; gap: 28px; }
+.stamp {
+  border: 2px solid var(--text); border-radius: var(--r2); padding: 22px 22px 24px;
+  display: grid; gap: 10px;
+}
+.stamp .big { font: 900 clamp(4rem, 6vw, 5.5rem)/0.85 var(--f-display); }
+.stamp .sub { font: 700 1.25rem/1.1 var(--f-display); letter-spacing: 0.02em; }
+.notes p { font-size: 1rem; color: var(--text-muted); }
+.notes h3 { font: 800 1.375rem/1.1 var(--f-display); margin-bottom: 6px; color: var(--text); }
+
+/* Prices */
+.prices { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr); border-top: 2px solid var(--text); }
+.price { padding: 32px 32px 8px 0; display: flex; flex-direction: column; }
+.price + .price { padding-left: 32px; border-left: 1px solid var(--line); }
+.price h3 { font: 800 2.25rem/1 var(--f-display); }
+.price .for { color: var(--text-muted); margin-top: 6px; }
+.price .amount { font: 900 clamp(5.5rem, 9vw, 8.5rem)/0.8 var(--f-display); margin: 28px 0 6px; letter-spacing: -0.01em; }
+.price .amount small { font: 700 1.375rem/1 var(--f-display); letter-spacing: 0.02em; margin-left: 0.2em; }
+.price .addon { color: var(--accent); }
+.price dl { margin: 22px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 1rem; }
+.price dt { color: var(--text-muted); }
+.price dd { margin: 0; }
+.price svg { display: block; width: 100%; max-width: 340px; height: auto; margin-top: 28px; }
+.c-ink { stroke: var(--text); fill: none; stroke-width: 2; }
+.c-fill { fill: var(--accent-soft); stroke: var(--text); stroke-width: 2; }
+.c-dim { stroke: var(--line-strong); stroke-width: 1; fill: none; }
+.c-label { fill: currentColor; color: var(--text-muted); font: italic 14px var(--f-text); }
+.c-mark { fill: currentColor; color: var(--text); font: 900 18px var(--f-stencil); letter-spacing: 0.04em; }
+.price-note { margin-top: 32px; color: var(--text-muted); max-width: 52em; font-size: 1rem; }
+
+/* Farm */
+.farm { background: var(--sunk); }
+.farm-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.farm-copy p + p { margin-top: 1em; }
+.farm-copy p { max-width: 32em; }
+.cut svg { display: block; width: 100%; height: auto; }
+.cut figcaption { margin-top: 12px; }
+.s-soil { fill: color-mix(in oklab, var(--text) 62%, var(--sunk)); }
+.s-sand { fill: color-mix(in oklab, var(--text) 18%, var(--sunk)); }
+.s-concrete { fill: var(--surface); stroke: var(--text); stroke-width: 2; }
+.s-hatch { stroke: var(--line-strong); stroke-width: 1; }
+.s-water { fill: var(--accent-water); }
+.s-crop { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; fill: none; }
+.s-line { stroke: var(--text); stroke-width: 1.5; fill: none; }
+.s-membrane { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 8 4; }
+.s-label { fill: currentColor; color: var(--text); font: 700 16px var(--f-display); letter-spacing: 0.02em; }
+.s-note { fill: currentColor; color: var(--text-muted); font: italic 14px var(--f-text); }
+.s-inv { color: var(--bg); }
+.s-level { fill: currentColor; color: var(--accent); font: 800 14px var(--f-display); letter-spacing: 0.04em; }
+
+.growers { margin-top: clamp(56px, 7vw, 96px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 2px solid var(--text); }
+.grower { padding: 24px 32px 0 0; }
+.grower + .grower { padding-left: 32px; border-left: 1px solid var(--line); }
+.grower .initials { font: 900 3.25rem/0.9 var(--f-display); color: var(--accent); display: block; margin-bottom: 14px; }
+.grower h3 { font: 800 1.75rem/1 var(--f-display); }
+.grower .role { font-style: italic; color: var(--text-muted); margin: 4px 0 12px; }
+.grower p:last-child { font-size: 1rem; }
+
+/* FAQ */
+.faq-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; }
+.faq { border-top: 2px solid var(--text); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) 28px; gap: 16px; align-items: center;
+  padding: 22px 0; font: 700 clamp(1.5rem, 2.2vw, 1.875rem)/1.1 var(--f-display); letter-spacing: 0.005em;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { color: var(--accent); }
+.faq .sign { width: 28px; height: 28px; position: relative; }
+.faq .sign::before, .faq .sign::after { content: ""; position: absolute; left: 4px; right: 4px; top: 13px; height: 2px; background: currentColor; transition: transform 180ms ease-out; }
+.faq .sign::after { transform: rotate(90deg); }
+.faq details[open] .sign::after { transform: rotate(0deg); }
+.faq .answer { padding: 0 44px 26px 0; color: var(--text-muted); max-width: 40em; }
+.faq .answer p + p { margin-top: 0.8em; }
+
+/* Sign-up */
+.signup { padding: clamp(72px, 9vw, 128px) 0 clamp(56px, 7vw, 96px); }
+.signup-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.signup .h2 { font-family: var(--f-stencil); font-weight: 900; font-size: clamp(4rem, 8.4vw, 8rem); line-height: 0.84; }
+.signup .lede { color: var(--on-field-muted); margin-top: 40px; }
+.summary { margin-top: 36px; border-top: 2px solid var(--on-field); padding-top: 18px; }
+.summary .total { font: 900 clamp(4rem, 6vw, 5.5rem)/0.85 var(--f-display); display: block; }
+.summary .total small { font: 700 1.375rem/1 var(--f-display); margin-left: 0.15em; }
+.summary p { color: var(--on-field-muted); margin-top: 10px; font-size: 1rem; }
+.summary p strong { color: var(--on-field); font-weight: 600; }
+
+form { display: grid; gap: 28px; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend, .label { font: 700 1.25rem/1.2 var(--f-display); letter-spacing: 0.02em; padding: 0; margin-bottom: 10px; display: block; }
+.choice-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.choice span {
+  display: grid; gap: 2px; padding: 14px 16px; min-height: 76px; border: 2px solid var(--field-line); border-radius: var(--r2);
+  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+}
+.choice b { font: 800 1.5rem/1 var(--f-display); }
+.choice em { font-style: normal; font-size: 0.9375rem; color: var(--on-field-muted); }
+.choice input:hover + span { border-color: var(--on-field); }
+.choice input:checked + span { border-color: var(--on-field); background: var(--on-field); color: var(--field); }
+.choice input:checked + span em { color: var(--field); }
+.choice input:focus-visible + span { outline: 3px solid var(--on-field); outline-offset: 3px; }
+.field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.input, .select {
+  width: 100%; min-height: 52px; padding: 10px 14px; font: 400 1.125rem/1.3 var(--f-text);
+  color: var(--text); background: var(--surface); border: 2px solid color-mix(in oklab, var(--on-field) 72%, var(--field)); border-radius: var(--r2);
+}
+.select { appearance: none; padding-right: 44px; background-image: none; }
+.select-wrap { position: relative; }
+.select-wrap::after { content: ""; position: absolute; right: 18px; top: 50%; width: 9px; height: 9px; border-right: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+.input::placeholder { color: var(--text-muted); }
+.input:focus-visible, .select:focus-visible { outline: 3px solid var(--on-field); outline-offset: 2px; }
+.input[aria-invalid="true"] { border-color: var(--bad); }
+.hint { font-size: 0.9375rem; color: var(--on-field-muted); margin-top: 6px; }
+.error { font-size: 0.9375rem; font-weight: 600; margin-top: 6px; color: var(--on-field); display: none; }
+.error::before { content: "Check this: "; }
+.is-invalid .error { display: block; }
+.form-foot { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; }
+.form-foot p { font-size: 0.9375rem; color: var(--on-field-muted); max-width: 26em; }
+[hidden] { display: none !important; }
+.swipe { display: none; }
+.scroll-x:focus-visible { outline-offset: -3px; }
+.done { border: 2px solid var(--on-field); border-radius: var(--r2); padding: 28px; }
+.done h3 { font: 800 2.25rem/1 var(--f-display); margin-bottom: 12px; }
+.done p + p { margin-top: 0.7em; }
+.done p { color: var(--on-field-muted); }
+.done button { margin-top: 20px; }
+
+footer { padding: 32px 0 40px; border-top: 1px solid var(--field-line); }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px 40px; font-size: 0.9375rem; color: var(--on-field-muted); }
+.foot address { font-style: normal; }
+.theme-switch { display: inline-flex; gap: 4px; align-items: center; }
+.theme-switch button {
+  font: 600 0.9375rem/1 var(--f-text); min-height: 36px; padding: 0 12px; border-radius: var(--r1);
+  background: transparent; color: var(--on-field); border: 1px solid var(--field-line); cursor: pointer;
+}
+.theme-switch button[aria-pressed="true"] { background: var(--on-field); color: var(--field); border-color: var(--on-field); }
+
+/* ============================================================
+   NARROW SCREENS
+   ============================================================ */
+@media (max-width: 1080px) {
+  .nav a:not(.btn) { display: none; }
+  .hero-grid, .section-head, .manifest-wrap, .pickup, .farm-grid, .faq-grid, .signup-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-plan { margin: 0 calc(-1 * clamp(16px, 4vw, 56px)); }
+  .hero-plan figcaption { padding-left: clamp(16px, 4vw, 56px); }
+  .hero-copy { padding-bottom: 8px; }
+  .notes { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .price.delivery { grid-column: 1 / -1; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: 32px; }
+}
+@media (max-width: 760px) {
+  body { font-size: 1.0625rem; }
+  .steps, .growers { grid-template-columns: minmax(0, 1fr); }
+  .step, .step + .step, .grower, .grower + .grower { padding: 24px 0; border-left: 0; }
+  .step + .step, .grower + .grower { border-top: 1px solid var(--line); }
+  .week-grid { grid-template-columns: minmax(0, 1fr); }
+  .day { border-left: 0; border-top: 1px solid var(--line); min-height: 0; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 2px 12px; padding: 12px 14px; }
+  .day:first-child { border-top: 0; }
+  .day-name { grid-row: span 3; }
+  .day-date { margin-bottom: 0; }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+  .prices { grid-template-columns: minmax(0, 1fr); }
+  .price, .price + .price { padding: 28px 0 8px; border-left: 0; }
+  .price + .price { border-top: 1px solid var(--line); }
+  .price.delivery { margin-top: 0; }
+  .manifest .hide-s { display: none; }
+  .manifest th, .manifest td { padding: 12px 8px; }
+  .field-row, .choice-row { grid-template-columns: minmax(0, 1fr); }
+  .choice-row.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .faq .answer { padding-right: 0; }
+  .hero h1 { font-size: 6rem; }
+  .scroll-x { overflow-x: auto; overscroll-behavior-x: contain; }
+  .hero-plan .scroll-x svg { min-width: 660px; }
+  .cut .scroll-x svg { min-width: 620px; }
+  .swipe { display: inline; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="hero on-field">
+  <div class="wrap topbar">
+    <a class="wordmark" href="#top" id="top" aria-label="Polder and Plot, home">Polder <span>&amp;</span> Plot</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#box">This week</a>
+      <a href="#prices">Prices</a>
+      <a href="#farm">The farm</a>
+      <a href="#faq">Questions</a>
+      <a class="btn btn-primary" href="#signup">Start a box</a>
+    </nav>
+  </div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1><span class="l">Harvest</span> <span class="l">from the</span> <span class="l">harbour</span></h1>
+      <p class="lede">A weekly box of vegetables from 2 hectares of beds on the old Keilehaven quay in Rotterdam. Choose a size, collect it on Thursday or have it brought by cargo bike, and pause any week you are away.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#signup">Start a box from €17 a week</a>
+        <a class="btn btn-quiet" href="#box">See this week’s box</a>
+      </div>
+    </div>
+
+    <figure class="hero-plan" aria-labelledby="plan-cap">
+      <div class="scroll-x" tabindex="0" role="region" aria-label="Site plan, scrolls sideways on small screens"><svg viewBox="0 0 720 640" role="img" aria-labelledby="plan-title">
+        <title id="plan-title">Site plan of the farm on Keilehaven quay: six blocks of beds, three polytunnels, compost bays and the farm shop, with the harbour basin to the south. Ten beds are filled: they were harvested for this week’s box.</title>
+        <rect class="p-water" x="0" y="470" width="720" height="170"/>
+        
+        <rect class="p-thin" x="40" y="36" width="650" height="400" stroke-width="1.25" stroke-dasharray="6 5"/>
+        
+        <line class="p-land" x1="0" y1="0" x2="0" y2="0"/>
+        <text class="p-text-muted" x="40" y="24" font-size="14">Site boundary, 2 ha</text>
+        <path class="p-ink" d="M600 14 v14 m-5 -6 l5 6 l5 -6" stroke-width="1.5"/>
+        <text class="p-text" x="612" y="24" font-size="13" letter-spacing="0.06em">ENTRANCE</text>
+
+        
+        <g class="p-text" font-size="20">
+          <text x="60" y="64">A</text><text x="210" y="64">B</text><text x="360" y="64">C</text>
+          <text x="60" y="244">D</text><text x="210" y="244">E</text><text x="360" y="244">F</text>
+        </g>
+
+        
+        <g id="beds"></g>
+
+        
+        <g>
+          <rect class="p-tunnel on" x="520" y="72" width="44" height="168" rx="2"/>
+          <rect class="p-tunnel on" x="576" y="72" width="44" height="168" rx="2"/>
+          <rect class="p-tunnel" x="632" y="72" width="44" height="168" rx="2"/>
+          <g class="p-thin" stroke-width="1">
+            <path d="M648 90 h12 M648 110 h12 M648 130 h12 M648 150 h12 M648 170 h12 M648 190 h12 M648 210 h12"/>
+          </g>
+          <text class="p-bedlabel" transform="translate(546 156) rotate(-90)" text-anchor="middle">T1  PARSLEY</text>
+          <text class="p-bedlabel" transform="translate(602 156) rotate(-90)" text-anchor="middle">T2  WINTER SALAD</text>
+          <text class="p-text" x="520" y="64" font-size="15">Tunnels 1–3</text>
+        </g>
+
+        
+        <g>
+          <rect class="p-bed" x="520" y="272" width="34" height="34"/>
+          <rect class="p-bed" x="560" y="272" width="34" height="34"/>
+          <rect class="p-bed" x="600" y="272" width="34" height="34"/>
+          <rect class="p-bed" x="640" y="272" width="34" height="34"/>
+          <text class="p-text" x="520" y="264" font-size="15">Compost bays</text>
+        </g>
+
+        
+        <rect class="p-ink" x="520" y="334" width="156" height="78" stroke-width="2"/>
+        <text class="p-text" x="532" y="364" font-size="19">Farm shop</text>
+        <text class="p-text-muted" x="532" y="386" font-size="14">Pickup point 1</text>
+        <text class="p-text-muted" x="532" y="402" font-size="14">Thu 15–19, Sat 10–13</text>
+
+        
+        <g class="p-ink" stroke-width="1.5">
+          <line x1="0" y1="446" x2="720" y2="446"/>
+          <line x1="0" y1="456" x2="720" y2="456"/>
+        </g>
+        <path id="sleepers" class="p-thin" stroke-width="1" d=""/>
+        <text class="p-text-muted" x="40" y="500" font-size="14">Crane rail from 1962, left in place</text>
+
+        
+        <line class="p-ink" x1="0" y1="470" x2="720" y2="470" stroke-width="3"/>
+        <g id="bollards"></g>
+
+        
+        <path class="p-thin" d="M0 560 C120 548 220 575 340 556 S560 540 720 566" stroke-width="1" stroke-dasharray="3 4"/>
+        <g class="p-text-muted" font-size="14">
+          <text x="90" y="530">5.8</text><text x="190" y="532">6.4</text><text x="330" y="515">6.1</text>
+          <text x="470" y="528">7.0</text><text x="600" y="512">6.6</text>
+          <text x="120" y="605">8.2</text><text x="300" y="598">8.9</text><text x="410" y="606">9.4</text>
+        </g>
+        <text class="p-text-muted" x="350" y="546" font-size="12">7 m</text>
+        <text class="p-text" x="40" y="585" font-size="22" letter-spacing="0.08em" opacity="1">KEILEHAVEN</text>
+
+        
+        <g transform="translate(668 560)">
+          <path class="p-ink" d="M0 -26 L9 10 L0 3 L-9 10 Z" stroke-width="1.5"/>
+          <text class="p-text" x="0" y="30" font-size="14" text-anchor="middle">N</text>
+        </g>
+        <g transform="translate(470 628)">
+          <path class="p-ink" d="M0 -8 V0 H180 V-8 M90 -5 V0" stroke-width="1.5"/>
+          <text class="p-text-muted" x="0" y="-12" font-size="12">0</text>
+          <text class="p-text-muted" x="80" y="-12" font-size="12">25</text>
+          <text class="p-text-muted" x="166" y="-12" font-size="12">50 m</text>
+        </g>
+      </svg></div>
+      <figcaption id="plan-cap"><span class="legend-swatch" aria-hidden="true"></span>Filled beds were harvested on Monday 26 October for this week’s box. Depths in the basin are in metres, as on the port’s chart.<span class="swipe"> Swipe sideways to see the whole plan.</span></figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+
+
+<section id="how" class="section" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h2" id="how-h">How the box works</h2>
+      <p class="lede">Three decisions, made once. After that the box arrives every week until you pause it or stop. There is no contract and no sign-up fee.</p>
+    </div>
+
+    <ol class="steps" role="list" style="list-style:none;margin:0;padding:0">
+      <li class="step">
+        <span class="step-n" aria-hidden="true">1</span>
+        <h3>Choose a size</h3>
+        <p>Small feeds one or two people for a week of dinners. Large is for three to five. You can change size for any week.</p>
+      </li>
+      <li class="step">
+        <span class="step-n" aria-hidden="true">2</span>
+        <h3>Collect it or have it cycled over</h3>
+        <p>Pick up your box on Thursday at one of four points in the city, or we bring it to your door by cargo bike for €4 extra.</p>
+      </li>
+      <li class="step">
+        <span class="step-n" aria-hidden="true">3</span>
+        <h3>Pause any week</h3>
+        <p>Away or still have leeks? Pause before Sunday 20:00 and you pay nothing that week. Reply “pause” to the Monday email, or use your account.</p>
+      </li>
+    </ol>
+
+    <div class="week">
+      <h3 class="week-title">A week on the quay</h3>
+      <p class="caption">Every box follows the same route from bed to kitchen. Dates are for next week’s box.</p>
+      <div class="week-grid" role="list">
+        <div class="day" role="listitem"><span class="day-name">Mon</span><span class="day-date">2 Nov</span><p><span class="t">07:00</span> Harvest starts. You get an email with what is coming.</p></div>
+        <div class="day" role="listitem"><span class="day-name">Tue</span><span class="day-date">3 Nov</span><p>Roots are washed. Greens rest in the cold store at 4 °C.</p></div>
+        <div class="day" role="listitem"><span class="day-name">Wed</span><span class="day-date">4 Nov</span><p>We pack the crates and check every box against the list.</p></div>
+        <div class="day box" role="listitem"><span class="day-name">Thu</span><span class="day-date">5 Nov</span><p><span class="t">Box day.</span> Pickup 15:00–19:00. Cargo bikes ride 14:00–18:00.</p></div>
+        <div class="day" role="listitem"><span class="day-name">Fri</span><span class="day-date">6 Nov</span><p>Missed Thursday? Your box waits in the farm shop cold store.</p></div>
+        <div class="day" role="listitem"><span class="day-name">Sat</span><span class="day-date">7 Nov</span><p><span class="t">10:00–13:00</span> Late pickup at the farm. Visitors welcome.</p></div>
+        <div class="day deadline" role="listitem"><span class="day-name">Sun</span><span class="day-date">8 Nov</span><p><span class="t">20:00</span> Last moment to pause, swap or change size for the week after.</p></div>
+      </div>
+    </div>
+
+    <div class="pickup">
+      <figure class="map" style="margin:0">
+        <svg viewBox="0 0 640 440" role="img" aria-labelledby="map-t">
+          <title id="map-t">Schematic map of Rotterdam with the Nieuwe Maas river, the four pickup points and the cargo-bike delivery area inside the ring road.</title>
+          <rect class="m-land" x="1" y="1" width="638" height="438" rx="4"/>
+          <path class="m-river" d="M-20 262 C90 250 150 236 230 268 S360 318 430 282 S560 196 660 214" stroke-width="44"/>
+          <path class="m-route" d="M120 214 C180 170 240 140 300 118 M120 214 C220 200 360 170 474 150 M120 214 C190 290 260 330 342 344"/>
+          <path class="m-ring" d="M70 96 C170 40 470 40 560 86 C610 112 612 330 560 372 C470 420 170 420 80 372 C30 344 22 128 70 96 Z"/>
+          <line class="m-bridge" x1="318" y1="258" x2="330" y2="318"/>
+          <text class="m-small" x="338" y="300">Erasmus bridge</text>
+          <text class="m-small" x="150" y="290" transform="rotate(4 150 290)">Nieuwe Maas</text>
+          <text class="m-small" x="360" y="196">Centre</text>
+          <text class="m-ringlabel" x="196" y="406">Cargo-bike delivery inside the ring road</text>
+
+          <circle class="m-dot" cx="120" cy="214" r="17"/><text class="m-dotnum" x="120" y="220" text-anchor="middle">1</text>
+          <text class="m-label" x="62" y="180">The farm, M4H</text>
+
+          <circle class="m-dot" cx="300" cy="118" r="17"/><text class="m-dotnum" x="300" y="124" text-anchor="middle">2</text>
+          <text class="m-label" x="326" y="124">Noord</text>
+
+          <circle class="m-dot" cx="474" cy="150" r="17"/><text class="m-dotnum" x="474" y="156" text-anchor="middle">3</text>
+          <text class="m-label" x="500" y="156">Kralingen</text>
+
+          <circle class="m-dot" cx="342" cy="344" r="17"/><text class="m-dotnum" x="342" y="350" text-anchor="middle">4</text>
+          <text class="m-label" x="368" y="350">Katendrecht</text>
+        </svg>
+      </figure>
+
+      <div>
+        <h3 class="week-title" style="margin-bottom:16px">Where to collect</h3>
+        <ul class="points">
+          <li><span class="pin" aria-hidden="true">1</span><h3>The farm shop, Keilehaven quay</h3><p><span class="when">Thu 15:00–19:00, Sat 10:00–13:00.</span> Keilehavenweg 14, Merwe-Vierhavens.</p></li>
+          <li><span class="pin" aria-hidden="true">2</span><h3>Noord, Buurthuis Zwaanshals</h3><p><span class="when">Thu 15:00–19:00.</span> Community centre, ask at the bar.</p></li>
+          <li><span class="pin" aria-hidden="true">3</span><h3>Kralingen, Fietsenmaker Oost</h3><p><span class="when">Thu 15:00–19:00.</span> Bike repair shop near the Oostzeedijk.</p></li>
+          <li><span class="pin" aria-hidden="true">4</span><h3>Katendrecht, Deliplein</h3><p><span class="when">Thu 15:30–19:00.</span> At the bookshop on the square.</p></li>
+          <li><span class="pin bike" aria-hidden="true">+</span><h3>To your door by cargo bike</h3><p><span class="when">Thu 14:00–18:00, €4 a week.</span> Anywhere inside the ring road. Not home? We leave it with a neighbour or in a spot you choose.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="box" class="section" aria-labelledby="box-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h2" id="box-h">This week’s box</h2>
+      <p class="lede">Week 44, harvested on Monday 26 October. The bed code tells you where on the plan each vegetable grew.</p>
+    </div>
+
+    <div class="manifest-wrap">
+      <table class="manifest">
+        <caption class="caption">Contents of the week 44 box. Weights are approximate, the harvest decides.</caption>
+        <thead>
+          <tr><th scope="col">Vegetable</th><th scope="col" class="hide-s">Bed</th><th scope="col" class="r">Small</th><th scope="col" class="r">Large</th></tr>
+        </thead>
+        <tbody id="manifest-body"></tbody>
+        <tfoot>
+          <tr><td>Total weight</td><td class="hide-s"></td><td class="r"><span class="tot" id="tot-s">3.8</span> kg</td><td class="r"><span class="tot" id="tot-l">6.7</span> kg</td></tr>
+        </tfoot>
+      </table>
+
+      <aside class="notes" aria-label="About this week">
+        <div class="stamp">
+          <span class="big num" id="kinds">11</span>
+          <span class="sub">kinds of vegetable in the Large box this week, 10 in the Small</span>
+        </div>
+        <div>
+          <h3>Grower’s note</h3>
+          <p>The first frost came on Friday, so the kale is sweeter than last week. The Uchiki Kuri squash keeps for a month on a cool shelf. The skin is soft enough to eat.</p>
+        </div>
+        <div>
+          <h3>Next week, probably</h3>
+          <p>Celeriac for the Small box too, the first Brussels sprouts, and parsnips if the soil is dry enough to lift them.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+
+<section id="prices" class="section" aria-labelledby="prices-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="h2" id="prices-h">Two sizes, one price each week</h2>
+      <p class="lede">You pay for the weeks you take. Paused weeks are free. We collect the amount by direct debit every four weeks.</p>
+    </div>
+
+    <div class="prices">
+      <div class="price">
+        <h3>Small box</h3>
+        <p class="for">For 1 to 2 people</p>
+        <p class="amount num">€17<small>a week</small></p>
+        <dl>
+          <dt>Weight</dt><dd>about 3.5 to 4 kg</dd>
+          <dt>Variety</dt><dd>7 to 10 kinds</dd>
+        </dl>
+        <svg viewBox="0 -20 320 180" aria-hidden="true">
+          
+          <rect class="c-fill" x="30" y="52" width="200" height="90" rx="2"/>
+          <path class="c-ink" d="M30 82 H230 M30 112 H230"/>
+          <rect class="c-ink" x="110" y="60" width="40" height="12" rx="6" stroke-width="1.5"/>
+          <text class="c-mark" x="130" y="134" text-anchor="middle">P&amp;P S</text>
+          <path class="c-dim" d="M30 36 V44 M230 36 V44 M30 40 H230"/>
+          <text class="c-label" x="130" y="30" text-anchor="middle">40 cm</text>
+          <path class="c-dim" d="M246 52 H254 M246 142 H254 M250 52 V142"/>
+          <text class="c-label" x="262" y="102">18 cm</text>
+          <line class="c-dim" x1="0" y1="150" x2="300" y2="150"/>
+        </svg>
+      </div>
+
+      <div class="price">
+        <h3>Large box</h3>
+        <p class="for">For 3 to 5 people</p>
+        <p class="amount num">€27<small>a week</small></p>
+        <dl>
+          <dt>Weight</dt><dd>about 6.5 to 7.5 kg</dd>
+          <dt>Variety</dt><dd>9 to 12 kinds</dd>
+        </dl>
+        <svg viewBox="0 -20 340 180" aria-hidden="true">
+          
+          <rect class="c-fill" x="10" y="12" width="250" height="130" rx="2"/>
+          <path class="c-ink" d="M10 55 H260 M10 98 H260"/>
+          <rect class="c-ink" x="115" y="22" width="40" height="12" rx="6" stroke-width="1.5"/>
+          <text class="c-mark" x="135" y="132" text-anchor="middle">P&amp;P L</text>
+          <path class="c-dim" d="M276 12 H284 M276 142 H284 M280 12 V142"/>
+          <text class="c-label" x="290" y="82">26 cm</text>
+          <path class="c-dim" d="M10 -4 V4 M260 -4 V4 M10 0 H260"/><text class="c-label" x="135" y="-8" text-anchor="middle">50 cm</text>
+          <line class="c-dim" x1="0" y1="150" x2="300" y2="150"/>
+        </svg>
+      </div>
+
+      <div class="price delivery">
+        <h3>Cargo-bike delivery</h3>
+        <p class="for">Add to either size</p>
+        <p class="amount num addon">+€4<small>a week</small></p>
+        <dl>
+          <dt>When</dt><dd>Thursday 14:00–18:00</dd>
+          <dt>Where</dt><dd>inside the ring road</dd>
+        </dl>
+        <svg viewBox="0 -20 320 180" aria-hidden="true">
+          
+          <circle class="c-ink" cx="62" cy="122" r="24"/>
+          <circle class="c-ink" cx="236" cy="114" r="32"/>
+          <rect class="c-fill" x="24" y="58" width="104" height="52" rx="2"/>
+          <text class="c-mark" x="76" y="91" text-anchor="middle">P&amp;P</text>
+          <path class="c-ink" d="M62 122 L128 104 L236 114 M128 104 L196 70 M206 62 H186 M196 70 L236 114 M150 36 L160 66 L196 70 M140 34 H162" stroke-linejoin="round" stroke-linecap="round"/>
+          <line class="c-dim" x1="0" y1="150" x2="300" y2="150"/>
+        </svg>
+      </div>
+    </div>
+    <p class="price-note">Prices include 9% VAT. A Large box delivered by cargo bike costs €31 a week. If you sign up before Sunday 20:00, your first box comes on Thursday 5 November.</p>
+  </div>
+</section>
+
+
+<section id="farm" class="section farm" aria-labelledby="farm-h">
+  <div class="wrap">
+    <div class="farm-grid">
+      <div class="farm-copy">
+        <h2 class="h2" id="farm-h" style="margin-bottom:32px">A farm on a quay</h2>
+        <p class="lede" style="color:var(--text)">Until 1995, ships unloaded fruit on the Keilehaven quay. In 2021 the port let us use a 2-hectare strip of it that nobody needed.</p>
+        <p>We laid clean soil on top of the concrete and planted 54 beds, three polytunnels and a compost yard. We grow without synthetic pesticides or fertiliser. Everything in your box comes from this site, and most of it was in the ground three days before you eat it.</p>
+        <p>The beds never touch the old harbour ground. The drawing shows what is under them.</p>
+      </div>
+
+      <figure class="cut" style="margin:0">
+        <div class="scroll-x" tabindex="0" role="region" aria-label="Cross-section, scrolls sideways on small screens"><svg viewBox="0 0 680 400" role="img" aria-labelledby="cut-t">
+          <title id="cut-t">Cross-section of a bed: leeks on 30 cm of topsoil and compost, 30 cm of clean sand, a root barrier, then the 80 cm concrete quay deck. The bed surface is 4.2 m above NAP; the harbour water is at about 0.3 m above NAP.</title>
+          <defs>
+            <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line class="s-hatch" x1="0" y1="0" x2="0" y2="12"/>
+            </pattern>
+          </defs>
+          
+          <rect class="s-water" x="500" y="236" width="180" height="164"/>
+          
+          <path class="s-concrete" d="M20 206 H500 V400 H420 V286 H20 Z"/>
+          <path d="M20 206 H500 V400 H420 V286 H20 Z" fill="url(#hatch)"/>
+          
+          <rect class="s-sand" x="20" y="146" width="460" height="58"/>
+          
+          <rect class="s-soil" x="20" y="88" width="460" height="58"/>
+          
+          <line class="s-membrane" x1="20" y1="205" x2="480" y2="205"/>
+          
+          <g class="s-crop">
+            <path d="M60 88 V40 M60 52 L46 22 M60 48 L74 18"/>
+            <path d="M120 88 V36 M120 50 L104 20 M120 46 L136 14"/>
+            <path d="M180 88 V42 M180 54 L166 26 M180 50 L194 22"/>
+            <path d="M240 88 V38 M240 50 L226 18 M240 46 L254 16"/>
+            <path d="M300 88 V40 M300 52 L286 22 M300 48 L314 20"/>
+            <path d="M360 88 V36 M360 50 L346 20 M360 46 L374 16"/>
+            <path d="M420 88 V42 M420 54 L406 26 M420 50 L434 22"/>
+          </g>
+          
+          <g class="s-line" stroke-width="1" opacity="1">
+            <path d="M60 88 v30 M56 92 l-6 18 M64 92 l6 18 M120 88 v34 M180 88 v28 M240 88 v34 M300 88 v30 M360 88 v34 M420 88 v28"/>
+          </g>
+          
+          <line class="s-line" x1="500" y1="236" x2="680" y2="236"/>
+          
+          <path class="s-line" d="M20 88 H680" stroke-dasharray="3 4" stroke-width="1"/>
+          <text class="s-level" x="500" y="78">BED SURFACE</text><text class="s-note" x="590" y="78">NAP +4.2 m</text>
+          <text class="s-label s-inv" x="30" y="114">Topsoil and compost, 30 cm</text>
+          <text class="s-note s-inv" x="30" y="134">Made on site</text>
+          <text class="s-label" x="30" y="182">Clean sand, 30 cm</text>
+          <text class="s-label" x="300" y="226" style="color:var(--accent)">Root barrier</text>
+          <text class="s-label" x="30" y="252">Quay deck, 1962</text>
+          <text class="s-note" x="30" y="272">80 cm reinforced concrete</text>
+          <text class="s-level" x="512" y="262">WATER</text><text class="s-note" x="512" y="280">NAP +0.3 m on average</text>
+        </svg></div>
+        <figcaption class="caption">Section through bed A2. NAP is the Dutch reference level, close to mean sea level. An independent lab tests the soil and the crops every spring.</figcaption>
+      </figure>
+    </div>
+
+    <div class="growers">
+      <div class="grower">
+        <span class="initials" aria-hidden="true">FH</span>
+        <h3>Femke Hoogendijk</h3>
+        <p class="role">Head grower</p>
+        <p>Ran a market garden in the Westland for six years before the quay. She plans every bed on paper in January and decides on Sunday what goes in the box.</p>
+      </div>
+      <div class="grower">
+        <span class="initials" aria-hidden="true">YE</span>
+        <h3>Youssef El Idrissi</h3>
+        <p class="role">Soil and compost</p>
+        <p>Makes the compost from park cuttings, coffee grounds from cafés in Noord and the leaves of our own crops. He also runs the spring soil tests with the lab.</p>
+      </div>
+      <div class="grower">
+        <span class="initials" aria-hidden="true">AV</span>
+        <h3>Anouk Verbeek</h3>
+        <p class="role">Boxes and members</p>
+        <p>Packs on Wednesday and rides one of the two cargo bikes on Thursday. If you email us, she is the person who answers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="faq" class="section" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <div>
+      <h2 class="h2" id="faq-h">Questions people ask first</h2>
+      <p class="caption" style="margin-top:20px;max-width:24em">Anything else? Email <a href="mailto:hello@polderenplot.nl">hello@polderenplot.nl</a>. Anouk answers within one working day.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Is it safe to grow food on an old harbour site?<span class="sign" aria-hidden="true"></span></summary>
+        <div class="answer">
+          <p>Yes. The beds do not touch the original ground. They sit on 60 cm of clean sand and soil over the concrete quay deck, with a root barrier between them.</p>
+          <p>An independent lab tests the soil and a sample of crops every spring for heavy metals and oil residues. You can read the 2026 report in the farm shop or ask us for the PDF.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How do I pause or stop?<span class="sign" aria-hidden="true"></span></summary>
+        <div class="answer">
+          <p>To pause a week, reply “pause” to the Monday email or use your account before Sunday 20:00. A paused week costs nothing. You can pause as many weeks as you like.</p>
+          <p>To stop, tell us before Sunday 20:00. Your last box comes that Thursday. There is no notice period and no fee.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What if I miss my pickup?<span class="sign" aria-hidden="true"></span></summary>
+        <div class="answer">
+          <p>Boxes that are not collected on Thursday go back to the cold store at the farm. Collect yours on Saturday between 10:00 and 13:00.</p>
+          <p>If nobody collects a box by Saturday 13:00, we give the vegetables to a food bank in Delfshaven. We still charge for that week.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Can I leave out vegetables I don’t eat?<span class="sign" aria-hidden="true"></span></summary>
+        <div class="answer">
+          <p>Yes. Name up to three vegetables you never want, for example beetroot or celeriac. We replace them with something else from that week’s harvest of about the same weight.</p>
+          <p>If you have an allergy, tell us when you sign up. We pack all boxes in one shed, so we cannot promise that no trace of another vegetable is left.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<section id="signup" class="on-field" aria-labelledby="signup-h">
+  <div class="signup"><div class="wrap">
+    <div class="signup-grid">
+      <div>
+        <h2 class="h2" id="signup-h">Start your box</h2>
+        <p class="lede">Sign up before Sunday 20:00 and your first box comes this Thursday week. You pay nothing today.</p>
+        <div class="summary" aria-live="polite">
+          <span class="total num"><span id="sum-price">€27</span><small>a week</small></span>
+          <p id="sum-text"><strong>Large box</strong>, collected at the farm shop. First box on <strong>Thursday 5 November</strong>.</p>
+        </div>
+      </div>
+
+      <div>
+        <form id="form" novalidate>
+          <fieldset>
+            <legend>Box size</legend>
+            <div class="choice-row two">
+              <label class="choice"><input type="radio" name="size" value="small"><span><b>Small</b><em>€17, 1–2 people</em></span></label>
+              <label class="choice"><input type="radio" name="size" value="large" checked><span><b>Large</b><em>€27, 3–5 people</em></span></label>
+            </div>
+          </fieldset>
+
+          <div>
+            <label class="label" for="where">Where do you get it?</label>
+            <div class="select-wrap">
+              <select class="select" id="where" name="where">
+                <option value="1">1. The farm shop, Keilehaven quay</option>
+                <option value="2">2. Noord, Buurthuis Zwaanshals</option>
+                <option value="3">3. Kralingen, Fietsenmaker Oost</option>
+                <option value="4">4. Katendrecht, Deliplein</option>
+                <option value="bike">Cargo-bike delivery to my door (+€4)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="addr-row" hidden>
+            <label class="label" for="postcode">Postcode and house number</label>
+            <input class="input" id="postcode" name="postcode" autocomplete="postal-code" placeholder="3014 GB 21">
+            <p class="hint">We deliver inside the ring road. We check your address before the first box.</p>
+            <p class="error" id="postcode-err">Enter your postcode and house number, for example 3014 GB 21.</p>
+          </div>
+
+          <div class="field-row">
+            <div id="name-f">
+              <label class="label" for="name">Your name</label>
+              <input class="input" id="name" name="name" autocomplete="name" required aria-describedby="name-err">
+              <p class="error" id="name-err">Enter your name so we can label your box.</p>
+            </div>
+            <div id="email-f">
+              <label class="label" for="email">Email</label>
+              <input class="input" id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-err">
+              <p class="error" id="email-err">Enter an email address like name@example.nl.</p>
+            </div>
+          </div>
+
+          <div>
+            <label class="label" for="start">First box</label>
+            <div class="select-wrap">
+              <select class="select" id="start" name="start">
+                <option value="5 November">Thursday 5 November (week 45)</option>
+                <option value="12 November">Thursday 12 November (week 46)</option>
+                <option value="19 November">Thursday 19 November (week 47)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-foot">
+            <button class="btn btn-primary" type="submit">Start my box</button>
+            <p>No payment now. We send the direct debit form with your first Monday email. Read how we use your details in our <a href="#privacy">privacy statement</a>.</p>
+          </div>
+        </form>
+
+        <div class="done" id="done" hidden tabindex="-1">
+          <h3>You are on the list</h3>
+          <p id="done-text"></p>
+          <p>Questions before then? Reply to that email or write to hello@polderenplot.nl.</p>
+          <button class="btn btn-quiet" type="button" id="again">Change my details</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <footer>
+    <div class="wrap foot">
+      <address>Polder &amp; Plot, Keilehavenweg 14, 3029 BG Rotterdam<br><a href="mailto:hello@polderenplot.nl">hello@polderenplot.nl</a>, KvK 81734520</address>
+      <div><a href="#privacy" id="privacy">Privacy statement</a> <span aria-hidden="true">&nbsp;</span> <a href="#faq">Questions</a></div>
+      <div class="theme-switch" role="group" aria-label="Colour theme">
+        <span>Theme</span>
+        <button type="button" data-set="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-set="light" aria-pressed="false">Light</button>
+        <button type="button" data-set="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<script>
+(() => {
+  /* ---------- site plan: beds, sleepers, bollards ---------- */
+  const NS = 'http://www.w3.org/2000/svg';
+  const harvested = { A2: 'LEEKS', B2: 'CARROTS', B5: 'BEETROOT', C4: 'CELERIAC', D1: 'CHARD', E2: 'SQUASH', E5: 'KALE', F3: 'RADICCHIO' };
+  const blocks = [['A', 60, 72], ['B', 210, 72], ['C', 360, 72], ['D', 60, 252], ['E', 210, 252], ['F', 360, 252]];
+  const beds = document.getElementById('beds');
+  const mk = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+  for (const [b, x0, y0] of blocks) {
+    for (let i = 0; i < 6; i++) {
+      const code = b + (i + 1), x = x0 + i * 22, on = code in harvested;
+      beds.appendChild(mk('rect', { x, y: y0, width: 18, height: 150, class: 'p-bed' + (on ? ' on' : '') }));
+      if (on) {
+        const t = mk('text', { class: 'p-bedlabel', transform: `translate(${x + 13.5} ${y0 + 75}) rotate(-90)`, 'text-anchor': 'middle' });
+        t.textContent = code + '  ' + harvested[code];
+        beds.appendChild(t);
+      }
+    }
+  }
+  let d = '';
+  for (let x = 4; x < 720; x += 14) d += `M${x} 444 V458 `;
+  document.getElementById('sleepers').setAttribute('d', d);
+  const bol = document.getElementById('bollards');
+  for (let x = 30; x < 720; x += 64) bol.appendChild(mk('circle', { cx: x, cy: 476, r: 4.5, class: 'p-ink', 'stroke-width': 1.5 }));
+
+  /* ---------- manifest ---------- */
+  const rows = [
+    ['Squash', 'Uchiki Kuri', 'E2', '1 small', 0.9, '1', 1.2],
+    ['Carrots', 'Nantes', 'B2', '600 g', 0.6, '1 kg', 1.0],
+    ['Celeriac', 'Monarch', 'C4', null, 0, '1', 0.8],
+    ['Leeks', 'Bandit', 'A2', '2', 0.45, '4', 0.9],
+    ['Red onions', 'Stored since August', 'Store', '500 g', 0.5, '750 g', 0.75],
+    ['Beetroot', 'Chioggia, striped', 'B5', '400 g', 0.4, '600 g', 0.6],
+    ['Radicchio', 'Rosso di Treviso', 'F3', '1 head', 0.25, '2 heads', 0.5],
+    ['Rainbow chard', 'Bright Lights', 'D1', '250 g', 0.25, '400 g', 0.4],
+    ['Kale', 'Nero di Toscana', 'E5', '200 g', 0.2, '300 g', 0.3],
+    ['Winter salad', 'Mizuna, claytonia, rocket', 'T2', '150 g', 0.15, '200 g', 0.2],
+    ['Flat-leaf parsley', 'Gigante', 'T1', '1 bunch', 0.05, '1 bunch', 0.05],
+  ];
+  const max = Math.max(...rows.map(r => r[6]));
+  const kg = v => v >= 1 ? v.toFixed(1).replace('.0', '') + ' kg' : Math.round(v * 1000) + ' g';
+  const tb = document.getElementById('manifest-body');
+  let ts = 0, tl = 0;
+  for (const [item, variety, bed, qs, ws, ql, wl] of rows) {
+    ts += ws; tl += wl;
+    const tr = document.createElement('tr');
+    const small = qs === null ? '<span class="none">Not this week</span>'
+      : `${qs}${/g$/.test(qs) ? '' : `<span class="kg">${kg(ws)}</span>`}`;
+    const large = `${ql}${/g$/.test(ql) ? '' : `<span class="kg">${kg(wl)}</span>`}`;
+    tr.innerHTML = `<th scope="row" class="item" style="font-weight:700">${item}<span class="variety">${variety}</span><span class="bar" aria-hidden="true"><i style="width:${(wl / max * 100).toFixed(1)}%"></i></span></th>`
+      + `<td class="bed hide-s">${bed}</td><td class="r qty">${small}</td><td class="r qty">${large}</td>`;
+    tb.appendChild(tr);
+  }
+  document.getElementById('tot-s').textContent = ts.toFixed(1);
+  document.getElementById('tot-l').textContent = tl.toFixed(1);
+
+  /* ---------- sign-up ---------- */
+  const form = document.getElementById('form');
+  const where = document.getElementById('where');
+  const start = document.getElementById('start');
+  const addr = document.getElementById('addr-row');
+  const places = { '1': 'collected at the farm shop', '2': 'collected in Noord', '3': 'collected in Kralingen', '4': 'collected in Katendrecht', bike: 'brought by cargo bike' };
+  const update = () => {
+    const size = form.size.value;
+    const bike = where.value === 'bike';
+    addr.hidden = !bike;
+    const price = (size === 'large' ? 27 : 17) + (bike ? 4 : 0);
+    document.getElementById('sum-price').textContent = '€' + price;
+    document.getElementById('sum-text').innerHTML = `<strong>${size === 'large' ? 'Large' : 'Small'} box</strong>, ${places[where.value]}. First box on <strong>Thursday ${start.value}</strong>.`;
+    return { size, bike, price };
+  };
+  form.addEventListener('change', update);
+  update();
+
+  const check = (wrapId, ok, input) => {
+    const w = document.getElementById(wrapId) || input.parentElement;
+    w.classList.toggle('is-invalid', !ok);
+    input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    return ok;
+  };
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const s = update();
+    const name = form.name, email = form.email, pc = form.postcode;
+    const okName = check('name-f', name.value.trim().length > 1, name);
+    const okMail = check('email-f', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()), email);
+    const okPc = s.bike ? check('addr-row', /^\s*\d{4}\s?[a-zA-Z]{2}\s*\d+/.test(pc.value), pc) : true;
+    if (!(okName && okMail && okPc)) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+    document.getElementById('done-text').textContent =
+      `Your ${s.size === 'large' ? 'Large' : 'Small'} box (€${s.price} a week) starts on Thursday ${start.value}. We sent a confirmation to ${email.value.trim()}. The direct debit form comes with your first Monday email.`;
+    form.hidden = true;
+    const done = document.getElementById('done');
+    done.hidden = false; done.focus();
+  });
+  document.getElementById('again').addEventListener('click', () => {
+    document.getElementById('done').hidden = true; form.hidden = false; form.name.focus();
+  });
+
+  /* ---------- theme switch ---------- */
+  const btns = document.querySelectorAll('.theme-switch button');
+  const setTheme = v => {
+    if (v === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', v);
+    btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === v)));
+  };
+  const initial = document.documentElement.getAttribute('data-theme');
+  if (initial) setTheme(initial);
+  btns.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.set)));
+})();
+</script>
+</body>
+</html>
