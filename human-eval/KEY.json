@@ -1,53 +1,89 @@
 {
- "set": "2026-10-28",
- "note": "Maps design codes to brief and condition. Not loaded by the page.",
+ "set": "2026-10-29",
+ "note": "Maps design codes to brief and condition. The page does not load it.",
  "codes": {
-  "4myg": {
+  "acu4": {
    "brief": "b1",
    "condition": "telltale-r2"
   },
-  "q5k7": {
+  "e787": {
    "brief": "b1",
    "condition": "telltale-r1"
   },
-  "t9b8": {
+  "hfyu": {
    "brief": "b1",
    "condition": "frontend-design"
   },
-  "97fk": {
+  "p9dz": {
    "brief": "b1",
    "condition": "no-skill"
   },
-  "kaea": {
+  "x25f": {
    "brief": "b2",
    "condition": "telltale-r2"
   },
-  "teww": {
+  "ebn7": {
    "brief": "b2",
    "condition": "telltale-r1"
   },
-  "hwsz": {
+  "4prp": {
    "brief": "b2",
    "condition": "frontend-design"
   },
-  "hhbw": {
+  "gjzr": {
    "brief": "b2",
    "condition": "no-skill"
   },
-  "jj2b": {
+  "h23v": {
    "brief": "b3",
    "condition": "telltale-r2"
   },
-  "ab8s": {
+  "b3tn": {
    "brief": "b3",
    "condition": "telltale-r1"
   },
-  "wsmd": {
+  "b3tb": {
    "brief": "b3",
    "condition": "frontend-design"
   },
-  "ggwx": {
+  "gqcz": {
    "brief": "b3",
+   "condition": "no-skill"
+  },
+  "ux4y": {
+   "brief": "b4",
+   "condition": "telltale-r2"
+  },
+  "fw5p": {
+   "brief": "b4",
+   "condition": "frontend-design"
+  },
+  "s2k8": {
+   "brief": "b4",
+   "condition": "no-skill"
+  },
+  "c6nb": {
+   "brief": "b5",
+   "condition": "telltale-r2"
+  },
+  "y7hh": {
+   "brief": "b5",
+   "condition": "frontend-design"
+  },
+  "uw62": {
+   "brief": "b5",
+   "condition": "no-skill"
+  },
+  "apgt": {
+   "brief": "b6",
+   "condition": "telltale-r2"
+  },
+  "axp5": {
+   "brief": "b6",
+   "condition": "frontend-design"
+  },
+  "py2x": {
+   "brief": "b6",
    "condition": "no-skill"
   }
  }

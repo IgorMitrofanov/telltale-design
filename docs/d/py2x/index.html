@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lantern Nights 2027 — Programme &amp; Tickets</title>
+<meta name="description" content="Three nights of chamber music in a former brewery in Ghent, 14–16 August 2027. Timetable, tickets and how to get there.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Fraunces:ital,opsz,wght@1,9..144,400..600&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#A6592B;
+
+  /* light theme */
+  --bg:#F1E9DC;
+  --bg-2:#E8DECD;
+  --card:#F8F2E8;
+  --ink:#241A13;
+  --ink-2:#5B4C40;
+  --rule:#241A13;
+  --soft-rule:color-mix(in oklab,var(--ink) 18%,transparent);
+  --accent:color-mix(in oklab,var(--brand) 78%,#000);      /* brand as text / lines */
+  --tint:color-mix(in oklab,var(--brand) 13%,var(--bg));
+  --tint-2:color-mix(in oklab,var(--brand) 24%,var(--bg));
+  --on-brand:#fff;
+  --on-brand:oklch(from var(--brand) calc((0.64 - l) * 100) 0 0);
+  --grain:.07;
+  --d:"Bricolage Grotesque",Impact,sans-serif;
+  --s:"Fraunces",Georgia,serif;
+  --b:"Instrument Sans",system-ui,sans-serif;
+  --m:"DM Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#16110D;--bg-2:#1E1813;--card:#201913;--ink:#F2E7D6;--ink-2:#BCAA96;--rule:#F2E7D6;
+    --accent:color-mix(in oklab,var(--brand) 60%,#fff);
+    --tint:color-mix(in oklab,var(--brand) 16%,var(--bg));
+    --tint-2:color-mix(in oklab,var(--brand) 30%,var(--bg));
+    --grain:.12;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16110D;--bg-2:#1E1813;--card:#201913;--ink:#F2E7D6;--ink-2:#BCAA96;--rule:#F2E7D6;
+  --accent:color-mix(in oklab,var(--brand) 60%,#fff);
+  --tint:color-mix(in oklab,var(--brand) 16%,var(--bg));
+  --tint-2:color-mix(in oklab,var(--brand) 30%,var(--bg));
+  --grain:.12;
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--b);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:var(--grain);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .12  0 0 0 0 .05  0 0 0 1.2 -.35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+a{color:inherit}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;font:600 16px/1 var(--b);letter-spacing:.01em;
+  padding:16px 24px;border:2px solid var(--rule);background:var(--brand);color:var(--on-brand);text-decoration:none;cursor:pointer;
+  box-shadow:4px 4px 0 var(--rule);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--rule)}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--rule)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.sm{padding:11px 16px;font-size:15px;box-shadow:3px 3px 0 var(--rule)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:2px solid var(--rule)}
+header.top .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.logo{font:800 22px/1 var(--d);font-stretch:75%;text-transform:uppercase;letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo svg{width:20px;height:26px}
+nav.main{display:flex;gap:22px;font:500 15px var(--b)}
+nav.main a{text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
+nav.main a:hover{border-color:var(--accent)}
+.theme{background:none;border:2px solid var(--rule);width:40px;height:40px;cursor:pointer;color:var(--ink);display:grid;place-items:center}
+.theme svg{width:18px;height:18px}
+
+/* hero */
+.hero{position:relative;border-bottom:2px solid var(--rule);overflow:hidden}
+.hero .wrap{padding:44px 0 0;position:relative;z-index:1}
+.kicker{font:500 13px var(--m);letter-spacing:.12em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink-2)}
+.kicker b{color:var(--accent);font-weight:500}
+h1{font:800 clamp(78px,19.5vw,300px)/.8 var(--d);font-stretch:75%;text-transform:uppercase;letter-spacing:-.025em;margin:22px 0 0 -.04em}
+h1 span{display:block}
+h1 .l2{color:var(--accent);padding-left:.38em}
+h1 .l2 em{font:italic 400 .36em/1 var(--s);-webkit-text-stroke:0;color:var(--accent);letter-spacing:0;text-transform:none;position:relative;top:-.2em;margin-left:-.5em;margin-right:.1em;display:none}
+.hero-row{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;margin-top:36px}
+.lede{font:italic 400 clamp(21px,2.4vw,30px)/1.3 var(--s);max-width:30ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-end}
+.skyline{display:block;width:100%;height:auto;margin-top:34px;color:var(--brand);margin-bottom:-2px}
+.sticker{position:absolute;right:max(16px,4vw);top:30px;width:clamp(96px,12vw,150px);aspect-ratio:1;border-radius:50%;background:var(--brand);color:var(--on-brand);
+  display:grid;place-items:center;text-align:center;transform:rotate(9deg);font:800 clamp(14px,1.7vw,21px)/1.05 var(--d);font-stretch:75%;text-transform:uppercase;border:2px solid var(--rule);z-index:2}
+.sticker small{display:block;font:500 .5em var(--m);letter-spacing:.08em;margin-top:4px}
+
+/* sections */
+section{padding:84px 0 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.eyebrow{font:500 13px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:10px}
+h2{font:800 clamp(44px,7vw,92px)/.88 var(--d);font-stretch:75%;text-transform:uppercase;letter-spacing:-.01em}
+h2 i{font:italic 400 .8em var(--s);text-transform:none;color:var(--accent);letter-spacing:0}
+.sub{max-width:44ch;color:var(--ink-2)}
+
+/* programme */
+.controls{position:sticky;top:64px;z-index:30;background:var(--bg);border-top:2px solid var(--rule);border-bottom:2px solid var(--rule);margin-bottom:0}
+.controls .in{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:500 14px var(--b);padding:8px 14px;border:2px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer;border-radius:99px;text-decoration:none;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chip .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:0}
+.dot.hall{background:var(--brand)}
+.dot.cellar{background:transparent;border:2px solid var(--ink)}
+.legend{font:400 13px var(--m);color:var(--ink-2)}
+.day{display:grid;grid-template-columns:230px 1fr;gap:0 40px;border-bottom:2px solid var(--rule);padding:34px 0 20px}
+.day-label{position:sticky;top:150px;align-self:start}
+.day-label .n{font:800 120px/.8 var(--d);font-stretch:75%;color:var(--accent);display:block}
+.day-label .w{font:800 28px/1 var(--d);font-stretch:75%;text-transform:uppercase;display:block;margin-top:10px}
+.day-label .t{font:italic 400 18px/1.3 var(--s);color:var(--ink-2);display:block;margin-top:8px}
+.day-label .dpass{font:500 12px var(--m);margin-top:12px;display:block;color:var(--ink-2)}
+.slot{display:grid;grid-template-columns:86px 1fr auto;gap:4px 24px;padding:20px 0;border-top:1px solid var(--soft-rule);align-items:start}
+.slot:first-of-type{border-top:0}
+.time{font:500 21px/1.1 var(--m);letter-spacing:-.02em}
+.time small{display:block;font-size:12px;color:var(--ink-2);margin-top:5px;letter-spacing:0}
+.slot h3{font:700 clamp(23px,2.6vw,32px)/1.05 var(--d);font-stretch:85%;letter-spacing:-.005em}
+.slot .who{color:var(--ink-2);margin-top:6px;font-size:16px}
+.slot .who b{color:var(--ink);font-weight:600}
+.slot .note{font:italic 400 15px/1.4 var(--s);margin-top:6px;color:var(--accent)}
+.meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:120px}
+.stage{font:500 12px var(--m);letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:2px solid var(--rule);white-space:nowrap}
+.stage.hall{background:var(--brand);color:var(--on-brand)}
+.tier{font:500 13px var(--m);color:var(--ink-2);display:inline-flex;gap:6px;align-items:center}
+.tier i{font-style:normal;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--tint-2);color:var(--ink);font-weight:500;font-size:12px}
+.slot.hide{display:none}
+.slot.late h3::after{content:"late";font:500 11px var(--m);text-transform:uppercase;letter-spacing:.1em;vertical-align:middle;margin-left:10px;padding:3px 7px;background:var(--ink);color:var(--bg)}
+.tiers-key{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--rule);margin-top:34px;background:var(--card)}
+.tiers-key div{padding:18px 20px;border-right:2px solid var(--rule)}
+.tiers-key div:last-child{border:0}
+.tiers-key b{font:800 34px/1 var(--d);font-stretch:75%;display:block}
+.tiers-key span{font:400 14px/1.4 var(--b);color:var(--ink-2)}
+
+/* tickets */
+.tickets{margin-top:84px;padding:84px 0;background:var(--brand);color:var(--on-brand);border-block:2px solid var(--rule);position:relative}
+.tickets .eyebrow{color:inherit;opacity:.85}
+.tickets h2 i{color:inherit}
+.tickets .sub{color:inherit;opacity:.9}
+.tickets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px;align-items:stretch}
+.pass{background:var(--bg);color:var(--ink);border:2px solid var(--rule);padding:28px 26px 26px;display:flex;flex-direction:column;box-shadow:8px 8px 0 var(--rule);position:relative}
+.pass.best{transform:translateY(-14px)}
+.pass .flag{position:absolute;top:-14px;right:18px;background:var(--ink);color:var(--bg);font:500 12px var(--m);letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;transform:rotate(2deg)}
+.pass h3{font:800 28px/1 var(--d);font-stretch:75%;text-transform:uppercase}
+.price{font:800 84px/1 var(--d);font-stretch:75%;margin:18px 0 4px;letter-spacing:-.02em}
+.price sup{font-size:.4em;vertical-align:top;position:relative;top:.2em;margin-right:4px}
+.price-note{font:500 13px var(--m);color:var(--ink-2)}
+.pass ul{list-style:none;padding:0;margin:22px 0 26px;display:grid;gap:10px;font-size:16px}
+.pass li{padding-left:26px;position:relative}
+.pass li::before{content:"";position:absolute;left:0;top:.45em;width:14px;height:8px;border-left:3px solid var(--accent);border-bottom:3px solid var(--accent);transform:rotate(-48deg) scale(.85)}
+.pass .btn{margin-top:auto}
+.tickets .fine{margin-top:34px;font-size:15px;max-width:70ch;opacity:.92}
+
+/* venue */
+.venue{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.venue address{font:italic 400 24px/1.3 var(--s);margin:18px 0 26px}
+.routes{display:grid;gap:0;border-top:2px solid var(--rule)}
+.route{display:grid;grid-template-columns:54px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--soft-rule)}
+.route svg{width:44px;height:44px;color:var(--accent)}
+.route h3{font:700 22px/1.1 var(--d);font-stretch:85%;text-transform:uppercase;margin-bottom:4px}
+.route p{color:var(--ink-2);font-size:16px}
+.route p b{color:var(--ink);font-weight:600}
+.map{background:var(--card);border:2px solid var(--rule);padding:14px;box-shadow:8px 8px 0 var(--rule)}
+.map svg{display:block;width:100%;height:auto}
+.map figcaption{font:400 12px var(--m);color:var(--ink-2);padding-top:10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* access + faq */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.acc{display:grid;gap:0;margin-top:26px;border-top:2px solid var(--rule)}
+.acc div{padding:16px 0;border-bottom:1px solid var(--soft-rule);display:grid;grid-template-columns:130px 1fr;gap:16px}
+.acc dt{font:500 13px var(--m);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.acc dd{margin:0;font-size:16px}
+details{border-bottom:1px solid var(--soft-rule)}
+.faq{margin-top:26px;border-top:2px solid var(--rule)}
+summary{list-style:none;cursor:pointer;padding:18px 0;font:700 21px/1.2 var(--d);font-stretch:90%;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 30px/1 var(--m);color:var(--accent);transition:transform .2s;flex:none}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 40px 20px 0;color:var(--ink-2);font-size:16px}
+
+footer{margin-top:96px;background:var(--ink);color:var(--bg);padding:48px 0 34px;overflow:hidden}
+footer .big{font:800 clamp(60px,15vw,230px)/.8 var(--d);font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em;color:color-mix(in oklab,var(--brand) 80%,var(--ink));white-space:nowrap}
+footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:30px;font:400 14px var(--m);opacity:.85}
+
+/* dialog */
+dialog{border:2px solid var(--rule);background:var(--bg);color:var(--ink);padding:0;width:min(480px,calc(100% - 32px));box-shadow:10px 10px 0 var(--rule);margin:auto}
+dialog::backdrop{background:rgba(20,12,6,.6)}
+.dlg{padding:26px}
+.dlg h3{font:800 34px/1 var(--d);font-stretch:75%;text-transform:uppercase;margin-bottom:18px}
+.dlg label{display:block;font:500 13px var(--m);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 6px;color:var(--ink-2)}
+.dlg select,.dlg input{width:100%;font:500 17px var(--b);padding:12px;border:2px solid var(--rule);background:var(--card);color:var(--ink);border-radius:0}
+.dlg .tot{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0;border-top:2px solid var(--rule);padding-top:14px;font:500 14px var(--m)}
+.dlg .tot b{font:800 44px/1 var(--d);font-stretch:75%}
+.dlg .acts{display:flex;gap:12px}
+.dlg .acts .btn{flex:1}
+.ok{display:none;font:italic 400 20px/1.3 var(--s);color:var(--accent);margin-top:14px}
+
+@media (max-width:900px){
+  nav.main{display:none}
+  .hero-row{grid-template-columns:1fr;gap:22px}
+  .hero-cta{justify-content:flex-start}
+  .day{grid-template-columns:1fr;padding-top:26px}
+  .day-label{position:static;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .day-label .n{font-size:84px}
+  .day-label .w{margin:0}
+  .day-label .t,.day-label .dpass{margin:0;flex-basis:100%}
+  .tickets-grid{grid-template-columns:1fr;gap:34px}
+  .pass.best{transform:none}
+  .venue,.two{grid-template-columns:1fr;gap:40px}
+  section{padding-top:64px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  header.top .wrap{height:58px}
+  .controls{top:58px}
+  .slot{grid-template-columns:62px 1fr;gap:4px 14px;padding:18px 0}
+  .time{font-size:18px}
+  .meta{grid-column:2;flex-direction:row;align-items:center;justify-content:space-between;margin-top:8px}
+  .sticker{top:auto;bottom:64%;right:14px}
+  h1 .l2{padding-left:.3em}
+  .tiers-key{grid-template-columns:1fr}
+  .tiers-key div{border-right:0;border-bottom:2px solid var(--rule)}
+  .acc div{grid-template-columns:1fr;gap:4px}
+  .btn.hdr{padding:10px 14px;font-size:14px}
+  .legend{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Lantern Nights home">
+      <svg viewBox="0 0 20 26" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 1h6M10 1v3M5 5h10l1 4v10l-1 4H5l-1-4V9z"/><path d="M10 10c2 2 2 5 0 7-2-2-2-5 0-7z" fill="var(--brand)" stroke="none"/></svg>
+      Lantern Nights
+    </a>
+    <nav class="main" aria-label="Sections">
+      <a href="#programme">Programme</a><a href="#tickets">Tickets</a><a href="#venue">Getting there</a><a href="#access">Access</a><a href="#faq">FAQ</a>
+    </nav>
+    <button class="theme" id="theme" aria-label="Toggle light and dark theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+    <a class="btn sm hdr" href="#tickets" data-buy>Buy tickets</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="sticker" aria-hidden="true"><span>Sneakers<br>welcome<small>EST. 2019</small></span></div>
+  <div class="wrap">
+    <p class="kicker"><b>14–16 August 2027</b><span>Ghent, Belgium</span><span>Former Brouwerij Sint-Pieters</span></p>
+    <h1><span>Lantern</span><span class="l2">Nights</span></h1>
+    <div class="hero-row">
+      <p class="lede">Three nights of chamber music between copper tanks and brick walls. Come as you are, stay till the last encore.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#tickets" data-buy>Buy tickets from €20</a>
+        <a class="btn ghost" href="#programme">See the programme</a>
+      </div>
+    </div>
+    <svg class="skyline" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true" fill="currentColor">
+      <rect x="0" y="146" width="1200" height="4"/>
+      <g><rect x="40" y="70" width="150" height="76"/><rect x="60" y="48" width="110" height="22"/>
+      <rect x="230" y="40" width="26" height="106"/><path d="M226 40h34l-4-14h-26z"/>
+      <path d="M300 146V80q50-44 100 0v66z"/><path d="M430 146V70q42-40 84 0v76z"/><path d="M545 146V90q34-30 68 0v56z"/>
+      <rect x="660" y="60" width="200" height="86"/><path d="M660 60l30-24h140l30 24z"/>
+      <rect x="900" y="20" width="34" height="126"/><rect x="894" y="12" width="46" height="10"/>
+      <rect x="980" y="82" width="190" height="64"/><rect x="1010" y="58" width="130" height="24"/></g>
+      <g fill="var(--bg)"><rect x="680" y="84" width="14" height="22"/><rect x="710" y="84" width="14" height="22"/><rect x="740" y="84" width="14" height="22"/><rect x="770" y="84" width="14" height="22"/><rect x="800" y="84" width="14" height="22"/><rect x="830" y="84" width="14" height="22"/>
+      <circle cx="115" cy="108" r="22"/><circle cx="1075" cy="114" r="10"/><circle cx="1120" cy="114" r="10"/><rect x="334" y="104" width="32" height="42"/><rect x="460" y="108" width="24" height="38"/></g>
+    </svg>
+  </div>
+</div>
+
+<section id="programme" style="padding-top:84px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">01 — Timetable</span><h2>Fifteen concerts,<br><i>two rooms</i></h2></div>
+      <p class="sub">Doors open 30 minutes before the first concert each day. Most programmes run 60–75 minutes, no interval, drinks allowed in.</p>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="wrap in">
+      <div class="chips" role="group" aria-label="Filter by stage">
+        <button class="chip" data-f="all" aria-pressed="true">All stages</button>
+        <button class="chip" data-f="hall" aria-pressed="false"><span class="dot hall"></span>Mash Hall</button>
+        <button class="chip" data-f="cellar" aria-pressed="false"><span class="dot cellar"></span>The Cellar</button>
+      </div>
+      <div class="chips">
+        <a class="chip" href="#sat">Sat 14</a><a class="chip" href="#sun">Sun 15</a><a class="chip" href="#mon">Mon 16</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- DAY 1 -->
+    <div class="day" id="sat">
+      <div class="day-label"><span class="n">14</span><span class="w">Saturday</span><span class="t">Opening night: strings and smoke</span><span class="dpass">5 concerts · Day pass €45</span></div>
+      <div class="slots">
+        <article class="slot" data-stage="hall"><div class="time">15:00<small>60 min</small></div>
+          <div><h3>Opening Fanfare for Five Brass</h3><p class="who"><b>Ostend Brass Quintet</b> · Ravel, Gabrieli, Ewald</p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>S</i>€15</span></div></article>
+        <article class="slot" data-stage="cellar"><div class="time">17:30<small>45 min</small></div>
+          <div><h3>Solo Cello at the Tap Room</h3><p class="who"><b>Noor Verhaeghe</b> · Bach Suites 1, 3 &amp; 5</p><p class="note">Bring a cushion, the floor is stone.</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>S</i>€15</span></div></article>
+        <article class="slot" data-stage="hall"><div class="time">19:30<small>75 min</small></div>
+          <div><h3>Dvořák: American Quartet</h3><p class="who"><b>Quatuor Lumière</b> · Dvořák, Janáček, Haydn</p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>L</i>€35</span></div></article>
+        <article class="slot" data-stage="cellar"><div class="time">21:15<small>50 min</small></div>
+          <div><h3>Songs from the Canal</h3><p class="who"><b>Mara Dekker</b> soprano, <b>Tomas Aerts</b> piano · Schubert, Poulenc, Brel</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>M</i>€25</span></div></article>
+        <article class="slot late" data-stage="hall"><div class="time">22:30<small>60 min</small></div>
+          <div><h3>Midnight Brass &amp; Strings</h3><p class="who"><b>Brewery Sinfonietta</b> · Piazzolla, Shostakovich, Glass</p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>M</i>€25</span></div></article>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day" id="sun">
+      <div class="day-label"><span class="n">15</span><span class="w">Sunday</span><span class="t">The long afternoon</span><span class="dpass">5 concerts · Day pass €45</span></div>
+      <div class="slots">
+        <article class="slot" data-stage="cellar"><div class="time">12:00<small>45 min</small></div>
+          <div><h3>Family Matinee: Peter &amp; the Hops</h3><p class="who"><b>Ensemble Kleine Nacht</b> · for ages 6+</p><p class="note">Under-12s free with an adult.</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>S</i>€15</span></div></article>
+        <article class="slot" data-stage="hall"><div class="time">14:30<small>70 min</small></div>
+          <div><h3>Schubert: Trout Quintet</h3><p class="who"><b>Pieter Claes</b> piano and the <b>Sint-Pieters Strings</b></p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>M</i>€25</span></div></article>
+        <article class="slot" data-stage="cellar"><div class="time">16:45<small>55 min</small></div>
+          <div><h3>Harp &amp; Flute, Barefoot</h3><p class="who"><b>Ilse Wouters</b> harp, <b>Jonas Mertens</b> flute · Debussy, Takemitsu</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>S</i>€15</span></div></article>
+        <article class="slot" data-stage="hall"><div class="time">19:00<small>80 min</small></div>
+          <div><h3>Shostakovich: Piano Trio No. 2</h3><p class="who"><b>Trio Zwart</b> · Shostakovich, Ravel, Arensky</p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>L</i>€35</span></div></article>
+        <article class="slot late" data-stage="cellar"><div class="time">21:30<small>60 min</small></div>
+          <div><h3>Late Quartets &amp; Late Beer</h3><p class="who"><b>Quatuor Lumière</b> · Beethoven Op. 132</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>M</i>€25</span></div></article>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day" id="mon">
+      <div class="day-label"><span class="n">16</span><span class="w">Monday</span><span class="t">Closing night: all the lanterns</span><span class="dpass">5 concerts · Day pass €45</span></div>
+      <div class="slots">
+        <article class="slot" data-stage="cellar"><div class="time">13:00<small>50 min</small></div>
+          <div><h3>Clarinet Over Lunch</h3><p class="who"><b>Sofie Van Damme</b> · Brahms, Weber, Bernstein</p><p class="note">Soup and bread from the brewery kitchen, €6.</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>S</i>€15</span></div></article>
+        <article class="slot" data-stage="hall"><div class="time">15:30<small>65 min</small></div>
+          <div><h3>Mendelssohn Octet, Reimagined</h3><p class="who"><b>Ensemble Kleine Nacht</b> with <b>Quatuor Lumière</b></p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>M</i>€25</span></div></article>
+        <article class="slot" data-stage="cellar"><div class="time">18:00<small>55 min</small></div>
+          <div><h3>New Voices: Commissions from Ghent</h3><p class="who"><b>Brewery Sinfonietta</b> · premieres by Lien Poppe &amp; Amir Haddad</p></div>
+          <div class="meta"><span class="stage">The Cellar</span><span class="tier"><i>M</i>€25</span></div></article>
+        <article class="slot" data-stage="hall"><div class="time">20:00<small>75 min</small></div>
+          <div><h3>Brahms: Piano Quintet in F minor</h3><p class="who"><b>Pieter Claes</b> and <b>Trio Zwart</b> with <b>Noor Verhaeghe</b></p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>L</i>€35</span></div></article>
+        <article class="slot late" data-stage="hall"><div class="time">22:00<small>60 min</small></div>
+          <div><h3>The Lantern Finale</h3><p class="who"><b>All festival artists</b> · Strauss waltzes, folk tunes &amp; one surprise</p></div>
+          <div class="meta"><span class="stage hall">Mash Hall</span><span class="tier"><i>L</i>€35</span></div></article>
+      </div>
+    </div>
+
+    <div class="tiers-key" aria-label="Price tiers">
+      <div><b>S · €15</b><span>Single concert, Cellar and daytime Hall.</span></div>
+      <div><b>M · €25</b><span>Single concert, evening and late slots.</span></div>
+      <div><b>L · €35</b><span>Single concert, headline Hall programmes.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="tickets" id="tickets">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:0">
+      <div><span class="eyebrow">02 — Tickets</span><h2>Pick your <i>pass</i></h2></div>
+      <p class="sub">Passes cover every concert in both rooms, no seat reservations. Single tickets follow the tiers above.</p>
+    </div>
+    <div class="tickets-grid">
+      <div class="pass">
+        <h3>Day pass</h3>
+        <div class="price"><sup>€</sup>45</div><div class="price-note">per person, one day of your choice</div>
+        <ul><li>All 5 concerts on one day</li><li>Both stages, walk between rooms</li><li>Re-entry all day</li></ul>
+        <button class="btn" data-buy="day">Buy Day pass</button>
+      </div>
+      <div class="pass best">
+        <span class="flag">Best value</span>
+        <h3>Festival pass</h3>
+        <div class="price"><sup>€</sup>110</div><div class="price-note">per person, all three days</div>
+        <ul><li>All 15 concerts, 14–16 August</li><li>Free festival tote and first drink</li><li>Priority queue for Mash Hall doors</li></ul>
+        <button class="btn" data-buy="fest">Buy Festival pass</button>
+      </div>
+      <div class="pass">
+        <h3>Under-26</h3>
+        <div class="price"><sup>€</sup>20</div><div class="price-note">at the door only, with student or ID card</div>
+        <ul><li>Any single concert, any tier</li><li>Subject to seat availability</li><li>Cash or card at the brewery gate</li></ul>
+        <a class="btn ghost" href="#venue">Find the gate</a>
+      </div>
+    </div>
+    <p class="fine">Tickets are sent as a QR code by email and work from your phone. Passes are transferable until 1 August 2027. Prices include 6% VAT and booking fees.</p>
+  </div>
+</section>
+
+<section id="venue">
+  <div class="wrap venue">
+    <div>
+      <span class="eyebrow">03 — The venue</span>
+      <h2>Brewery <i>on the Leie</i></h2>
+      <address>Brouwerij Sint-Pieters<br>Kuiperskaai 12, 9000 Gent</address>
+      <div class="routes">
+        <div class="route"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="6" width="26" height="26" rx="5"/><path d="M9 20h26M15 38l4-6M29 38l-4-6"/><circle cx="16" cy="26" r="1.6" fill="currentColor"/><circle cx="28" cy="26" r="1.6" fill="currentColor"/></svg>
+          <div><h3>By train</h3><p>Ghent-Sint-Pieters station is <b>12 minutes</b> on foot, or tram 1 to Zuid (4 stops). Last trains to Brussels and Bruges leave after 00:30 during the festival.</p></div></div>
+        <div class="route"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="29" r="7"/><circle cx="33" cy="29" r="7"/><path d="M11 29l7-14h10l5 14M18 15l5 14M16 11h5M26 15l-2-5h5"/></svg>
+          <div><h3>By bike</h3><p>The easy way. <b>Free guarded parking</b> for 400 bikes in the old loading yard, and the riverside cycle path passes the gate.</p></div></div>
+        <div class="route"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="32" height="32" rx="6"/><path d="M17 32V12h8a6 6 0 010 12h-8"/></svg>
+          <div><h3>Parking</h3><p>Limited on-site spaces, <b>€8 per evening</b>, reserve with your ticket. Better: Park+Ride Wondelgem, then tram. Ghent's low-emission zone applies to the centre.</p></div></div>
+      </div>
+    </div>
+    <figure class="map">
+      <svg viewBox="0 0 440 400" role="img" aria-label="Simplified map showing the brewery between the river and Sint-Pieters station">
+        <rect width="440" height="400" fill="var(--tint)"/>
+        <path d="M-10 300C90 270 150 330 250 300S380 250 450 280V420H-10z" fill="color-mix(in oklab,var(--brand) 28%,var(--bg))"/>
+        <text x="30" y="372" font-family="DM Mono" font-size="11" fill="var(--ink-2)" letter-spacing="2">RIVER LEIE</text>
+        <g stroke="var(--ink)" stroke-width="2" fill="none" opacity=".55"><path d="M0 120H440M0 220H440M110 0V260M300 0V280"/></g>
+        <path d="M60 40H300V220" stroke="var(--brand)" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round" fill="none"/>
+        <g><rect x="318" y="150" width="86" height="56" fill="var(--ink)"/><text x="361" y="183" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--bg)">HALL</text></g>
+        <g><rect x="318" y="214" width="86" height="34" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="361" y="235" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--ink)">CELLAR</text></g>
+        <circle cx="300" cy="220" r="9" fill="var(--brand)" stroke="var(--ink)" stroke-width="2"/>
+        <g><rect x="30" y="24" width="100" height="30" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="80" y="43" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--ink)">STATION</text></g>
+        <text x="190" y="30" font-family="DM Mono" font-size="11" fill="var(--accent)">12 MIN WALK</text>
+        <g><rect x="130" y="244" width="46" height="24" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="153" y="260" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--ink)">BIKES</text></g>
+        <g><rect x="190" y="244" width="46" height="24" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="213" y="260" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--ink)">P</text></g>
+        <text x="372" y="140" text-anchor="middle" font-family="DM Mono" font-size="11" fill="var(--ink-2)">N ↑</text>
+      </svg>
+      <figcaption><span>Not to scale</span><span>Main gate on Kuiperskaai</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two">
+    <div id="access">
+      <span class="eyebrow">04 — Accessibility</span>
+      <h2>Room <i>for everyone</i></h2>
+      <dl class="acc">
+        <div><dt>Step-free</dt><dd>Gate, courtyard, Mash Hall and toilets are level. The Cellar is reached by a wide lift (1.4 m).</dd></div>
+        <div><dt>Seating</dt><dd>Wheelchair spaces and companion seats in both rooms. Book on <a href="mailto:access@lanternnights.example">access@lanternnights.example</a>; companions enter free.</dd></div>
+        <div><dt>Hearing</dt><dd>Induction loop in Mash Hall. Quiet seats near the stage on request.</dd></div>
+        <div><dt>Quiet space</dt><dd>A low-light, low-sound room in the old malt store, open all day.</dd></div>
+        <div><dt>Assistance</dt><dd>Assistance dogs welcome. Staff in orange shirts can guide you to your seat.</dd></div>
+      </dl>
+    </div>
+    <div id="faq">
+      <span class="eyebrow">05 — Good to know</span>
+      <h2>Quick <i>answers</i></h2>
+      <div class="faq">
+        <details open><summary>What should I wear?</summary><p>Whatever you walked or cycled in. Sneakers, jeans and jumpers are the house style. It gets cool in the Cellar after dark, so bring a layer.</p></details>
+        <details><summary>Can I bring drinks and food into the concerts?</summary><p>Yes, drinks from our bars are welcome in both rooms, in reusable cups. Outside food and glass bottles stay in the courtyard.</p></details>
+        <details><summary>Are seats reserved?</summary><p>No. Doors open 30 minutes before each concert and seating is first come, first served. Pass holders can queue early for the headline L-tier concerts.</p></details>
+        <details><summary>What if it rains, or I can't come?</summary><p>All concerts are indoors. Passes can be transferred to a friend until 1 August 2027, and refunded in full up to 30 days before the festival.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="big" aria-hidden="true">Lantern Nights</div>
+    <div class="row"><span>14–16 August 2027 · Brouwerij Sint-Pieters, Ghent</span><span>hello@lanternnights.example</span><span>© 2027 Lantern Nights vzw</span></div>
+  </div>
+</footer>
+
+<dialog id="buy">
+  <form method="dialog" class="dlg" id="buyForm">
+    <h3>Get your pass</h3>
+    <label for="pt">Pass</label>
+    <select id="pt"><option value="45">Day pass · €45</option><option value="110">Festival pass · €110</option></select>
+    <label for="pd" id="pdl">Day</label>
+    <select id="pd"><option>Saturday 14 August</option><option>Sunday 15 August</option><option>Monday 16 August</option></select>
+    <label for="pq">Tickets</label>
+    <input id="pq" type="number" min="1" max="8" value="2">
+    <div class="tot"><span>Total</span><b id="tot">€90</b></div>
+    <div class="acts"><button class="btn ghost" value="cancel">Cancel</button><button class="btn" type="button" id="pay">Continue to payment</button></div>
+    <p class="ok" id="ok">Thank you! This is a demo, payment is not connected yet.</p>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  // theme toggle
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+  });
+  // stage filter
+  var chips=document.querySelectorAll('[data-f]');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===c)});
+    var f=c.dataset.f;
+    document.querySelectorAll('.slot').forEach(function(s){s.classList.toggle('hide',f!=='all'&&s.dataset.stage!==f)});
+  })});
+  // buy dialog
+  var dlg=document.getElementById('buy'),pt=document.getElementById('pt'),pd=document.getElementById('pd'),pq=document.getElementById('pq'),tot=document.getElementById('tot'),ok=document.getElementById('ok');
+  function calc(){tot.textContent='€'+(+pt.value*Math.max(1,+pq.value||1));var d=pt.value==='45';pd.style.display=d?'':'none';document.getElementById('pdl').style.display=d?'':'none';}
+  [pt,pq].forEach(function(e){e.addEventListener('input',calc)});
+  document.querySelectorAll('[data-buy]').forEach(function(b){b.addEventListener('click',function(e){
+    if(!dlg.showModal)return;
+    e.preventDefault();pt.value=b.dataset.buy==='day'?'45':b.dataset.buy==='fest'?'110':'110';ok.style.display='none';calc();dlg.showModal();
+  })});
+  document.getElementById('pay').addEventListener('click',function(){ok.style.display='block'});
+  calc();
+})();
+</script>
+</body>
+</html>

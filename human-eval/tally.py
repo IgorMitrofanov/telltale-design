@@ -7,9 +7,10 @@ answers/   a folder of the JSON files people sent (or one file). Files of other 
 KEY.json   maps each design code to its brief and condition: {"set": "...", "codes": {"abcd": {"brief": "b1", "condition": "telltale-r2"}}}.
            Keep it out of the page you share, or the comparison is no longer blind.
 
-Prints the average rank of every condition (1 = best, 4 = worst), how often it was ranked first, how often people
-flagged it as AI-made, how often people opened it, and the written notes. A brief that a person did not finish is
-left out for that person.
+Prints, for every condition: the average rank (1 = best), a score from 0 (worst place) to 1 (best place) that stays
+comparable between tasks with three and four variants, how often it was ranked first, how often people flagged it as
+AI-made, how often people opened it, and the written notes. A task that a person did not finish is left out for that
+person.
 """
 import collections, glob, json, os, sys
 
@@ -25,8 +26,8 @@ key = json.load(open(args[1], encoding="utf-8"))
 codes, set_id = key["codes"], want_set or key["set"]
 paths = [args[0]] if os.path.isfile(args[0]) else sorted(glob.glob(os.path.join(args[0], "*.json")))
 
-ranks, firsts, ai, opened, notes = (collections.defaultdict(list), collections.Counter(), collections.Counter(),
-                                    collections.Counter(), collections.defaultdict(list))
+ranks, scores, firsts, ai, opened, notes = (collections.defaultdict(list), collections.defaultdict(list), collections.Counter(),
+                                            collections.Counter(), collections.Counter(), collections.defaultdict(list))
 people, seen_ids, skipped = 0, set(), []
 for path in paths:
     try:
@@ -50,6 +51,7 @@ for path in paths:
         for place, code in enumerate(data["ranking"], 1):
             cond = codes[code]["condition"]
             ranks[(brief, cond)].append(place)
+            scores[(brief, cond)].append((len(data["ranking"]) - place) / (len(data["ranking"]) - 1))
             firsts[(brief, cond)] += place == 1
 
 conditions = sorted({v["condition"] for v in codes.values()})
@@ -57,13 +59,15 @@ briefs = sorted({v["brief"] for v in codes.values()})
 print(f"set {set_id}: {people} person(s), {len(skipped)} file(s) skipped")
 for path, why in skipped:
     print(f"  skipped {path}: {why}")
-print(f"\n{'condition':18} {'avg rank':>9} {'1st':>5} {'AI-made':>8} {'opened':>7}   per brief: avg rank (votes)")
+print(f"\n{'condition':18} {'avg rank':>9} {'score 0-1':>10} {'1st':>5} {'AI-made':>8} {'opened':>7}   per brief: avg rank (votes)")
 for cond in conditions:
     allr = [r for b in briefs for r in ranks[(b, cond)]]
     avg = f"{sum(allr) / len(allr):9.2f}" if allr else f"{'-':>9}"
+    alls = [x for b in briefs for x in scores[(b, cond)]]
+    sc = f"{sum(alls) / len(alls):10.2f}" if alls else f"{'-':>10}"
     per = "  ".join(f"{b} {sum(ranks[(b, cond)]) / len(ranks[(b, cond)]):.2f} ({len(ranks[(b, cond)])})"
                     if ranks[(b, cond)] else f"{b} -" for b in briefs)
-    print(f"{cond:18} {avg} {sum(firsts[(b, cond)] for b in briefs):5} {sum(ai[(b, cond)] for b in briefs):8} "
+    print(f"{cond:18} {avg} {sc} {sum(firsts[(b, cond)] for b in briefs):5} {sum(ai[(b, cond)] for b in briefs):8} "
           f"{sum(opened[(b, cond)] for b in briefs):7}   {per}")
 for b in briefs:
     if notes[b]:

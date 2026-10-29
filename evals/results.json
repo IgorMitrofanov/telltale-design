@@ -1,24 +1,161 @@
 {
  "date": "2026-10-28",
  "model": "Claude Opus 5.5 for every builder and judge",
- "conditions": {"t": "telltale (this repository)", "f": "frontend-design skill as installed in Claude Code", "n": "no skill"},
+ "conditions": {
+  "t": "telltale (this repository)",
+  "f": "frontend-design skill as installed in Claude Code",
+  "n": "no skill"
+ },
  "score_order": ["not_ai_looking", "beauty", "brief_fit", "recolour_by_eye", "phone"],
  "note": "Judge scores given before the judge opened metrics.json. Round 1 used telltale commit 35c0bab, round 2 commit dfad6de (plus the contrast-tool fixes). The f and n pages are the same files in both rounds; only the judges are new.",
  "round1": {
-  "b1": {"rank": ["f", "t", "n"], "scores": {"t": [8, 7, 9, 6, 8], "f": [7, 8, 9, 8, 8], "n": [6, 8, 9, 8, 6]}},
-  "b2": {"rank": ["t", "n", "f"], "scores": {"t": [7, 7, 9, 6, 8], "f": [6, 6, 7, 8, 5], "n": [8, 8, 9, 9, 6]}},
-  "b3": {"rank": ["t", "n", "f"], "scores": {"t": [7, 6, 8, 9, 8], "f": [7, 8, 9, 6, 7], "n": [7, 8, 9, 8, 7]}}
+  "b1": {
+   "rank": ["f", "t", "n"],
+   "scores": {
+    "t": [8, 7, 9, 6, 8],
+    "f": [7, 8, 9, 8, 8],
+    "n": [6, 8, 9, 8, 6]
+   }
+  },
+  "b2": {
+   "rank": ["t", "n", "f"],
+   "scores": {
+    "t": [7, 7, 9, 6, 8],
+    "f": [6, 6, 7, 8, 5],
+    "n": [8, 8, 9, 9, 6]
+   }
+  },
+  "b3": {
+   "rank": ["t", "n", "f"],
+   "scores": {
+    "t": [7, 6, 8, 9, 8],
+    "f": [7, 8, 9, 6, 7],
+    "n": [7, 8, 9, 8, 7]
+   }
+  }
  },
  "round2": {
-  "b1": {"rank": ["t", "n", "f"], "scores": {"t": [8, 7, 8, 9, 8], "f": [6, 7, 8, 8, 7], "n": [7, 8, 9, 9, 7]}},
-  "b2": {"rank": ["t", "n", "f"], "scores": {"t": [8, 7, 9, 6, 8], "f": [5, 6, 8, 6, 6], "n": [7, 7, 8, 6, 6]}},
-  "b3": {"rank": ["t", "f", "n"], "scores": {"t": [8, 7, 9, 7, 8], "f": [7, 8, 8, 6, 7], "n": [5, 7, 8, 8, 7]}}
+  "b1": {
+   "rank": ["t", "n", "f"],
+   "scores": {
+    "t": [8, 7, 8, 9, 8],
+    "f": [6, 7, 8, 8, 7],
+    "n": [7, 8, 9, 9, 7]
+   }
+  },
+  "b2": {
+   "rank": ["t", "n", "f"],
+   "scores": {
+    "t": [8, 7, 9, 6, 8],
+    "f": [5, 6, 8, 6, 6],
+    "n": [7, 7, 8, 6, 6]
+   }
+  },
+  "b3": {
+   "rank": ["t", "f", "n"],
+   "scores": {
+    "t": [8, 7, 9, 7, 8],
+    "f": [7, 8, 8, 6, 7],
+    "n": [5, 7, 8, 8, 7]
+   }
+  }
  },
  "contrast_round2": {
   "what": "distinct failing colour pairs (text 4.5:1 or 3:1 large, field boundaries 3:1), light and dark, 1440 and 390 px; default brand / teal / yellow / red; and the lowest ratio found",
-  "b1": {"t": [0, 0, 0, 0, null], "f": [0, 0, 0, 0, null], "n": [9, 12, 10, 12, 1.14]},
-  "b2": {"t": [0, 0, 0, 0, null], "f": [3, 3, 3, 3, 1.53], "n": [4, 4, 4, 4, 1.25]},
-  "b3": {"t": [0, 0, 0, 0, null], "f": [6, 7, 4, 6, 1.36], "n": [7, 5, 5, 5, 1.06]}
+  "b1": {
+   "t": [0, 0, 0, 0, null],
+   "f": [0, 0, 0, 0, null],
+   "n": [9, 12, 10, 12, 1.14]
+  },
+  "b2": {
+   "t": [0, 0, 0, 0, null],
+   "f": [3, 3, 3, 3, 1.53],
+   "n": [4, 4, 4, 4, 1.25]
+  },
+  "b3": {
+   "t": [0, 0, 0, 0, null],
+   "f": [6, 7, 4, 6, 1.36],
+   "n": [7, 5, 5, 5, 1.06]
+  }
  },
- "colour_literals_outside_tokens_round2": {"b1": {"t": 0, "f": 0, "n": 1}, "b2": {"t": 0, "f": 3, "n": 0}, "b3": {"t": 0, "f": 11, "n": 0}}
+ "colour_literals_outside_tokens_round2": {
+  "b1": {
+   "t": 0,
+   "f": 0,
+   "n": 1
+  },
+  "b2": {
+   "t": 0,
+   "f": 3,
+   "n": 0
+  },
+  "b3": {
+   "t": 0,
+   "f": 11,
+   "n": 0
+  }
+ },
+ "round3_measured": {
+  "what": "Tasks 4 to 6, built the same way as round 2, measured only (no model judges). Distinct failing contrast pairs at the default brand / teal / yellow / red; scanner candidates; colour literals outside custom properties; text items the tool could not measure (SVG text, text over images).",
+  "b4_longread": {
+   "t": {
+    "pairs": [0, 0, 0, 0],
+    "scanner": 4,
+    "literals": 0,
+    "unchecked": 96
+   },
+   "f": {
+    "pairs": [1, 1, 4, 1],
+    "scanner": 16,
+    "literals": 10,
+    "unchecked": 68
+   },
+   "n": {
+    "pairs": [2, 2, 4, 2],
+    "scanner": 24,
+    "literals": 11,
+    "unchecked": 96
+   }
+  },
+  "b5_budget": {
+   "t": {
+    "pairs": [0, 0, 0, 0],
+    "scanner": 2,
+    "literals": 0,
+    "unchecked": 156
+   },
+   "f": {
+    "pairs": [6, 6, 6, 6],
+    "scanner": 19,
+    "literals": 1,
+    "unchecked": 112
+   },
+   "n": {
+    "pairs": [1, 1, 1, 1],
+    "scanner": 25,
+    "literals": 2,
+    "unchecked": 52
+   }
+  },
+  "b6_festival": {
+   "t": {
+    "pairs": [0, 0, 0, 0],
+    "scanner": 17,
+    "literals": 2,
+    "unchecked": 48
+   },
+   "f": {
+    "pairs": [0, 0, 1, 1],
+    "scanner": 43,
+    "literals": 2,
+    "unchecked": 24
+   },
+   "n": {
+    "pairs": [1, 2, 2, 1],
+    "scanner": 50,
+    "literals": 1,
+    "unchecked": 32
+   }
+  }
+ }
 }

@@ -171,7 +171,8 @@ then saw the measured contrast. Full method, prompts, scores and a script to rep
 | Phone (1–10) | **8.0** | 6.7 | 6.7 |
 | Failing contrast pairs, all themes and 3 brand swaps | **0, 0, 0** | 0, 3, 4–7 | 4–12 in each brief |
 
-telltale ranked first in all three briefs. It is not ahead on beauty: there it is level with the others, within the
+telltale ranked first in all three briefs. A comparison with real people, on six tasks, is set up in
+[`human-eval/`](human-eval); its answers will be added there. It is not ahead on beauty: there it is level with the others, within the
 judges' spread. One page per brief and condition, and model judges, so read this as a signal, not as statistics.
 
 

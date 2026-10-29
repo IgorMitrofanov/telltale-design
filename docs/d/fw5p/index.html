@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Night Shift at Pier 9 — The Tidewatch</title>
+<meta name="description" content="Between ten at night and six in the morning, a few hundred people empty a ship the size of a street. A long read from The Tidewatch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#B3402A;               /* the one value to change */
+
+  --f-display:"Bodoni Moda","Didot",Georgia,serif;
+  --f-body:"Source Serif 4",Georgia,serif;
+  --f-label:"Barlow Condensed","Arial Narrow",sans-serif;
+
+  /* light: harbour-office paper, cool, not cream */
+  --paper:#E8EBE9;
+  --paper-2:#DCE1DF;
+  --ink:#121C26;
+  --ink-2:#3E4B57;
+  --rule:#12202c33;
+  --link:color-mix(in oklab,var(--brand) 78%,#000);
+  --accent:color-mix(in oklab,var(--brand) 88%,#000);   /* brand as text/graphics on paper */
+  --night:#0C1620;               /* hero + footer always night */
+  --night-ink:#E9EEF0;
+  --night-accent:color-mix(in oklab,var(--brand) 62%,#fff);
+  --bar:#8A98A3;
+  --on-brand:#fff;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1923;--paper-2:#17232F;--ink:#E6EBEC;--ink-2:#A3B0B8;--rule:#e6ebec2b;
+    --link:color-mix(in oklab,var(--brand) 55%,#fff);
+    --accent:color-mix(in oklab,var(--brand) 58%,#fff);
+    --night:#081018;--bar:#52626F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1923;--paper-2:#17232F;--ink:#E6EBEC;--ink-2:#A3B0B8;--rule:#e6ebec2b;
+  --link:color-mix(in oklab,var(--brand) 55%,#fff);
+  --accent:color-mix(in oklab,var(--brand) 58%,#fff);
+  --night:#081018;--bar:#52626F;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--paper);color:var(--ink);font:400 1.1875rem/1.62 var(--f-body);font-optical-sizing:auto;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--link);text-underline-offset:.2em;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.label{font:600 .8125rem/1.2 var(--f-label);letter-spacing:.16em;text-transform:uppercase}
+
+/* progress */
+.prog{position:fixed;inset:0 0 auto 0;height:3px;z-index:50;background:transparent}
+.prog i{display:block;height:100%;width:100%;background:var(--brand);transform-origin:0 50%;transform:scaleX(0)}
+
+/* masthead */
+.mast{position:absolute;z-index:5;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:baseline;padding:1.25rem clamp(1rem,4vw,3rem);color:var(--night-ink)}
+.mast .name{font:700 1.5rem/1 var(--f-display);letter-spacing:-.01em;text-decoration:none;color:inherit}
+.mast .name b{color:var(--night-accent);font-weight:700}
+.mast .label{opacity:.75}
+
+/* hero */
+.hero{position:relative;background:var(--night);color:var(--night-ink);overflow:hidden;padding:clamp(6rem,14vw,9rem) clamp(1rem,4vw,3rem) 0}
+.hero-in{max-width:1240px;margin:auto;position:relative;z-index:2}
+.kicker{color:var(--night-accent);display:flex;gap:.9rem;align-items:center;margin-bottom:1.4rem}
+.kicker::before{content:"";width:2.5rem;height:2px;background:currentColor}
+h1{font:700 clamp(3.1rem,9.6vw,8.6rem)/.88 var(--f-display);letter-spacing:-.035em;max-width:12ch;font-variation-settings:"opsz" 96}
+h1 em{font-style:italic;font-weight:500;color:var(--night-accent)}
+.stand{font:400 clamp(1.2rem,2.1vw,1.6rem)/1.4 var(--f-body);max-width:34ch;margin:2rem 0 0;color:#cfd8dc}
+.byline{display:flex;flex-wrap:wrap;gap:.5rem 2.2rem;margin-top:2.2rem;padding-bottom:2.2rem;color:#aebbc2}
+.byline span b{display:block;color:var(--night-ink);font:500 1rem/1.4 var(--f-body);letter-spacing:0;text-transform:none;margin-top:.15rem}
+.skyline{display:block;width:calc(100% + 2*clamp(1rem,4vw,3rem));margin-inline:calc(-1*clamp(1rem,4vw,3rem));max-width:none;height:auto;min-height:150px;margin-top:-1rem;position:relative;z-index:1}
+.hero .stand,.hero .byline{position:relative;z-index:3}
+
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem);display:grid;grid-template-columns:200px minmax(0,40rem) 1fr;column-gap:clamp(2rem,5vw,5rem)}
+.toc{grid-column:1;align-self:start;position:sticky;top:2rem;margin-top:4.5rem;padding-bottom:2rem}
+.toc h2{font:600 .8125rem/1 var(--f-label);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:1.1rem}
+.toc ol{list-style:none;padding:0;position:relative;border-left:1px solid var(--rule)}
+.toc li{position:relative}
+.toc a{display:block;padding:.55rem 0 .55rem 1.1rem;text-decoration:none;color:var(--ink-2);font:500 1rem/1.25 var(--f-body)}
+.toc a time{display:block;font:600 .8125rem/1.2 var(--f-label);letter-spacing:.14em;color:var(--ink-2);margin-bottom:.1rem}
+.toc a::before{content:"";position:absolute;left:-5px;top:1.05rem;width:9px;height:9px;border-radius:50%;background:var(--paper);border:1px solid var(--ink-2);transition:.2s}
+.toc a:hover{color:var(--ink)}
+.toc a.on{color:var(--ink)}
+.toc a.on::before{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 4px color-mix(in oklab,var(--brand) 25%,transparent)}
+.toc a.on time{color:var(--accent)}
+.toc .clock{margin-top:1.4rem;font:600 .8125rem/1.4 var(--f-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+
+article{grid-column:2;padding-top:4.5rem}
+article p{margin:0 0 1.35em;hyphens:auto;-webkit-hyphens:auto}
+article>p:first-of-type::first-letter,.drop::first-letter{font:700 5.6rem/.78 var(--f-display);float:left;padding:.28rem .7rem 0 0;font-variation-settings:"opsz" 6;color:var(--accent)}
+h2.sub{margin:3.4rem 0 1.2rem;font:700 clamp(1.9rem,3.6vw,2.6rem)/1.05 var(--f-display);letter-spacing:-.02em;scroll-margin-top:2rem}
+h2.sub time{display:block;font:600 .9rem/1 var(--f-label);letter-spacing:.18em;color:var(--accent);margin-bottom:.7rem;padding-top:.9rem;border-top:3px solid var(--ink)}
+
+/* pull quotes: break out into right margin on wide screens */
+blockquote{margin:2.4rem 0 2.6rem;position:relative}
+blockquote p{margin:0!important;font:italic 500 clamp(1.75rem,3.2vw,2.35rem)/1.12 var(--f-display);letter-spacing:-.015em;color:var(--ink);hyphens:none!important}
+blockquote p::before{content:"\201C";display:block;font:700 5rem/.6 var(--f-display);color:var(--accent);margin-bottom:.9rem;height:2.3rem}
+blockquote footer{margin-top:1rem;color:var(--ink-2)}
+blockquote.q1{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:1.8rem 0 1.5rem}
+@media (min-width:1180px){
+  blockquote.q1{margin-right:-11rem;padding-right:0;border-top:3px solid var(--accent);border-bottom:0;padding-top:1.3rem}
+  blockquote.q1 p{font-size:2.6rem}
+}
+blockquote.q2{background:var(--night);color:var(--night-ink);padding:2.2rem clamp(1.4rem,4vw,2.6rem) 2rem;margin-left:calc(-1 * clamp(0rem,2vw,2rem));margin-right:calc(-1 * clamp(0rem,2vw,2rem))}
+blockquote.q2 p{color:var(--night-ink)}
+blockquote.q2 p::before,blockquote.q2 footer{color:var(--night-accent)}
+
+/* figure */
+figure{margin:3rem 0 3rem;margin-inline:calc(-1 * clamp(0rem,2vw,2rem))}
+figure .fig-h{font:700 1.15rem/1.2 var(--f-display);margin-bottom:.2rem}
+figure svg{width:100%;height:auto;display:block;overflow:visible;margin-top:.8rem}
+figcaption{font:400 .9375rem/1.5 var(--f-body);color:var(--ink-2);margin-top:1rem;padding-top:.7rem;border-top:1px solid var(--rule)}
+figcaption b{font:700 .8125rem var(--f-label);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-right:.5rem}
+.c-grid{stroke:var(--rule);stroke-width:1}
+.c-bar{fill:var(--bar)}
+.c-peak{fill:var(--brand)}
+.c-t{font:600 13px var(--f-label);letter-spacing:.12em;fill:var(--ink-2);text-transform:uppercase}
+.c-note{font:italic 15px var(--f-body);fill:var(--ink)}
+.c-lead{stroke:var(--ink-2);stroke-width:1;fill:none}
+.c-val{font:700 14px var(--f-label);letter-spacing:.06em;fill:var(--ink)}
+.c-brandt{fill:var(--accent)}
+
+/* bio */
+.bio{margin:3.5rem 0 0;padding:1.6rem 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;gap:1.2rem 1.4rem;align-items:start;font-size:1rem;line-height:1.55;color:var(--ink-2)}
+.bio .mono{width:64px;height:64px;border-radius:50%;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font:700 1.5rem var(--f-display)}
+.bio strong{color:var(--ink);font-weight:600}
+
+/* more */
+.more{max-width:1240px;margin:6rem auto 0;padding:0 clamp(1rem,4vw,3rem)}
+.more h2{display:flex;justify-content:space-between;align-items:baseline;border-top:3px solid var(--ink);padding-top:.8rem;margin-bottom:2rem;font:700 2rem/1 var(--f-display);letter-spacing:-.02em}
+.more h2 span{font:600 .8125rem var(--f-label);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2rem}
+.card{display:block;text-decoration:none;color:inherit}
+.card .plate{aspect-ratio:4/3;margin-bottom:1rem;overflow:hidden;background:var(--night);position:relative}
+.card .plate svg{width:100%;height:100%;display:block;transition:transform .5s}
+.card:hover .plate svg{transform:scale(1.04)}
+.card .label{color:var(--accent)}
+.card h3{font:700 1.5rem/1.12 var(--f-display);letter-spacing:-.01em;margin:.4rem 0 .6rem}
+.card:hover h3{text-decoration:underline;text-decoration-color:var(--brand);text-decoration-thickness:2px;text-underline-offset:.18em}
+.card p{font-size:1rem;line-height:1.5;color:var(--ink-2)}
+
+/* newsletter */
+.news{margin-top:6rem;background:var(--night);color:var(--night-ink);padding:clamp(3rem,7vw,5.5rem) clamp(1rem,4vw,3rem) 2rem}
+.news-in{max-width:1240px;margin:auto;display:grid;grid-template-columns:1.1fr 1fr;gap:3rem 5rem;align-items:end}
+.news h2{font:700 clamp(2.4rem,5.5vw,4.4rem)/.95 var(--f-display);letter-spacing:-.03em}
+.news h2 em{font-style:italic;font-weight:500;color:var(--night-accent)}
+.news p{color:#b9c5cb;margin-top:1rem;max-width:38ch}
+form label{display:block;margin-bottom:.6rem;color:var(--night-accent)}
+.row{display:flex;gap:0;border:1px solid #ffffff55}
+.row input{flex:1;min-width:0;background:transparent;border:0;color:var(--night-ink);padding:1rem 1.1rem;font:400 1.1rem var(--f-body)}
+.row input::placeholder{color:#8fa0aa}
+.row input:focus-visible{outline:2px solid var(--night-accent);outline-offset:-2px}
+.row button{border:0;background:var(--brand);color:var(--on-brand);padding:0 1.6rem;font:700 .95rem var(--f-label);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.row button:hover{background:color-mix(in oklab,var(--brand) 85%,#fff)}
+.row button:focus-visible{outline:2px solid #fff;outline-offset:-5px}
+.fine{font-size:.875rem!important;color:#8fa0aa!important;margin-top:.8rem!important}
+.ok{display:none;margin-top:.8rem;color:var(--night-accent)}
+form.sent .ok{display:block}
+.colophon{max-width:1240px;margin:4rem auto 0;padding-top:1.2rem;border-top:1px solid #ffffff2b;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:#8fa0aa}
+
+/* brand-contrast guard: bar text on brand uses white; keep brand shades readable */
+@media (max-width:1100px){
+  .wrap{grid-template-columns:minmax(0,40rem);justify-content:center}
+  .toc{display:none}
+  article{grid-column:1}
+}
+@media (max-width:820px){
+  .cards{grid-template-columns:1fr;gap:2.4rem}
+  .news-in{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  body{font-size:1.0625rem}
+  .mast .label{display:none}
+  article>p:first-of-type::first-letter,.drop::first-letter{font-size:4.6rem}
+  figure{margin-inline:-.4rem}
+  blockquote.q2{margin-inline:-1rem;padding-inline:1.4rem}
+  .row{flex-direction:column}.row button{padding:1rem}
+  .bio{grid-template-columns:1fr}
+}
+@media print{.prog,.toc{display:none}}
+</style>
+</head>
+<body>
+<div class="prog" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="hero">
+  <div class="mast">
+    <a class="name" href="#">The Tide<b>watch</b></a>
+    <span class="label">Autumn issue &middot; Vol. 14 &middot; No. 3</span>
+  </div>
+  <div class="hero-in">
+    <div class="kicker label">Ports &amp; Labour &middot; Long read</div>
+    <h1>The Night Shift at <em>Pier&nbsp;9</em></h1>
+    <p class="stand">Between ten at night and six in the morning, four hundred people empty a ship the size of a street. Almost nobody who ordered what is inside it will ever see them.</p>
+    <div class="byline label">
+      <span>Words<b>Hannah Voss</b></span>
+      <span>Photographs<b>Ilya Brandt</b></span>
+      <span>Published<b>28 October 2026</b></span>
+      <span>Reading time<b>7 minutes</b></span>
+    </div>
+  </div>
+
+  <!-- skyline: container stacks, a gantry crane, one lit cab -->
+  <svg class="skyline" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".07"/></linearGradient>
+    </defs>
+    <rect width="1440" height="260" fill="url(#glow)"/>
+    <g fill="#16222d">
+      <rect x="0" y="170" width="1440" height="90"/>
+      <!-- far stacks -->
+      <rect x="40" y="148" width="90" height="30"/><rect x="130" y="130" width="70" height="48"/><rect x="200" y="148" width="110" height="30"/>
+      <rect x="760" y="140" width="120" height="38"/><rect x="880" y="122" width="80" height="56"/><rect x="960" y="144" width="140" height="34"/>
+      <rect x="1180" y="136" width="100" height="42"/><rect x="1280" y="152" width="160" height="26"/>
+    </g>
+    <!-- near stacks, coloured by brand and slate -->
+    <g>
+      <rect x="0" y="196" width="110" height="64" fill="#223341"/><rect x="110" y="178" width="96" height="82" fill="var(--brand)"/><rect x="206" y="196" width="120" height="64" fill="#2c4152"/>
+      <rect x="110" y="178" width="96" height="2" fill="#fff" opacity=".18"/>
+      <rect x="1000" y="190" width="130" height="70" fill="#2c4152"/><rect x="1130" y="172" width="100" height="88" fill="#1c2a37"/><rect x="1230" y="196" width="140" height="64" fill="var(--brand)" opacity=".85"/><rect x="1370" y="184" width="70" height="76" fill="#223341"/>
+      <g stroke="#0C1620" stroke-width="1.5" opacity=".6">
+        <path d="M122 178v82M134 178v82M146 178v82M158 178v82M170 178v82M182 178v82M194 178v82"/>
+        <path d="M1242 196v64M1254 196v64M1266 196v64M1278 196v64M1290 196v64M1302 196v64M1314 196v64M1326 196v64M1338 196v64M1350 196v64"/>
+      </g>
+    </g>
+    <!-- ship hull -->
+    <path d="M360 260V176h470l30 34v50z" fill="#0a121a"/>
+    <g fill="#223341"><rect x="380" y="140" width="80" height="36"/><rect x="460" y="122" width="80" height="54" fill="#2c4152"/><rect x="540" y="140" width="80" height="36"/><rect x="620" y="104" width="80" height="72" fill="#1c2a37"/><rect x="700" y="140" width="80" height="36" fill="var(--brand)"/></g>
+    <!-- crane -->
+    <g fill="none" stroke="#3b5063" stroke-width="5">
+      <path d="M520 260V60M600 260V60M520 60h80M520 110h80M520 160h80M520 60l80 50M600 60l-80 50M520 110l80 50M600 110l-80 50"/>
+      <path d="M470 60H900" stroke-width="6"/><path d="M560 60L470 60M560 60l-90 0M560 60L760 18 900 60" stroke-width="3"/>
+    </g>
+    <path d="M760 60v70" stroke="#6b7f8e" stroke-width="2"/><rect x="744" y="130" width="32" height="14" fill="var(--brand)"/>
+    <rect x="552" y="34" width="22" height="20" fill="#e9c15a"/>
+    <circle cx="563" cy="44" r="46" fill="#e9c15a" opacity=".08"/>
+    <circle cx="880" cy="58" r="3" fill="var(--night-accent)"/>
+    <circle cx="474" cy="58" r="3" fill="var(--night-accent)"/>
+  </svg>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <h2>The shift</h2>
+    <ol>
+      <li><a href="#s1"><time>22:40</time>The gate</a></li>
+      <li><a href="#s2"><time>00:10</time>Lashing</a></li>
+      <li><a href="#s3"><time>02:30</time>The quiet hour</a></li>
+      <li><a href="#s4"><time>04:15</time>The count</a></li>
+      <li><a href="#s5"><time>05:50</time>Handover</a></li>
+    </ol>
+    <p class="clock" id="clock">Read: 0%</p>
+  </nav>
+
+  <article id="top">
+    <p>At twenty to eleven the last of the day crew walks out through the gate at Pier 9 with their helmets under their arms, and the people walking in the other direction do not say much. Nobody has to explain the arrangement. The <em>Maren Sofie</em>, a 9,400-box feeder out of Rotterdam, has been alongside since four in the afternoon and is still two-thirds full. By morning she must be empty, refilled, and gone, because the tide, the tug schedule and a customs window on the far side of the North Sea do not care who is tired.</p>
+    <p>Pier 9 is the oldest working berth at the port of Calder Reach, a long concrete tongue pushed out into the estuary in 1964 for a type of cargo that no longer exists. Its lighting, forty-one masts of sodium-orange swapped for white LED two winters ago, makes the whole place look like a stage that has been set for a play nobody is watching. Between ten at night and six in the morning the pier handles, on a decent night, about 4,600 tonnes an hour at its peak and 4,300 boxes in total. It does this with a crew of 412, which is fewer than worked the same berth in 1990 to move a tenth of the weight.</p>
+
+    <h2 class="sub" id="s1"><time>22:40</time>The gate</h2>
+    <p>Tomasz Wiśniewski has supervised the night shift for eleven years, and he begins each one the same way: by walking the length of the quay alone, before the briefing, with a paper plan folded in his back pocket. The plan is the ship&rsquo;s stowage chart, a grid of coloured cells that says what is in which slot. Some cells are red, which means dangerous goods; some are blue, which means refrigerated and therefore on a clock of its own. He does not trust the screen version, he says, because a screen cannot be written on with a thumbnail.</p>
+    <p>&ldquo;People think the work is lifting,&rdquo; he says, at the foot of Crane 3, with the diesel hum of the yard tractors already building behind him. &ldquo;The lifting is the easy bit. The work is knowing what has to come out <em>first</em>, so that nothing has to be moved twice.&rdquo;</p>
+
+    <blockquote class="q1"><p>The lifting is the easy bit. The work is knowing what has to come out first.</p><footer class="label">Tomasz Wiśniewski, night supervisor</footer></blockquote>
+
+    <p>Above him, in a glass cab forty metres up, Margo Oyelaran is settling into a seat that was bolted in before she was born. She has driven this crane for nine years. The cab has a window in its floor, and the work consists largely of looking down through it at a steel box the size of a delivery van, hanging from four cables in a wind, and bringing it to rest on a trailer with a margin of about two centimetres. She does this, on average, once every ninety seconds, for eight hours. She says the secret is to stop thinking of the box as an object. &ldquo;It&rsquo;s a pendulum,&rdquo; she says. &ldquo;You&rsquo;re not placing it. You&rsquo;re persuading it.&rdquo;</p>
+
+    <h2 class="sub" id="s2"><time>00:10</time>Lashing</h2>
+    <p>Midnight is when the pier is loudest. The first hour is a negotiation between machines; by ten past twelve the rhythm has set, and what you hear is a continuous sound with no single source, the noise of a very large animal breathing. This is also when the lashers go to work, and the lashers are the people the pier would be quickest to call its backbone, if anyone asked.</p>
+    <p>Containers stacked on a ship&rsquo;s deck are held down by steel rods and twist-locks, and every one of them has to be released by hand before a crane can lift it, then fitted again for the next voyage. Dev Pillay, thirty-four, has done this work since he was nineteen. He climbs between stacks eight boxes high on ladders bolted to their corners, carrying a rod that weighs eleven kilos, and he does it in the dark with a headtorch, in weather. His hands are the first thing you notice. The skin across both palms is the colour and texture of a worn boot.</p>
+    <p>&ldquo;Nobody thanks the lasher,&rdquo; he says, without self-pity. &ldquo;If I do my job right, the ship just sits there and the box just comes off. It&rsquo;s only when it goes wrong that anyone knows my name.&rdquo; He pauses to tighten a strap on a glove. &ldquo;Which is fine. I have a quiet life.&rdquo;</p>
+
+    <figure>
+      <div class="fig-h">Tonnes moved per hour, Pier 9, one ordinary night</div>
+      <svg viewBox="0 0 640 310" role="img" aria-labelledby="ft fd">
+        <title id="ft">Bar chart of tonnes moved per hour at Pier 9 from 22:00 to 06:00</title>
+        <desc id="fd">Throughput rises from 310 tonnes at 22:00 to a peak of 710 at 01:00, dips to 540 at 03:00 during the meal break, recovers to 660 at 04:00, and falls to 380 by 06:00.</desc>
+        <g class="c-grid"><line x1="40" x2="640" y1="260" y2="260" style="stroke:var(--ink)"/><line x1="40" x2="640" y1="200" y2="200"/><line x1="40" x2="640" y1="140" y2="140"/><line x1="40" x2="640" y1="80" y2="80"/></g>
+        <g class="c-t"><text x="0" y="264">0</text><text x="0" y="204">200</text><text x="0" y="144">400</text><text x="0" y="84">600</text></g>
+        <g>
+          <rect class="c-bar" x="56" y="167" width="48" height="93"/>
+          <rect class="c-bar" x="120" y="116" width="48" height="144"/>
+          <rect class="c-bar" x="184" y="74" width="48" height="186"/>
+          <rect class="c-peak" x="248" y="47" width="48" height="213"/>
+          <rect class="c-bar" x="312" y="53" width="48" height="207"/>
+          <rect class="c-bar" x="376" y="98" width="48" height="162" style="opacity:.75"/>
+          <rect class="c-bar" x="440" y="62" width="48" height="198"/>
+          <rect class="c-bar" x="504" y="83" width="48" height="177"/>
+          <rect class="c-bar" x="568" y="146" width="48" height="114"/>
+        </g>
+        <g class="c-t" text-anchor="middle">
+          <text x="80" y="280">22</text><text x="144" y="280">23</text><text x="208" y="280">00</text><text x="272" y="280">01</text><text x="336" y="280">02</text><text x="400" y="280">03</text><text x="464" y="280">04</text><text x="528" y="280">05</text><text x="592" y="280">06</text>
+          <text x="328" y="300" style="letter-spacing:.2em">Hour beginning</text>
+        </g>
+        <text class="c-val c-brandt" x="272" y="38" text-anchor="middle">710 t</text>
+        <path class="c-lead" d="M400 92 L400 40 L448 40"/>
+        <text class="c-note" x="454" y="32">Meal break,</text>
+        <text class="c-note" x="454" y="48">two crews at half strength</text>
+      </svg>
+      <figcaption><b>Fig. 1</b>Throughput climbs through midnight, peaks at 710 tonnes in the hour beginning 01:00, and sags at three o&rsquo;clock when the crews eat in shifts. Average of nine nights, Pier 9 terminal records, spring quarter. Drawing: The Tidewatch.</figcaption>
+    </figure>
+
+    <h2 class="sub" id="s3"><time>02:30</time>The quiet hour</h2>
+    <p>Somewhere around half past two the pier loses its nerve. It is not a dramatic change. The crane cycle lengthens by ten seconds. The radio chatter, which at midnight was a continuous stream of numbers, thins out into single words. This is the hour that the shift workers I spoke to were most reluctant to describe, and then least able to stop describing. The body wants to be asleep and the rest of the city is, and the pier is the one lit place for miles.</p>
+    <p>Ines Carvalho, who tallies boxes at the end of Crane 2, keeps a thermos of black tea and a rule that she will not look at the clock between two and three. &ldquo;If you look, it moves slower,&rdquo; she says. She has a daughter who is nine and who sees her mother on Sunday afternoons, awake and a little cross, like someone who has flown across several time zones to be there. &ldquo;She calls it my jet lag,&rdquo; Ines says. &ldquo;I tell her it&rsquo;s the same thing, only I never get to go anywhere.&rdquo;</p>
+
+    <blockquote class="q2"><p>It&rsquo;s a pendulum. You&rsquo;re not placing it. You&rsquo;re persuading it.</p><footer class="label">Margo Oyelaran, Crane 3 driver</footer></blockquote>
+
+    <h2 class="sub" id="s4"><time>04:15</time>The count</h2>
+    <p>By four the ship is hollow, the tops of the stacks gone and the cell guides showing like the ribs of a fish. Loading begins, and the work turns from taking things apart in the right order to building a ship that will balance, container by container, in the dark.</p>
+    <p>A mistake here is quiet but costly. A refrigerated unit left away from its power socket is a cargo of strawberries turned to jam by Hamburg. The tally clerks, Ines among them, are the last line of defence: they stand at the foot of the crane with a handheld scanner and read each seal number aloud, against the plan, before the box goes up. They are wrong, she estimates, once in about four thousand lifts. &ldquo;Which sounds good,&rdquo; she says, &ldquo;until you do four thousand lifts in a week.&rdquo;</p>
+
+    <h2 class="sub" id="s5"><time>05:50</time>Handover</h2>
+    <p>The first light comes up grey behind the grain silos on the far bank, and with it the day crew, arriving in twos and threes with the stiff cheerfulness of people who have slept. There is a short, practised ritual. Tomasz gives his plan to his counterpart, thumbs the red cells, names the one box that is still wrong. Margo climbs down the ladder, slowly, one hand at a time, and stands on the quay for a moment with her face tilted up as if she were checking the weather.</p>
+    <p>By six the <em>Maren Sofie</em> is riding high and then, over the next hour, low again, loaded for Gdańsk. The tugs come in. The ropes are slipped one at a time and fall into the black water, and the ship backs off the pier with a long tired sound from her horn. The night crew do not watch her go. They are already at the gate, helmets under their arms, passing the day shift going the other way, and still nobody says very much.</p>
+    <p>Dev stops at the kerb. He has a bus to catch and a flat across the river where the curtains are thick. Behind him the cranes swing their booms back to the vertical, one after another, like animals settling. &ldquo;People ask if I mind never seeing the day,&rdquo; he says. &ldquo;I tell them I see the best of it. I see it start.&rdquo;</p>
+
+    <aside class="bio">
+      <div class="mono" aria-hidden="true">HV</div>
+      <p><strong>Hannah Voss</strong> is a freelance writer based in Hull who covers ports, shipping and the people who work in them. Her first book, <em>Slack Water</em>, about the last working docks of the Humber, was shortlisted for the Coastal Book Prize. She spent six nights at Pier 9 in March and one, at the crew&rsquo;s insistence, in the crane cab. Photographs by Ilya Brandt, who lives on a narrowboat and has not slept a full night since 2019.</p>
+    </aside>
+  </article>
+</div>
+
+<section class="more" aria-labelledby="more-h">
+  <h2 id="more-h">More from this issue <span>Autumn &middot; Vol. 14</span></h2>
+  <div class="cards">
+    <a class="card" href="#">
+      <div class="plate"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#0C1620"/><g fill="none" stroke="#3b5063" stroke-width="3"><path d="M0 210c60-30 100 30 160 0s100-30 160 0 60 20 80 0"/><path d="M0 235c60-30 100 30 160 0s100-30 160 0 60 20 80 0"/><path d="M0 260c60-30 100 30 160 0s100-30 160 0 60 20 80 0"/></g><rect x="150" y="150" width="100" height="30" fill="var(--brand)"/><rect x="160" y="132" width="50" height="18" fill="#2c4152"/><circle cx="320" cy="70" r="26" fill="#e9c15a" opacity=".85"/></svg></div>
+      <span class="label">Canals</span>
+      <h3>Forty locks to Leeds, and the woman who opens them</h3>
+      <p>A lock-keeper on the Aire &amp; Calder explains why she still does it with a windlass.</p>
+    </a>
+    <a class="card" href="#">
+      <div class="plate"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#17232F"/><g stroke="#52626F" stroke-width="2"><path d="M40 300V110M80 300V110M120 300V110M160 300V110M200 300V110M240 300V110M280 300V110M320 300V110M360 300V110"/></g><path d="M0 110H400" stroke="var(--brand)" stroke-width="8"/><path d="M0 200c80-40 160 40 240 0s120-20 160 0" fill="none" stroke="#8A98A3" stroke-width="3"/></svg></div>
+      <span class="label">Rivers</span>
+      <h3>The last ferryman of the Severn</h3>
+      <p>Four hundred crossings a week, and a timetable written by the moon.</p>
+    </a>
+    <a class="card" href="#">
+      <div class="plate"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#223341"/><g fill="#0C1620"><rect x="30" y="120" width="70" height="180"/><rect x="110" y="80" width="60" height="220"/><rect x="180" y="150" width="90" height="150"/><rect x="280" y="100" width="90" height="200"/></g><g fill="var(--brand)"><rect x="124" y="100" width="12" height="16"/><rect x="298" y="124" width="12" height="16"/><rect x="48" y="146" width="12" height="16"/></g><g fill="#e9c15a"><rect x="144" y="132" width="12" height="16"/><rect x="326" y="160" width="12" height="16"/><rect x="200" y="180" width="12" height="16"/></g></svg></div>
+      <span class="label">Ports</span>
+      <h3>What the harbour pilots know about fog</h3>
+      <p>Six minutes of blind steering, a radio, and a hundred thousand tonnes.</p>
+    </a>
+  </div>
+</section>
+
+<section class="news" aria-labelledby="nl-h">
+  <div class="news-in">
+    <div>
+      <div class="label" style="color:var(--night-accent);margin-bottom:1rem">The Tidewatch letter</div>
+      <h2 id="nl-h">One long read, <em>four times a year.</em></h2>
+      <p>New issues, sent the morning they are published, with a note from the editor on what we left out. No daily email, no ads.</p>
+    </div>
+    <form id="nl" novalidate>
+      <label class="label" for="em">Email address</label>
+      <div class="row">
+        <input id="em" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <button type="submit">Subscribe</button>
+      </div>
+      <p class="ok" role="status" id="ok">Thanks. The next issue will reach you the morning it is published.</p>
+      <p class="fine">Quarterly. Unsubscribe with one click.</p>
+    </form>
+  </div>
+  <div class="colophon label"><span>&copy; 2026 The Tidewatch &middot; Independent, quarterly, printed in Hull</span><a href="#top" style="color:inherit">Back to the top</a></div>
+</section>
+
+<script>
+(function(){
+  var bar=document.getElementById('bar'),clock=document.getElementById('clock');
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var heads=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var art=document.getElementById('top');
+  function tick(){
+    var r=art.getBoundingClientRect(),h=r.height-innerHeight*.6;
+    var p=Math.max(0,Math.min(1,(-r.top+innerHeight*.2)/h));
+    bar.style.transform='scaleX('+p+')';
+    if(clock)clock.textContent='Read: '+Math.round(p*100)+'%';
+    var cur=-1;heads.forEach(function(el,i){if(el.getBoundingClientRect().top<innerHeight*.35)cur=i});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)});
+  }
+  addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);tick();
+  var f=document.getElementById('nl'),em=document.getElementById('em');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!/^\S+@\S+\.\S+$/.test(em.value)){em.focus();em.setCustomValidity('Enter an address like name@example.com');em.reportValidity();em.setCustomValidity('');return}
+    f.classList.add('sent');em.value='';
+  });
+})();
+</script>
+</body>
+</html>

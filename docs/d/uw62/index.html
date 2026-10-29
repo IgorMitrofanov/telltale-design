@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penny · October 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#3B5BDB;
+
+  --bg:#F6F2EA; --card:#FFFDF9; --ink:#25221D; --muted:#6B6458; --line:#E4DDD0; --track:#ECE5D8;
+  --ok:#2F6F50; --warn:#B0482A;
+  --brand-ink:color-mix(in oklab,var(--brand) 85%,#000);
+  --brand-fill:var(--brand);
+  --shadow:0 1px 0 rgba(60,45,20,.04),0 12px 30px -18px rgba(60,45,20,.25);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#15130F; --card:#1D1A15; --ink:#F1ECE2; --muted:#A39B8C; --line:#322D25; --track:#2B2720;
+    --ok:#7CC29D; --warn:#EE9068;
+    --brand-ink:color-mix(in oklab,var(--brand) 50%,#fff);
+    --brand-fill:color-mix(in oklab,var(--brand) 78%,#fff);
+    --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15130F; --card:#1D1A15; --ink:#F1ECE2; --muted:#A39B8C; --line:#322D25; --track:#2B2720;
+  --ok:#7CC29D; --warn:#EE9068;
+  --brand-ink:color-mix(in oklab,var(--brand) 50%,#fff);
+  --brand-fill:color-mix(in oklab,var(--brand) 78%,#fff);
+  --shadow:none; color-scheme:dark;
+}
+:root{
+  --on-brand:#fff;
+  --on-brand:oklch(from var(--brand) calc((0.66 - l) * 1000) 0 0);
+  --brand-wash:color-mix(in oklab,var(--brand) 9%,var(--card));
+  --brand-soft:color-mix(in oklab,var(--brand-fill) 30%,var(--card));
+  --warn-wash:color-mix(in oklab,var(--warn) 11%,var(--card));
+  --ok-wash:color-mix(in oklab,var(--ok) 13%,var(--card));
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand-ink);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:22px 32px 56px}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px}
+.logo{display:flex;align-items:center;gap:10px;font:500 22px/1 var(--serif);letter-spacing:-.01em}
+.logo svg{width:30px;height:30px}
+.top-r{display:flex;align-items:center;gap:14px}
+.pair{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.avs{display:flex}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 12px var(--sans);border:2px solid var(--bg)}
+.av.a{background:var(--brand-fill);color:var(--on-brand)}
+.av.b{background:#D9A66B;color:#2a1c08;margin-left:-8px}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center}
+.ibtn svg{width:17px;height:17px}
+
+/* title row */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.msel{display:flex;align-items:center;gap:6px;margin-top:6px}
+.msel h1{font:500 clamp(34px,5vw,52px)/1 var(--serif);letter-spacing:-.025em;min-width:0}
+.msel h1 em{font-style:normal;color:var(--muted);font-weight:400}
+.step{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;flex:none}
+.step svg{width:16px;height:16px}
+.step:disabled{opacity:.35;cursor:default}
+.asof{font-size:14px;color:var(--muted);text-align:right}
+.asof b{color:var(--ink);font-weight:600}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow);min-width:0}
+.c-hero{grid-column:span 8}
+.c-attn{grid-column:span 4}
+.c-cat{grid-column:span 7}
+.c-trend{grid-column:span 5}
+.c-bills{grid-column:span 7}
+.c-goal{grid-column:span 5}
+.ct{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:18px}
+.ct h2{font:500 20px/1.2 var(--serif);letter-spacing:-.01em}
+.ct span{font-size:13px;color:var(--muted)}
+
+/* hero */
+.c-hero{padding:32px 34px;background:var(--card);position:relative;overflow:hidden}
+.c-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(closest-side,var(--ok-wash),transparent);pointer-events:none}
+.c-hero.bad::after{background:radial-gradient(closest-side,var(--warn-wash),transparent)}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border-radius:99px;background:var(--ok-wash);color:var(--ok);font-weight:600;font-size:13px}
+.bad .chip{background:var(--warn-wash);color:var(--warn)}
+.chip svg{width:16px;height:16px}
+.verdict{font:500 clamp(40px,6.2vw,68px)/1.02 var(--serif);letter-spacing:-.03em;margin:16px 0 10px}
+.verdict i{font-style:italic;font-weight:400;color:var(--ok)}
+.bad .verdict i{color:var(--warn)}
+.lede{font-size:17px;color:var(--muted);max-width:46ch;position:relative}
+.lede b{color:var(--ink);font-weight:600}
+.flow{margin-top:30px}
+.bar{position:relative;height:16px;border-radius:99px;background:var(--track);display:flex;overflow:visible}
+.bar .sp{background:var(--brand-fill);border-radius:99px 0 0 99px}
+.bar .tick{position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--ink);border-radius:2px}
+.bar .tick span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.nums dt{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.nums dt i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.nums dd{font:500 clamp(24px,3vw,34px)/1.15 var(--serif);letter-spacing:-.02em;margin-top:4px}
+.nums .left dd{color:var(--ok)}
+.bad .nums .left dd{color:var(--warn)}
+
+/* attention */
+.c-attn{background:var(--warn-wash);border-color:color-mix(in oklab,var(--warn) 35%,var(--line));display:flex;flex-direction:column}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--warn)}
+.tag svg{width:16px;height:16px}
+.c-attn h2{font:500 26px/1.15 var(--serif);letter-spacing:-.015em;margin:14px 0 6px}
+.big{font:500 54px/1 var(--serif);letter-spacing:-.03em;color:var(--warn);margin:8px 0 4px}
+.big small{font:500 15px var(--sans);letter-spacing:0;color:var(--muted);margin-left:6px}
+.c-attn p{color:var(--ink);opacity:.82;font-size:15px}
+.mini{margin:18px 0 0}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:22px}
+.btn{border-radius:99px;padding:10px 18px;font-weight:600;font-size:14px;border:1px solid color-mix(in oklab,var(--ink) 25%,transparent);background:transparent}
+.btn.pri{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.btn:hover{filter:brightness(1.12)}
+.clear{color:var(--ok)}
+.c-attn.fine{background:var(--ok-wash);border-color:color-mix(in oklab,var(--ok) 30%,var(--line))}
+.c-attn.fine .tag{color:var(--ok)}
+
+/* categories */
+.cats{list-style:none;padding:0;display:grid;gap:15px}
+.cat .r1{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:15px}
+.cat .nm{font-weight:500}
+.cat .am{color:var(--muted);font-size:14px}
+.cat .am b{color:var(--ink);font-weight:600}
+.cat.over .am b{color:var(--warn)}
+.cat svg{display:block;margin-top:6px;overflow:visible}
+.cat .pct{display:inline-block;min-width:34px;text-align:right;margin-left:10px;font-size:13px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:4px}
+.legend i.t{width:2px;height:14px;background:var(--ink);border-radius:1px}
+.f-sp{fill:var(--brand-fill)} .f-ov{fill:var(--warn)} .f-tr{fill:var(--track)} .s-tick{stroke:var(--ink);stroke-width:2}
+
+/* trend */
+#trend{width:100%;display:block}
+#trend text{font:500 12px var(--sans);fill:var(--muted)}
+#trend .v{fill:var(--ink);font-weight:600}
+#trend .mo.sel{fill:var(--ink);font-weight:700}
+#trend g.b{cursor:pointer}
+#trend g.b:hover .bb{opacity:.85}
+.note{margin-top:14px;font-size:14px;color:var(--muted)}
+.note b{color:var(--ink);font-weight:600}
+
+/* bills */
+.bills{list-style:none;padding:0}
+.bill{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.bill:first-child{border-top:0;padding-top:0}
+.dt{width:52px;border:1px solid var(--line);border-radius:10px;text-align:center;overflow:hidden;background:var(--bg)}
+.dt small{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:var(--brand-wash);color:var(--brand-ink);padding:2px 0}
+.dt b{display:block;font:500 20px/1.3 var(--serif)}
+.bill .n{font-weight:500}
+.bill .s{font-size:13px;color:var(--muted)}
+.bill .a{font-weight:600;font-size:16px;text-align:right}
+.bill.big-one .a{font-family:var(--serif);font-size:18px}
+.auto{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--brand-wash);color:var(--brand-ink);margin-left:6px;vertical-align:1px}
+.paynote{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:6px;padding:14px 16px;border-radius:12px;background:var(--brand-wash);font-size:14px}
+.paynote b{font-weight:600}
+
+/* goal */
+.goal{display:flex;gap:26px;align-items:center}
+.ring{position:relative;width:150px;height:150px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring .c b{font:500 36px/1 var(--serif);letter-spacing:-.02em}
+.ring .c span{font-size:12px;color:var(--muted)}
+.gtxt h3{font:500 22px/1.2 var(--serif)}
+.gtxt .amt{margin-top:6px;font-size:15px;color:var(--muted)}
+.gtxt .amt b{color:var(--ink);font-size:20px;font-family:var(--serif);font-weight:500}
+.gstat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.gstat div{font-size:13px;color:var(--muted)}
+.gstat b{display:block;font-size:17px;color:var(--ink);font-weight:600}
+.gstat .up{color:var(--ok)}
+
+/* footer */
+.foot{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.acc{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 1px var(--line);padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.custom{position:relative;width:26px;height:26px;border-radius:50%;overflow:hidden;border:1px dashed var(--muted);display:grid;place-items:center;font-size:16px;line-height:1}
+.custom input{position:absolute;inset:-8px;opacity:0;cursor:pointer;width:50px;height:50px}
+
+@media (max-width:1100px){
+  .c-hero,.c-attn,.c-cat,.c-trend,.c-bills,.c-goal{grid-column:span 12}
+  .c-attn .btns{margin-top:0}
+}
+@media (max-width:640px){
+  .wrap{padding:16px 16px 40px}
+  .pair span{display:none}
+  .card{padding:20px;border-radius:16px}
+  .c-hero{padding:24px 20px}
+  .grid{gap:14px}
+  .head{margin-bottom:20px}
+  .asof{text-align:left}
+  .nums{gap:10px}
+  .nums dt{font-size:12px}
+  .goal{flex-direction:column;align-items:flex-start}
+  .lede{font-size:16px}
+  .bar .tick span{font-size:11px}
+  .bill{grid-template-columns:48px 1fr auto;gap:12px}
+  .dt{width:48px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bar .sp{transition:width .8s cubic-bezier(.2,.7,.2,1)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="var(--brand-fill)"/><circle cx="16" cy="16" r="11.2" fill="none" stroke="var(--on-brand)" stroke-opacity=".5" stroke-width="1"/><text x="16" y="21.6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" font-weight="600" fill="var(--on-brand)">p</text></svg>
+      Penny
+    </div>
+    <div class="top-r">
+      <div class="pair"><div class="avs" aria-hidden="true"><div class="av a">M</div><div class="av b">J</div></div><span>Mara &amp; Jonas</span></div>
+      <button class="ibtn" id="themeBtn" aria-label="Toggle light and dark theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">Monthly overview</div>
+      <div class="msel">
+        <button class="step" id="prev" aria-label="Previous month"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg></button>
+        <h1 id="mname" aria-live="polite">October <em>2026</em></h1>
+        <button class="step" id="next" aria-label="Next month"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 3 5 5-5 5"/></svg></button>
+      </div>
+    </div>
+    <div class="asof" id="asof"></div>
+  </div>
+
+  <main class="grid">
+    <section class="card c-hero" id="hero" aria-labelledby="verdict"></section>
+    <aside class="card c-attn" id="attn" aria-label="Needs attention"></aside>
+
+    <section class="card c-cat" aria-labelledby="h-cat">
+      <div class="ct"><h2 id="h-cat">Where it went</h2><span id="catsub"></span></div>
+      <ul class="cats" id="cats"></ul>
+      <div class="legend"><span><i class="f-sp" style="background:var(--brand-fill)"></i>Spent</span><span><i style="background:var(--warn)"></i>Over budget</span><span><i class="t"></i>Monthly budget</span></div>
+    </section>
+
+    <section class="card c-trend" aria-labelledby="h-tr">
+      <div class="ct"><h2 id="h-tr">Six-month trend</h2><span>Total spending</span></div>
+      <svg id="trend" role="img" aria-label="Bar chart of monthly spending, May to October 2026"></svg>
+      <p class="note" style="margin-top:4px"><span style="display:inline-block;width:18px;border-top:2px dotted var(--ink);vertical-align:middle;margin-right:8px"></span>Monthly plan, €4,300. Tap a month to open it.</p><p class="note" id="trnote"></p>
+    </section>
+
+    <section class="card c-bills" aria-labelledby="h-b">
+      <div class="ct"><h2 id="h-b">Coming up</h2><span>Next 14 days · to 12 Nov</span></div>
+      <ul class="bills" id="bills"></ul>
+      <div class="paynote"><span>Both salaries land <b>Sun 1 Nov</b></span><span><b>€5,420</b> expected</span></div>
+    </section>
+
+    <section class="card c-goal" aria-labelledby="h-g">
+      <div class="ct"><h2 id="h-g">Savings goal</h2><span>Shared</span></div>
+      <div class="goal">
+        <div class="ring">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--track)" stroke-width="11"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--brand-fill)" stroke-width="11" stroke-linecap="round" stroke-dasharray="211 314.16"/>
+          </svg>
+          <div class="c"><b>67%</b><span>saved</span></div>
+        </div>
+        <div class="gtxt">
+          <h3 id="h-g2">Holiday fund</h3>
+          <p class="amt"><b>€2,150</b> of €3,200</p>
+          <p class="amt">Algarve, first week of June</p>
+        </div>
+      </div>
+      <div class="gstat">
+        <div>Still to save<b>€1,050</b></div>
+        <div>Added in October<b class="up">+€250</b></div>
+        <div>Needed monthly<b>€131</b></div>
+        <div>At this pace<b>Ready by May</b></div>
+      </div>
+      <ul class="bills" style="margin-top:20px">
+        <li class="bill" style="grid-template-columns:1fr auto"><div><div class="n">Standing order, 1 Oct</div><div class="s">From Mara</div></div><div class="a">+€150</div></li>
+        <li class="bill" style="grid-template-columns:1fr auto"><div><div class="n">Standing order, 1 Oct</div><div class="s">From Jonas</div></div><div class="a">+€100</div></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>Penny keeps everything in euros. Figures refresh each morning at 06:00.</span>
+    <div class="acc" id="acc"><span>Accent</span></div>
+  </footer>
+</div>
+
+<script>
+const eur=n=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const eur2=n=>new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',minimumFractionDigits:2}).format(n);
+const $=id=>document.getElementById(id);
+
+const MONTHS=['May','June','July','August','September','October'];
+const TOTAL=[4120,3870,4410,3940,4052,3986];
+const INCOME=[5380,5420,5420,5420,5420,5420];
+const PLAN=4300, CUR=5, DAYS_LEFT=2;
+const CATS=[
+ ['Housing',1380,1380],['Groceries',612,650],['Shopping',592,840],['Dining out',412,320],
+ ['Leisure',342,400],['Transport',248,280],['Utilities & internet',214,230],['Health',186,200]];
+const BILLS=[
+ ['2026-10-30','Nordnet fibre internet',39.90,1],
+ ['2026-11-01','Rent · Kastanienweg 14',1380,1],
+ ['2026-11-01','Contents insurance',24.50,1],
+ ['2026-11-03','Electricity, Stadtwerke',86.20,0],
+ ['2026-11-05','Two gym memberships',58.00,1],
+ ['2026-11-08','Streaming bundle',17.99,1],
+ ['2026-11-10','Car insurance, annual share',112.40,0],
+ ['2026-11-12','Water & waste',41.00,0]];
+
+let m=CUR;
+
+function catsFor(i){
+  if(i===CUR) return CATS.map(c=>({n:c[0],s:c[1],b:c[2]}));
+  const f=(TOTAL[i]-1380)/(TOTAL[CUR]-1380);
+  const out=CATS.map((c,k)=>({n:c[0],b:c[2],s:c[0]==='Housing'?1380:Math.round(c[1]*f*(0.93+((i*7+k*3)%5)*0.035))}));
+  const sum=out.reduce((a,c)=>a+c.s,0); out[0].s+=TOTAL[i]-sum; return out;
+}
+
+function render(){
+  const cur=m===CUR, spent=TOTAL[m], inc=INCOME[m], left=inc-spent, under=PLAN-spent;
+  const over=under<0, name=MONTHS[m];
+  $('mname').innerHTML=`${name} <em>2026</em>`;
+  document.title=`Penny · ${name} 2026`;
+  $('prev').disabled=m===0; $('next').disabled=m===CUR;
+  $('asof').innerHTML=cur?`Thursday 29 October<br><b>${DAYS_LEFT} days</b> left in the month`:`Closed month`;
+
+  // hero
+  const hero=$('hero'); hero.classList.toggle('bad',over);
+  const spPct=spent/inc*100, planPct=Math.min(PLAN/inc*100,100);
+  const ico=over
+   ?'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v6M8 12.2v.1"/></svg>'
+   :'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 8.5 3 3 6-7"/></svg>';
+  const chip=cur?(over?'Over plan':'On track'):(over?'Closed over plan':'Closed on track');
+  const head=over?`A little <i>over</i> plan.`:(cur?`You're <i>on track.</i>`:`Stayed <i>on track.</i>`);
+  const lede=over
+    ?`You spent <b>${eur(spent)}</b>, which is <b>${eur(-under)}</b> more than the ${eur(PLAN)} you planned for ${name}.`
+    :`${cur?'So far you':'You'} spent <b>${eur(spent)}</b>, <b>${eur(under)}</b> under the ${eur(PLAN)} you planned${cur?`, with ${DAYS_LEFT} days still to go`:''}.`;
+  hero.innerHTML=`
+    <span class="chip">${ico}${chip}</span>
+    <h2 class="verdict" id="verdict">${head}</h2>
+    <p class="lede">${lede}</p>
+    <div class="flow" role="img" aria-label="${eur(spent)} spent of ${eur(inc)} income; plan ${eur(PLAN)}">
+      <div class="bar" style="margin-top:26px"><div class="sp" style="width:${Math.min(spPct,100)}%"></div><div class="tick" style="left:${planPct}%"><span style="${planPct>85?'transform:translateX(-85%)':''}">Plan ${eur(PLAN)}</span></div></div>
+    </div>
+    <dl class="nums">
+      <div><dt><i style="background:var(--muted)"></i>Income</dt><dd>${eur(inc)}</dd></div>
+      <div><dt><i style="background:var(--brand-fill)"></i>Spent${cur?' so far':''}</dt><dd>${eur(spent)}</dd></div>
+      <div class="left"><dt><i style="background:${over?'var(--warn)':'var(--ok)'}"></i>${cur?'Left to spend':'Left over'}</dt><dd>${eur(left)}</dd></div>
+    </dl>`;
+
+  // categories
+  const cs=catsFor(m).sort((a,b)=>b.s-a.s), tot=spent;
+  $('catsub').textContent=`${eur(spent)} across 8 categories`;
+  $('cats').innerHTML=cs.map(c=>{
+    const ov=c.s>c.b, scale=130, w=Math.min(c.s/c.b*100,scale)/scale*100, bx=100/scale*100;
+    const base=Math.min(w,bx);
+    const bar=`<svg width="100%" height="10" aria-hidden="true"><rect class="f-tr" width="100%" height="10" rx="5"/>
+      <rect class="f-sp" width="${base}%" height="10" rx="5"/>
+      ${ov?`<rect class="f-ov" x="${bx}%" width="${w-bx}%" height="10" rx="0"/><rect class="f-ov" x="${w-5}%" width="5%" height="10" rx="5" style="display:none"/>`:''}
+      <line class="s-tick" x1="${bx}%" x2="${bx}%" y1="-3" y2="13"/></svg>`;
+    return `<li class="cat ${ov?'over':''}"><div class="r1"><span class="nm">${c.n}</span><span class="am"><b>${eur(c.s)}</b> of ${eur(c.b)}<span class="pct">${Math.round(c.s/tot*100)}%</span></span></div>${bar}</li>`;
+  }).join('');
+
+  // attention
+  const worst=cs.map(c=>({...c,d:c.s-c.b})).filter(c=>c.d>0).sort((a,b)=>b.d-a.d)[0];
+  const at=$('attn');
+  if(worst){
+    at.className='card c-attn';
+    const extra=(cur&&worst.n==='Dining out')?`Seven dinners out since 1 October, five of them on weekends. At this rate it will close the month about €20 higher.`:`${worst.n} ended the month above its ${eur(worst.b)} budget.`;
+    at.innerHTML=`<span class="tag"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 13.5h13L8 2Z"/><path d="M8 6.5v3.2M8 11.7v.1"/></svg>Needs attention</span>
+      <h2>${worst.n} is over budget</h2>
+      <div class="big">+${eur(worst.d)}<small>${Math.round(worst.d/worst.b*100)}% over</small></div>
+      <p>${eur(worst.s)} spent against a ${eur(worst.b)} budget. ${extra}</p>
+      <div class="btns"><button class="btn pri">Review transactions</button><button class="btn">Adjust budget</button></div>`;
+  }else{
+    at.className='card c-attn fine';
+    at.innerHTML=`<span class="tag">Needs attention</span><h2>Nothing is over budget</h2><p>Every category stayed inside its monthly budget.</p>`;
+  }
+
+  trend();
+  const prevT=m>0?TOTAL[m-1]:null;
+  $('trnote').innerHTML=prevT?`${name} is <b>${eur(Math.abs(spent-prevT))} ${spent<prevT?'lower':'higher'}</b> than ${MONTHS[m-1]}. The six-month average is <b>${eur(Math.round(TOTAL.reduce((a,b)=>a+b)/6))}</b>.`:`The six-month average is <b>${eur(Math.round(TOTAL.reduce((a,b)=>a+b)/6))}</b>.`;
+}
+
+function trend(){
+  const svg=$('trend'), w=Math.max(svg.parentNode.clientWidth,260), h=320, L=4,R=4,T=14,B=46;
+  const max=5000, y=v=>T+(h-T-B)*(1-v/max), slot=(w-L-R)/6, bw=Math.min(46,slot*.6);
+  let s=`<line x1="${L}" x2="${w-R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)"/>`;
+  s+=`<line x1="${L}" x2="${w-R}" y1="${y(PLAN)}" y2="${y(PLAN)}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 5" stroke-linecap="round"/>`;
+  TOTAL.forEach((v,i)=>{
+    const cx=L+slot*(i+.5), sel=i===m, ov=v>PLAN;
+    const fill=ov?'var(--warn)':'var(--brand-fill)';
+    const op=sel?1:.32;
+    s+=`<g class="b" data-i="${i}" tabindex="0" role="button" aria-label="${MONTHS[i]}: ${eur(v)}">
+      <rect x="${cx-slot/2}" y="${T-14}" width="${slot}" height="${h-T+14}" fill="transparent"/>
+      <rect class="bb" x="${cx-bw/2}" y="${y(v)}" width="${bw}" height="${y(0)-y(v)}" rx="7" fill="${fill}" opacity="${op}"/>
+      <text class="v" x="${cx}" y="${h-6}" text-anchor="middle" opacity="${sel?1:.8}">${(v/1000).toFixed(2).replace(/0$/,'')}k</text>
+      <text class="mo ${sel?'sel':''}" x="${cx}" y="${h-26}" text-anchor="middle">${MONTHS[i].slice(0,3)}</text></g>`;
+  });
+  svg.setAttribute('viewBox',`0 0 ${w} ${h}`); svg.setAttribute('height',h); svg.innerHTML=s;
+  svg.querySelectorAll('g.b').forEach(g=>{
+    const go=()=>{m=+g.dataset.i;render()};
+    g.addEventListener('click',go);
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
+  });
+}
+
+// bills
+(function(){
+  const D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], M=['Oct','Nov'];
+  const today=new Date('2026-10-29T00:00:00');
+  $('bills').innerHTML=BILLS.map(b=>{
+    const d=new Date(b[0]+'T00:00:00'), diff=Math.round((d-today)/864e5);
+    const when=diff===1?'Tomorrow':`In ${diff} days`;
+    return `<li class="bill ${b[2]>1000?'big-one':''}"><div class="dt" aria-hidden="true"><small>${M[d.getMonth()-9]}</small><b>${d.getDate()}</b></div>
+      <div><div class="n">${b[1]}${b[3]?'<span class="auto">Auto</span>':''}</div><div class="s">${D[d.getDay()]} ${d.getDate()} ${d.getMonth()==9?'October':'November'} · ${when}</div></div>
+      <div class="a">${eur2(b[2])}</div></li>`;
+  }).join('');
+})();
+
+$('prev').onclick=()=>{if(m>0){m--;render()}};
+$('next').onclick=()=>{if(m<CUR){m++;render()}};
+
+// theme toggle
+$('themeBtn').onclick=()=>{
+  const r=document.documentElement, dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
+  r.dataset.theme=dark?'light':'dark';
+};
+// accent picker
+(function(){
+  const cols=[['#3B5BDB','Indigo'],['#0F7B6C','Teal'],['#B4483A','Brick'],['#7A4FB8','Plum'],['#C47F17','Ochre']];
+  const box=$('acc'), root=document.documentElement;
+  const set=c=>{root.style.setProperty('--brand',c);box.querySelectorAll('.sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===c))};
+  cols.forEach(([c,n])=>{const b=document.createElement('button');b.className='sw';b.style.background=c;b.dataset.c=c;b.title=n;b.setAttribute('aria-label',n+' accent');b.setAttribute('aria-pressed',c==='#3B5BDB');b.onclick=()=>set(c);box.appendChild(b)});
+  const l=document.createElement('label');l.className='custom';l.title='Custom colour';l.innerHTML='+<input type="color" value="#3B5BDB" aria-label="Custom accent colour">';
+  l.querySelector('input').oninput=e=>set(e.target.value);box.appendChild(l);
+})();
+
+render();
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(trend,80)});
+if(document.fonts)document.fonts.ready.then(()=>{});
+</script>
+</body>
+</html>

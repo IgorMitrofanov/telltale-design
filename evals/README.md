@@ -94,6 +94,26 @@ Colour literals outside custom properties in round 2: telltale had 0 in all thre
   - it compared labels with their parent's background instead of the layer under them;
   - long phone screenshots were cut off.
 
+## Tasks 4 to 6 (measured only)
+
+After round 2 the set grew to six tasks: a magazine long read, a household budget overview with charts, and a festival
+programme with tickets. They were built the same way (three conditions, same prompts, [`briefs.md`](briefs.md) holds
+the first three). No model judges scored them: people are asked instead, see [`../human-eval`](../human-eval).
+Measured by `run_eval.py`:
+
+| Distinct failing contrast pairs (default / teal / yellow / red) | telltale | frontend-design | no skill |
+| --- | --- | --- | --- |
+| 4. Long read | 0 / 0 / 0 / 0 | 1 / 1 / 4 / 1 | 2 / 2 / 4 / 2 |
+| 5. Budget overview | 0 / 0 / 0 / 0 | 6 / 6 / 6 / 6 | 1 / 1 / 1 / 1 |
+| 6. Festival programme | 0 / 0 / 0 / 0 | 0 / 0 / 1 / 1 | 1 / 2 / 2 / 1 |
+
+telltale had no failing pair again. Read this with the same caution as before, and with one more:
+
+- the telltale builders could run the contrast tool, the others could not;
+- the tool does not measure text inside SVG. The telltale pages have the most such items (48 to 156 against 24 to 112),
+  because they draw their charts and plans in SVG, so their real result is less certain than the 0 suggests. Those
+  labels were checked by eye by the builders, not by a tool.
+
 ## Reproduce
 
 1. Give each builder the prompt from [`briefs.md`](briefs.md), with the output path `<run>/<brief>/<condition>/index.html`.
