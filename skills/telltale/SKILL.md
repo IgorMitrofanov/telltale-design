@@ -146,6 +146,10 @@ account is needed; the services in Sources show interaction patterns only.
   signature moment. Always honour `prefers-reduced-motion`.
 - **Interface copy:** buttons name the action ("Save key", not "Continue"); errors say what happened and how to
   recover; headings say what the block shows ("Last sync"); no design notes or prompt text leaking into the UI.
+- **Quiet interactions on presentation-led pages.** Let optional playful reactions be discovered instead of adding
+  captions such as "Click the mascot for a surprise". Do not narrate obvious controls. Keep clear action labels,
+  accessible names, feedback, recovery instructions and help for unfamiliar or complex operations; make the primary
+  task easy to find and complete.
 
 ### Make it memorable
 

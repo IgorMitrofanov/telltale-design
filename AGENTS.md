@@ -21,7 +21,8 @@ When you design, build or review a user interface or its copy, follow `skills/te
    derive state tones from the accent and pass the re-theme test (two distant accent hues, contrast rechecked).
 5. **Build the interface.** Hierarchy by weight/colour/space, no cards by default, all states of every component,
    interaction basics, honest data display, motion only as state (150–250 ms, transform/opacity, reduced motion),
-   copy that names actions. Typography with character, a grid broken once on purpose,
+   copy that names actions. On presentation-led pages, leave optional play discoverable; keep task guidance.
+   Typography with character, a grid broken once on purpose,
    art-directed images, committed colour, details that reward a second look.
 6. **Review the tells** (section 5) in context; keep deliberate choices with one line explaining why.
 7. **Check the basics** (section 6). Terms and privacy only for public products or personal data; for internal
